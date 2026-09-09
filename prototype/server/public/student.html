@@ -26,7 +26,7 @@ body{
 }
 button,input,select,textarea{font-family:inherit;font-size:15px;color:inherit}
 button{cursor:pointer;border:none;background:none}
-.wrap{max-width:820px;margin:0 auto;padding:0 12px 96px}
+.pagewrap{max-width:820px;margin:0 auto;padding:0 12px 96px}
 .hide{display:none !important}
 
 /* ---------- 顶栏 ---------- */
@@ -203,7 +203,7 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
   <button data-tab="s-lib">谱库</button>
 </div></nav>
 
-<main class="wrap" id="loginGate" style="display:none;padding-top:0">
+<main class="pagewrap" id="loginGate" style="display:none;padding-top:0">
   <div style="text-align:center;padding:46px 0 8px">
     <svg width="96" height="96" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="2" opacity=".18"/><circle cx="80" cy="80" r="46" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="80" cy="80" r="26" fill="#B04A3A"/><circle cx="71.5" cy="71.5" r="6" fill="#D98A75" opacity=".45"/></svg>
     <div style="font-family:'Songti SC','STSong',SimSun,serif;font-size:30px;letter-spacing:14px;text-indent:14px;margin-top:6px">余音</div>
@@ -215,7 +215,7 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
     <button class="btn pri block stu" onclick="doLogin()">进入我的练习</button>
     <div class="tiny muted" style="margin-top:12px;text-align:center">收不到任务？请老师确认档案里有你的手机号</div>
   </div></main>
-<main class="wrap" id="app"></main>
+<main class="pagewrap" id="app"></main>
 <div class="foot" id="foot"></div>
 
 <div class="toast" id="toast"></div>
