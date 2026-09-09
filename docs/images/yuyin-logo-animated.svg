@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360" width="560" height="360" role="img">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" width="760" height="320" role="img">
   <title>余音 · 民乐老师的 AI 助教</title>
   <style>
     /* 主时间线 8s 循环：晕染 → 琴竹落下 → 淡朱砂点亮 → 涟漪渐散 → 余音浮现 → 归于平静 */
@@ -21,10 +21,10 @@
     }
     /* 琴竹落下（击弦的动作还在，只是不画弦） */
     @keyframes dropBamboo{
-      0%,12%{opacity:0;transform:translate(80px,-66px) scale(1.3)}
-      23%{opacity:1;transform:translate(80px,-2px) scale(1.3)}
-      30%{opacity:1;transform:translate(80px,-2px) scale(1.3)}
-      62%,100%{opacity:0;transform:translate(80px,-10px) scale(1.3)}
+      0%,12%{opacity:0;transform:translate(180px,-66px) scale(1.3)}
+      23%{opacity:1;transform:translate(180px,-2px) scale(1.3)}
+      30%{opacity:1;transform:translate(180px,-2px) scale(1.3)}
+      62%,100%{opacity:0;transform:translate(180px,-10px) scale(1.3)}
     }
     /* 点亮：竹落之时，淡朱砂浮现 */
     @keyframes popDot{
@@ -34,21 +34,21 @@
     }
     @keyframes ripple1{
       0%,28%{opacity:0;transform:scale(.4)}
-      37%{opacity:.45}
-      56%{opacity:0;transform:scale(2)}
-      100%{opacity:0;transform:scale(2)}
+      37%{opacity:.5}
+      62%{opacity:.24;transform:scale(1.28)}
+      100%{opacity:.2;transform:scale(1.35)}
     }
     @keyframes ripple2{
       0%,38%{opacity:0;transform:scale(.4)}
-      47%{opacity:.28}
-      66%{opacity:0;transform:scale(2)}
-      100%{opacity:0;transform:scale(2)}
+      47%{opacity:.32}
+      72%{opacity:.16;transform:scale(1.42)}
+      100%{opacity:.13;transform:scale(1.5)}
     }
     @keyframes ripple3{
       0%,48%{opacity:0;transform:scale(.4)}
-      57%{opacity:.16}
-      76%{opacity:0;transform:scale(2)}
-      100%{opacity:0;transform:scale(2)}
+      57%{opacity:.2}
+      82%{opacity:.11;transform:scale(1.56)}
+      100%{opacity:.085;transform:scale(1.65)}
     }
     @keyframes riseWord{
       0%,48%{opacity:0;transform:translateY(10px)}
@@ -72,32 +72,32 @@
   </defs>
 
   <!-- 宣纸卡片底 -->
-  <rect width="560" height="360" rx="18" fill="#FAF8F4"/>
-  <rect x="0.5" y="0.5" width="559" height="359" rx="17.5" fill="none" stroke="#EAE4D9"/>
+  <rect width="760" height="320" rx="18" fill="#FAF8F4"/>
+  <rect x="0.5" y="0.5" width="759" height="319" rx="17.5" fill="none" stroke="#EAE4D9"/>
 
   <g class="scene">
     <!-- 水墨淡晕（静态兜底：完整可见） -->
-    <circle class="halo" cx="280" cy="150" r="84" fill="url(#haloG)"/>
+    <circle class="halo" cx="380" cy="118" r="84" fill="url(#haloG)"/>
 
     <!-- 涟漪三环 -->
-    <circle class="r1" cx="280" cy="150" r="52" fill="none" stroke="#B04A3A" stroke-width="2" opacity="0.32"/>
-    <circle class="r2" cx="280" cy="150" r="52" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity="0.16"/>
-    <circle class="r3" cx="280" cy="150" r="52" fill="none" stroke="#B04A3A" stroke-width="1" opacity="0.09"/>
+    <circle class="r1" cx="380" cy="118" r="52" fill="none" stroke="#B04A3A" stroke-width="2" opacity="0.22"/>
+    <circle class="r2" cx="380" cy="118" r="52" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity="0.14"/>
+    <circle class="r3" cx="380" cy="118" r="52" fill="none" stroke="#B04A3A" stroke-width="1" opacity="0.085"/>
 
     <!-- 淡朱砂音点 -->
     <g class="dotg" opacity="0.82">
-      <circle cx="280" cy="150" r="27" fill="url(#yg)"/>
-      <circle cx="271.5" cy="141.5" r="6" fill="#D98A75" opacity="0.4"/>
+      <circle cx="380" cy="118" r="27" fill="url(#yg)"/>
+      <circle cx="371.5" cy="119.5" r="6" fill="#D98A75" opacity="0.4"/>
     </g>
 
     <!-- 琴竹：填充纺锤形，静态兜底=落定位置 -->
-    <g class="bamboo" transform="translate(80,-2) scale(1.3)">
+    <g class="bamboo" transform="translate(180,-2) scale(1.3)">
       <path d="M216 26 C 200 42, 186 60, 175 80 C 171 88, 168 96, 165.5 102 C 165 104, 166 105.5, 167.5 105 C 171.5 102, 176 95, 181 87 C 192 69, 205 47, 218 30 C 219 28, 218 24, 216 26 Z" fill="#1C1A17" opacity="0.9"/>
       <ellipse cx="160" cy="108" rx="4" ry="5.6" fill="#1C1A17" transform="rotate(-25 160 108)"/>
     </g>
 
 <!-- 字标 -->
-    <text class="word" x="280" y="262" text-anchor="middle" font-family="Songti SC,STSong,STZhongsong,SimSun,serif" font-size="50" font-weight="500" fill="#1C1A17" letter-spacing="20">余音</text>
-    <text class="tagline" x="280" y="306" text-anchor="middle" font-family="PingFang SC,-apple-system,sans-serif" font-size="15" fill="#8A8378" letter-spacing="3">课结束了，声音还在</text>
+    <text class="word" x="380" y="254" text-anchor="middle" font-family="Songti SC,STSong,STZhongsong,SimSun,serif" font-size="50" font-weight="500" fill="#1C1A17" letter-spacing="20">余音</text>
+    <text class="tagline" x="380" y="298" text-anchor="middle" font-family="PingFang SC,-apple-system,sans-serif" font-size="15" fill="#8A8378" letter-spacing="3">课结束了，声音还在</text>
   </g>
 </svg>
