@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+*.log
+
+# 原型运行时数据（可丢，含上传的录音/视频）
+prototype/server/data/
