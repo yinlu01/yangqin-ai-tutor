@@ -1,4 +1,9 @@
-# 扬琴 AI 助教
+<div align="center">
+  <img src="docs/images/yuyin-logo-animated.svg" width="440" alt="余音 —— 琴竹落下，朱砂音点亮起，余音散开">
+  <h1>余 音</h1>
+  <p><b>民乐老师的 AI 助教</b>（原名「扬琴 AI 助教」）</p>
+  <p><i>课结束了，声音还在。</i></p>
+</div>
 
 > **一句话**：老师 3 分钟布置，孩子照着练，练完自动回到老师眼前。
 >

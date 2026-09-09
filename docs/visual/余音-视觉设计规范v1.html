@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="D5eQl1UCdNutACe01fLB5c">
+<head data-page-node-id="gub6V3JCr9FJ4hnq6ZHkcM">
+<meta charset="utf-8" data-page-node-id="Ea4JDUWqpGL3c56uYFvbyy">
+<meta name="viewport" content="width=device-width,initial-scale=1" data-page-node-id="xk2KGhrzQ6FRFBgOjvD4jn">
+<title>余音 · 视觉设计规范 v1.0</title>
+<style>
+/* ============ 本页自身就是新风格的示范（dogfooding）============ */
+:root{
+  --bg:#FAF8F4; --bg2:#F4F1EB; --card:#FFFFFF; --card2:#FDFCF9;
+  --line:#E8E3D8; --line2:#F0EBE0;
+  --ink1:#1C1A17; --ink2:#4A4338; --ink3:#6B655C; --ink4:#A19A8F;
+  --brand:#2F5D62; --brand-soft:#E8F0F1; --brand-line:#B5CAC9;
+  --stu:#5C8B7B; --stu-soft:#E8F1ED;
+  --accent:#B04A3A; --accent-soft:#F7E8E3; --accent-line:#D69B8E;
+  --ok:#5B7B54; --ok-soft:#ECF1E5; --warn:#B58318; --warn-soft:#F7EFD9;
+  --r-sm:8px; --r-md:12px; --r-lg:16px;
+  --sh1:0 1px 2px rgba(28,26,23,.04);
+  --sh2:0 4px 12px rgba(28,26,23,.05),0 1px 2px rgba(28,26,23,.04);
+  --sh3:0 12px 32px rgba(28,26,23,.10),0 4px 8px rgba(28,26,23,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink1);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:14.5px;line-height:1.75;-webkit-font-smoothing:antialiased;
+}
+.serif{font-family:"Songti SC","STSong","Source Han Serif SC","Noto Serif SC",SimSun,serif;font-weight:500}
+.num{font-variant-numeric:tabular-nums}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* 布局 */
+.page{max-width:1060px;margin:0 auto;padding:0 24px 120px}
+.layout{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.toc{display:none}}
+.toc{position:sticky;top:24px;padding-top:8px}
+.toc a{display:block;padding:5px 10px;font-size:12.5px;color:var(--ink3);border-left:2px solid var(--line);line-height:1.5}
+.toc a:hover{color:var(--brand);text-decoration:none;background:var(--brand-soft)}
+.toc a.on{color:var(--brand);border-left-color:var(--brand);font-weight:600}
+
+/* 封面 */
+.hero{padding:72px 0 44px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.hero .kicker{font-size:12.5px;letter-spacing:4px;color:var(--accent);margin-bottom:14px}
+.hero h1{font-size:40px;line-height:1.3;letter-spacing:2px}
+.hero .sub{margin-top:14px;color:var(--ink3);font-size:15px;max-width:640px}
+.hero .meta{margin-top:22px;display:flex;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:12px;color:var(--ink2)}
+
+/* 章节 */
+section{padding:44px 0 8px}
+h2.sec{font-size:26px;letter-spacing:1px;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:6px}
+h2.sec .no{color:var(--accent);font-size:15px;vertical-align:middle;margin-right:10px;font-variant-numeric:tabular-nums}
+h3{font-size:16px;margin:26px 0 10px;color:var(--ink1)}
+p{margin:8px 0;color:var(--ink2)}
+.lead{font-size:15px;color:var(--ink2)}
+.note{background:var(--card2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r-sm);padding:12px 16px;margin:14px 0;font-size:13.5px;color:var(--ink2)}
+.note b{color:var(--accent)}
+.tag{display:inline-flex;align-items:center;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;background:var(--bg2);color:var(--ink3)}
+.tag.red{background:var(--accent-soft);color:var(--accent)}
+.tag.green{background:var(--ok-soft);color:var(--ok)}
+.tag.teal{background:var(--brand-soft);color:var(--brand)}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{text-align:left;padding:9px 12px;background:var(--bg2);color:var(--ink3);font-weight:600;font-size:12px;border-bottom:1px solid var(--line)}
+td{padding:9px 12px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td code, p code, li code{background:var(--bg2);border:1px solid var(--line2);border-radius:4px;padding:1px 6px;font-size:12px;font-family:"SF Mono",Menlo,Consolas,monospace;color:var(--ink1)}
+
+/* 色板 */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:16px 0}
+.sw{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--sh1)}
+.sw .chipc{height:64px}
+.sw .info{padding:10px 12px}
+.sw .nm{font-size:12.5px;font-weight:600;color:var(--ink1)}
+.sw .hex{font-size:11.5px;color:var(--ink3);font-family:"SF Mono",Menlo,monospace}
+.sw .use{font-size:11px;color:var(--ink4);margin-top:2px}
+
+/* 组件示例容器 */
+.demo{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:22px;margin:14px 0;box-shadow:var(--sh1)}
+.demo-title{font-size:12px;color:var(--ink4);letter-spacing:1px;margin-bottom:14px}
+
+/* 按钮 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card);font-size:14px;font-weight:600;color:var(--ink1);cursor:pointer;transition:all .18s}
+.btn:hover{border-color:var(--brand-line)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pri:hover{background:#1F4347}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--brand)}
+.btn.sm{padding:6px 12px;font-size:12.5px}
+.btn:active{transform:scale(.98)}
+
+/* mock 手机框 */
+.mockrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:18px 0}
+.phone{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:14px;box-shadow:var(--sh2)}
+.phone .scr{background:var(--bg);border-radius:16px;overflow:hidden;min-height:480px;border:1px solid var(--line2)}
+.ph-top{padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between}
+.ph-top .t{font-size:16px}
+.ph-top .tiny{font-size:11px;color:var(--ink4)}
+.ph-body{padding:4px 14px 18px}
+
+/* 任务卡 mock */
+.taskcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--sh1)}
+.taskcard .rt{font-size:17px;letter-spacing:.5px}
+.taskcard .meta{font-size:12px;color:var(--ink3);margin-top:4px}
+.goals{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.goal{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--ink2);padding:4px 0}
+.goal .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:7px;flex:none}
+
+/* 批注图例 */
+.ann{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:6px;font-size:11.5px;border:1px solid var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+.ann.ink{border:1px dashed #9B948A;color:var(--ink2);background:transparent}
+.ann.teal{border:1px dotted var(--brand-line);color:var(--brand);background:var(--brand-soft)}
+
+/* 水墨 logo / 动效 */
+.ink-demo{position:relative;width:170px;height:170px;margin:20px auto}
+.ink-demo svg{width:100%;height:100%}
+@keyframes inkRing{0%{transform:scale(.5);opacity:.55}80%{opacity:.15}100%{transform:scale(1.9);opacity:0}}
+.fx-ring{transform-origin:center;transform-box:fill-box;animation:inkRing 2.6s ease-out infinite}
+.fx-ring2{animation-delay:1.3s}
+@media(prefers-reduced-motion:reduce){.fx-ring{animation:none}}
+
+/* 涟漪动画（旧版保留给对比） */
+@keyframes ripple{0%{transform:scale(.7);opacity:.55}100%{transform:scale(2.1);opacity:0}}
+.ripple-demo{position:relative;width:120px;height:120px;margin:20px auto;display:flex;align-items:center;justify-content:center}
+.ripple-demo .core{width:52px;height:52px;border-radius:50%;background:var(--accent-soft);border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--accent);position:relative;z-index:2}
+.ripple-demo .r{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--accent);animation:ripple 2.2s ease-out infinite}
+.ripple-demo .r2{animation-delay:.7s}
+.ripple-demo .r3{animation-delay:1.4s}
+
+/* 对比条 */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media(max-width:760px){.vs{grid-template-columns:1fr}}
+.vs .col{border:1px solid var(--line);border-radius:var(--r-md);padding:18px;background:var(--card)}
+.vs .col h4{font-size:13px;margin-bottom:10px;color:var(--ink3)}
+.vs .old{background:#F7F7F8}
+.vs ul{padding-left:18px;margin:6px 0}
+.vs li{font-size:12.5px;color:var(--ink2);margin:4px 0}
+
+/* 红线检查 */
+.pass{color:var(--ok);font-weight:600}
+ul.clean{list-style:none;padding:0}
+ul.clean li{padding:6px 0;border-bottom:1px dashed var(--line2);font-size:13.5px;color:var(--ink2)}
+ul.clean li:last-child{border:none}
+.kbd{display:inline-block;background:var(--bg2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 6px;font-size:11px;font-family:Menlo,monospace}
+footer{margin-top:80px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink4);font-size:12px;line-height:2}
+</style>
+</head>
+<body data-page-node-id="seeMmoUOVNICr1OGXbVVdt">
+
+<div class="page" data-page-node-id="EBWCvCbcHz3vvMTfYyMjC6">
+
+<!-- ============ 封面 ============ -->
+<header class="hero" data-page-node-id="qcBfa8y2UCZj1QYBAwBBzx">
+  <div class="kicker" data-page-node-id="plPeHu9mZ8p25ojZvXtOpg">YU YIN · VISUAL DESIGN GUIDELINES</div>
+  <h1 class="serif" data-page-node-id="ifuXhaMjKldeSpyEnrTQyR">余音 <span style="color:var(--ink4);font-size:26px" data-page-node-id="wCRb35qujPz3daFzgHI2kx">视觉设计规范</span></h1>
+  <p class="sub" data-page-node-id="MfZYiWNXROltQRF7DrGssL">为「余音 —— 扬琴老师的 AI 助教」定立的一套视觉语言：宣纸为底，墨色为字，朱砂为笔。<br data-page-node-id="z3UzEW320nBjYztuWWB5Yv">工具退后，谱面向前；让界面像一张干净的谱纸，让批注像老师落笔的墨。</p>
+  <div class="meta" data-page-node-id="iBAJLCydb7ZejTyJjextOF">
+    <span class="pill" data-page-node-id="WuIEEttfX4nvIBcDr1RC11">v1.0 · 2026-09-09</span>
+    <span class="pill" data-page-node-id="tyZVm9PStVTJwjO3xUBIVK">适用：老师端（桌面/平板）+ 孩子端（手机）</span>
+    <span class="pill" data-page-node-id="rVHVmZKWGJfIzobP0ZlJDb">本页自身即新风格示范</span>
+  </div>
+</header>
+
+<div class="layout" data-page-node-id="UxqW7eEoS6UnxBRfNI0CTp">
+<nav class="toc" id="toc" data-page-node-id="VD56XkoVoOh2a1zYaCEtOr">
+  <a href="#s1" data-page-node-id="74yPnA5GPSjo2uhcgPoDod">01 设计哲学</a>
+  <a href="#s2" data-page-node-id="b5LFYHajJUI46J5U1aubB3">02 现状诊断：为什么显得 low</a>
+  <a href="#s3" data-page-node-id="3mEGlcqC86oAVckDCrauv1">03 色彩系统</a>
+  <a href="#s4" data-page-node-id="p8N1cOpzc3SNhjKX7piHzL">04 字体系统</a>
+  <a href="#s5" data-page-node-id="Vff2anR59gB5rXoHGIRyNw">05 形状：圆角 / 阴影 / 间距</a>
+  <a href="#s6" data-page-node-id="a1yMuXOYabQ7B1FeYiUBfR">06 批注系统重构（重点）</a>
+  <a href="#s7" data-page-node-id="YaKJ2bD3TmTCJCEasV8KXL">07 Logo 与品牌符号</a>
+  <a href="#s8" data-page-node-id="Io8X7F6PFdFC4GQKXyc5fx">08 界面重设计示例</a>
+  <a href="#s9" data-page-node-id="orC5vWbsGHHZ6i88YFEBGH">09 动效</a>
+  <a href="#s10" data-page-node-id="BRQuGy1yM0dD86Eaicdm1u">10 红线自检</a>
+  <a href="#s11" data-page-node-id="RTOcJgZcRxv6E8rrGbd9Xa">11 落地路径与风险</a>
+</nav>
+
+<main style="min-width:0" data-page-node-id="fjfi8vLVxMeVPzGBTkAS3A">
+
+<!-- ============ 01 哲学 ============ -->
+<section id="s1" data-page-node-id="P0W70EZF9jZrdp1ObZOIYd">
+  <h2 class="sec serif" data-page-node-id="HnQorPVlMkbYt249stmYdf"><span class="no" data-page-node-id="9h4jFUj6Os1qXieIiFH0MA">01</span>设计哲学</h2>
+  <p class="lead" data-page-node-id="4HHj1wkycbXm2m4nScFh5B">「余音」这个名字定下的不是颜色，是气质：<b style="color:var(--ink1)" data-page-node-id="6lAfnmcRRklEOtU6gnCW8V">声音停下来之后还留着的东西</b>。视觉上对应四个词——</p>
+  <table data-page-node-id="tZ3LovE3dloZyxXa4hSgiK">
+    <tr data-page-node-id="YYnAqF2dpEsb9M1Z2D4ke7"><th style="width:110px" data-page-node-id="lNJ1tq42BjsrIAqTmcHkGs">关键词</th><th data-page-node-id="QnolYqPWZusEO5dooow9xp">在界面里意味着什么</th></tr>
+    <tr data-page-node-id="XCokcAMzUxKTr36SwbnwG6"><td data-page-node-id="2bos2sW0jde0MhwGrOf1Es"><b data-page-node-id="kWJGwXxKl076NjPM9DlDiy">纸</b></td><td data-page-node-id="fGZMM6aSPbWAXB4fLytWZl">底色不是冷灰白，是宣纸暖白 <code data-page-node-id="RyuB28AuvURiGyHMBiTdc8">#FAF8F4</code>。谱面区微微泛黄（像旧谱纸），卡片是干净的白，靠材质差而不是边框区分层次</td></tr>
+    <tr data-page-node-id="3V3NyaZTssqS5AcNsI5n6H"><td data-page-node-id="a79AJcQWCk9ctcLWcgyOTH"><b data-page-node-id="TdUqu0ZI5SLwg7RcDFLxfC">墨</b></td><td data-page-node-id="tkEeAxzSAPFfX9dVQCqntp">文字不用纯黑 <code data-page-node-id="7buNjwYEc8xBSebQ0Mh6Vo">#000</code>，用墨色 <code data-page-node-id="sOtBO26i9lvzoRE3gsGtbL">#1C1A17</code>；辅助文字是淡墨 <code data-page-node-id="1cS8lDCxfnk3n7rGM9xFGr">#6B655C</code>。五线谱谱线、音符符头同属墨色体系，谱面就是"写"在纸上的</td></tr>
+    <tr data-page-node-id="BqrUMjQsH7G3cCDHwWFjZw"><td data-page-node-id="VRNOe6MVYyzj0koHEXDXAD"><b data-page-node-id="kAnykvqnYaiynfhrLIbby0">朱砂</b></td><td data-page-node-id="VCQ6bKSZ41jCLAAMG7Wfc6">全产品只允许一种强调色：朱砂 <code data-page-node-id="Os3vOu9J2JiSYDVypoDpYD">#B04A3A</code>。它只出现在两种地方——老师落笔的批注、需要家长/学生行动的按钮。朱砂出现 = "这里值得注意"</td></tr>
+    <tr data-page-node-id="isLs8F2OKjeLKFZi8or5Z7"><td data-page-node-id="bmHKESXTUfxWZ2ejC8rCmk"><b data-page-node-id="puaAAmG4gYwj5q8plRTDdj">渐弱</b></td><td data-page-node-id="Qu1z6S4kS9HABShwFR4Cvl">声音是渐弱的，界面层次也是：黛青（主品牌）→ 竹青（孩子端）→ 淡墨（辅助）。不做高饱和撞色，不做渐变背景</td></tr>
+  </table>
+  <div class="note" data-page-node-id="ChUdr6em5WhBcS3jLesPgO"><b data-page-node-id="Eq6gfvelGSxGnnMA4wkcB1">一句话原则：</b>这个产品的主角是"谱面 + 老师的批注 + 孩子的练习记录"，界面只需要安静地托住它们。凡是让界面比内容更响的设计（彩色大按钮、满屏徽章、进度条），都是错的。</div>
+</section>
+
+<!-- ============ 02 诊断 ============ -->
+<section id="s2" data-page-node-id="X5uRSuzeEop1VJuM0DMn1i">
+  <h2 class="sec serif" data-page-node-id="Bej9iNWzJddTgP29TmoZFb"><span class="no" data-page-node-id="Fcn1D6S6KGBRb8GCWXty6C">02</span>现状诊断：为什么显得 low</h2>
+  <p class="lead" data-page-node-id="GnD0yjXjnt9XBK0JpDAzDt">对照 <code data-page-node-id="sXhZlVuCJ8eoyKAU6h9aRx">public/index.html</code>（2281 行，CSS 在 L7–176）。问题不在布局骨架（骨架其实是对的），在<b style="color:var(--ink1)" data-page-node-id="kfe5H3rVSGubQTyBfBODJk">没有一套被严格执行的设计系统</b>。</p>
+  <table data-page-node-id="DGvwZd1DTaIwIyWsln9WrE">
+    <tr data-page-node-id="vKqGbnD2rnv2GzG3BCX5AA"><th style="width:44px" data-page-node-id="EEEKF6Ryf9o7rY2pJZjYVJ">#</th><th style="width:150px" data-page-node-id="zEyw2qDMmyMSuPMVaFGskq">问题</th><th data-page-node-id="M7eVAKM8WkyOzieBF3viPk">证据（代码位置）</th><th style="width:190px" data-page-node-id="FnQXmGPn4gRZR2WDGNFizv">观感后果</th></tr>
+    <tr data-page-node-id="eQEdxGK7GkJvVX3ux9RQ1t"><td data-page-node-id="0FHKKOUMhakLD2HaLd6XAA">P1</td><td data-page-node-id="ObHwmBT5AJ0gDUcIxW4CRJ">排版层级太弱</td><td data-page-node-id="TZvdyhw9nD0uX4BHfyNEQD">h1 19px / h2 16px / 正文 15px——标题与正文只差 4px，且全部 700 字重黑体（L53–55）</td><td data-page-node-id="tMbDAjXlomqAAiz3XpUK00">整页"一马平川"，没有可停顿的视觉锚点</td></tr>
+    <tr data-page-node-id="5S2rBPgxh0lN8ohoMJAbYT"><td data-page-node-id="Ht3qsx2ZeWXqIrYTP3J8e8">P2</td><td data-page-node-id="QJdmQ5t5LpFNrcMeQojUut">颜色过载</td><td data-page-node-id="tOHyDo1jciLXWUbgtLAHnc">6 套语义色（ok/warn/bad/info/pur + brand）+ 批注 6 种马卡龙底色（L117–122：#fee2e2 #ffedd5 #dbeafe #ede9fe #d1fae5 #fce7f3）</td><td data-page-node-id="7fd995rFsi4bXE3MzRG1Br">一屏可出现 6+ 种色相，典型的"组件库 demo 感"</td></tr>
+    <tr data-page-node-id="r37jtDBr4Da4O7deE7kFx0"><td data-page-node-id="g4HPcftqMcyFMkToOrhHNo">P3</td><td data-page-node-id="NaAnbhPGjXrQuJaAK7bjP2">圆角失控</td><td data-page-node-id="eFJ4ZIaSW8dm5WygnP8vKs">14 / 10 / 9 / 8 / 7 / 6 / 18 / 999px 并存（L16, 67, 72–73, 77, 80, 106, 146）</td><td data-page-node-id="HOq1vECOSx1PtBZjYh99wo">细看每个组件都"差不多圆"，合在一起零秩序</td></tr>
+    <tr data-page-node-id="lT3geN4jsoJNohjP1cxYo1"><td data-page-node-id="gYehLRrcAIxbhEfRTQrqPW">P4</td><td data-page-node-id="bVqsybXoyfFf3rcVvKJEzO">阴影缺位</td><td data-page-node-id="rGwhloxYVbTbt53xVKEGFM"><code data-page-node-id="gltscMDlhu1heOL7z74lTv">--sh</code> 两层各 .05/.06 透明度，肉眼不可见；层次实际全靠 1px 灰边框硬撑（L17, 51）</td><td data-page-node-id="ZeYNsVZrcDMDpiq5GeVzj2">卡片"扁"且"糊"，弹层浮不起来</td></tr>
+    <tr data-page-node-id="4bubSe2y74EWmV5EQ902Di"><td data-page-node-id="NlJiRVAthMAhCvMCnBWPC8">P5</td><td data-page-node-id="zQZp1Lb31zMzlDSsqFRX1u">字体无性格</td><td data-page-node-id="fQ27K4NG4sxcDKAeQBIZ8w">全站系统黑体，logo 就是一个 <code data-page-node-id="uqQlAxFEtoFDDzS1mK2Y4G">.dot</code> 圆点 + 文字（L34–35, 181）；设置按钮是 emoji ⚙（L186）</td><td data-page-node-id="BrbgQLn4uPYiFXzcPFJL4Y">没有任何品牌识别度，像未定制的后台模板</td></tr>
+    <tr data-page-node-id="xzbLORSmFZRIOxhLEZyRp0"><td data-page-node-id="LXDyG7RvNkqwtbeopKQjcz">P6</td><td data-page-node-id="wyk8mojAF9H78M4g0rGXuS">间距无节奏</td><td data-page-node-id="rHYj5KJ0CbXIN2mnXsByXF">12/13/14/16/18/22px 随手写（L28, 51–52, 128, 146）</td><td data-page-node-id="ccLTcgMO5WLPoWFBbeBRhJ">松紧不匀，密处挤、疏处空</td></tr>
+    <tr data-page-node-id="LFNuvi4GvbW7imXoRBzCqN"><td data-page-node-id="Wlm9c5MKDFaW2OY0uEYxnP">P7</td><td data-page-node-id="LwJ9s9iX6cH8DQhyAqqeTa">冷灰底色与产品气质相悖</td><td data-page-node-id="NJHFffYKe58VEoSmSVeUQC"><code data-page-node-id="ClGkVWpW2ti6yFnqwJFERx">--bg:#f5f6f8</code>（L9）是 iOS 设置页的冷灰</td><td data-page-node-id="ZiMIjAeZGKyVDcnqv1NAd2">民乐产品配了一个"系统工具"的底色</td></tr>
+    <tr data-page-node-id="t4yYHcG3DQ5kcrQnHpnclL"><td data-page-node-id="ZpSWwm1tbPRMpEIfn1db5F">P8</td><td data-page-node-id="FDAzP6kckyo6vbFYTwc2ph">主色橙棕是"后台感"来源</td><td data-page-node-id="mQNVZOylMbGzwCYtwjDQTg"><code data-page-node-id="CGiiadSwVvGE7L12kUfW20">--brand:#c2410c</code>（L11）+ 大面积实心橙按钮（截图 01 中整条橙色 CTA）</td><td data-page-node-id="iliaEMfADF1LyV8iDCg7hX">像琴行教务 SaaS（小禾帮/小麦助教正是这类配色）</td></tr>
+    <tr data-page-node-id="ZCOnCBgdlqmYHWTzC3NJUp"><td data-page-node-id="6UFoqXBmpOKQHEkW4yMCi2">P9</td><td data-page-node-id="KOmM2oZPpUuZpGF2pQRYz1">运维面板式状态徽章</td><td data-page-node-id="FR2dMbB6GtJEzJHre8k8C9">顶栏"●已同步 10:49"红绿点（L234–238）</td><td data-page-node-id="MH3C7Iwhe83GLlOHZWVmUa">技术细节暴露给家长和老师</td></tr>
+    <tr data-page-node-id="5RXw8yViAIZcLDw1FDRjqG"><td data-page-node-id="df71lvAbEZF5NdMc9FJ03N">P10</td><td data-page-node-id="b95KO1DPWPXc8Wy36ld7nh">谱面批注像报错</td><td data-page-node-id="V982J7U1WWm5FNDuRw1nTA">批注 badge：<code data-page-node-id="8k1Xv7wQTFQV8fhySHdXGE">#c2410c</code> 圆点 + 9px 白字浮在音符角上（L123），配 6 色马卡龙底</td><td data-page-node-id="YGi3lEeNWkETxI14B9ipaJ">谱面像被贴满荧光贴和错误标记，喧宾夺主</td></tr>
+  </table>
+  <div class="note" data-page-node-id="ETdK0KxEPwWPll2qAOCxSb"><b data-page-node-id="UXJWAhBZCIq11NXFUEX4uO">根因：</b>MVP 阶段所有颜色/圆角都是"写到哪里算哪里"，没有 token 纪律。好消息是——全部问题都收敛在 <code data-page-node-id="imTRc6MxYCArFJQhOwHfjK">:root</code> 变量层和十几个组件类里，<b data-page-node-id="1shR4JNzk31wk4yEpSt7np">换一套 token 就能解决 60% 的观感问题</b>。</div>
+</section>
+
+<!-- ============ 03 色彩 ============ -->
+<section id="s3" data-page-node-id="BhtRnILHaQ7oocphKRVFvs">
+  <h2 class="sec serif" data-page-node-id="1mOw6rW8CFq7SeJwvfh9Bk"><span class="no" data-page-node-id="LQrZxES3B5e30lnUPEgYzn">03</span>色彩系统</h2>
+  <p class="lead" data-page-node-id="eDLBOxAiZtBEZXXrjGxzQT">从 6 套语义色收敛为：<b style="color:var(--ink1)" data-page-node-id="PCXaiSzQrdwHX9ImoA3RBF">墨色阶 + 双端品牌色 + 一种朱砂强调</b>。语义色降饱和并入朱砂/松烟/赭黄三档。</p>
+
+  <h3 data-page-node-id="ly1YPbJtQVrx0DKnxcdxhI">3.1 底色与墨阶（宣纸 → 淡墨）</h3>
+  <div class="swatches" data-page-node-id="JzYjx5P9pUk5LhMc3f7W9T">
+    <div class="sw" data-page-node-id="gG9xrFSPg1LCJDEMexnlHv"><div class="chipc" style="background:#FAF8F4" data-page-node-id="R8jNPcbsRB5XV6eKT4nFvK"></div><div class="info" data-page-node-id="iAfUFbtlkZDlNKYnP9Zo1a"><div class="nm" data-page-node-id="ZN6fOxisKYcVvjg8HRPxNy">宣纸 · bg</div><div class="hex" data-page-node-id="HeocDjeyZ52FX5DTNTdyN7">#FAF8F4</div><div class="use" data-page-node-id="1VvwvtlU2QpiufoN8Cw53X">全局底色（替换 #f5f6f8）</div></div></div>
+    <div class="sw" data-page-node-id="SbdoBjCiZojZq8iZu1x7tA"><div class="chipc" style="background:#F4F1EB" data-page-node-id="GUxEmM7AnYenBTu5PR2tBe"></div><div class="info" data-page-node-id="Cm9KcpszF2UDZNMT04eh01"><div class="nm" data-page-node-id="2WgBoO0XjgKiiDs0Gul0B0">宣纸深 · bg2</div><div class="hex" data-page-node-id="H7gnyRQgoOFScA78iw0am2">#F4F1EB</div><div class="use" data-page-node-id="Mr1fDVdjoF5JBL1omzkN8K">区块底、表头</div></div></div>
+    <div class="sw" data-page-node-id="hy8UVzB8PBSHVoB82dLnH3"><div class="chipc" style="background:#FFFFFF;border-bottom:1px solid #E8E3D8" data-page-node-id="sBmIPXzrErLqVAMAP47vrL"></div><div class="info" data-page-node-id="ExsWGdgKRU0PiFjudRcSH6"><div class="nm" data-page-node-id="dZ2HkiT6nPSB0xPzG0BAeF">卡白 · card</div><div class="hex" data-page-node-id="Boz0DfTDXYjrQhIQoLfwxf">#FFFFFF</div><div class="use" data-page-node-id="y5O2fIcWYWaP6fMZla0qlH">卡片、弹层</div></div></div>
+    <div class="sw" data-page-node-id="Fc8G38ksEY47EpPoKgbvjG"><div class="chipc" style="background:#FDFCF9;border-bottom:1px solid #E8E3D8" data-page-node-id="tvmlWoo4chLirSgBe5djNg"></div><div class="info" data-page-node-id="jSoxzARtbQDQmsYkym3Bj0"><div class="nm" data-page-node-id="YmMwxPRNDkpLSaZz8OnXzu">谱纸 · card2</div><div class="hex" data-page-node-id="ZmsHzqp7THpyRmlOtSGGQO">#FDFCF9</div><div class="use" data-page-node-id="CoQgOUlEiCGHvRZA1JGWnj">五线谱容器底</div></div></div>
+    <div class="sw" data-page-node-id="mpV4N0AS9ZCdVuAh3Psr4E"><div class="chipc" style="background:#1C1A17" data-page-node-id="tRDyn4j3d5Tr1nh8csoo1c"></div><div class="info" data-page-node-id="CRsNR1jTgFZE9mHMH4CmTZ"><div class="nm" data-page-node-id="OprY1xfZHoI0QIByZXlMWc">浓墨 · ink1</div><div class="hex" data-page-node-id="WIkj9ilKm0rYLCX0P1XE2s">#1C1A17</div><div class="use" data-page-node-id="ZDAKjDgDVZta3YAHcQjTQm">主文字、音符符头</div></div></div>
+    <div class="sw" data-page-node-id="YVurLWNiSiq85MMHRCgSsb"><div class="chipc" style="background:#6B655C" data-page-node-id="WW535v5a1gfcvuN6Y2MEws"></div><div class="info" data-page-node-id="SLln4yb2zWQCzJPec7A5pd"><div class="nm" data-page-node-id="C7VQhCNUm3vHw5u4IGQDbE">淡墨 · ink3</div><div class="hex" data-page-node-id="xoL4VtgaWlVESmE6Neb57g">#6B655C</div><div class="use" data-page-node-id="7PeC9pWISC92iJUyaDOtTt">次要文字</div></div></div>
+    <div class="sw" data-page-node-id="u1MtMOvRSEiaP4r5wSZ11n"><div class="chipc" style="background:#A19A8F" data-page-node-id="eOJvjb7gRBJbjE9VaU5RiG"></div><div class="info" data-page-node-id="eFnYmTvovBoF5V2mo5WB8j"><div class="nm" data-page-node-id="VwCEgeJcKd4YCQuw7DJnLt">灰墨 · ink4</div><div class="hex" data-page-node-id="up3LTJtVBw8pRCptTCu7zE">#A19A8F</div><div class="use" data-page-node-id="YYpShQSpAcTyA8ACA6MWEm">占位、禁用</div></div></div>
+    <div class="sw" data-page-node-id="JE30pTqCyabJNChW2QcnCL"><div class="chipc" style="background:#E8E3D8" data-page-node-id="t2e0TD6Q0AZkPlbiAEIfxC"></div><div class="info" data-page-node-id="Q1sqgfuNMyrNiBwfRFpt28"><div class="nm" data-page-node-id="8XFDJkIDpRzMeykMytcZkm">界线 · line</div><div class="hex" data-page-node-id="G7g1gwvTiELYHpLck10xkm">#E8E3D8</div><div class="use" data-page-node-id="WAqhlgAhDxY82vnX4GAJ7e">暖灰 hairline（替换 #e5e7eb）</div></div></div>
+  </div>
+
+  <h3 data-page-node-id="mKMJH80Bh2arv5fEjpsbxz">3.2 品牌色（双端）与朱砂</h3>
+  <div class="swatches" data-page-node-id="6CTvyPBuEMUnD4kP9GfOgZ">
+    <div class="sw" data-page-node-id="tKz7JUTNFR9epp82rXiGfA"><div class="chipc" style="background:#2F5D62" data-page-node-id="pZhMKHCn6TiN8vl0ighmIa"></div><div class="info" data-page-node-id="Gfj3sMax2fiPHeBxioYCTG"><div class="nm" data-page-node-id="LFUDpWU0JiHejpTSlEYR32">黛青 · 老师</div><div class="hex" data-page-node-id="84sfwriTtiaMicDsT4ZQlm">#2F5D62</div><div class="use" data-page-node-id="qMw4fb8aJOqlsisZSGEJq3">老师端主色、主按钮、选中态</div></div></div>
+    <div class="sw" data-page-node-id="K9njUVxL9ioY3ZcmpRrJb2"><div class="chipc" style="background:#5C8B7B" data-page-node-id="ZDcGdSccixtqJUdQtNOTDk"></div><div class="info" data-page-node-id="C01CeGFcI75Why3PNY9BXC"><div class="nm" data-page-node-id="BsoplQ4kO2ASYcLLFSX8AB">竹青 · 孩子</div><div class="hex" data-page-node-id="mTn8BGPDRnSM2Pa9cHCOiC">#5C8B7B</div><div class="use" data-page-node-id="4A9xTbF9yZs7u3djKO3VB3">孩子端主色（比黛青浅半档）</div></div></div>
+    <div class="sw" data-page-node-id="zbC5r3y2AhTbmR2CJkJ7Mh"><div class="chipc" style="background:#B04A3A" data-page-node-id="WpWGS36EKB5aryhwyZBGIs"></div><div class="info" data-page-node-id="WmuyGpRb6h5Um4iGRrxZpj"><div class="nm" data-page-node-id="SG3U1i6o6c0MGOPQRZL2RK">朱砂 · 强调</div><div class="hex" data-page-node-id="jbc9PawEF38qgRykqyCrhL">#B04A3A</div><div class="use" data-page-node-id="nuF9Ly15uPliiMf96aF1s5">批注、待办行动点（唯一强调色）</div></div></div>
+    <div class="sw" data-page-node-id="UBJphmK1wnSMvXYpnnTHQv"><div class="chipc" style="background:#5B7B54" data-page-node-id="ZfSJNKmY8WSRkM3OG2vild"></div><div class="info" data-page-node-id="PgY1DsUESofUjvYaIsWq70"><div class="nm" data-page-node-id="sYIieubsIpRIekHvazMPoG">松烟 · 达成</div><div class="hex" data-page-node-id="A6memOwVSuuIhPwKfBLtNM">#5B7B54</div><div class="use" data-page-node-id="XCISpt4qAobCOrKhsClLTv">"已完成/达标"（降饱和墨绿）</div></div></div>
+    <div class="sw" data-page-node-id="VlFBscXaBPzIP6dehGFOfq"><div class="chipc" style="background:#B58318" data-page-node-id="frs3ZM2SPqHAkSFPyYNmlq"></div><div class="info" data-page-node-id="a6wzeEm732ba7orWBM7YG2"><div class="nm" data-page-node-id="OhF0Ri00DLYow9fn94oCLh">赭黄 · 提醒</div><div class="hex" data-page-node-id="tgPOSoSPuMeZHeaJQOavk1">#B58318</div><div class="use" data-page-node-id="OOHD2NrN9fGi6T0oKNbLKZ">即将到期、未提交（唯一的黄）</div></div></div>
+    <div class="sw" data-page-node-id="9FBBza7Vf1iV6V2Aqg5IUI"><div class="chipc" style="background:#4A6B7C" data-page-node-id="frxtLGKwGkoeo4R09USKvE"></div><div class="info" data-page-node-id="hPFbOGVONZZkAK9hc1tRdC"><div class="nm" data-page-node-id="9h2jYCZ9cXDw6AktCXcWlz">烟青 · 信息</div><div class="hex" data-page-node-id="CVzNDksn8GOgvsxHEap51b">#4A6B7C</div><div class="use" data-page-node-id="ljjuS0WsFxQpsA3WwbHaGu">中性信息提示</div></div></div>
+  </div>
+
+  <h3 data-page-node-id="x9Xoyb9NtYBUEOx7vlegwf">3.3 新旧对照：砍掉了什么</h3>
+  <div class="vs" data-page-node-id="QontJS8Wpkalmr90offB5a">
+    <div class="col old" data-page-node-id="ebG97Py4FFMtvg97ywzcRo">
+      <h4 data-page-node-id="r1Z8UH4zIMJVRrJ5v1e05h">旧（现状）</h4>
+      <ul data-page-node-id="HBGZgGExDLZH9j59VBDf6T">
+        <li data-page-node-id="IqAiheSxCwLGj3EhUta50y">brand <code data-page-node-id="iTzlB3By8epSloeCg780Ye">#c2410c</code> 橙棕 + 紫色 <code data-page-node-id="I75Mbuy3Qa1ky8QaqPeBNy">#7c3aed</code> 并存，两个"主色"打架</li>
+        <li data-page-node-id="NN0VnvXqttduamgEqqkKFH">批注 6 种马卡龙：红/橙/蓝/紫/绿/粉底色 + 高饱和描边</li>
+        <li data-page-node-id="wZMYp919GarqCJ2ZIXSu9B">bad <code data-page-node-id="a9cOQ7IwTZoXVMIFrXGjDJ">#dc2626</code> 正红，被用在"新作业"小红点上——正红在中文语境里是喜庆色，用在提醒上过重</li>
+      </ul>
+    </div>
+    <div class="col" data-page-node-id="7iFBnPX2ViS9Cdp5YDd4YT">
+      <h4 data-page-node-id="DBM1fG77tWWRwqWD9i3c1K">新（余音）</h4>
+      <ul data-page-node-id="2BJt0k6o2WQGxFSXtnrWEr">
+        <li data-page-node-id="PJBJ4bMbUqGdf7rewyHmcc">老师端黛青、孩子端竹青，一个页面只出现一个品牌色</li>
+        <li data-page-node-id="aczuymZzOh5RiGgDAhgsmg">批注<b data-page-node-id="VWB5a6gKni8kCV3ESWAiKO">只有朱砂一种颜色</b>，技法类型用文字标签区分（见 §06）</li>
+        <li data-page-node-id="mmYEOvExZpeiJyVwAh8of1">"新作业"红点改用朱砂 <code data-page-node-id="E7Xu1vkKk1K5S29DXP2CkE">#B04A3A</code>——既醒目又不刺眼</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note" data-page-node-id="HCHKJ8zqaiFrj6EwOmlLOE"><b data-page-node-id="l6Om1UJ60PMKiinOOX7Jhd">对比度自检：</b>墨 #1C1A17 于宣纸 #FAF8F4 = 对比度约 15.9:1（WCAG AAA）；淡墨 #6B655C 于宣纸 ≈ 5.5:1（AA）；朱砂 #B04A3A 白字 ≈ 5.2:1（AA）。全部达标。</div>
+</section>
+
+<!-- ============ 04 字体 ============ -->
+<section id="s4" data-page-node-id="QKci1F9Aup9rcxctOy7cM4">
+  <h2 class="sec serif" data-page-node-id="xLYDbqhDNGH1ZPwKc2U6ip"><span class="no" data-page-node-id="NtF32cjHwkfqI9xEuSRfTk">04</span>字体系统</h2>
+  <p class="lead" data-page-node-id="Z3vOAyn7T3ivhKP4qyu5BM">两套字体、各司其职：<b style="color:var(--ink1)" data-page-node-id="JBhAYSSwaNQKZtFCMXIykw">宋体只做"门面"（品牌字/页面大标题），正文全部黑体保可读性</b>。绝不让宋体进表单和小字。</p>
+  <table data-page-node-id="JvC8Unw8hYff29xrHUEK4v">
+    <tr data-page-node-id="DG5ZF3ZWLv9JnjRGRe3ILv"><th data-page-node-id="PCzIIVd1QOY83aHfnB2ztr">层级</th><th data-page-node-id="5FHIjHLHVAEIOHsgIn7K9n">字体栈</th><th data-page-node-id="XdELbFAXLHlRxjMa90a1HG">字号 / 字重</th><th data-page-node-id="LIxDsmDNVK1tXpwXvI7zWk">用在哪</th></tr>
+    <tr data-page-node-id="AE4EVqsuwMiFaywG6cgIJF"><td data-page-node-id="zgyWs9sxbGWnyvDK6Zhtvp"><span class="serif" style="font-size:17px" data-page-node-id="zM9jPEaUhwZcQ9NNi6Eh2v">品牌字 Display</span></td><td data-page-node-id="ofTD7qwGjNTq0iZGjkoNGT"><code data-page-node-id="dFLbBO7WNF6BYZ9bCpjfSQ">"Songti SC","STSong","Source Han Serif SC","Noto Serif SC",SimSun,serif</code></td><td data-page-node-id="7nN6MIYcfVdmwCWTRXy7ue">22–40px / 500</td><td data-page-node-id="tsN4v1PuzzOXnVBGK94u8x">Logo「余音」、页面 H1、空状态大字、引导页</td></tr>
+    <tr data-page-node-id="PtfYLr6VZUUl7UewT8pR9z"><td data-page-node-id="yZibTBdzsVMcVSM1JQBOxg"><b data-page-node-id="tCSwrDe0TGnmeo9fwQXiUC">标题 Heading</b></td><td data-page-node-id="OaKwUI6vIfQ7de9hnsFJQ8">PingFang SC（系统栈）</td><td data-page-node-id="ABI1nIN3PRQ0ZYcHzAALiL">17px / 600</td><td data-page-node-id="R40Gp6OMc5dLFYNOIQ7uDL">卡片标题、弹层标题</td></tr>
+    <tr data-page-node-id="vYlpnQCAD2YNoiRz1N71Dw"><td data-page-node-id="JFsuLOwFmdOVPnDiW6poBh"><b data-page-node-id="L8qZefwtBDQHlSDrFc1vUL">正文 Body</b></td><td data-page-node-id="hj67G4kr09J4otguaw75AE">PingFang SC（系统栈）</td><td data-page-node-id="gXX3mBhuacfwmyYW5zRdHb">14.5–15px / 400，行高 1.7</td><td data-page-node-id="mnyal53imc3VjxkzIbILhW">一切正文</td></tr>
+    <tr data-page-node-id="WvNB81LeoyCo7ifvu5z2gO"><td data-page-node-id="47pV3Ks3kxV092nTQ7qNtX"><b data-page-node-id="1Ds6yMyPx59NEAFaEnnSqV">辅助 Small</b></td><td data-page-node-id="puothZCXqeqlvdeK2v6oSH">同上</td><td data-page-node-id="UlXppEHHvndZK4OSZRuoSh">12–12.5px / 400，行高 1.6</td><td data-page-node-id="zsrMWaHreWSC1NpeB1jaVo">元信息、说明文字</td></tr>
+    <tr data-page-node-id="2OUaDMfSDN2uJfPvSdR3ZX"><td data-page-node-id="IOsxtEJmwbLV83Kbs5H5BR"><b data-page-node-id="GPsA2GVGsrJVUBwcPxUdfl">数字 Numeric</b></td><td data-page-node-id="nmm761BwCgXXURAAsSgIAE">系统栈 + <code data-page-node-id="4Hw7Ews0UBauiUJnsnX6dC">font-variant-numeric:tabular-nums</code></td><td data-page-node-id="uK4YGE9vqAuMLpAN2iHExn">按场景</td><td data-page-node-id="JPn5jEDlTIdSBSrmyRlboM">计时 00:00、BPM、遍数——等宽数字跳动时不抖动</td></tr>
+  </table>
+  <div class="note" data-page-node-id="WBmYrSmMoc5KFG2gBDxRKF"><b data-page-node-id="6Eo8LBFDpVdNofnVRnbTBL">为什么宋体只做门面：</b>宋体在小字号和浅色底上笔画易糊，正文用它牺牲可读性；但 22px 以上的宋体标题自带"谱纸/书页"的人文气，是花 0 成本就能拿到的品牌差异化（竞品全线黑体）。Windows 回退 SimSun 需配 <code data-page-node-id="r8ShiHQ3Mywohb7JFP7fVj">font-weight:500–600</code> 避免发虚。</div>
+  <div class="demo" data-page-node-id="UJmua2O6VtJ2w9QGCfqvgj">
+    <div class="demo-title" data-page-node-id="2Dwu7itBlQ9BMcnljHbQhe">字体层级实景</div>
+    <div class="serif" style="font-size:34px;letter-spacing:2px" data-page-node-id="rssRT1jT3IA1wnQscqDEv8">余音 <span style="font-size:14px;color:var(--ink3);letter-spacing:0" data-page-node-id="UoOfK6s5JNovdoSzLatIFK">—— 扬琴老师的 AI 助教</span></div>
+    <div style="font-size:17px;font-weight:600;margin-top:14px" data-page-node-id="6Tu8no1r3CUoQiFN3t119R">五声音阶练习 · 第 3 周任务</div>
+    <div style="font-size:14.5px;color:var(--ink2);margin-top:4px" data-page-node-id="Zl11It1gFtcQPZ19gbJRj4">目标 3 遍 / 15 分钟 / 60 BPM。手腕放松，每个音落点清楚。</div>
+    <div style="font-size:12px;color:var(--ink3);margin-top:6px" data-page-node-id="qGCOJnaJTVyWQL4gMw2UC0">布置于 09-09 · 截止 09-15 · <span class="num" data-page-node-id="aRzQvXFzAk8y60wEBu3gJ2">00:42</span> 已练</div>
+  </div>
+</section>
+
+<!-- ============ 05 形状 ============ -->
+<section id="s5" data-page-node-id="JZ00HELjk4q06mbFOA3kAd">
+  <h2 class="sec serif" data-page-node-id="kOCAPHqjLvODP0y0pDe8Zb"><span class="no" data-page-node-id="z1iVDYdNf5OGt5Ec4c7X72">05</span>形状：圆角 / 阴影 / 间距</h2>
+  <h3 data-page-node-id="4kVmxmxqGobyobnH9Z9bu8">5.1 圆角：从 8 种收敛为 4+1 档</h3>
+  <table data-page-node-id="GUY90qHLbGFiBbH1ggY0Hl">
+    <tr data-page-node-id="cCFSD1rLpa7yF3W0QObVcY"><th data-page-node-id="R8G87zsWfiCxBbLUSAFvQP">token</th><th data-page-node-id="9stRv8wvljgVtaDuWtC0E4">值</th><th data-page-node-id="xi8iJAO8AeQY5Vezk6GFQx">用在</th></tr>
+    <tr data-page-node-id="8frhQuUpFA9ABiPBMXI8Nx"><td data-page-node-id="SpHIoaKNwSBoJ2kF3Mqh0A"><code data-page-node-id="SweBDpAFAteiaECUwfacR1">--r-xs</code></td><td data-page-node-id="sf586f7uRNn7EHMzF4zRu4">4px</td><td data-page-node-id="pOnhuEHqtJ7wq1BHqNYbo9">tag、批注小标签</td></tr>
+    <tr data-page-node-id="ZhUPJq9ljFclISngW3fhg5"><td data-page-node-id="1iDddFQEYKmzDb9hvpAcLO"><code data-page-node-id="OaeTRgH38v3aFzILjW9q8m">--r-sm</code></td><td data-page-node-id="mhepIo6xj4PVidxAPD6VjY">8px</td><td data-page-node-id="72VehbNbSlqaUFbxUHCPk7">按钮、输入框、小卡</td></tr>
+    <tr data-page-node-id="ic0wkUIbMlQbPG7uubfjqS"><td data-page-node-id="glkPUFhFwY8MVZWwY4GZtv"><code data-page-node-id="4kdwJbSI5D4MGVcu347oO9">--r-md</code></td><td data-page-node-id="yqqgvXzfbgGZBkzpXYRkzc">12px</td><td data-page-node-id="xTbTv6iBF80mWBrJeJPwZz">卡片、谱面容器（主力值）</td></tr>
+    <tr data-page-node-id="AzVoQEVsNQ5uwmoTar151y"><td data-page-node-id="SHpXjelmX9ZXE4estQrY8f"><code data-page-node-id="YIsnZiTIAfCqsYuMPHHiLe">--r-lg</code></td><td data-page-node-id="u5bJ23O4aAPnJ63qBd4PQe">16px</td><td data-page-node-id="sNv6aFkIEgyeLyDqffVEZH">底部弹层、引导框、手机 mock</td></tr>
+    <tr data-page-node-id="SBkeayfhHO5PKJs0V0aCeD"><td data-page-node-id="93OpD6ko6nIr8APFAD1F2t"><code data-page-node-id="Pie8CGxtemWFDuQ5x9WXpJ">--r-pill</code></td><td data-page-node-id="9tVARyMo4mt8T3VKipSOLP">999px</td><td data-page-node-id="pLqbVcfIqHzrvIOt7sAEIA">chip、状态 pill</td></tr>
+  </table>
+  <h3 data-page-node-id="hL6FJphycoo91ynYSnBWXj">5.2 阴影：三层暖阴影，替代"边框硬撑"</h3>
+  <table data-page-node-id="vjgODZA9JVl72FhlNuan7a">
+    <tr data-page-node-id="O46tR2vSV81QKIxC9kACZy"><th data-page-node-id="DN4ItXBCKxpC52oU9klw4m">token</th><th data-page-node-id="h8a2TKX1A9E9dUNWDI15MX">值</th><th data-page-node-id="byAEnYLejItGoEa8sty6sa">层级语义</th></tr>
+    <tr data-page-node-id="CchmGOY8FIzl6U6qwX5p2J"><td data-page-node-id="mICEGFaqr57bifysb0RPzS"><code data-page-node-id="2Y84DLAxEErxD4h3RPHHCG">--sh1</code></td><td data-page-node-id="hsXCeNEh7PiyNg6yegd1GH"><code data-page-node-id="qt0swNXO1R1wsajzaw8HCo">0 1px 2px rgba(28,26,23,.04)</code></td><td data-page-node-id="PwpjuQmbIDljhBcs8e6sb7">静态卡片（默认，极轻）</td></tr>
+    <tr data-page-node-id="LtTLXd2n3DzzPZQmLaJrpX"><td data-page-node-id="ecsntJybf7yTWUM8Hj0l8S"><code data-page-node-id="bRbDoYoJYxWlPe5b9hbtl0">--sh2</code></td><td data-page-node-id="SSwuCuV5iluekrhMM5wXvu"><code data-page-node-id="R1VRDgRDgoJndDYdJAX5v1">0 4px 12px rgba(28,26,23,.05), 0 1px 2px rgba(28,26,23,.04)</code></td><td data-page-node-id="AfJ0Hoc2Po7fZTjHRFK4rA">悬浮/hover 的卡片、粘性顶栏</td></tr>
+    <tr data-page-node-id="dolbgXfEuC2EDDirLj1hAC"><td data-page-node-id="YWygybLtATlQOB7TbiwBc0"><code data-page-node-id="c9jq4DhhL9DlBLPBmtsR6A">--sh3</code></td><td data-page-node-id="4TvSb80eD5uJ9B39KK2uLb"><code data-page-node-id="zuXibwnEDi9Y8L1e7I5jp9">0 12px 32px rgba(28,26,23,.10), 0 4px 8px rgba(28,26,23,.04)</code></td><td data-page-node-id="BiBug9GYdYe8c9bdtd8iZc">弹层、toast、拖拽中的任务卡</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--ink3)" data-page-node-id="SlzWisU4O5cLaw5FAUjXeV">要点：阴影色相用暖墨 <code data-page-node-id="uFotR7N79iEVxGBe1UFk55">rgba(28,26,23,…)</code> 而非冷黑 <code data-page-node-id="8TyNQ5FiIn0fRJ8vpNgeDx">rgba(16,24,40,…)</code>；同时把边框降为 <code data-page-node-id="UlxbdUrTpChMatMAeZytJC">#E8E3D8</code> 暖灰——<b style="color:var(--ink1)" data-page-node-id="Mobz8dyZqXSUC5CcCcUGqi">边框负责"界定"，阴影负责"浮起"</b>，两者不再重复表达同一件事。</p>
+  <h3 data-page-node-id="kl3zkhX9huQaGXr1zwcPvy">5.3 间距：4 的倍数</h3>
+  <p style="font-size:13px;color:var(--ink3)" data-page-node-id="ZfilMqITJrzeJsxz237OWI"><code data-page-node-id="XHZxqGXB0LU9jzpEjv8oTf">4 / 8 / 12 / 16 / 20 / 24 / 32 / 48</code>。卡片内边距统一 16px（原 13–14px），卡片间距 12px，区块间距 24px。页面左右安全边距 16px（手机）/ 24px（桌面）。</p>
+</section>
+
+<!-- ============ 06 批注系统 ============ -->
+<section id="s6" data-page-node-id="CQN32XwyEfVVQyqGIfP8wz">
+  <h2 class="sec serif" data-page-node-id="n4SwXb5qn2XiXLHKQkSfVX"><span class="no" data-page-node-id="lJ9NzAb0NBpqq4xEdsdQKX">06</span>批注系统重构（本次升级的核心）</h2>
+  <p class="lead" data-page-node-id="Ercw4OR4q0UjOlqENoueMA">谱面批注是产品灵魂（「在五线谱上点音符加批注」是 README 的主打功能），也是现在观感最差的部分。重构为<b style="color:var(--ink1)" data-page-node-id="894cHDt7d7hky4qDhRUl9Q">"一种颜色 + 三种笔触 + 文字标签"</b>：</p>
+  <table data-page-node-id="YhZBlek8cr2GnQ6nXzhPbM">
+    <tr data-page-node-id="ivRqCR3GFh3zBF1brBsCSj"><th style="width:130px" data-page-node-id="Sw4Pi36yndNF87QLCpyoPx">笔触</th><th data-page-node-id="QFeoLAN7k8GeX1ynA5qiRn">样式</th><th data-page-node-id="15yhaJRrTpU8QbxodIfwzP">语义</th></tr>
+    <tr data-page-node-id="8fAqmGaLPEOHkwy24IteDZ"><td data-page-node-id="QelNrQHza7V1R3Mf7H4bcv"><span class="ann" data-page-node-id="AxUhb2ozTmClzOvibBalpx">朱砂实线</span></td><td data-page-node-id="lnCtRQVWeiVd1LBhPYdt3U">朱砂 1.5px 实线描边 + <code data-page-node-id="EdLa5JzgVAJOjI0DYrGXac">#F7E8E3</code> 极浅底</td><td data-page-node-id="C0HJMIZEunAEWeBcf183LG">老师落笔的重点：重点 / 难点 / 轮音先慢——"这里要注意"</td></tr>
+    <tr data-page-node-id="ula6oK5FElLi40CUn79iEU"><td data-page-node-id="OyLo7VUfEgerFD5E53phJT"><span class="ann teal" data-page-node-id="cujCFWbosAjqx1BsreaSfO">黛青点线</span></td><td data-page-node-id="EJtYWmyMMqRXyGrXz9GcGc">黛青 1.5px 点状描边 + 无底</td><td data-page-node-id="wjvoFCSepwWDzaZ4m4iPjI">方法提示：慢练 / 分段 / 变速——"这里要这么练"</td></tr>
+    <tr data-page-node-id="qFLKZb7hSrRtuYMd24QTcZ"><td data-page-node-id="uhpaIjrg48G1sEbTIWwlSe"><span class="ann ink" data-page-node-id="Af5Z5evnV5LrQMF5q4orGS">墨色虚线</span></td><td data-page-node-id="67fHfz5eVF4VvDpiK6YKID">墨 1px 虚线 + 无底</td><td data-page-node-id="VVct9FJY2cYaxd7if0IX3o">结构标记：分句 / 乐段 / 竹法标记——"这里是这样划分的"</td></tr>
+  </table>
+  <div class="vs" data-page-node-id="8bqgWbJSvkyo4hmLHnhku2">
+    <div class="col old" data-page-node-id="788TNgThSGTh15DN9no1Vt">
+      <h4 data-page-node-id="JuLQOPgvsae6U5PiR87540">旧：6 色马卡龙 + 红点角标</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;padding:8px 0" data-page-node-id="2fPqvUNHJthNAIL53NNSng">
+        <span style="padding:6px 12px;border-radius:7px;font-size:15px;background:#fee2e2;box-shadow:inset 0 0 0 1.5px #f87171" data-page-node-id="APkyof534ar1emuhZMDIK7">5</span>
+        <span style="padding:6px 12px;border-radius:7px;font-size:15px;background:#ffedd5;box-shadow:inset 0 0 0 1.5px #fb923c" data-page-node-id="42PyA0nrcLnTOEghzxuMHP">6</span>
+        <span style="padding:6px 12px;border-radius:7px;font-size:15px;background:#dbeafe;box-shadow:inset 0 0 0 1.5px #60a5fa" data-page-node-id="eextwXXd8GzVfdx1XYiBr0">1</span>
+        <span style="padding:6px 12px;border-radius:7px;font-size:15px;background:#ede9fe;box-shadow:inset 0 0 0 1.5px #a78bfa" data-page-node-id="aTIIGEUQu5yDjexGKko0Ls">2</span>
+        <span style="padding:6px 12px;border-radius:7px;font-size:15px;background:#d1fae5;box-shadow:inset 0 0 0 1.5px #34d399" data-page-node-id="4jbL1INRGDREdJIRJPXlKy">3</span>
+        <span style="padding:6px 12px;border-radius:7px;font-size:15px;background:#fce7f3;box-shadow:inset 0 0 0 1.5px #f472b6" data-page-node-id="RegolLHSc3aQgeaKo1qEuv">5</span>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink3)" data-page-node-id="Mo2FsMKECyMWF8ihLkHZ7s">① 6 色暗示 6 个等级，家长会问"紫色是不是比蓝色严重"；② 与红线二（不做价值判断）隐性冲突——颜色多寡天然构成"严重度排序"；③ 彩底盖住谱线，谱面花。</p>
+    </div>
+    <div class="col" data-page-node-id="0ig0OGp5qSCo4ZFdcUlvMF">
+      <h4 data-page-node-id="daZvaPVuPCmKhPYgDDCAxi">新：朱砂一种颜色，笔触分语义</h4>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:8px 0" data-page-node-id="r71VGKPEuEeiEDWS2mjYrB">
+        <span style="position:relative;padding:7px 13px;border-radius:999px;font-size:15px;border:1.5px solid #B04A3A;background:#F7E8E3" data-page-node-id="EYxkDDif4rLmB3iyhp3ADR">5<span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:10px;color:#B04A3A;background:#fff;padding:0 5px;border-radius:999px;white-space:nowrap" data-page-node-id="eh9yLtKKnAcMt0Vkteibgh">轮音·先慢</span></span>
+        <span style="position:relative;padding:7px 13px;border-radius:999px;font-size:15px;border:1.5px dotted #2F5D62" data-page-node-id="C3gkhH8JAqd2tKRCt23AAs">6<span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:10px;color:#2F5D62;background:#fff;padding:0 5px;border-radius:999px;white-space:nowrap" data-page-node-id="O2qsuBz5FoCLHF8fA7fUb8">慢练×4</span></span>
+        <span style="position:relative;padding:7px 13px;border-radius:999px;font-size:15px;border:1px dashed #9B948A" data-page-node-id="mgzZmG228KDWrT9jNhFkLh">3<span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);font-size:10px;color:#6B655C;background:#fff;padding:0 5px;border-radius:999px;white-space:nowrap" data-page-node-id="fVuoWt6HE2POZlPmKXdIm9">分句</span></span>
+      </div>
+      <p style="font-size:12.5px;color:var(--ink3)" data-page-node-id="ivtr6qeHbL5DltiYVujs2O">① 单色 = 老师只是"落笔提醒"，没有好坏排序，与红线完全对齐；② 描边不遮谱线（底色透明或极浅）；③ 类型写在上方小标签里，9–10px 朱砂/墨色小字，孩子一眼看到"这里为什么被圈"。</p>
+    </div>
+  </div>
+  <div class="note" data-page-node-id="T0eesAGtLmMCG3S3pUSKoX"><b data-page-node-id="EsQHkwbLtS6T8hhIeNjwt1">落到孩子端的一句话体验：</b>旧版孩子看到彩虹底色，问"这些颜色什么意思"；新版孩子看到<b data-page-node-id="aJmtSJgE89m878W4gpmH2Y">朱砂圈</b>，直接明白"老师让我注意这几个音"。认知负担从"理解一套颜色系统"降为"找到唯一的红色"。</div>
+</section>
+
+<!-- ============ 07 Logo ============ -->
+<section id="s7" data-page-node-id="fSLQczIzXXkeDk2DvXgf1C">
+  <h2 class="sec serif" data-page-node-id="MnitfcQZeCYWsPjv0xkHFT"><span class="no" data-page-node-id="AFL1Fl8gn7mCCDUL3Z8jC5">07</span>Logo 与品牌符号</h2>
+  <p class="lead" data-page-node-id="B4KLSrx5UkEXZ4iPGMHfJ6">品牌符号只有母题：<b style="color:var(--ink1)" data-page-node-id="JmQlXbLSwUWGuNqBcBfpOx">击弦</b>——琴竹落下，朱砂音点在琴弦上亮起，声一圈圈散开。整个符号只用三种元素：<b data-page-node-id="aYDVQnMBqlrCB5FqGVFb6h">一道弦、一点朱砂、一支琴竹</b>，零滤镜、零纹理，干净得可以印在名片上。三个候选方向：</p>
+
+  <div class="mockrow" data-page-node-id="9X2lQXOUiOrqjbJYXBJVUD">
+    <div class="demo" style="text-align:center" data-page-node-id="mUCmKIRD9Ok5gIwQsv62h9">
+      <div class="demo-title" data-page-node-id="dNx88QGa29jJX73yhq5hJq">候选 L1 · 朱砂击弦（定稿推荐）</div>
+      <svg viewBox="0 0 280 220" width="100%" role="img" data-page-node-id="fkOIPdAmwVhkdmJ5Ff8NrO"><title>朱砂击弦 logo</title>
+        <defs data-page-node-id="7jCrjE3diH6XddBAMDRLB7"><radialGradient id="zg1" cx="40%" cy="34%" r="75%" data-page-node-id="1kszsdLxsH3IcMdATplB5v"><stop offset="0%" stop-color="#C4573F" data-page-node-id="OHvYdsaBP7kVzKnoiGHDWV"/><stop offset="55%" stop-color="#A63A2C" data-page-node-id="1yqNkyWyUo2XXb1xKeDyXE"/><stop offset="100%" stop-color="#8E3025" data-page-node-id="lQ9bPjxzLwTC6nUBDGX28F"/></radialGradient></defs>
+        <path d="M30 118 Q 140 108 250 118" stroke="#1C1A17" stroke-width="2.2" fill="none" opacity="0.8" data-page-node-id="grv9xQqatB3rNlPpgEJ7tz"/>
+        <circle cx="140" cy="113" r="44" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity="0.35" data-page-node-id="z2eMMyektjVMevsEtcMYzL"/>
+        <circle cx="140" cy="113" r="57" fill="none" stroke="#B04A3A" stroke-width="1" opacity="0.18" data-page-node-id="FsgbUpWQ9SKTLIrOpAAEA3"/>
+        <circle cx="140" cy="113" r="26" fill="url(#zg1)" data-page-node-id="ubZG6dtkrtJDb17pQSWhvz"/>
+        <circle cx="131" cy="104" r="6.5" fill="#D98A75" opacity="0.55" data-page-node-id="a3cTzel9sPFyI0ja1HH7m6"/>
+        <path d="M216 26 C 200 42, 186 60, 175 80 C 171 88, 168 96, 165.5 102 C 165 104, 166 105.5, 167.5 105 C 171.5 102, 176 95, 181 87 C 192 69, 205 47, 218 30 C 219 28, 218 24, 216 26 Z" fill="#1C1A17" data-page-node-id="6A3kGAle2PusrQ0c3X48S0"/>
+        <ellipse cx="160" cy="108" rx="4" ry="5.6" fill="#1C1A17" transform="rotate(-25 160 108)" data-page-node-id="lOyBfecAFaXwcnHaZIJksM"/>
+      </svg>
+      <div class="serif" style="font-size:22px;letter-spacing:9px;margin-top:8px" data-page-node-id="17ksI3jmTXfg2HoQ0ARkI3">余音</div>
+      <p style="font-size:12px;color:var(--ink3)" data-page-node-id="CaubBQLMjUtFHAEWw4XlVa">一道弧线琴弦 + 两圈涟漪环 + 径向渐变朱砂音点 + 填充纺锤形琴竹。一眼读出"击弦发声"：点在弦上，声在扩散。零滤镜全干净，48px / 24px 小尺寸实测清晰，是三者中唯一自带"琴"的叙事的。</p>
+    </div>
+    <div class="demo" style="text-align:center" data-page-node-id="dHWSSPhWPjxNo5k6I3NLlw">
+      <div class="demo-title" data-page-node-id="2KikeHQQ3toW9Wggq8PTQO">候选 L2 · 纯音点涟漪</div>
+      <svg viewBox="0 0 280 220" width="100%" role="img" data-page-node-id="Hh512VsI2F94tutbJGOrqG"><title>纯音点涟漪 logo</title>
+        <defs data-page-node-id="BDUnnEfvZNEW0HPjSWQEKN"><radialGradient id="zg3" cx="40%" cy="34%" r="75%" data-page-node-id="g60al3lUD0xxOG29gII8eD"><stop offset="0%" stop-color="#C4573F" data-page-node-id="i8Fe80fvWwDKNCwgUX4RkO"/><stop offset="55%" stop-color="#A63A2C" data-page-node-id="M7WQUgnKl3Ce65RDxxNSfM"/><stop offset="100%" stop-color="#8E3025" data-page-node-id="SFPRFyX4zy3wiYGOfMjOPH"/></radialGradient></defs>
+        <circle cx="140" cy="110" r="58" fill="none" stroke="#B04A3A" stroke-width="1.2" opacity="0.22" data-page-node-id="kTrW6NK32JSlW6Y4suqibt"/>
+        <circle cx="140" cy="110" r="46" fill="none" stroke="#B04A3A" stroke-width="1.6" opacity="0.4" data-page-node-id="ewv4ZlZ0Iqiw5uEJh5gNkG"/>
+        <circle cx="140" cy="110" r="30" fill="url(#zg3)" data-page-node-id="tEG1wDlTf1KPoYgBdLLGI2"/>
+        <circle cx="130" cy="100" r="7.5" fill="#D98A75" opacity="0.55" data-page-node-id="mXeSAxJyewlREo0fuaq0dQ"/>
+        <circle cx="140" cy="110" r="7" fill="#7E2B20" opacity="0.35" data-page-node-id="F5cDT324FkPk1euniOCvrA"/>
+      </svg>
+      <div class="serif" style="font-size:22px;letter-spacing:9px;margin-top:8px" data-page-node-id="XWKIYUq27izpB4EEtoK1E6">余音</div>
+      <p style="font-size:12px;color:var(--ink3)" data-page-node-id="DySbTP8DRDJiFAagiDaHHu">只有音点+涟漪，最抽象耐看，做 favicon、页脚水印、空状态装饰；24px 下仍是一个清晰的朱砂点。缺"琴"的叙事，需字标补位。</p>
+    </div>
+    <div class="demo" style="text-align:center" data-page-node-id="E3wzCXnwJHuBhDI4ZpNq2D">
+      <div class="demo-title" data-page-node-id="Q4JofB6kMMjQOnhN0UcZcA">候选 L3 · 纯字标</div>
+      <svg viewBox="0 0 200 140" width="100%" role="img" data-page-node-id="3QsqwXVYcJNaHjGZj6UqRk"><title>纯字标 logo</title>
+        <text x="100" y="72" text-anchor="middle" font-family="Songti SC,STSong,SimSun,serif" font-size="52" font-weight="500" fill="#1C1A17" letter-spacing="14" data-page-node-id="usitPnnv0i0iXgWxWGvGAF">余音</text>
+        <rect x="58" y="88" width="84" height="2" fill="#B04A3A" data-page-node-id="ynerqY2MggYXcHBhdElUUT"/>
+        <text x="100" y="112" text-anchor="middle" font-size="11" fill="#A19A8F" letter-spacing="3" data-page-node-id="ty216iV1Hhwg3f7LJ5q0a3">YU YIN · 民乐课后练习</text>
+      </svg>
+      <p style="font-size:12px;color:var(--ink3)" data-page-node-id="Ru6ypWBGVNwy00Qzzm8kgs">最克制：宋体「余音」+ 一道朱砂底线。极端耐看、不依赖图形；弱在缺可独立使用的图形符号。做顶栏与打印物料（任务卡页脚）。</p>
+    </div>
+  </div>
+  <div class="note" data-page-node-id="bA1Q2oOM73Zpn1h4hD4cHz"><b data-page-node-id="KaccASnJlqy27W2S5BHBHb">定稿组合：</b>L1 朱砂击弦做 App 图标 / 启动页 / 登录页主视觉；L2 纯音点涟漪做 favicon、水印与空状态装饰；L3 纯字标做顶栏与打印物料。三者共用朱砂主色与宋体，视觉同源。<b data-page-node-id="D99gTTK4V6lssTvv9rCzMX">工艺说明：</b>全部为零滤镜的干净矢量——音点用径向渐变模拟朱砂釉面（亮部 #C4573F → 暗部 #8E3025），琴竹用填充纺锤形路径（非描边线，有粗细起收），涟漪环是两圈细描边（透明度 0.35 / 0.18）。<b data-page-node-id="cGgXmvBkmWaY0BvFO4EtDp">暗底版：</b>朱砂整体提亮一档（#D9704F→#A63A2C），弦与琴竹换米白 #EDE6D8，已实测成立。<b data-page-node-id="HugPNEvVTm5IWmcG20JCvZ">顶栏替换方案：</b>删掉现在的 <code data-page-node-id="VYgnRECUGKpHAXfJ9nVEXO">.dot</code> 圆点和 ⚙ emoji，改为「L2 音点标 + 宋体余音」+ 同步状态降级为顶栏右上一枚 4px 灰点（只有异常时才变朱砂——正常状态不打扰）。</div>
+</section>
+
+<!-- ============ 08 界面示例 ============ -->
+<section id="s8" data-page-node-id="qnMV4JE6HkKuusa7nsTQJn">
+  <h2 class="sec serif" data-page-node-id="pmaZX63EqIV1WxLbZz35k2"><span class="no" data-page-node-id="fswd08SWs9ZNYYl8Ef2g2h">08</span>界面重设计示例</h2>
+  <p class="lead" data-page-node-id="NpDAkysAnXKC3uWUmmCIC9">四个核心界面按新 token 重排。手机框内即为 375px 宽的真实比例示意。</p>
+
+  <h3 data-page-node-id="ZHwfhCj3vrQxHAogk07JYG">8.1 孩子端 · 今日任务</h3>
+  <div class="mockrow" data-page-node-id="lG812CdmfSagOG1jp8OZPx">
+    <div class="phone" data-page-node-id="7WDTpgiMJR4oMD34LjPq3K"><div class="scr" data-page-node-id="AhYfnesdBQFUUKCzSunwut">
+      <div class="ph-top" data-page-node-id="iNxbd3juOCaUaXmfaMjpz8"><span class="t serif" data-page-node-id="PQ7EnvvKMB1jIooOHFQA85">今日任务</span><span class="tiny" data-page-node-id="HxnldIIkrqwNSEFEs754bd">余音</span></div>
+      <div class="ph-body" data-page-node-id="MNM0MG71GIN6fPksH2WCBV">
+        <div style="font-size:11.5px;color:var(--ink4);letter-spacing:2px;margin:4px 0 2px" data-page-node-id="mBmAOBJ1wHnK11fWf0sXTB">尹小璐 · 入门 1 个月</div>
+        <div class="taskcard" style="margin-top:8px" data-page-node-id="bBNA5MwIrB36udCny1EgIL">
+          <div class="rt serif" data-page-node-id="AmZuukjmqFw6PhpB6jVcSK">五声音阶练习</div>
+          <div class="meta" data-page-node-id="H5yQUVERa73KyFvIPmzqWC">D 调 · 60 BPM · 全曲 · 目标 3 遍 / 15 分钟</div>
+          <div class="goals" data-page-node-id="O9NyD0iX8TGG0s2mJaZs7b">
+            <div class="goal" data-page-node-id="20gE5ktNZDP7YFIEUGeOqX"><span class="dot" data-page-node-id="l01Dz8GAOwvU0plPEeiRL4"></span><span data-page-node-id="MK8lo1JKCOxlibsNsRX3rH"><b style="color:var(--ink1)" data-page-node-id="vRjUIoVf7Dbg4pfFIt3k9p">轮音 · 第1行第1音 · 先慢</b><br data-page-node-id="yJARfpc80j0JWtl3jbruT5"><span style="color:var(--ink3)" data-page-node-id="OuQXQytk6OUXL3l71sA0Hf">先单手慢练 4 遍，再加入下行</span></span></div>
+            <div class="goal" data-page-node-id="44sx7G966GEb16sZ9TJePk"><span class="dot" data-page-node-id="66F8yrurNYzz7td1g8hiAr"></span><span data-page-node-id="YIS9WNFoubGCJ8JBL2iefI"><b style="color:var(--ink1)" data-page-node-id="NAavw2MovtNVIeDUwEo4Ps">重点 · 第2行第4音</b><br data-page-node-id="g8GVMvN3zQshSrsxRrMVWO"><span style="color:var(--ink3)" data-page-node-id="FG92UjORCZa3XCcqm8QoG9">落点清楚，不抢拍</span></span></div>
+            <div class="goal" data-page-node-id="gcrJsFEbQAYXVgDDObXapk"><span class="dot" data-page-node-id="W8nHem8GdvkH3HisMVHTfv"></span><span data-page-node-id="SpSDHAxD5r91c0YJKthnHx"><b style="color:var(--ink1)" data-page-node-id="KTNBj6sDZP6qO143bLzBPR">全曲连贯</b><br data-page-node-id="vLVjeP94HmTPLIKNv8RHL9"><span style="color:var(--ink3)" data-page-node-id="MwKeCOak9vdcgrLgkWnmHB">60 BPM 连贯弹 3 遍</span></span></div>
+          </div>
+          <button class="btn pri block" style="width:100%;margin-top:14px" data-page-node-id="vnovDNoik3wilOzwn1OqB4">开始练习</button>
+          <div style="text-align:center;margin-top:8px" data-page-node-id="uFg7FkNViYTOPNHj2kN4gp"><span style="font-size:11px;color:var(--ink4)" data-page-node-id="v99DpkWrDJFYwktjAb8qtB">截止 09-15 · 老师留言：手腕放松</span></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="demo" style="align-self:start" data-page-node-id="6Yt8E3VlCQrQyTpjhXTtjr">
+      <div class="demo-title" data-page-node-id="FvgqnPYiYkz5PDZdXMAg2L">改动点</div>
+      <ul class="clean" data-page-node-id="Nisk5MCEDqQqpQpASEkgk0">
+        <li data-page-node-id="nLUgkoCc5gEmlQSoYNsCjG">曲目名用宋体 17px——任务卡像一张"曲目单"，不是一条待办</li>
+        <li data-page-node-id="0d5ZEwMTubCA6Dvbxz9r4M">微目标前的圆点用朱砂：= "老师圈出来的地方"，与谱面批注同一语言</li>
+        <li data-page-node-id="v8BbezMU8OKCwXOcvU9kCr">删掉旧版橙色的"记一遍"大按钮和 00:00 大数字的并排拥挤；计时数字改用 tabular-nums</li>
+        <li data-page-node-id="oEFA24GgcHdCXUF0MVSAXh">元信息（截止/留言）降到 11px 灰墨，信息层级：曲目 → 目标 → 行动 → 备注</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 data-page-node-id="NZZ6wCPdwsFfwlhoZGHLn3">8.2 老师端 · 回课驾驶舱（首屏卡片）</h3>
+  <div class="demo" data-page-node-id="mTQ2itMSAM5VNWM9qmQtwH">
+    <div class="demo-title" data-page-node-id="q8HSKXBAXfH6G7KK0W8UWj">桌面 1280px · 驾驶舱顶部</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" data-page-node-id="HBEt7KAE7oOygcfA03v37b">
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:18px;box-shadow:var(--sh1)" data-page-node-id="Rbv5d02mmhNshZt0TYYga9">
+        <div style="font-size:12px;color:var(--ink3)" data-page-node-id="iycGcREjMI1K4MAcsud98C">待回课</div>
+        <div class="num" style="font-size:30px;color:var(--accent);margin-top:2px" data-page-node-id="NEmqo6mgVyr5c4HQrKuNzo">2</div>
+        <div style="font-size:11.5px;color:var(--ink4);margin-top:2px" data-page-node-id="NLi2FoHeDH4uLnYrmBSQ30">尹小璐 · 林小雨</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:18px;box-shadow:var(--sh1)" data-page-node-id="jj3q7bdj6w90fpAHL21oG1">
+        <div style="font-size:12px;color:var(--ink3)" data-page-node-id="YVz5lHyNr5If4HNpuU6aNh">本周回课率</div>
+        <div class="num" style="font-size:30px;color:var(--ink1);margin-top:2px" data-page-node-id="UUAQIWu0tO5GRQedlPw1EI">78%</div>
+        <div style="font-size:11.5px;color:var(--ink4);margin-top:2px" data-page-node-id="VT2DkHNM36LorSijEO3nrR">上周 71% · 连续 3 周上升</div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:18px;box-shadow:var(--sh1)" data-page-node-id="49HiziUR93SECBPTOzKDwp">
+        <div style="font-size:12px;color:var(--ink3)" data-page-node-id="w2elLN4yrFYNwiGxoaSkqY">需要关注</div>
+        <div class="num" style="font-size:30px;color:var(--warn);margin-top:2px" data-page-node-id="sxPtmDY4Z3cwwexpOe9sON">1</div>
+        <div style="font-size:11.5px;color:var(--ink4);margin-top:2px" data-page-node-id="TgeBovO9jvoLCUiEe5SJD9">王思思 · 6 天未回课</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--sh1);overflow:hidden" data-page-node-id="6ocBGnD9vl3ws1a7gLjf2K">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--line2);display:flex;justify-content:space-between;align-items:center" data-page-node-id="8OYze6udOzDYqDIWww3PNd">
+        <span style="font-size:14px;font-weight:600" data-page-node-id="NEXYcdJ2j2n7BLy5Zc8CIL">待我批改</span><span class="tag" data-page-node-id="SOiy4cy4ovkyvl5jhsnULN">2 条</span>
+      </div>
+      <div style="padding:12px 16px;display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line2)" data-page-node-id="HmQVn8nc8vH5E1bhoIG5s8">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--stu-soft);color:var(--stu);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:none" data-page-node-id="AU0fdyYR9Ms2apOWEo1Jf1">璐</div>
+        <div style="flex:1" data-page-node-id="0PfoV8rYN1tUIKb2RFrjL4"><div style="font-size:14px;font-weight:600" data-page-node-id="YsLAPGsbCgtdXAwV0IuqEG">尹小璐 <span style="font-weight:400;color:var(--ink3);font-size:12px" data-page-node-id="kULhlbYBJIyLLbAxSgBfxR">· 五声音阶练习</span></div>
+        <div style="font-size:12px;color:var(--ink3)" data-page-node-id="cSu6E3BThWrmVKRlWCBvuS">练 2 遍 / 目标 3 遍 · 8 分钟 · 自评"有点难"</div></div>
+        <button class="btn sm pri" data-page-node-id="FcYYKj0MasugEgt3QUOQFH">批改</button>
+      </div>
+      <div style="padding:12px 16px;display:flex;gap:12px;align-items:center" data-page-node-id="G27F9Gq9CXNVPtpc63Q8jn">
+        <div style="width:36px;height:36px;border-radius:50%;background:var(--stu-soft);color:var(--stu);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex:none" data-page-node-id="uw0fnWbZGmwyw9VqcDBp6d">雨</div>
+        <div style="flex:1" data-page-node-id="5QVSJwfpX8WKE53wm0lZMx"><div style="font-size:14px;font-weight:600" data-page-node-id="gN7qmbHpCkOTvYOxXrtdoI">林小雨 <span style="font-weight:400;color:var(--ink3);font-size:12px" data-page-node-id="DkBHfXC7i5aW4FvJkfm4Va">· 小星星</span></div>
+        <div style="font-size:12px;color:var(--ink3)" data-page-node-id="0y2rh82Tmbze1Crk3JHKso">练满 3 遍 · 7 分钟 · 自评"还行"</div></div>
+        <button class="btn sm pri" data-page-node-id="XYJyOrP54f0eVmNjjfdy9h">批改</button>
+      </div>
+    </div>
+  </div>
+  <div class="note" data-page-node-id="eQvcWIHcDgUn6vIaW7MEAs"><b data-page-node-id="49r91XlkZK94NayB9vHKox">关键取舍：</b>三个统计卡不用彩色底、不加图标，数字本身（30px tabular-nums）就是视觉主角；"需要关注"用赭黄而非正红——它是提醒，不是报警。"待我批改"列表行高 60px、只留一条主信息，批量浏览不累。</div>
+
+  <h3 data-page-node-id="9d1npHnJ3HGTdo5P0nFVKx">8.3 孩子端 · 练习详情（谱面 + 批注）</h3>
+  <div class="demo" data-page-node-id="gwmNlUbPcuVCEonXlA8qHc">
+    <div class="demo-title" data-page-node-id="TJeQouHQDvqBhDlnGzZpCl">谱纸容器 #FDFCF9 · 墨色谱线 · 朱砂批注</div>
+    <div style="background:var(--card2);border:1px solid var(--line);border-radius:var(--r-md);padding:20px 16px;overflow-x:auto" data-page-node-id="JsgXwlGtb7U4TZA3SeSCSh">
+      <svg viewBox="0 0 640 190" width="640" role="img" data-page-node-id="lHlHpK3CANVAI7LcL5p6Gr"><title>新风格谱面批注示例</title>
+        <g stroke="#1C1A17" stroke-width="0.75" data-page-node-id="Xg5rN4GsXOpQ5EePdwUZxb">
+          <line x1="30" y1="50" x2="610" y2="50" data-page-node-id="CdEJimbzDTToJ8kLhm2sIM"/><line x1="30" y1="60" x2="610" y2="60" data-page-node-id="f45ljtyPLhms8o4X4uZeLn"/><line x1="30" y1="70" x2="610" y2="70" data-page-node-id="Q4o3gOYdOyGgtvlDtypI3n"/><line x1="30" y1="80" x2="610" y2="80" data-page-node-id="inAgz5UKUJGKyL6vcWu0qb"/><line x1="30" y1="90" x2="610" y2="90" data-page-node-id="hmsyCaD0smH1X9OFAbspHP"/>
+        </g>
+        <line x1="30" y1="50" x2="30" y2="90" stroke="#1C1A17" stroke-width="1.2" data-page-node-id="4h1WbswpuNsEEvtgQjfBfL"/>
+        <text x="44" y="76" font-size="24" fill="#1C1A17" font-family="serif" data-page-node-id="y39EIu1uRzvWRjwhuAQ4ig">𝄞</text>
+        <g fill="#1C1A17" stroke="#1C1A17" data-page-node-id="e7qaGKq0oG6JI4PgokFbE7">
+          <ellipse cx="130" cy="80" rx="6.5" ry="5" data-page-node-id="sg0FDaHkMaxKDDpnZ5jkjw"/><line x1="136.5" y1="80" x2="136.5" y2="48" stroke-width="1.2" data-page-node-id="CtQRKAcGTbfowzHoTTJ6J1"/>
+          <ellipse cx="180" cy="70" rx="6.5" ry="5" data-page-node-id="tw4gloHHie6kEAvQBjNFW4"/><line x1="186.5" y1="70" x2="186.5" y2="38" stroke-width="1.2" data-page-node-id="bcMdD4n87RVh9tVRQnoWpW"/>
+          <ellipse cx="230" cy="60" rx="6.5" ry="5" data-page-node-id="QemFo05plNC0RE59HZMNv7"/><line x1="236.5" y1="60" x2="236.5" y2="28" stroke-width="1.2" data-page-node-id="7jzO28HCSDLpzEoe80bm3L"/>
+          <ellipse cx="280" cy="65" rx="6.5" ry="5" data-page-node-id="kjf5G3wbiN2ewuVLLUTfMN"/><line x1="286.5" y1="65" x2="286.5" y2="33" stroke-width="1.2" data-page-node-id="WscvmEsLhSB9lz0QBJEBav"/>
+          <ellipse cx="330" cy="75" rx="6.5" ry="5" data-page-node-id="kM12S1grbiCNG6MKFnCgoZ"/><line x1="336.5" y1="75" x2="336.5" y2="43" stroke-width="1.2" data-page-node-id="26Spw1mOdEQpd2eowQSV5z"/>
+          <ellipse cx="380" cy="85" rx="6.5" ry="5" data-page-node-id="Dsnhq2q6JbCYVe2XCa357V"/><line x1="386.5" y1="85" x2="386.5" y2="53" stroke-width="1.2" data-page-node-id="SReop8tPKqZljBxXGl3g7f"/>
+          <ellipse cx="430" cy="80" rx="6.5" ry="5" data-page-node-id="c3DHqJw38XY7ZrrxzSZSVC"/><line x1="436.5" y1="80" x2="436.5" y2="48" stroke-width="1.2" data-page-node-id="qrVFKsvSw8CB6QAB7lHWtG"/>
+          <ellipse cx="480" cy="70" rx="6.5" ry="5" data-page-node-id="1iw4yo1hX5wiUTr0MjVyi3"/><line x1="486.5" y1="70" x2="486.5" y2="38" stroke-width="1.2" data-page-node-id="cuQmk8cAAXbeCbTFTIfH5l"/>
+        </g>
+        <ellipse cx="180" cy="70" rx="17" ry="21" fill="#F7E8E3" fill-opacity=".55" stroke="#B04A3A" stroke-width="1.5" data-page-node-id="Bvqnze1HHrfFJDPgATB2Xs"/>
+        <text x="180" y="34" text-anchor="middle" font-size="10.5" fill="#B04A3A" font-weight="600" data-page-node-id="KA9wzCLn0B98AHeVRdvHCH">轮音 · 先慢</text>
+        <ellipse cx="380" cy="85" rx="17" ry="21" fill="none" stroke="#2F5D62" stroke-width="1.5" stroke-dasharray="2 3" data-page-node-id="73FI5tABDMVWBx2ISQqXIP"/>
+        <text x="380" y="118" text-anchor="middle" font-size="10.5" fill="#2F5D62" font-weight="600" data-page-node-id="LHmUa7AVAdQr8a5Y01mZT5">慢练 ×4</text>
+        <line x1="255" y1="40" x2="255" y2="100" stroke="#6B655C" stroke-width="0.75" stroke-dasharray="4 3" data-page-node-id="zwykQleHWz0TYbgWNB44UF"/>
+        <text x="255" y="22" text-anchor="middle" font-size="10.5" fill="#6B655C" data-page-node-id="AyugZWkHQhJuFD6dLQQXQf">分句</text>
+        <g stroke="#1C1A17" stroke-width="0.75" opacity=".85" data-page-node-id="DIYkH8NKj9H4kHqwXoswtv">
+          <line x1="30" y1="148" x2="610" y2="148" data-page-node-id="YhUR4goDYKrl1V0eIHAx6O"/><line x1="30" y1="158" x2="610" y2="158" data-page-node-id="YHCU5dApvqcHjN3pthApzB"/><line x1="30" y1="168" x2="610" y2="168" data-page-node-id="09TIC5DmxWs3lWbyHPPpQn"/><line x1="30" y1="178" x2="610" y2="178" data-page-node-id="Mv0LCEBzX0ya6KN0KcNcTR"/>
+        </g>
+        <text x="320" y="163" text-anchor="middle" font-size="10.5" fill="#A19A8F" data-page-node-id="LsjkZOFNO9YNpa0NYiERKk">② 下行（未展开示例）</text>
+      </svg>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center;margin-top:14px;flex-wrap:wrap" data-page-node-id="D0bBxF1UW8BsDMtauAATH0">
+      <span class="tag red" data-page-node-id="ngQHjwOOuSDzb1n6v9uOS3">批注 = 朱砂实线</span><span class="tag teal" data-page-node-id="VGCpepbWUwhFgdx3fU9iwS">方法 = 黛青点线</span><span class="tag" data-page-node-id="u8OsFzPeib2wBRLAwGOvY5">结构 = 墨色虚线</span>
+      <span style="font-size:12.5px;color:var(--ink3)" data-page-node-id="5KHzopKALXEn3FUOLAbP8L">谱线 #1C1A17 · 0.75px，容器底 #FDFCF9（谱纸微黄），批注悬浮于谱线上而不遮盖音符</span>
+    </div>
+  </div>
+
+  <h3 data-page-node-id="v3aLzX8CcNrCD7tT4tPg1A">8.4 登录页</h3>
+  <div class="mockrow" data-page-node-id="gGRz1cPgQAfR1gMSqoWaZ3">
+    <div class="phone" data-page-node-id="sF9OfjVR8Mbdt5kgFE46x4"><div class="scr" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:480px;padding:28px" data-page-node-id="ooxWnrVmaH183lVwQWloWC">
+      <svg viewBox="0 0 280 190" width="170" role="img" data-page-node-id="6YT5BuZXuFcHMdAOsHapWf"><title>余音朱砂击弦 logo</title>
+        <defs data-page-node-id="61l6e3cXHqz68WHi4Kpvyl"><radialGradient id="zgLogin" cx="40%" cy="34%" r="75%" data-page-node-id="pyZvEtv5OnanQEDFLIbNCe"><stop offset="0%" stop-color="#C4573F" data-page-node-id="RzmMULkYClsqWubZz25G3F"/><stop offset="55%" stop-color="#A63A2C" data-page-node-id="MuDVoctk0NCxIsKIpm3MRX"/><stop offset="100%" stop-color="#8E3025" data-page-node-id="B2T94IOIt6rkDc1tYWziFh"/></radialGradient></defs>
+        <path d="M30 92 Q 140 82 250 92" stroke="#1C1A17" stroke-width="2.2" fill="none" opacity="0.8" data-page-node-id="bytGEHKK3YqRkBDOOnLJ36"/>
+        <circle cx="140" cy="87" r="44" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity="0.35" data-page-node-id="8vqzw3NeN38TMrDnStJ81P"/>
+        <circle cx="140" cy="87" r="57" fill="none" stroke="#B04A3A" stroke-width="1" opacity="0.18" data-page-node-id="K69NH2X9kR0kxI6cQUxqVN"/>
+        <circle cx="140" cy="87" r="26" fill="url(#zgLogin)" data-page-node-id="8N0jpxWA2ijh13TwcmRlDa"/>
+        <circle cx="131" cy="78" r="6.5" fill="#D98A75" opacity="0.55" data-page-node-id="0MvncSlrAAFmlk221a992F"/>
+        <path d="M216 0 C 200 16, 186 34, 175 54 C 171 62, 168 70, 165.5 76 C 165 78, 166 79.5, 167.5 79 C 171.5 76, 176 69, 181 61 C 192 43, 205 21, 218 4 C 219 2, 218 -2, 216 0 Z" fill="#1C1A17" data-page-node-id="jR0hKWdq8bFEMBaNUt40NH"/>
+        <ellipse cx="160" cy="82" rx="4" ry="5.6" fill="#1C1A17" transform="rotate(-25 160 82)" data-page-node-id="n71A3nJRNqT98ErLdZOSUH"/>
+      </svg>
+      <div class="serif" style="font-size:26px;letter-spacing:12px;margin-top:10px" data-page-node-id="0BMSX7f2wODwdQgxaEA07k">余音</div>
+      <div style="font-size:12px;color:var(--ink4);margin:8px 0 26px;letter-spacing:1px" data-page-node-id="BYW4ApiCbsl19H5Rx2OPk5">课结束了，声音还在</div>
+      <input placeholder="手机号" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:15px;outline:none;margin-bottom:12px" data-page-node-id="PNDdAdJCXUgldEFD5zoh1e">
+      <button class="btn pri block" style="width:100%" data-page-node-id="JUB1iztfjrned3trYR63bE">进入我的练习</button>
+      <div style="font-size:11px;color:var(--ink4);margin-top:16px" data-page-node-id="KGSfJMKoK1T7PGn2XYE2ub">首次使用？请向老师索取班级号</div>
+    </div></div>
+    <div class="demo" style="align-self:start" data-page-node-id="5aeCppYfcEEP9tMrGGGC0R">
+      <div class="demo-title" data-page-node-id="baDKybV2SuU8Y23d8KteoO">改动点</div>
+      <ul class="clean" data-page-node-id="jGxF000ooZs9Ut4H2brWJr">
+        <li data-page-node-id="t6rNFSlIeUzpMAZrb0OD78">涟漪 logo 静置居中 + slogan「课结束了，声音还在」——登录页是品牌的第一句话</li>
+        <li data-page-node-id="PQY9TP2TfOrinTxWDEZioB">整页只有 1 个输入框 + 1 个按钮，旧版顶栏/导航全部让位</li>
+        <li data-page-node-id="1tiCOAbpCulpFmHoxDDEM7">按钮用黛青（孩子端实际可用竹青），不用橙色</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 动效 ============ -->
+<section id="s9" data-page-node-id="F1QyYVJh3TFoLR7xGMkGLF">
+  <h2 class="sec serif" data-page-node-id="UzoLpJKSQEhaQV3VlBNicQ"><span class="no" data-page-node-id="NcUWmqfvcFGzfVsr0z4nEz">09</span>动效</h2>
+  <p class="lead" data-page-node-id="SN9PAoBZN52jkZLwX7AObH">动效只有一个母题，还是<b style="color:var(--ink1)" data-page-node-id="YvoXK3wsfPyF6FD70hUo16">击弦</b>。凡是"完成一个动作"，朱砂音点亮起、一圈涟漪向外扩散又归于平静；其余过渡 120–180ms 淡入淡出，不做弹跳、不做进度火苗。</p>
+  <div class="demo" data-page-node-id="OwMVtK41ahab34pvJzElsS">
+    <div class="demo-title" data-page-node-id="1dz8CICPxe2LRCvRBIusOV">完成微目标 / 点按批注音符的涟漪反馈（自动循环演示）</div>
+    <div class="ink-demo" data-page-node-id="aBGGNeBTj3ehtnjMgrBIuw">
+      <svg viewBox="0 0 170 170" role="img" data-page-node-id="soLA5tapcjOqp9O2E5bQll"><title>朱砂涟漪动效演示</title>
+        <defs data-page-node-id="DoKZVXQDKJOoKCHijvOdOG"><radialGradient id="zgFx" cx="40%" cy="34%" r="75%" data-page-node-id="8EUYuLXqBrGE3RkU5eajz7"><stop offset="0%" stop-color="#C4573F" data-page-node-id="PaYOAAGwM9KQJgGF7mWvpA"/><stop offset="55%" stop-color="#A63A2C" data-page-node-id="Vbi1ruXcd3XCGCIQZn0E8c"/><stop offset="100%" stop-color="#8E3025" data-page-node-id="QHP1tDvqhG8SVFHejETEBt"/></radialGradient></defs>
+        <circle class="fx-ring" cx="85" cy="85" r="30" fill="none" stroke="#B04A3A" stroke-width="2" data-page-node-id="2oZRhKh8Do32r5wb6gWeYV"/>
+        <circle class="fx-ring fx-ring2" cx="85" cy="85" r="30" fill="none" stroke="#B04A3A" stroke-width="1.4" data-page-node-id="nk0W1RcD6yZ0KS8uk3gz0r"/>
+        <circle cx="85" cy="85" r="18" fill="url(#zgFx)" data-page-node-id="V262yEauFjgMHS16wAyvSS"/>
+        <circle cx="78" cy="78" r="4.5" fill="#D98A75" opacity="0.55" data-page-node-id="i0sUjuOAuRpSd8lh1dmUT1"/>
+      </svg>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink3);text-align:center" data-page-node-id="Lq0Cmb86D2ICQyKUNjCfIP">完成微目标 / 点按批注音符：朱砂音点亮起，涟漪自音点向外扩散又消隐（2.6s 一轮）。动画仅 transform+opacity，且尊重 prefers-reduced-motion。</p>
+  </div>
+  <table data-page-node-id="5QjYfIRLxsEvl986OBhZUJ">
+    <tr data-page-node-id="GqrY3jrC2GYl4zypx1QOx1"><th data-page-node-id="RfKTYLOgTpaR7V4yckpAnc">场景</th><th data-page-node-id="PkPNkUdYrmCJMqAldeahth">动效</th><th data-page-node-id="8NSVBzwCDy9jPYjKzufl2W">时长</th></tr>
+    <tr data-page-node-id="e1FCelrwcmUjcFGhylI8d1"><td data-page-node-id="2f1LA3KvF4G36fRHkicH3W">完成一个微目标</td><td data-page-node-id="jz6W3G6zNEDGB4lUsVbgZL">朱砂涟漪一圈扩散 + 目标点变松烟绿实心</td><td data-page-node-id="t4tTKsEqlXLv6elJBWc98h">400ms，一次性</td></tr>
+    <tr data-page-node-id="nC9DHsM87957TpgLInwE17"><td data-page-node-id="3k0YdxDnceRmByldQG8Ru5">提交回课</td><td data-page-node-id="rskfKB1K14cSu8nRxsbL8J">整卡淡出 → toast「已交给老师」</td><td data-page-node-id="Ov1Cl1ieQ3LgxGHowp568y">180ms / 2s</td></tr>
+    <tr data-page-node-id="n38p3bBSl1csFpJ1pCqfbt"><td data-page-node-id="uLS5IUO5pDfcMqtGgf6a04">列表加载</td><td data-page-node-id="Xw386Pzs1Up8dd2lz29HEe">卡片 30ms 交错淡入（stagger）</td><td data-page-node-id="iZVHS3aPR8lOMCnvBnVnz4">≤300ms 总长</td></tr>
+    <tr data-page-node-id="MgZnYCXHlhzGPyK9nzB887"><td data-page-node-id="IeDBe2ICZsaOXflhtyWwEp">弹层</td><td data-page-node-id="EMqBVnfAU8nPYdvnTtr7Du">底部滑入 + 遮罩淡入</td><td data-page-node-id="NRvmAM2HptXCaFIDtk7HNh">220ms ease-out</td></tr>
+    <tr data-page-node-id="GPtkqo2rbNxM24KVeBURFb"><td data-page-node-id="IwojYanHGkQzk3AEEwZGt5">按下</td><td data-page-node-id="8pqDHVRFHTnecwDEto9HWs"><code data-page-node-id="9T6LMwD0JHvwICXntcfqHD">scale(.98)</code></td><td data-page-node-id="sXFMJMqFsn7DjLTyfWpBhI">80ms</td></tr>
+  </table>
+</section>
+
+<!-- ============ 10 红线自检 ============ -->
+<section id="s10" data-page-node-id="ii6azkrAi9MG39wbhSEAkF">
+  <h2 class="sec serif" data-page-node-id="7GfDC8bcqrCBQx7l9acxUr"><span class="no" data-page-node-id="YddlpwGIxncIstBZXk8912">10</span>红线自检</h2>
+  <p class="lead" data-page-node-id="8zkAHbVOMflBydPpBfkAwD">产品三条红线逐条对照新视觉——<b style="color:var(--ink1)" data-page-node-id="PjONSrFWdhnQUUIKHNHvG1">视觉本身就是红线的执行层</b>。</p>
+  <table data-page-node-id="x52ntCcFcY3fWg4WpxafoP">
+    <tr data-page-node-id="YdrcJdDfJqXX0DH7haGSYu"><th data-page-node-id="R6oPHYLrfoEdl1vaBrQWTp">红线</th><th data-page-node-id="Cx5BVxcv1YbBO0GMAsHa75">新视觉如何执行</th><th data-page-node-id="00yyOzIEkBAKDzajRXLekQ">状态</th></tr>
+    <tr data-page-node-id="7KoK022VZw7qDu4FK7sBw9"><td data-page-node-id="9hHOQ357V2P1qVMQac8q8T">① AI 只做事实判断，不做价值判断</td><td data-page-node-id="dr4Z8nTZrtx76BTEWOIE6h">批注单色化（朱砂），废除 6 色严重度暗示；驾驶舱不出现红色分数/星级；回课只显示"练了几遍/几分钟"事实</td><td class="pass" data-page-node-id="ap8psbcWYXwORuVQeooALH">通过</td></tr>
+    <tr data-page-node-id="RnQGp47pJ5pYx0ctJEt4cA"><td data-page-node-id="L3UsWaOPVWupxCQSZtjuJL">② 不排名、不竞技</td><td data-page-node-id="CrGt8YtnnR3locv1NnkXPD">无排行榜组件、无火焰/徽章/连胜；"本周回课率"只给老师本人看趋势，不跨学生比较</td><td class="pass" data-page-node-id="1mENjBJerdsAjy7f8NUydx">通过</td></tr>
+    <tr data-page-node-id="llJ0sQlAQNUgYz69GDnYIy"><td data-page-node-id="a1bKPbst7UqvaDd6dxO5Eo">③ 练琴中不打断</td><td data-page-node-id="Ab2iK1Am88TL4vOrZ070Uj">无弹窗型激励；涟漪反馈 400ms 一次性收敛；计时/节拍器区无闪烁动画</td><td class="pass" data-page-node-id="BUsdJlCOD4k6yHsAU5HFsM">通过</td></tr>
+    <tr data-page-node-id="fQ6E0nQeq9c8EEoK4NgRli"><td data-page-node-id="hSsl5bgj6dVG9xzsSjphqW">④（隐含）家长退出机制友好</td><td data-page-node-id="S2CdTvQHBmLNwCg5IW2iWK">任务卡信息层级把"目标与截止"讲清楚，无倒计时压迫感设计（截止时间只是灰色小字）</td><td class="pass" data-page-node-id="LVNcP64m5YJEdZaArpVmxY">通过</td></tr>
+  </table>
+</section>
+
+<!-- ============ 11 落地 ============ -->
+<section id="s11" data-page-node-id="NFZ5eqrslEk1A4kJ0UgohA">
+  <h2 class="sec serif" data-page-node-id="21PCZ9SAqShUNW92UlebxB"><span class="no" data-page-node-id="qx2qhtDDBo7D841tk0a3ui">11</span>落地路径与风险</h2>
+  <p class="lead" data-page-node-id="lRZA2zFYBN2G6Y22XjJGmj">全部改动收敛在 <code data-page-node-id="rAOvxcKUlWFMYzWtgPDCwH">public/index.html</code>（唯一源文件）的 CSS 层，按投入产出排序，可分四步独立上线、独立回滚：</p>
+  <table data-page-node-id="bIDEJ2GdALNFXzsDd8vK7Q">
+    <tr data-page-node-id="uq5FTtL1uyXKCirzZ4wyZK"><th style="width:56px" data-page-node-id="dHR69s7IaCOZB7jWYLkUfB">步骤</th><th data-page-node-id="Asua9Qb43C5YKaVBqSJQum">改动</th><th style="width:90px" data-page-node-id="8s5C2cqovVSuxh7xc0ErYJ">工作量</th><th style="width:110px" data-page-node-id="Zx4t3bxn5Ofzm28IBivTB5">观感提升</th></tr>
+    <tr data-page-node-id="CYBFbxlPEXEygp2vm87AP0"><td data-page-node-id="DhzhA3A1BOZ1YiYQuqT2dL">①</td><td data-page-node-id="GVwlcHYNGwoEIf9bUXtmxM">替换 <code data-page-node-id="sGxO0SgK9aCRP2DYNv0Gyo">:root</code> 全套 token（§03–05 的变量表整体换入），字体栈加宋体 display 类</td><td data-page-node-id="ASvqT1RPZXqho9C4dBbazG">约 30 分钟</td><td data-page-node-id="5ONHkKSIyec2exeQM50286"><b data-page-node-id="CjVTwj4sv6twt1bCxF6IE1">★★★★☆</b> 约 60% 观感</td></tr>
+    <tr data-page-node-id="JbqEog2nn08GFlPfFnGfmk"><td data-page-node-id="14MPING1ngT7eBRXf8H2NE">②</td><td data-page-node-id="H2sOojyngoTmI6b4BwuUiW">批注系统：删掉 <code data-page-node-id="ScnRWX0PEwZXsJy06alVUP">.note.m-*</code> 六色类，改为三笔触类（§06），批注标签改浮层小字</td><td data-page-node-id="7wxlj2R8N1PgielkuanQJJ">约 40 分钟</td><td data-page-node-id="8lXdtwkZ9XDM0GjKidJDmZ"><b data-page-node-id="DbJ5ZxIjAD3ZeKKFuAZlNa">★★★★☆</b> 谱面质感</td></tr>
+    <tr data-page-node-id="Yxp3KLwcFrZSk8rhOOG34v"><td data-page-node-id="9f88ALwbDVWqGLUIjzpujD">③</td><td data-page-node-id="Ns5jGDp3QOKDKlCbJDzEOI">顶栏与 logo：涟漪标 + 宋体字标，同步徽章降为灰点，⚙ 换线性 SVG 图标</td><td data-page-node-id="KRVlYuAvLxtnwxv35VAOqW">约 20 分钟</td><td data-page-node-id="THAoxzMpBBz0WvhivEUMA0">★★★☆☆</td></tr>
+    <tr data-page-node-id="WL4j8pc73HlVzLb7vnf3MP"><td data-page-node-id="KllsDSnorWiAja0dEEswbK">④</td><td data-page-node-id="qxBZlht6sPxzizRF98o2Pu">登录页 / 空状态 / 弹层圆角阴影分级 + 涟漪动效</td><td data-page-node-id="nxoqSU6RlRd4B5N2LArPBq">约 30 分钟</td><td data-page-node-id="5eyCAyZ3HiNekz0hnH3sWb">★★☆☆☆</td></tr>
+  </table>
+  <h3 data-page-node-id="36tJMHyAZzqVQaZvi0lTQF">风险与对策</h3>
+  <table data-page-node-id="OSYH0qT4sjRXv19WbLaRB3">
+    <tr data-page-node-id="Aj79KHGZSE0C22ODzrMZqj"><th data-page-node-id="aaGJOxtWBnT3e1YFFrUGRw">风险</th><th data-page-node-id="QmxsEsSCtyUkGqLduRDGV9">对策</th></tr>
+    <tr data-page-node-id="ZNXYyXr0HJLytdmGZdnkfi"><td data-page-node-id="BOl0hCfs4NDGGR82eudIEZ">Windows 无 Songti SC，宋体回退 SimSun 观感下降</td><td data-page-node-id="sylNdp1aFzma0q88qhGBXL">display 类配 <code data-page-node-id="36JXLZACXcP8M3ynzo2bGZ">font-weight:500–600</code>；后续可子集化引入思源宋体 SC（仅 Logo+标题两字重，体积可控在 ~1–2MB）</td></tr>
+    <tr data-page-node-id="eI5rCIvzU8GqWC1apgvY1k"><td data-page-node-id="iivPQdyxJOQwf7lwGsNFW0">宣纸底 #FAF8F4 在低亮度和差屏上偏灰黄</td><td data-page-node-id="hghCCBt4Qr1eCReURakC0g">保持与墨字对比度 ≥ 4.5:1 已验证；OLED 深色模式 v2 再议，本期不做</td></tr>
+    <tr data-page-node-id="IV5SJJ2BaswGbqM38knzFM"><td data-page-node-id="boQ1zE9uYbgVbysEsBi52b">单色批注后，老师想区分更多类型</td><td data-page-node-id="gR8xWFE0C0FEKQ0VspWkf8">类型由文字标签承载，可无限扩展（轮音/竹法/分句…）而不增加颜色；这恰是可扩展性与视觉纪律的平衡点</td></tr>
+    <tr data-page-node-id="tDggStaoQ3ubJh45Rh6DuZ"><td data-page-node-id="xw7stqydy8Udko4p4gQaOl">改 CSS 波及派生文件 teacher/student.html</td><td data-page-node-id="XxBSRHN115z5sBHdFT1X9u">只改 <code data-page-node-id="u7HyIcxnZY2pWe5SOMFOKD">index.html</code> 源文件，按既有流程用拆分脚本重新派生，禁止手改派生文件</td></tr>
+  </table>
+  <div class="note" data-page-node-id="ShzdXNxSTjl5xd4b1efWVz"><b data-page-node-id="jVeJ8JUyCCy2KFMiCFnCyE">建议节奏：</b>先做步骤①（只动变量，零逻辑风险），手机真机看一天；认可后再做②③④。全程在新分支 <code data-page-node-id="Y9HWCP8ucQwEM9e1XzIBFj">ui-v2</code> 上，旧版随时可回退。</div>
+
+  <footer data-page-node-id="OzUjVQjXrmcYNfcm2bANTN">
+    余音 · 视觉设计规范 v1.0 · 2026-09-09<br data-page-node-id="Cs9lgDHOl6XA5eMpb9oPwE">
+    本页即为新风格的完整示范（宣纸底 / 墨色文字 / 宋体标题 / 朱砂强调 / 单一击弦母题）。参考对象：Skoove（克制极简的器乐学习界面）、Flowkey（谱面+影像双栏）、週刊編集（全宋体排印）；游戏化激励型界面（Yousician / Simply Piano）因与三条红线冲突，明确不作为参照。
+  </footer>
+</main>
+</div>
+</div>
+
+<script>
+/* TOC 高亮 */
+(function(){
+  const links=[...document.querySelectorAll('#toc a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+  function onScroll(){
+    let i=0;const y=scrollY+120;
+    secs.forEach((s,k)=>{if(s&&s.offsetTop<=y)i=k});
+    links.forEach((a,k)=>a.classList.toggle('on',k===i));
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
