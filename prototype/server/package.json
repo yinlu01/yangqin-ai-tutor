@@ -1,0 +1,8 @@
+{
+  "name": "yangqin-ai-tutor-mvp",
+  "version": "0.1.0",
+  "description": "扬琴 AI 助教 MVP · 老师端/孩子端实时同步原型",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}
