@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>扬琴 AI 助教 · MVP 原型 v0.1</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#ffffff; --line:#e5e7eb; --line2:#eef0f3;
+  --text:#1f2328; --muted:#6b7280; --muted2:#9ca3af;
+  --brand:#c2410c; --brand-soft:#fff2e8; --brand-line:#f3c9a8;
+  --stu:#0d9488; --stu-soft:#e6fffb; --stu-line:#a7e8e0;
+  --ok:#15803d; --ok-soft:#eafbf0; --warn:#b45309; --warn-soft:#fff7e6;
+  --bad:#dc2626; --bad-soft:#fdecec; --info:#2563eb; --info-soft:#eaf1ff;
+  --pur:#7c3aed; --pur-soft:#f4efff;
+  --r:14px; --r-sm:9px;
+  --sh:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font-family:inherit;font-size:15px;color:inherit}
+button{cursor:pointer;border:none;background:none}
+.wrap{max-width:820px;margin:0 auto;padding:0 12px 96px}
+.hide{display:none !important}
+
+/* ---------- 顶栏 ---------- */
+.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:820px;margin:0 auto;padding:9px 12px;display:flex;align-items:center;gap:10px}
+.logo{font-weight:700;font-size:16px;letter-spacing:.3px;display:flex;align-items:center;gap:7px}
+.logo .dot{width:9px;height:9px;border-radius:50%;background:var(--brand)}
+.role-sw{display:flex;margin-left:auto;background:#eef0f3;border-radius:11px;padding:3px}
+.role-sw button{padding:6px 14px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.role-sw button.on{background:#fff;color:var(--brand);box-shadow:var(--sh)}
+.role-sw button.on.stu{color:var(--stu)}
+.iconbtn{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:17px;border:1px solid var(--line);background:#fff}
+
+/* ---------- 子导航 ---------- */
+.subnav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:52px;z-index:55}
+.subnav-in{max-width:820px;margin:0 auto;display:flex;overflow-x:auto;padding:0 6px}
+.subnav-in::-webkit-scrollbar{display:none}
+.subnav button{padding:11px 14px;font-size:14px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap}
+.subnav button.on{color:var(--brand);border-bottom-color:var(--brand)}
+.subnav.stu button.on{color:var(--stu);border-bottom-color:var(--stu)}
+
+/* ---------- 卡片 & 通用 ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-top:12px;box-shadow:var(--sh)}
+.card.tight{padding:12px}
+h1{font-size:19px;margin:0}
+h2{font-size:16px;margin:0 0 4px}
+h3{font-size:14.5px;margin:0 0 8px}
+.sec-title{display:flex;align-items:center;gap:8px;margin:18px 2px 2px;font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.5px}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+.tiny{font-size:11.5px}
+.row{display:flex;align-items:center;gap:8px}
+.row.wrap{flex-wrap:wrap}
+.spread{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grow{flex:1}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 14px;border-radius:10px;background:#fff;border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--text)}
+.btn:active{transform:scale(.98)}
+.btn.pri{background:var(--brand);color:#fff;border-color:var(--brand)}
+.btn.pri.stu{background:var(--stu);border-color:var(--stu)}
+.btn.ghost{background:#f7f8fa}
+.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn.xs{padding:4px 9px;font-size:12px;border-radius:8px}
+.btn.block{width:100%}
+.btn.danger{color:var(--bad);border-color:#f5c6c6;background:var(--bad-soft)}
+.btn:disabled{opacity:.45}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:999px;background:#f3f4f6;font-size:13px;color:#374151;border:1px solid transparent}
+.chip.sel{background:var(--brand-soft);color:var(--brand);border-color:var(--brand-line);font-weight:600}
+.chip.stu.sel{background:var(--stu-soft);color:var(--stu);border-color:var(--stu-line)}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:6px;font-size:11.5px;font-weight:600;background:#f3f4f6;color:#4b5563}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.tag.warn{background:var(--warn-soft);color:var(--warn)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)}
+.tag.info{background:var(--info-soft);color:var(--info)}
+.tag.pur{background:var(--pur-soft);color:var(--pur)}
+input[type=text],input[type=number],input[type=date],textarea,select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}
+textarea{resize:vertical;min-height:62px;line-height:1.55}
+input:focus,textarea:focus,select:focus{border-color:var(--brand-line)}
+label.fld{display:block;margin-bottom:10px}
+label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-weight:600}
+.empty{text-align:center;padding:34px 16px;color:var(--muted2);font-size:13.5px}
+.divider{height:1px;background:var(--line2);margin:12px 0}
+
+/* ---------- 谱面 ---------- */
+.score-box{background:#fffdf9;border:1px solid #f0e6d8;border-radius:12px;padding:12px 10px;overflow-x:auto}
+.media-box{margin-top:8px}
+.media-box video,.media-box audio{width:100%;border-radius:10px;display:block}
+.staff-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.staff-svg{display:block;max-width:none}
+.note-g.clickable{cursor:pointer}
+.note-g.clickable:hover ellipse{stroke:var(--brand);stroke-width:2.4}
+.line-lbl{font-size:11.5px;color:var(--muted);margin:8px 0 3px;font-weight:700}
+.line-lbl:first-child{margin-top:0}
+.nline{display:flex;flex-wrap:wrap;gap:2px;align-items:flex-end;padding:2px 0;border-bottom:1px dashed #eee}
+.nline:last-child{border-bottom:none}
+.note{position:relative;min-width:26px;padding:3px 2px 4px;text-align:center;border-radius:7px;font-family:"Songti SC","STSong",serif;font-size:16px;line-height:1.25;cursor:default;transition:.12s}
+.note .num{display:block}
+.note .oct{position:absolute;font-size:9px;line-height:1}
+.note .oct.up{top:-1px;left:50%;transform:translateX(-50%)}
+.note .oct.dn{bottom:8px;left:50%;transform:translateX(-50%)}
+.note .dur{display:block;height:3px;border-bottom:1.5px solid #9aa0a6;margin:2px auto 0;width:70%}
+.note .tech{display:block;font-size:9.5px;color:var(--pur);font-family:sans-serif;font-weight:700;line-height:1;height:11px}
+.note.clickable{cursor:pointer}
+.note.clickable:hover{background:#f3f4f6}
+.note.sel{outline:2px solid var(--brand);outline-offset:-2px}
+.note.dim{opacity:.35}
+.note.m-重点{background:#fee2e2;box-shadow:inset 0 0 0 1.5px #f87171}
+.note.m-难点{background:#ffedd5;box-shadow:inset 0 0 0 1.5px #fb923c}
+.note.m-慢练{background:#dbeafe;box-shadow:inset 0 0 0 1.5px #60a5fa}
+.note.m-轮音{background:#ede9fe;box-shadow:inset 0 0 0 1.5px #a78bfa}
+.note.m-竹法{background:#d1fae5;box-shadow:inset 0 0 0 1.5px #34d399}
+.note.m-分句{background:#fce7f3;box-shadow:inset 0 0 0 1.5px #f472b6}
+.note .mbadge{position:absolute;top:-6px;right:-4px;min-width:14px;height:14px;border-radius:50%;background:var(--brand);color:#fff;font-size:9px;line-height:14px;font-family:sans-serif;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.legend span{font-size:11px;padding:2px 7px;border-radius:6px;font-weight:600}
+
+/* ---------- 作业卡 ---------- */
+.hw{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:13px;margin-top:10px;box-shadow:var(--sh)}
+.hw .title{font-weight:700;font-size:15px}
+.hw .meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+.badge-new{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--bad);margin-left:6px;vertical-align:middle}
+.pbar{height:6px;border-radius:99px;background:#eef0f3;overflow:hidden;margin-top:8px}
+.pbar > i{display:block;height:100%;background:var(--stu);border-radius:99px;transition:.3s}
+
+/* ---------- 学生选择器 ---------- */
+.stu-pick{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 2px}
+.stu-pick::-webkit-scrollbar{display:none}
+.stu-av{flex:0 0 auto;width:58px;text-align:center}
+.stu-av .av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;margin:0 auto 4px;border:2.5px solid transparent}
+.stu-av.on .av{border-color:var(--stu)}
+.stu-av .nm{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stu-av.on .nm{color:var(--stu);font-weight:700}
+
+/* ---------- 弹层 ---------- */
+.mask{position:fixed;inset:0;background:rgba(17,24,39,.42);z-index:100;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#fff;width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-height:86vh;overflow:auto}
+.sheet h3{margin:0 0 10px}
+.sheet-actions{display:flex;gap:8px;margin-top:14px}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:rgba(31,35,40,.93);color:#fff;padding:9px 16px;border-radius:10px;font-size:13.5px;z-index:200;opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1;bottom:96px}
+
+/* ---------- 引导 ---------- */
+.intro{position:fixed;inset:0;background:rgba(17,24,39,.5);z-index:300;display:flex;align-items:center;justify-content:center;padding:18px}
+.intro-box{background:#fff;border-radius:16px;padding:20px;max-width:460px;max-height:86vh;overflow:auto}
+.intro-box ol{padding-left:20px;margin:10px 0}
+.intro-box li{margin:6px 0;font-size:13.5px}
+
+.sdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+#syncDot{white-space:nowrap}
+.foot{max-width:820px;margin:22px auto 0;padding:0 12px;color:var(--muted2);font-size:11.5px;line-height:1.7}
+kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:11px}
+
+/* ---- PRD 扩展包 v0.2 ---- */
+.mtrx{width:100%;border-collapse:collapse;font-size:13px}
+.mtrx th{text-align:left;padding:8px 10px;background:var(--bg2);color:var(--muted);font-weight:600;font-size:11.5px;border-bottom:1px solid var(--line)}
+.mtrx td{padding:9px 10px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.mtrx tr:last-child td{border-bottom:0}
+#printArea{display:none}
+@media print{
+  body>*:not(#printArea){display:none!important}
+  #printArea{display:block!important;position:static;padding:0 12mm;color:#000;background:#fff}
+  #printArea .wm{position:fixed;top:40%;left:20%;font-size:120px;color:rgba(0,0,0,.06);font-weight:800;transform:rotate(-25deg);pointer-events:none}
+  #printArea .staff-svg{max-width:100%}
+  @page{size:A4;margin:14mm}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar"><div class="topbar-in">
+  <div class="logo"><span class="dot" id="logoDot"></span><span>扬琴 AI 助教</span></div>
+  <span id="syncDot" class="tiny muted"></span><div class="role-sw">
+    <button id="btnTeacher" class="on">老师端</button>
+    <button id="btnStudent">孩子端</button>
+  </div>
+  <button class="iconbtn" id="btnMenu" title="数据与设置">⚙</button>
+</div></header>
+
+<nav class="subnav" id="navT"><div class="subnav-in">
+  <button data-tab="t-class" class="on">上课记录</button>
+  <button data-tab="t-review">回课驾驶舱</button>
+  <button data-tab="t-stu">学生档案</button>
+  <button data-tab="t-lib">谱库</button>
+</div></nav>
+
+<nav class="subnav stu hide" id="navS"><div class="subnav-in">
+  <button data-tab="s-task" class="on">今日任务</button>
+  <button data-tab="s-fb">我的回课</button>
+  <button data-tab="s-lib">谱库</button>
+</div></nav>
+
+<main class="wrap" id="app"></main>
+<div class="foot" id="foot"></div>
+
+<div class="toast" id="toast"></div>
+<div id="layer"></div>
+
+<script>
+/* =========================================================
+   扬琴 AI 助教 · MVP 原型 v0.1
+   单文件 / 无依赖 / 数据存 localStorage
+   ========================================================= */
+const VER='0.1', LSKEY='yangqin_mvp_v1', AUDIOKEY='yangqin_mvp_audio';
+/* ===== 在线同步层：http(s) 打开=多端实时同步；file:// 打开=单机离线模式 ===== */
+const ONLINE = location.protocol.indexOf('http')===0;
+let LASTSYNC=0, SYNCING=false, PENDING=false;
+async function api(path, body){
+  const r=await fetch(path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body||{})});
+  return r.json();
+}
+async function pull(silent){
+  if(!ONLINE)return;
+  if(SYNCING){PENDING=true;return}
+  SYNCING=true;
+  try{
+    const r=await fetch('/api/state',{cache:'no-store'}); const j=await r.json();
+    if(T.wiz){S.students=j.students;S.homework=j.homework;S.lessons=j.lessons;S.scores=j.scores}
+    else S=j;
+    if(!S.scores||!S.scores.length)S.scores=JSON.parse(JSON.stringify(SCORE_LIB));
+    LASTSYNC=Date.now();syncBadge();
+    if(!document.querySelector('#layer .mask'))render();
+  }catch(e){syncBadge(true)}finally{SYNCING=false; if(PENDING){PENDING=false;pull(silent)}}
+}
+function syncBadge(err){
+  const el=document.getElementById('syncDot'); if(!el)return;
+  if(!ONLINE){el.innerHTML='<span title="单机模式：数据只存在这台设备"><i class="sdot" style="background:#9ca3af"></i>单机</span>';return}
+  el.innerHTML=err?'<span title="连不上服务器，稍后会自动重试"><i class="sdot" style="background:#dc2626"></i>重连中</span>'
+    :'<span title="已与服务器同步"><i class="sdot" style="background:#15803d"></i>已同步 '+new Date(LASTSYNC).toTimeString().slice(0,5)+'</span>';
+}
+function blobToDataURL(blob){return new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})}
+
+/* ---------------- 1. 内置谱库（入门级） ---------------- */
+/* note: {n:'1'-'7' | '-'延音 | '0'休止, o:-1/0/1 八度, d:时值(1=四分), t:技法} */
+const N=(n,o=0,d=1,t='')=>({n,o,d,t});
+const SCORE_LIB=[
+ {id:'sc01',title:'五声音阶练习',cat:'基本功',key:'D 调',bpm:60,level:1,src:'自编练习曲',
+  tip:'手腕放松，每个音落点清楚，先单手再双手。',
+  lines:[
+   {name:'① 上行',notes:[N('1'),N('2'),N('3'),N('5'),N('6'),N('5'),N('3'),N('2'),N('1',0,2)]},
+   {name:'② 下行',notes:[N('6'),N('5'),N('3'),N('2'),N('1'),N('2'),N('3'),N('5'),N('1',0,2)]}
+  ]},
+ {id:'sc02',title:'轮音长音练习',cat:'基本功',key:'D 调',bpm:52,level:1,src:'自编练习曲',
+  tip:'左竹起、右竹跟，密度均匀；数拍子，不忽快忽慢。',
+  lines:[
+   {name:'① 长轮',notes:[N('1',0,4,'轮'),N('5',0,4,'轮')]},
+   {name:'② 换音轮',notes:[N('3',0,2,'轮'),N('5',0,2,'轮'),N('6',0,2,'轮'),N('5',0,2,'轮'),N('1',0,4,'轮')]}
+  ]},
+ {id:'sc03',title:'八度双音练习',cat:'基本功',key:'D 调',bpm:66,level:2,src:'自编练习曲',
+  tip:'两竹同时落，听"一个音"而不是"两个音"。',
+  lines:[
+   {name:'① 同音八度',notes:[N('1',0,1,'八度'),N('2',0,1,'八度'),N('3',0,1,'八度'),N('5',0,1,'八度'),N('6',0,2,'八度')]},
+   {name:'② 上行回落',notes:[N('6',0,1,'八度'),N('5',0,1,'八度'),N('3',0,1,'八度'),N('2',0,1,'八度'),N('1',0,2,'八度')]}
+  ]},
+ {id:'sc04',title:'琶音练习',cat:'基本功',key:'D 调',bpm:72,level:2,src:'自编练习曲',
+  tip:'由低到高依次弹出，手腕带，不要用手臂甩。',
+  lines:[
+   {name:'① 上行琶音',notes:[N('1',0,1,'琶'),N('3',0,1),N('5',0,1),N('6',0,1),N('1',1,2)]},
+   {name:'② 下行琶音',notes:[N('1',1,1,'琶'),N('6',0,1),N('5',0,1),N('3',0,1),N('1',0,2)]}
+  ]},
+ {id:'sc05',title:'小星星',cat:'入门曲目',key:'C 调',bpm:76,level:1,src:'儿歌',
+  tip:'第一行全用单竹交替，第二行注意 5→4 的换弦位置。',
+  lines:[
+   {name:'①',notes:[N('1'),N('1'),N('5'),N('5'),N('6'),N('6'),N('5',0,2)]},
+   {name:'②',notes:[N('4'),N('4'),N('3'),N('3'),N('2'),N('2'),N('1',0,2)]},
+   {name:'③',notes:[N('5'),N('5'),N('4'),N('4'),N('3'),N('3'),N('2',0,2)]},
+   {name:'④',notes:[N('5'),N('5'),N('4'),N('4'),N('3'),N('3'),N('2',0,2)]},
+   {name:'⑤',notes:[N('1'),N('1'),N('5'),N('5'),N('6'),N('6'),N('5',0,2)]},
+   {name:'⑥',notes:[N('4'),N('4'),N('3'),N('3'),N('2'),N('2'),N('1',0,2)]}
+  ]},
+ {id:'sc06',title:'两只老虎',cat:'入门曲目',key:'C 调',bpm:80,level:1,src:'儿歌',
+  tip:'第三行是八分音符，容易抢拍，跟着节拍器慢来。',
+  lines:[
+   {name:'①',notes:[N('1'),N('2'),N('3'),N('1'),N('1'),N('2'),N('3'),N('1')]},
+   {name:'②',notes:[N('3'),N('4'),N('5',0,2),N('3'),N('4'),N('5',0,2)]},
+   {name:'③',notes:[N('5',0,.5),N('6',0,.5),N('5',0,.5),N('4',0,.5),N('3'),N('1')]},
+   {name:'④',notes:[N('5',0,.5),N('6',0,.5),N('5',0,.5),N('4',0,.5),N('3'),N('1')]},
+   {name:'⑤',notes:[N('2'),N('5',-1),N('1',0,2),N('2'),N('5',-1),N('1',0,2)]}
+  ]},
+ {id:'sc07',title:'欢乐颂',cat:'入门曲目',key:'C 调',bpm:72,level:2,src:'贝多芬',
+  tip:'第 2、4 小节的附点要撑住，不要提前走。',
+  lines:[
+   {name:'①',notes:[N('3'),N('3'),N('4'),N('5'),N('5'),N('4'),N('3'),N('2')]},
+   {name:'②',notes:[N('1'),N('1'),N('2'),N('3'),N('3',0,1.5),N('2',0,.5),N('2',0,2)]},
+   {name:'③',notes:[N('3'),N('3'),N('4'),N('5'),N('5'),N('4'),N('3'),N('2')]},
+   {name:'④',notes:[N('1'),N('1'),N('2'),N('3'),N('2',0,1.5),N('1',0,.5),N('1',0,2)]}
+  ]},
+ {id:'sc08',title:'铃儿响叮当',cat:'入门曲目',key:'C 调',bpm:84,level:2,src:'美国歌曲',
+  tip:'第二行的 1、2 是高八度，注意换到高音区码位。',
+  lines:[
+   {name:'①',notes:[N('3'),N('3'),N('3',0,2),N('3'),N('3'),N('3',0,2)]},
+   {name:'②',notes:[N('3'),N('5'),N('1',1),N('2',1),N('3',0,4)]},
+   {name:'③',notes:[N('4'),N('4'),N('4',0,2),N('4'),N('3'),N('3'),N('3',0,2)]},
+   {name:'④',notes:[N('3'),N('2'),N('2'),N('3'),N('2',0,2),N('5',0,2)]}
+  ]},
+ {id:'sc09',title:'玛丽有只小羊羔',cat:'入门曲目',key:'C 调',bpm:78,level:1,src:'美国儿歌',
+  tip:'整曲只用 1-5，适合第一周；练熟后尝试背谱。',
+  lines:[
+   {name:'①',notes:[N('3'),N('2'),N('1'),N('2'),N('3'),N('3'),N('3',0,2)]},
+   {name:'②',notes:[N('2'),N('2'),N('2',0,2),N('3'),N('5'),N('5',0,2)]},
+   {name:'③',notes:[N('3'),N('2'),N('1'),N('2'),N('3'),N('3'),N('3'),N('3')]},
+   {name:'④',notes:[N('2'),N('2'),N('3'),N('2'),N('1',0,4)]}
+  ]},
+ {id:'sc10',title:'划船歌',cat:'入门曲目',key:'C 调',bpm:74,level:2,src:'英国儿歌',
+  tip:'第三、四行是八分音符轮唱感，双手要留空隙。',
+  lines:[
+   {name:'①',notes:[N('1'),N('1'),N('1'),N('2'),N('3',0,2)]},
+   {name:'②',notes:[N('3'),N('2'),N('3'),N('4'),N('5',0,2)]},
+   {name:'③',notes:[N('1',1,.5),N('1',1,.5),N('1',1,.5),N('5',0,.5),N('5',0,.5),N('5',0,.5)]},
+   {name:'④',notes:[N('3',0,.5),N('3',0,.5),N('3',0,.5),N('1',0,.5),N('1',0,.5),N('1',0,.5)]},
+   {name:'⑤',notes:[N('5'),N('4'),N('3'),N('2'),N('1',0,2)]}
+  ]},
+ {id:'sc11',title:'茉莉花（片段）',cat:'入门曲目',key:'D 调',bpm:66,level:3,src:'江苏民歌',
+  tip:'常见演奏版片段，请与所用教材核对；重点在分句与呼吸。',
+  lines:[
+   {name:'①',notes:[N('5'),N('5'),N('6'),N('5'),N('3'),N('5'),N('3'),N('2')]},
+   {name:'②',notes:[N('1',0,2),N('2'),N('3'),N('5'),N('3'),N('2'),N('1',0,2)]}
+  ]}
+];
+
+/* ---------------- 2. 常量字典 ---------------- */
+const MARK_TYPES=[
+ {k:'重点',c:'#dc2626',bg:'#fee2e2',d:'这周必须拿下'},
+ {k:'难点',c:'#ea580c',bg:'#ffedd5',d:'容易错，慢练'},
+ {k:'慢练',c:'#2563eb',bg:'#dbeafe',d:'先慢速再提速'},
+ {k:'轮音',c:'#7c3aed',bg:'#ede9fe',d:'轮音均匀度'},
+ {k:'竹法',c:'#059669',bg:'#d1fae5',d:'左右竹顺序'},
+ {k:'分句',c:'#db2777',bg:'#fce7f3',d:'换气与句读'}
+];
+const CRITERIA=['连贯不断','节奏稳','轮音均匀','音色干净','双音整齐','力度有变化','能背谱'];
+const QUICK_POINTS=['手型/手腕','竹法顺序','节奏稳定','轮音密度','换弦位置','音色','力度','分句呼吸','背谱'];
+const QUICK_REVIEW=['整体进步明显，继续保持！','轮音再均匀一点，跟着节拍器数拍。','这一句慢练 3 遍再提速。','换弦位置再确认一下，别碰到邻弦。','节奏稳住了，可以试着提速 5。','双音要同时落，听"一个音"。','下次课我们逐句过，先把这两小节拿下。'];
+const SELF_LEVELS=[{k:'很顺',c:'ok'},{k:'还行',c:'warn'},{k:'卡住',c:'bad'}];
+const JUDGES=[{k:'达标',c:'ok'},{k:'需改进',c:'warn'},{k:'不好判定',c:'info'}];
+
+/* ---------------- 3. 状态与存储 ---------------- */
+let S=null;
+const uid=p=>p+'_'+Math.random().toString(36).slice(2,8);
+const today=()=>new Date().toISOString().slice(0,10);
+const dayAdd=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byId=(a,id)=>a.find(x=>x.id===id);
+
+function seed(){
+  const st=[
+    {id:'stu_1',name:'林小雨',level:'入门 3 个月',color:'#c2410c',phone:'13800000001'},
+    {id:'stu_2',name:'陈乐乐',level:'入门 6 个月',color:'#0d9488',phone:'13800000002'},
+    {id:'stu_3',name:'王思思',level:'1 级备考',color:'#7c3aed',phone:'13800000003'}
+  ];
+  const l1={id:uid('lsn'),studentId:'stu_1',date:dayAdd(today(),-3),
+    pieces:[{scoreId:'sc05',focus:['连贯不断','节奏稳']}],
+    points:[{t:'竹法顺序',x:'第 3 行 5→4 换弦会碰邻弦，先慢练'},{t:'手型/手腕',x:'手腕有点僵，注意放松'}],
+    note:'整体完成度不错，小星星可以提速到 84。',createdAt:Date.now()};
+  const hw1={id:uid('hw'),studentId:'stu_1',lessonId:l1.id,scoreId:'sc05',title:'小星星 · 全曲巩固',
+    lines:[0,1,2,3,4,5],target:{repeats:3,minutes:15,bpm:76},criteria:['连贯不断','节奏稳'],
+    marks:[{i:0,li:0,type:'重点',note:'开头两音要干净'},{i:18,li:2,type:'难点',note:'5→4 换弦别碰邻弦'}],
+    due:dayAdd(today(),0),status:'submitted',
+    sub:{minutes:18,repeats:4,self:'还行',note:'第 3 行还是会卡一下',audioName:'',at:Date.now()-3600e3},
+    review:null,createdAt:Date.now()-3*86400e3};
+  const hw2={id:uid('hw'),studentId:'stu_2',lessonId:l1.id,scoreId:'sc09',title:'玛丽有只小羊羔 · 新曲',
+    lines:[0,1],target:{repeats:3,minutes:12,bpm:70},criteria:['连贯不断'],
+    marks:[{i:0,li:0,type:'慢练',note:'先 60 速度过一遍'}],
+    due:dayAdd(today(),1),status:'assigned',sub:null,review:null,createdAt:Date.now()-86400e3};
+  return {students:st,scores:SCORE_LIB.map(s=>JSON.parse(JSON.stringify(s))),
+    lessons:[l1],homework:[hw1,hw2],settings:{teacherName:'老师',firstRun:true},meta:{created:Date.now()}};
+}
+async function load(){
+  if(ONLINE){
+    try{
+      let r=await fetch('/api/state',{cache:'no-store'}); S=await r.json();
+      if(!S.students||!S.students.length){ await api('/api/reset',{mode:'demo'});
+        r=await fetch('/api/state',{cache:'no-store'}); S=await r.json(); }
+      if(!S.scores||!S.scores.length)S.scores=JSON.parse(JSON.stringify(SCORE_LIB));
+      LASTSYNC=Date.now(); return;
+    }catch(e){ console.warn('服务器连不上，降级为单机模式',e) }
+  }
+  try{const raw=localStorage.getItem(LSKEY);if(raw){S=JSON.parse(raw);if(!S.scores)S.scores=SCORE_LIB;return}}catch(e){}
+  S=seed();save();
+}
+function save(){try{localStorage.setItem(LSKEY,JSON.stringify(S))}catch(e){toast('保存失败：存储空间可能已满')}}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1900)}
+
+/* 录音：存 IndexedDB，避免 localStorage 容量爆掉 */
+const DB={db:null,
+ open(){return new Promise((res,rej)=>{
+   if(DB.db)return res(DB.db);
+   const r=indexedDB.open(AUDIOKEY,1);
+   r.onupgradeneeded=e=>{e.target.result.createObjectStore('audio')};
+   r.onsuccess=e=>{DB.db=e.target.result;res(DB.db)};r.onerror=()=>rej('idb error');
+ })},
+ async put(k,blob){const d=await DB.open();return new Promise((res,rej)=>{const t=d.transaction('audio','readwrite');t.objectStore('audio').put(blob,k);t.oncomplete=()=>res(true);t.onerror=rej})},
+ async get(k){try{const d=await DB.open();return await new Promise((res)=>{const t=d.transaction('audio','readonly');const q=t.objectStore('audio').get(k);q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null)})}catch(e){return null}},
+ async del(k){try{const d=await DB.open();const t=d.transaction('audio','readwrite');t.objectStore('audio').delete(k)}catch(e){}}
+};
+
+/* ---------------- 4. 五线谱渲染（自绘 SVG，零依赖） ---------------- */
+const PITCH_IDX={C:0,D:1,E:2,F:3,G:4,A:5,B:6};
+const KEY_ACC={'C 调':[],'D 调':['F#5','C#5'],'G 调':['F#5'],'F 调':['A#4']};
+function pitchStep(p){
+  if(!p||p==='R')return null;
+  const m=/^([A-G])(#|b)?(-?\d)$/.exec(p); if(!m)return 0;
+  return (parseInt(m[3])-4)*7+PITCH_IDX[m[1]];
+}
+const STAFF_TOP=44, STAFF_GAP=10;               /* 第五线 y=44 … 第一线 y=84 */
+function pitchY(p){const s=pitchStep(p);return 94-s*5}
+function keyAccY(p){const s=pitchStep(p);return 94-s*5}
+
+function renderScore(sc,opts){
+  opts=opts||{};
+  const lines=opts.lines, marks=opts.marks||[], clickable=!!opts.clickable;
+  let h='<div class="score-box">';
+  let gi=0;
+  sc.lines.forEach((ln,li)=>{
+    if(lines && lines.indexOf(li)<0)return;
+    const ns=ln.notes, W=Math.max(320, 108+ns.length*44), H=132;
+    h+='<div class="line-lbl">'+esc(ln.name)+'</div>';
+    h+='<div class="staff-scroll"><svg class="staff-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">';
+    for(let k=0;k<5;k++) h+='<line x1="0" y1="'+(STAFF_TOP+k*STAFF_GAP)+'" x2="'+W+'" y2="'+(STAFF_TOP+k*STAFF_GAP)+'" stroke="#9aa4b2" stroke-width="1"/>';
+    h+='<line x1="0" y1="'+STAFF_TOP+'" x2="0" y2="'+(STAFF_TOP+40)+'" stroke="#6b7280" stroke-width="2.4"/>';
+    h+='<text x="6" y="82" font-size="42" font-family="Bravura,Apple Symbols,Segoe UI Symbol,serif" fill="#1f2328">\uD834\uDD1E</text>';
+    (KEY_ACC[sc.key]||[]).forEach((a,i)=>{
+      h+='<text x="'+(46+i*13)+'" y="'+(keyAccY(a)+4)+'" font-size="19" font-family="serif" fill="#1f2328">\u266F</text>';
+    });
+    h+='<text x="'+(46+(KEY_ACC[sc.key]||[]).length*14)+'" y="62" font-size="17" font-weight="700" font-family="serif" fill="#1f2328">4</text>';
+    h+='<text x="'+(46+(KEY_ACC[sc.key]||[]).length*14)+'" y="82" font-size="17" font-weight="700" font-family="serif" fill="#1f2328">4</text>';
+    let x=100, beats=0;
+    ns.forEach((n,i)=>{
+      const mk=marks.filter(m=>m.li===li&&m.i===i)[0];
+      const cls='note-g'+(clickable?' clickable':'')+(mk?(' m-'+mk.type):'');
+      h+='<g class="'+cls+'" data-li="'+li+'" data-i="'+i+'" '+(clickable?'onclick="A.noteClick(this)"':'')
+        +' data-x="'+x+'">';
+      if(mk){
+        const t=MARK_TYPES.filter(t=>t.k===mk.type)[0]||{bg:'#eee',c:'#666'};
+        h+='<rect x="'+(x-15)+'" y="'+(STAFF_TOP-22)+'" width="30" height="84" rx="7" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.4"/>';
+      }
+      h+='<rect x="'+(x-16)+'" y="'+(STAFF_TOP-4)+'" width="32" height="48" fill="transparent"/>';
+      if(n.p==='R'){
+        h+='<path d="M '+(x-4)+' '+(58)+' q 6 4 0 9 q 4 5 8 9 q -3 5 -7 6 q 5 3 1 9" fill="none" stroke="#374151" stroke-width="2"/>';
+      }else{
+        const y=pitchY(n.p);
+        for(let ly=94; ly<=y; ly+=10) h+='<line x1="'+(x-11)+'" y1="'+ly+'" x2="'+(x+11)+'" y2="'+ly+'" stroke="#6b7280" stroke-width="1.2"/>';
+        for(let ly=34; ly>=y; ly-=10) h+='<line x1="'+(x-11)+'" y1="'+ly+'" x2="'+(x+11)+'" y2="'+ly+'" stroke="#6b7280" stroke-width="1.2"/>';
+        const full=(n.d>=2);
+        h+='<ellipse cx="'+x+'" cy="'+y+'" rx="6.4" ry="4.6" fill="'+(full?'#fff':'#1f2328')+'" stroke="#1f2328" stroke-width="1.6"/>';
+        if(full) h+='<ellipse cx="'+x+'" cy="'+y+'" rx="2.4" ry="1.7" fill="#1f2328" opacity="'+(n.d>=3.5?'.9':'0')+'"/>';
+        if(n.d<2){
+          const up=(y>=64), sx=up?x+5.8:x-5.8, ey=up?y-30:y+30;
+          h+='<line x1="'+sx+'" y1="'+y+'" x2="'+sx+'" y2="'+ey+'" stroke="#1f2328" stroke-width="1.6"/>';
+          if(n.d<=0.5) h+='<path d="M '+sx+' '+ey+' q 9 4 11 16" fill="none" stroke="#1f2328" stroke-width="2.2"/>';
+        }
+        if(n.t) h+='<text x="'+x+'" y="'+(y-26)+'" font-size="11" text-anchor="middle" fill="#7c3aed" font-weight="700">'+esc(n.t)+'</text>';
+      }
+      if(mk) h+='<circle cx="'+(x+13)+'" cy="'+(STAFF_TOP-14)+'" r="6.5" fill="'+(MARK_TYPES.filter(t=>t.k===mk.type)[0]||{c:'#666'}).c+'"/>'
+        +'<text x="'+(x+13)+'" y="'+(STAFF_TOP-11)+'" font-size="8.5" text-anchor="middle" fill="#fff" font-weight="700">'+esc(mk.type[0])+'</text>';
+      h+='</g>';
+      beats+=n.d||1;
+      x+=38+(n.d>1?14:0);
+      if(beats>=4){ beats=0; h+='<line x1="'+(x-14)+'" y1="'+STAFF_TOP+'" x2="'+(x-14)+'" y2="'+(STAFF_TOP+40)+'" stroke="#6b7280" stroke-width="1.4"/>'; }
+    });
+    h+='<line x1="'+(W-1)+'" y1="'+STAFF_TOP+'" x2="'+(W-1)+'" y2="'+(STAFF_TOP+40)+'" stroke="#6b7280" stroke-width="2.4"/>';
+    h+='</svg></div>';
+    gi++;
+  });
+  h+='</div>';
+  if(marks.length){
+    h+='<div class="legend">'+MARK_TYPES.map(t=>{
+      const c=marks.filter(m=>m.type===t.k).length;
+      return c?'<span style="background:'+t.bg+';color:'+t.c+'">'+t.k+' ×'+c+'</span>':'';
+    }).join('')+'</div>';
+  }
+  return h;
+}
+function markList(marks){
+  if(!marks||!marks.length)return '<div class="small muted">还没有标记。点谱面上的音符可以添加。</div>';
+  return marks.map((m,i)=>'<div class="row" style="gap:6px;margin:5px 0">'
+    +'<span class="tag" style="background:'+(MARK_TYPES.find(t=>t.k===m.type)||{bg:'#eee'}).bg+';color:'+(MARK_TYPES.find(t=>t.k===m.type)||{c:'#555'}).c+'">'+esc(m.type)+'</span>'
+    +'<span class="small grow">第'+(m.li+1)+'行第'+(m.i+1)+'音'+(m.note?' · '+esc(m.note):'')+'</span></div>').join('');
+}
+/* =========================================================
+   通用交互层
+   ========================================================= */
+function openSheet(html,onMount){
+  const L=document.getElementById('layer');
+  L.innerHTML='<div class="mask" id="mask"><div class="sheet">'+html+'</div></div>';
+  document.getElementById('mask').addEventListener('click',e=>{if(e.target.id==='mask')closeSheet()});
+  if(onMount)onMount(L);
+}
+function closeSheet(){
+  try{if(window._stopPx)window._stopPx()}catch(e){}
+  document.getElementById('layer').innerHTML='';
+}
+function confirmBox(title,msg,onOk){
+  openSheet('<h3>'+esc(title)+'</h3><div class="small muted">'+msg+'</div>'
+   +'<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
+   +'<button class="btn pri" id="cfmOk">确定</button></div>',()=>{
+     document.getElementById('cfmOk').onclick=()=>{closeSheet();onOk()}
+   });
+}
+
+/* =========================================================
+   老师端
+   ========================================================= */
+const T={tab:'t-class',wiz:null,cur:0,filter:'todo',selStu:'stu_1'};
+const A={};
+
+A.go=function(tab){T.tab=tab;render()};
+
+/* ---- 主渲染 ---- */
+function renderT(){
+  if(T.tab==='t-class')return viewClass();
+  if(T.tab==='t-review')return viewReview();
+  if(T.tab==='t-stu')return viewStudents();
+  return viewLib();
+}
+
+/* ---------- 上课记录（向导） ---------- */
+A.newLesson=function(){
+  var _s=(T.selStu&&byId(S.students,T.selStu))?T.selStu:(S.students[0]?S.students[0].id:'');
+  T.wiz={studentId:_s,date:today(),pieces:[],points:[],note:'',step:1};
+  T.cur=0;T.tab='t-class';render();
+};
+A.wizStep=function(n){
+  const w=T.wiz;
+  if(n===2&&!w.studentId)return toast('先选一个学生');
+  if(n===3&&!w.pieces.length)return toast('至少选一首曲子');
+  w.step=n;render();
+};
+A.pickLessonStu=function(id){T.wiz.studentId=id;render()};
+A.setDate=function(v){T.wiz.date=v};
+A.togglePiece=function(sid){
+  const w=T.wiz,i=w.pieces.findIndex(p=>p.scoreId===sid);
+  if(i>=0)w.pieces.splice(i,1);
+  else{const sc=byId(S.scores,sid);w.pieces.push({scoreId:sid,marks:[],lines:sc.lines.map((_,k)=>k),
+    target:{repeats:3,minutes:15,bpm:sc.bpm},criteria:['连贯不断','节奏稳'],note:''});}
+  render();
+};
+A.openPiece=function(i){T.cur=i;render()};
+A.togglePoint=function(t){
+  const w=T.wiz,i=w.points.indexOf(t);
+  i>=0?w.points.splice(i,1):w.points.push(t);render();
+};
+A.setNote=function(v){T.wiz.note=v};
+A.setPieceNote=function(v){T.wiz.pieces[T.cur].note=v};
+A.toggleLine=function(li){
+  const p=T.wiz.pieces[T.cur],i=p.lines.indexOf(li);
+  i>=0?p.lines.splice(i,1):p.lines.push(li);
+  p.lines.sort((a,b)=>a-b);render();
+};
+A.num=function(f,v){T.wiz.pieces[T.cur].target[f]=Math.max(1,parseInt(v||1)||1)};
+A.toggleCrit=function(c){
+  const p=T.wiz.pieces[T.cur],i=p.criteria.indexOf(c);
+  i>=0?p.criteria.splice(i,1):p.criteria.push(c);render();
+};
+
+/* 谱面音符点击 → 标记面板 */
+A.noteClick=function(el){
+  const li=+el.dataset.li,i=+el.dataset.i,p=T.wiz.pieces[T.cur];
+  const mk=p.marks.find(m=>m.li===li&&m.i===i);
+  const sc=byId(S.scores,p.scoreId);
+  const n=sc.lines[li].notes[i];
+  let h='<h3>标记 · 第'+(li+1)+'行第'+(i+1)+'音 <span class="muted small">（'+esc(n.n)+(n.t?' · '+esc(n.t):'')+'）</span></h3>';
+  h+=MARK_TYPES.map(t=>'<button class="chip" data-type="'+t.k+'" style="margin:3px;background:'+(mk&&mk.type===t.k?t.bg:'')+';color:'+(mk&&mk.type===t.k?t.c:'')+'" onclick="A.markPick(\''+t.k+'\')">'+t.k+'</button>').join('');
+  h+='<label class="fld" style="margin-top:12px"><span>要点说明（会推送给孩子）</span>'
+   +'<textarea id="mkNote" placeholder="例：这里 5→4 换弦别碰邻弦">'+esc(mk?mk.note:'')+'</textarea></label>';
+  h+='<div class="sheet-actions">'
+   +(mk?'<button class="btn danger" onclick="A.delMark('+li+','+i+')">删除标记</button>':'')
+   +'<button class="btn grow" onclick="closeSheet()">取消</button>'
+   +'<button class="btn pri" onclick="A.markSave('+li+','+i+')">保存</button></div>';
+  openSheet(h,()=>{
+    document.querySelectorAll('#layer .chip').forEach(b=>b.onclick=()=>{
+      document.querySelectorAll('#layer .chip').forEach(x=>{x.style.background='';x.style.color='';x.style.fontWeight=''});
+      const t=MARK_TYPES.find(y=>y.k===b.dataset.type);
+      b.style.background=t.bg;b.style.color=t.c;b.style.fontWeight='700';b.dataset.picked='1';
+    });
+    if(mk){const b=[...document.querySelectorAll('#layer .chip')].find(x=>x.dataset.type===mk.type);
+      if(b){b.style.background=MARK_TYPES.find(y=>y.k===mk.type).bg;b.style.color=MARK_TYPES.find(y=>y.k===mk.type).c}}
+  });
+};
+let _mkType=null;
+A.markPick=function(k){_mkType=k;toast('已选：'+k)};
+A.markSave=function(li,i){
+  const p=T.wiz.pieces[T.cur];
+  const picked=[...document.querySelectorAll('#layer .chip')].find(x=>x.dataset.picked==='1');
+  const type=(picked&&picked.dataset.type)||_mkType||(p.marks.find(m=>m.li===li&&m.i===i)||{}).type||'重点';
+  const note=(document.getElementById('mkNote')||{}).value||'';
+  _mkType=null;
+  const idx=p.marks.findIndex(m=>m.li===li&&m.i===i);
+  if(idx>=0){p.marks[idx].type=type;p.marks[idx].note=note}
+  else p.marks.push({li,i,type,note});
+  T.wiz.pieces[T.cur].marks.sort((a,b)=>a.li-b.li||a.i-b.i);
+  closeSheet();render();toast('已标记：'+type);
+};
+A.markDel=function(){
+  const el=document.querySelector('#layer .sheet');if(!el)return;
+  closeSheet();
+};
+A.delMark=function(li,i){
+  const p=T.wiz.pieces[T.cur];
+  p.marks=p.marks.filter(m=>!(m.li===li&&m.i===i));closeSheet();render();toast('已删除标记');
+};
+
+/* 保存课次 + 生成作业 */
+A.saveLesson=async function(){
+  const w=T.wiz;
+  if(!w.studentId)return toast('先选学生');
+  if(!w.pieces.length)return toast('至少要有一首曲子');
+  const lsn={id:uid('lsn'),studentId:w.studentId,date:w.date,
+    pieces:w.pieces.map(p=>({scoreId:p.scoreId,focus:p.criteria})),
+    points:[{t:w.points.join('、')||'课堂要点',x:w.note}],note:w.note,createdAt:Date.now()};
+  const hwList=w.pieces.map(p=>{
+    const sc=byId(S.scores,p.scoreId);
+    return {id:uid('hw'),studentId:w.studentId,lessonId:lsn.id,scoreId:p.scoreId,
+      title:sc.title+' · '+(p.lines.length===sc.lines.length?'全曲':'第'+p.lines.map(x=>x+1).join('/')+'行'),
+      lines:p.lines.slice(),target:{...p.target},criteria:p.criteria.slice(),
+      marks:p.marks.map(m=>({...m})),due:dayAdd(w.date,6),status:'assigned',
+      demoVideoId:p.demoVideoId||'',classAudioId:p.classAudioId||'',
+      sub:null,review:null,createdAt:Date.now()};
+  });
+  const st=byId(S.students,w.studentId);
+  T.wiz=null;T.tab='t-review';
+  if(ONLINE){
+    toast('正在发布…');
+    try{
+      await api('/api/lesson',{lesson:lsn,homework:hwList});
+      await pull(true); render();
+      toast('已发布 '+hwList.length+' 张任务卡 → '+st.name+'（学生端立即可见）');
+    }catch(e){ S.lessons.push(lsn); hwList.forEach(h=>S.homework.push(h)); save(); render();
+      toast('发布失败，已暂存本机'); }
+  }else{
+    S.lessons.push(lsn); hwList.forEach(h=>S.homework.push(h)); save(); render();
+    toast('已保存课次，并生成 '+hwList.length+' 张任务卡 → '+st.name);
+  }
+};
+
+function viewClass(){
+  const w=T.wiz;
+  if(!w){
+    const recent=S.lessons.slice().sort((a,b)=>b.createdAt-a.createdAt).slice(0,6);
+    return '<div class="card">'
+      +'<div class="spread"><div><h2>上课记录</h2><div class="small muted">一次课：选曲 → 谱面批注 → 布置作业，约 3 分钟</div></div></div>'
+      +'<div style="margin-top:12px"><button class="btn pri block" onclick="A.newLesson()">＋ 新建一次课</button></div>'
+      +'</div>'
+      +'<div class="sec-title">最近课次</div>'
+      +(recent.length?recent.map(l=>{
+        const st=byId(S.students,l.studentId)||{name:'—'};
+        const hws=S.homework.filter(h=>h.lessonId===l.id);
+        return '<div class="card tight"><div class="spread"><div><b>'+esc(st.name)+'</b>'
+          +'<span class="small muted"> · '+esc(l.date)+'</span></div>'
+          +'<span class="tag">'+hws.length+' 张任务卡</span></div>'
+          +'<div class="small muted" style="margin-top:6px">'+esc(l.pieces.map(p=>(byId(S.scores,p.scoreId)||{title:'?'}).title).join('、'))+'</div>'
+          +(l.points&&l.points[0]&&l.points[0].x?'<div class="small" style="margin-top:6px">📝 '+esc(l.points[0].x)+'</div>':'')
+          +'</div>';
+      }).join(''):'<div class="empty">还没有课次记录</div>');
+  }
+  const st=byId(S.students,w.studentId);
+  let h='<div class="card"><div class="spread"><h2>新建课次</h2><button class="btn xs" onclick="A.cancelWiz()">取消</button></div>'
+   +'<div class="row" style="margin-top:10px;gap:6px">'
+   +[1,2,3].map(n=>'<span class="tag '+(w.step===n?'info':(w.step>n?'ok':''))+'" style="flex:1;justify-content:center;padding:6px">'
+     +(w.step>n?'✓ ':'')+['','① 学生与日期','② 选曲目','③ 批注与作业'][n]+'</span>').join('')+'</div></div>';
+
+  if(w.step===1){
+    h+='<div class="card"><h3>选择学生</h3><div class="row wrap">'
+     +S.students.map(s=>'<button class="chip '+(s.id===w.studentId?'sel':'')+'" onclick="A.pickLessonStu(\''+s.id+'\')">'+esc(s.name)+'</button>').join('')
+     +'<button class="chip" onclick="A.addStudent()">＋ 新学生</button></div>'
+     +'<label class="fld" style="margin-top:12px"><span>上课日期</span><input type="date" value="'+w.date+'" onchange="A.setDate(this.value)"></label>'
+     +'<button class="btn pri block" onclick="A.wizStep(2)">下一步：选曲目 →</button></div>';
+  }
+  if(w.step===2){
+    h+='<div class="card"><h3>本节课的曲目 <span class="muted small">（可多选）</span></h3>'
+     +S.scores.map(sc=>{
+       const on=w.pieces.find(p=>p.scoreId===sc.id);
+       return '<div class="row" style="padding:9px 0;border-bottom:1px solid var(--line2)">'
+        +'<div class="grow"><b>'+esc(sc.title)+'</b> <span class="tag">'+esc(sc.cat)+'</span> <span class="tag">'+esc(sc.key)+'</span>'
+        +'<div class="tiny muted">'+esc(sc.tip||'')+'</div></div>'
+        +'<button class="btn sm '+(on?'pri':'')+'" onclick="A.togglePiece(\''+sc.id+'\')">'+(on?'已选 ✓':'选择')+'</button></div>';
+     }).join('')
+     +'<div class="row" style="margin-top:12px"><button class="btn grow" onclick="A.wizStep(1)">← 上一步</button>'
+     +'<button class="btn pri grow" onclick="A.wizStep(3)">下一步：批注 →</button></div></div>';
+  }
+  if(w.step===3){
+    const p=w.pieces[T.cur],sc=byId(S.scores,p.scoreId);
+    h+='<div class="card tight"><div class="row wrap" style="gap:6px">'
+     +w.pieces.map((x,k)=>'<button class="chip '+(k===T.cur?'sel':'')+'" onclick="A.openPiece('+k+')">'
+       +esc(byId(S.scores,x.scoreId).title)+(x.marks.length?' · '+x.marks.length+'⚑':'')+'</button>').join('')+'</div></div>';
+
+    h+='<div class="card"><div class="spread"><h2>'+esc(sc.title)+' <span class="small muted">'+esc(sc.key)+'</span></h2>'
+      +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">全谱</button></div>'
+      +'<div class="small muted" style="margin-bottom:8px">点谱面上的音符即可加标记（孩子端会看到高亮）</div>'
+      +renderScore(sc,{lines:p.lines,marks:p.marks,clickable:true})
+      +'<div class="legend">'+MARK_TYPES.map(t=>'<span style="background:'+t.bg+';color:'+t.c+'">'+t.k+'</span>').join('')+'</div>'
+      +'<div class="divider"></div><h3>本曲标记（'+p.marks.length+'）</h3>'+markList(p.marks)+'</div>';
+
+    h+='<div class="card"><h3>课堂录音 / 示范视频 <span class="muted small">（孩子端可回放）</span></h3>'
+     +'<div class="row wrap" style="gap:8px">'
+     +'<button class="btn sm" id="clsRecBtn" onclick="A.classRec()">'+(p.classAudioId?'🎙 重新录一段':'🎙 录一段学生课上弹的')+'</button>'
+     +'<button class="btn sm" onclick="A.pickVideo()">🎬 '+(p.demoVideoId?'更换示范视频':'上传示范视频')+'</button>'
+     +'</div>'
+     +mediaBlock(p,true)
+     +'<div class="tiny muted" style="margin-top:6px">录一段学生课上弹的，他回家可以照着听；上传你自己的示范，孩子在家能跟着看。</div></div>';
+
+    h+=goalsEditor();
+    h+='<div class="card"><h3>练习范围</h3><div class="row wrap">'
+     +sc.lines.map((ln,k)=>'<button class="chip '+(p.lines.includes(k)?'sel':'')+'" onclick="A.toggleLine('+k+')">'+esc(ln.name)+'</button>').join('')
+     +'</div>'
+     +'<div class="grid3" style="margin-top:12px">'
+     +'<label class="fld"><span>目标遍数</span><input type="number" value="'+p.target.repeats+'" onchange="A.num(\'repeats\',this.value)"></label>'
+     +'<label class="fld"><span>每日分钟</span><input type="number" value="'+p.target.minutes+'" onchange="A.num(\'minutes\',this.value)"></label>'
+     +'<label class="fld"><span>速度 BPM</span><input type="number" value="'+p.target.bpm+'" onchange="A.num(\'bpm\',this.value)"></label>'
+     +'</div>'
+     +'<h3>达标要求</h3><div class="row wrap">'
+     +CRITERIA.map(c=>'<button class="chip '+(p.criteria.includes(c)?'sel':'')+'" onclick="A.toggleCrit(\''+c+'\')">'+c+'</button>').join('')+'</div>'
+     +'<label class="fld" style="margin-top:10px"><span>给孩子的这句话（作业卡顶部显示）</span>'
+     +'<textarea placeholder="例：第 3 行 5→4 换弦慢练 3 遍再提速" onchange="A.setPieceNote(this.value)">'+esc(p.note)+'</textarea></label>'
+     +'</div>';
+
+    h+='<div class="card"><h3>本节课课堂要点</h3><div class="row wrap">'
+     +QUICK_POINTS.map(t=>'<button class="chip '+(w.points.includes(t)?'sel':'')+'" onclick="A.togglePoint(\''+t+'\')">'+t+'</button>').join('')+'</div>'
+     +'<label class="fld" style="margin-top:10px"><span>备注</span><textarea placeholder="手型、状态、家长反馈…" onchange="A.setNote(this.value)">'+esc(w.note)+'</textarea></label></div>';
+
+    h+='<div class="row" style="margin-top:12px"><button class="btn grow" onclick="A.wizStep(2)">← 上一步</button>'
+     +'<button class="btn pri grow" onclick="A.saveLesson()">保存并布置作业 ✓</button></div>';
+  }
+  return h;
+}
+A.cancelWiz=function(){T.wiz=null;render()};
+
+/* ---------- 课堂录音 / 示范视频 ---------- */
+async function uploadMedia(kind,blob){
+  const data=await blobToDataURL(blob);
+  return await api('/api/media',{kind:kind,data:data,type:blob.type||''});
+}
+let crec=null,cstream=null;
+A.classRec=function(){
+  const btn=document.getElementById('clsRecBtn');
+  if(crec&&crec.state==='recording'){crec.stop();return}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    toast('这个浏览器不支持录音');return;
+  }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(st=>{
+    cstream=st; crec=new MediaRecorder(st); const ch=[];
+    crec.ondataavailable=e=>{if(e.data.size)ch.push(e.data)};
+    crec.onstop=async()=>{
+      st.getTracks().forEach(t=>t.stop());
+      const blob=new Blob(ch,{type:crec.mimeType||'audio/webm'});
+      crec=null;
+      toast('正在上传录音…');
+      const r=await uploadMedia('audio',blob);
+      if(r.ok){T.wiz.pieces[T.cur].classAudioId=r.id;render();toast('课堂录音已保存，孩子端能听到')}
+      else toast('上传失败');
+    };
+    crec.start(); btn.textContent='■ 停止并保存'; btn.className='btn sm pri';
+    toast('录音中…最长 3 分钟');
+    setTimeout(()=>{if(crec&&crec.state==='recording')crec.stop()},180000);
+  }).catch(e=>toast('没打开麦克风：'+(e.message||'')));
+};
+A.pickVideo=function(){
+  const i=document.createElement('input'); i.type='file'; i.accept='video/*';
+  i.onchange=async()=>{
+    const f=i.files[0]; if(!f)return;
+    if(f.size>25*1024*1024)return toast('视频太大了（>25MB），请压缩或录短一点');
+    toast('正在上传示范视频…');
+    const r=await uploadMedia('video',f);
+    if(r.ok){T.wiz.pieces[T.cur].demoVideoId=r.id;render();toast('示范视频已上传，孩子端能回看')}
+    else toast('上传失败：'+(r.msg||''));
+  };
+  i.click();
+};
+A.delMedia=function(f){delete T.wiz.pieces[T.cur][f];render();toast('已移除')};
+function mediaBlock(o,editable){
+  if(!o)return '';
+  let h='';
+  if(o.demoVideoId) h+='<div class="media-box"><div class="tiny muted">老师的示范视频</div>'
+    +'<video controls playsinline src="/media/'+o.demoVideoId+'"></video>'
+    +(editable?'<button class="btn xs" onclick="A.delMedia(\'demoVideoId\')">删除视频</button>':'')+'</div>';
+  if(o.classAudioId) h+='<div class="media-box"><div class="tiny muted">课堂录音（课上弹的这段）</div>'
+    +'<audio controls src="/media/'+o.classAudioId+'"></audio>'
+    +(editable?'<button class="btn xs" onclick="A.delMedia(\'classAudioId\')">删除录音</button>':'')+'</div>';
+  return h;
+}
+
+/* ---------- 回课驾驶舱 ---------- */
+A.filter=function(f){T.filter=f;render()};
+function viewReview(){
+  const all=S.homework.slice().sort((a,b)=>(b.sub?b.sub.at:0)-(a.sub?a.sub.at:0));
+  const todo=all.filter(h=>h.status==='submitted'),
+        pend=all.filter(h=>h.status==='assigned'),
+        done=all.filter(h=>h.status==='reviewed');
+  const list=T.filter==='todo'?todo:T.filter==='pend'?pend:T.filter==='done'?done:all;
+  let h='<div class="card"><h2>回课驾驶舱</h2>'
+   +'<div class="grid3" style="margin-top:10px">'
+   +'<div class="card tight" style="margin:0;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--bad)">'+todo.length+'</div><div class="tiny muted">待回课</div></div>'
+   +'<div class="card tight" style="margin:0;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--muted)">'+pend.length+'</div><div class="tiny muted">未提交</div></div>'
+   +'<div class="card tight" style="margin:0;text-align:center"><div style="font-size:22px;font-weight:800;color:var(--ok)">'+done.length+'</div><div class="tiny muted">已回课</div></div>'
+   +'</div>'
+   +'<div class="row wrap" style="margin-top:12px;gap:6px">'
+   +[['all','全部 '+all.length],['todo','待回课 '+todo.length],['pend','未提交 '+pend.length],['done','已回课 '+done.length]]
+    .map(f=>'<button class="chip '+(T.filter===f[0]?'sel':'')+'" onclick="A.filter(\''+f[0]+'\')">'+f[1]+'</button>').join('')
+   +'</div></div>';
+  h+=list.length?list.map(hw=>cardHwTeacher(hw)).join(''):'<div class="empty">这个分类下暂时没有作业</div>';
+  return h;
+}
+function cardHwTeacher(hw){
+  const st=byId(S.students,hw.studentId)||{name:'—',color:'#999'};
+  const sc=byId(S.scores,hw.scoreId)||{title:'?'};
+  const s=hw.status==='submitted'?'<span class="tag bad">待回课</span>':hw.status==='reviewed'
+    ?'<span class="tag '+(hw.review&&hw.review.judge==='达标'?'ok':hw.review&&hw.review.judge==='需改进'?'warn':'info')+'">已回课 · '+esc(hw.review?hw.review.judge:'')+'</span>'
+    :'<span class="tag">未提交</span>';
+  return '<div class="hw"><div class="spread"><div><div class="title">'+esc(st.name)+' · '+esc(hw.title)+'</div>'
+   +'<div class="meta">'+esc(sc.key||'')+' · 目标 '+hw.target.repeats+' 遍 / '+hw.target.minutes+' 分钟 / '+hw.target.bpm+' BPM · 截止 '+esc(hw.due)+'</div></div>'+s+'</div>'
+   +(hw.sub?'<div class="row wrap" style="margin-top:8px;gap:6px">'
+      +'<span class="tag info">练了 '+hw.sub.minutes+' 分钟</span><span class="tag info">'+hw.sub.repeats+' 遍</span>'
+      +'<span class="tag '+((SELF_LEVELS.find(x=>x.k===hw.sub.self)||{}).c||'')+'">自评：'+esc(hw.sub.self)+'</span>'
+      +(hw.sub.audioId?'<span class="tag pur">🎙 有录音</span>':'')+'</div>'
+      +(hw.sub.note?'<div class="small" style="margin-top:6px">💬 '+esc(hw.sub.note)+'</div>':'')
+    :'<div class="small muted" style="margin-top:6px">还没提交</div>')
+   +'<div class="row" style="margin-top:10px;gap:8px">'
+   +'<button class="btn sm grow" onclick="A.openHw(\''+hw.id+'\')">查看任务卡</button>'
+   +(hw.status==='submitted'?'<button class="btn sm pri grow" onclick="A.openReview(\''+hw.id+'\')">去回课 →</button>':'')
+   +'</div></div>';
+}
+A.openHw=function(id){
+  const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId);
+  openSheet('<h3>'+esc(hw.title)+'</h3>'
+   +'<div class="small muted">'+esc(sc.key)+' · '+hw.lines.map(x=>x+1).join('/')+' 行 · 截止 '+esc(hw.due)+'</div>'
+   +(hw.criteria.length?'<div class="row wrap" style="margin:8px 0;gap:5px">'+hw.criteria.map(c=>'<span class="tag">'+c+'</span>').join('')+'</div>':'')
+   +renderScore(sc,{lines:hw.lines,marks:hw.marks})
+   +mediaBlock(hw,false)
+   +'<div class="divider"></div><h3>标记要点</h3>'+markList(hw.marks)
+   +'<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
+};
+A.openReview=function(id){
+  const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId),st=byId(S.students,hw.studentId);
+  const rv=hw.review||{judge:'',comment:'',checks:hw.marks.map(()=>true)};
+  window._rv={id,judge:rv.judge,checks:rv.checks.slice(),comment:rv.comment||''};
+  let h='<h3>回课 · '+esc(st.name)+' · '+esc(hw.title)+'</h3>';
+  if(hw.sub){
+    h+='<div class="row wrap" style="gap:6px;margin-bottom:8px">'
+     +'<span class="tag info">'+hw.sub.minutes+' 分钟</span><span class="tag info">'+hw.sub.repeats+' 遍</span>'
+     +'<span class="tag">自评 '+esc(hw.sub.self)+'</span></div>'
+     +(hw.sub.note?'<div class="card tight small">💬 '+esc(hw.sub.note)+'</div>':'')
+     +(hw.sub.audioId?'<div class="card tight"><div class="tiny muted" style="margin-bottom:5px">学生录音</div><audio id="rvAudio" controls style="width:100%"></audio></div>':'<div class="card tight small muted">本次没有录音</div>');
+  }
+  h+='<div class="divider"></div><h3>要点确认 <span class="muted small">（勾掉=做到）</span></h3>';
+  if(!hw.marks.length)h+='<div class="small muted">这张卡上没有谱面标记</div>';
+  hw.marks.forEach((m,i)=>{
+    h+='<div class="row" style="padding:6px 0;border-bottom:1px solid var(--line2)">'
+     +'<input type="checkbox" id="ck'+i+'" '+(window._rv.checks[i]?'checked':'')+' style="width:19px;height:19px" onchange="A.tickCheck('+i+',this.checked)">'
+     +'<span class="tag" style="background:'+(MARK_TYPES.find(t=>t.k===m.type)||{bg:'#eee'}).bg+';color:'+(MARK_TYPES.find(t=>t.k===m.type)||{c:'#555'}).c+'">'+esc(m.type)+'</span>'
+     +'<span class="small grow">第'+(m.li+1)+'行第'+(m.i+1)+'音'+(m.note?' · '+esc(m.note):'')+'</span></div>';
+  });
+  h+='<h3 style="margin-top:12px">判定 <span class="muted small">（三选一，允许"不好判定"）</span></h3><div class="row wrap" id="judgeRow">'
+   +JUDGES.map(j=>'<button class="chip" data-j="'+j.k+'" onclick="A.setJudge(\''+j.k+'\')">'+j.k+'</button>').join('')+'</div>';
+  h+='<h3 style="margin-top:12px">回课评语</h3><div class="row wrap">'
+   +QUICK_REVIEW.map(q=>'<button class="chip" onclick="A.addComment(\''+q.replace(/'/g,"")+'\')" style="font-size:12px">'+esc(q)+'</button>').join('')+'</div>'
+   +'<textarea id="rvText" style="margin-top:8px" placeholder="写给孩子的具体指令：下一句怎么做"></textarea>';
+  h+='<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">稍后</button>'
+   +'<button class="btn pri" onclick="A.saveReview()">保存回课</button></div>';
+  openSheet(h,async()=>{
+    document.getElementById('rvText').value=window._rv.comment;
+    A.setJudge(window._rv.judge||'达标');
+    if(hw.sub&&hw.sub.audioId){
+      const el=document.getElementById('rvAudio');
+      if(ONLINE){ if(el)el.src='/audio/'+hw.sub.audioId; }
+      else{
+        const b=await DB.get(hw.sub.audioId);
+        if(b&&el)el.src=URL.createObjectURL(b);
+        else if(el)el.insertAdjacentHTML('afterend','<div class="tiny muted">录音不在本机（请用导入功能接收）</div>');
+      }
+    }
+  });
+};
+A.tickCheck=function(i,v){window._rv.checks[i]=v};
+A.setJudge=function(k){
+  window._rv.judge=k;
+  document.querySelectorAll('#judgeRow .chip').forEach(b=>{
+    const on=b.dataset.j===k;b.className='chip'+(on?' sel':'');if(on)b.style.fontWeight='700';
+  });
+};
+A.addComment=function(q){
+  const t=document.getElementById('rvText');
+  t.value=(t.value?t.value.replace(/[；;]?$/,''):'')+(t.value?'；':'')+q;
+  t.focus();
+};
+A.saveReview=function(){
+  const hw=byId(S.homework,window._rv.id);
+  const c=(document.getElementById('rvText')||{}).value||'';
+  const rv={judge:window._rv.judge||'不好判定',comment:c,checks:window._rv.checks.slice(),at:Date.now()};
+  hw.review=rv;hw.status='reviewed';save();closeSheet();render();
+  if(ONLINE){ api('/api/review',{id:hw.id,review:rv}).then(()=>pull(true)).catch(()=>toast('回课未同步，请检查网络')); }
+  toast(rv.judge==='达标'?'已通过 ✓':'已保存回课');
+};
+
+/* ---------- 学生档案 ---------- */
+A.addStudent=function(){
+  openSheet('<h3>添加学生</h3>'
+   +'<label class="fld"><span>姓名</span><input type="text" id="nsName" placeholder="学生姓名"></label>'
+   +'<label class="fld"><span>程度</span><input type="text" id="nsLevel" placeholder="例：入门 3 个月 / 3 级备考"></label>'
+   +'<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
+   +'<button class="btn pri" onclick="A.saveStudent()">保存</button></div>');
+};
+A.saveStudent=function(){
+  const n=(document.getElementById('nsName').value||'').trim();
+  if(!n)return toast('请填姓名');
+  const id=uid('stu'), level=document.getElementById('nsLevel').value||'入门';
+  S.students.push({id,name:n,level:level,
+    color:['#c2410c','#0d9488','#7c3aed','#2563eb','#db2777','#65a30d'][S.students.length%6]});
+  save();closeSheet();render();toast('已添加 '+n);
+  if(ONLINE)api('/api/student',{name:n,level:level}).then(()=>pull(true)).catch(()=>toast('未同步到服务器'));
+};
+A.delStudent=function(id){
+  const st=byId(S.students,id);
+  confirmBox('删除学生','将同时删除 <b>'+esc(st.name)+'</b> 的课次与作业记录，不可恢复。',()=>{
+    S.students=S.students.filter(s=>s.id!==id);
+    S.homework=S.homework.filter(h=>h.studentId!==id);
+    S.lessons=S.lessons.filter(l=>l.studentId!==id);
+    save();render();
+    if(ONLINE)api('/api/student/delete',{id:id}).then(()=>pull(true)).catch(()=>{});
+  });
+};
+function viewStudents(){
+  let h='<div class="card"><div class="spread"><h2>学生档案</h2><button class="btn xs pri" onclick="A.addStudent()">＋ 添加</button></div></div>';
+  h+=S.students.map(st=>{
+    const hws=S.homework.filter(x=>x.studentId===st.id);
+    const sub=hws.filter(x=>x.sub).length;
+    const pass=hws.filter(x=>x.review&&x.review.judge==='达标').length;
+    return '<div class="card"><div class="spread">'
+     +'<div class="row"><div class="av" style="width:40px;height:40px;border-radius:50%;background:'+st.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">'+esc(st.name[0])+'</div>'
+     +'<div><b>'+esc(st.name)+'</b><div class="tiny muted">'+esc(st.level||'')+'</div></div></div>'
+     +'<button class="btn xs danger" onclick="A.delStudent(\''+st.id+'\')">删除</button></div>'
+     +'<div class="grid3" style="margin-top:10px">'
+     +'<div class="card tight" style="margin:0;text-align:center"><b>'+hws.length+'</b><div class="tiny muted">布置</div></div>'
+     +'<div class="card tight" style="margin:0;text-align:center"><b>'+sub+'</b><div class="tiny muted">提交</div></div>'
+     +'<div class="card tight" style="margin:0;text-align:center"><b>'+pass+'</b><div class="tiny muted">达标</div></div>'
+     +'</div>'
+     +'<div class="row" style="margin-top:10px;gap:8px">'
+     +'<button class="btn sm grow" onclick="A.quickHw(\''+st.id+'\')">直接布置作业</button>'
+     +'<button class="btn sm grow" onclick="A.stuHw(\''+st.id+'\')">作业记录</button></div>'
+     +'</div>';
+  }).join('');
+  return h;
+}
+A.stuHw=function(id){
+  const st=byId(S.students,id),list=S.homework.filter(h=>h.studentId===id).sort((a,b)=>b.createdAt-a.createdAt);
+  openSheet('<h3>'+esc(st.name)+' 的作业记录</h3>'
+   +(list.length?list.map(hw=>'<div class="card tight"><div class="spread"><b>'+esc(hw.title)+'</b>'
+     +'<span class="tag '+(hw.status==='reviewed'?'ok':hw.status==='submitted'?'bad':'')+'">'
+     +(hw.status==='reviewed'?'已回课':hw.status==='submitted'?'待回课':'未提交')+'</span></div>'
+     +'<div class="tiny muted">截止 '+esc(hw.due)+' · 目标 '+hw.target.repeats+' 遍</div>'
+     +(hw.review?'<div class="small" style="margin-top:5px">老师说：'+esc(hw.review.comment||'—')+'</div>':'')+'</div>').join('')
+    :'<div class="empty">还没有作业</div>')
+   +'<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
+};
+A.quickHw=function(sid){
+  T.wiz={studentId:sid,date:today(),pieces:[],points:[],note:'',step:2};T.cur=0;T.tab='t-class';render();
+  toast('选择曲目后继续');
+};
+
+/* ---------- 谱库（老师端） ---------- */
+A.previewScore=function(id){
+  const sc=byId(S.scores,id);
+  openSheet('<h3>'+esc(sc.title)+' <span class="small muted">'+esc(sc.key)+' · '+esc(sc.cat)+'</span></h3>'
+   +'<div class="tiny muted" style="margin-bottom:8px">'+esc(sc.tip||'')+'</div>'
+   +renderScore(sc)
+   +'<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
+};
+A.addScoreForm=function(){
+  openSheet('<h3>新增自编谱</h3>'
+   +'<div class="small muted">每行一句，音符用空格分隔。高八度写 <kbd>1\'</kbd>，低八度写 <kbd>1,</kbd>，八分音符写 <kbd>1/</kbd>，延音写 <kbd>-</kbd>，休止写 <kbd>0</kbd>。</div>'
+   +'<label class="fld" style="margin-top:10px"><span>曲名</span><input type="text" id="nsTitle" placeholder="例：三度双音练习"></label>'
+   +'<label class="fld"><span>简谱</span><textarea id="nsBody" rows="5" placeholder="1 2 3 5 6 5 3 2 1 -&#10;5 5 6 5 3 5 3 2 1 -"></textarea></label>'
+   +'<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
+   +'<button class="btn pri" onclick="A.saveScore()">保存</button></div>');
+};
+A.saveScore=function(){
+  const t=(document.getElementById('nsTitle').value||'').trim();
+  const body=(document.getElementById('nsBody').value||'').trim();
+  if(!t||!body)return toast('曲名和简谱都要填');
+  const lines=body.split(/\n+/).map((s,i)=>{
+    const notes=s.trim().split(/\s+/).filter(Boolean).map(tok=>{
+      let d=1,o=0,tt='';
+      if(tok.endsWith('/')){d=.5;tok=tok.slice(0,-1)}
+      if(tok.endsWith("'")){o=1;tok=tok.slice(0,-1)}
+      if(tok.endsWith(',')){o=-1;tok=tok.slice(0,-1)}
+      return {n:tok,o,d,t:tt};
+    });
+    return {name:'第'+(i+1)+'行',notes};
+  }).filter(l=>l.notes.length);
+  const id=uid('sc');
+  const sc={id,title:t,cat:'自编',key:'D 调',bpm:66,level:1,src:'老师自编',tip:'',lines};
+  S.scores.push(sc);save();closeSheet();render();toast('已加入谱库：'+t);
+  if(ONLINE)api('/api/score',{score:sc}).then(()=>pull(true)).catch(()=>toast('未同步到服务器'));
+};
+function viewLib(){
+  return '<div class="card"><div class="spread"><h2>谱库</h2><button class="btn xs pri" onclick="A.addScoreForm()">＋ 自编谱</button><button class="btn xs" onclick="A.importScore()">⌨ 粘贴成谱</button></div>'
+   +'<div class="small muted" style="margin-top:4px">共 '+S.scores.length+' 首 · 内置入门曲目与基本功练习，可在上课时直接调用并批注</div></div>'
+   +S.scores.map(sc=>'<div class="card tight"><div class="spread">'
+    +'<div><b>'+esc(sc.title)+'</b> <span class="tag">'+esc(sc.cat)+'</span> <span class="tag">'+esc(sc.key)+'</span>'
+    +'<div class="tiny muted">'+esc(sc.tip||'')+'</div></div>'
+    +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">查看</button></div></div>').join('');
+}
+/* =========================================================
+   孩子端
+   ========================================================= */
+const ST={tab:'s-task',id:'stu_1',px:null};
+const B={};
+B.go=function(t){ST.tab=t;render()};
+B.pick=function(id){ST.id=id;try{localStorage.setItem('yangqin_me',id)}catch(e){}render()};
+
+function viewS(){
+  if(ST.tab==='s-task')return viewTask();
+  if(ST.tab==='s-fb')return viewFeedback();
+  return viewLibStu();
+}
+function viewLibStu(){
+  return '<div class="card"><h2>我的谱子</h2><div class="small muted">老师布置过的曲子会出现在这里；灰色表示还没学过</div></div>'
+   +S.scores.map(sc=>{
+     const used=S.homework.some(h=>h.studentId===ST.id&&h.scoreId===sc.id);
+     return '<div class="card tight"><div class="spread"><div><b>'+esc(sc.title)+'</b> '
+      +(used?'<span class="tag ok">学过</span>':'<span class="tag">未学</span>')+' <span class="tag">'+esc(sc.key)+'</span></div>'
+      +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">看谱</button></div></div>';
+   }).join('');
+}
+function viewTask(){
+  const me=byId(S.students,ST.id)||S.students[0];
+  const list=S.homework.filter(h=>h.studentId===ST.id).sort((a,b)=>(a.status==='reviewed'?1:0)-(b.status==='reviewed'?1:0)||a.due.localeCompare(b.due));
+  let h='<div class="card"><div class="spread"><div><h2>'+esc(me.name)+' 的今日任务</h2>'
+   +'<div class="small muted">'+today()+' · 先慢后快，卡住的地方单独多练 3 遍</div></div>'
+   +'<div style="font-size:26px">🎼</div></div>';
+  const open=list.filter(x=>x.status!=='reviewed');
+  const rate=list.length?Math.round(list.filter(x=>x.sub).length/list.length*100):0;
+  h+='<div class="pbar"><i style="width:'+rate+'%"></i></div>'
+   +'<div class="tiny muted" style="margin-top:5px">本周完成度 '+rate+'%（共 '+list.length+' 张卡）</div></div>';
+  h+=open.length?open.map(hw=>cardHwStudent(hw)).join(''):'<div class="empty">今天没有新任务 🎉<br>可以复习一下学过的曲子</div>';
+  const done=list.filter(x=>x.status==='reviewed');
+  if(done.length)h+='<div class="sec-title">已经回课的</div>'+done.map(hw=>cardHwStudent(hw)).join('');
+  return h;
+}
+function cardHwStudent(hw){
+  const sc=byId(S.scores,hw.scoreId)||{title:'?',key:''};
+  const badge=hw.status==='reviewed'
+    ?'<span class="tag '+(hw.review&&hw.review.judge==='达标'?'ok':hw.review&&hw.review.judge==='需改进'?'warn':'info')+'">'+esc(hw.review?hw.review.judge:'')+'</span>'
+    :hw.status==='submitted'?'<span class="tag info">已提交 · 等老师</span>':'<span class="tag warn">待完成</span>';
+  return '<div class="hw"><div class="spread"><div><div class="title">'+esc(hw.title)+'</div>'
+   +'<div class="meta">'+esc(sc.key)+' · '+hw.target.repeats+' 遍 / '+hw.target.minutes+' 分钟 / '+hw.target.bpm+' BPM · 截止 '+esc(hw.due)+'</div></div>'+badge+'</div>'
+   +((hw.demoVideoId||hw.classAudioId)?'<div class="row wrap" style="margin-top:8px;gap:5px">'
+      +(hw.demoVideoId?'<span class="tag pur">🎬 老师示范</span>':'')
+      +(hw.classAudioId?'<span class="tag info">🎧 课堂录音</span>':'')+'</div>':'')
+   +(hw.marks.length?'<div class="row wrap" style="margin-top:8px;gap:5px">'
+      +COUNT_MARKS(hw.marks).map(m=>'<span class="tag" style="background:'+m.bg+';color:'+m.c+'">'+m.k+' ×'+m.n+'</span>').join('')+'</div>':'')
+   +'<div class="row" style="margin-top:10px;gap:8px">'
+   +'<button class="btn sm grow" onclick="B.openCard(\''+hw.id+'\')">看谱与要点</button>'
+   +(hw.status==='assigned'?'<button class="btn sm pri grow" onclick="B.practice(\''+hw.id+'\')">开始练习 ▶</button>':'')
+   +(hw.status==='submitted'?'<button class="btn sm grow" onclick="B.openCard(\''+hw.id+'\')">等老师回课</button>':'')
+   +'</div></div>';
+}
+function COUNT_MARKS(marks){
+  return MARK_TYPES.map(t=>({k:t.k,bg:t.bg,c:t.c,n:marks.filter(m=>m.type===t.k).length})).filter(x=>x.n);
+}
+B.openCard=function(id){
+  const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId);
+  openSheet('<h3>'+esc(hw.title)+'</h3>'
+   +'<div class="small muted">'+esc(sc.key)+' · 练第 '+hw.lines.map(x=>x+1).join('/')+' 行</div>'
+   +mediaBlock(hw,false)
+   +(hw.criteria.length?'<div class="row wrap" style="margin:8px 0;gap:5px"><span class="tiny muted">老师要求：</span>'+hw.criteria.map(c=>'<span class="tag">'+c+'</span>').join('')+'</div>':'')
+   +renderScore(sc,{lines:hw.lines,marks:hw.marks})
+   +'<div class="divider"></div><h3>老师划的重点</h3>'+markList(hw.marks)
+   +(hw.status==='assigned'?'<button class="btn pri block" style="margin-top:12px" onclick="closeSheet();B.practice(\''+hw.id+'\')">开始练习 ▶</button>':'')
+   +'<div class="sheet-actions"><button class="btn block" onclick="closeSheet()">关闭</button></div>');
+};
+
+/* ---------- 练习器 ---------- */
+let metro=null,timer=null,rec=null,recChunks=[],recStream=null,paused=false;
+function beep(strong){
+  try{
+    const C=window._ac||(window._ac=new (window.AudioContext||window.webkitAudioContext)());
+    const o=C.createOscillator(),g=C.createGain();
+    o.frequency.value=strong?1200:820;o.connect(g);g.connect(C.destination);
+    g.gain.setValueAtTime(.0001,C.currentTime);
+    g.gain.exponentialRampToValueAtTime(.35,C.currentTime+.01);
+    g.gain.exponentialRampToValueAtTime(.0001,C.currentTime+.07);
+    o.start();o.stop(C.currentTime+.09);
+  }catch(e){}
+}
+function metroStop(){if(metro){clearInterval(metro);metro=null}const b=document.getElementById('mBtn');if(b){b.textContent='▶ 节拍器';b.className='btn sm'}}
+function metroToggle(){
+  const b=document.getElementById('mBtn');
+  if(metro){metroStop();return}
+  const bpm=+document.getElementById('pBpm').value||60;
+  let k=0;
+  metro=setInterval(()=>{beep(k%4===0);k++},Math.round(60000/bpm));
+  b.textContent='■ 停止';b.className='btn sm pri';
+}
+function timerTick(){
+  const px=ST.px;if(!px||paused)return;
+  px.sec++;
+  const m=Math.floor(px.sec/60),s=px.sec%60;
+  const el=document.getElementById('pTime');if(el)el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function timerToggle(){
+  const b=document.getElementById('tBtn');
+  if(timer){clearInterval(timer);timer=null;paused=true;b.textContent='▶ 继续';b.className='btn sm pri';return}
+  timer=setInterval(timerTick,1000);paused=false;b.textContent='⏸ 暂停';b.className='btn sm';
+}
+function stopPx(){metroStop();if(timer){clearInterval(timer);timer=null}
+  if(rec&&rec.state==='recording')rec.stop();
+  if(recStream)recStream.getTracks().forEach(t=>t.stop());
+  rec=null;recStream=null;ST.px=null;}
+window._stopPx=stopPx;
+
+B.practice=function(id){
+  const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId);
+  ST.px={id,sec:0,repeats:0,audioId:null,audioBlob:null};paused=true;
+  let h='<h3>'+esc(hw.title)+'</h3>'
+   +'<div class="small muted">目标 '+hw.target.repeats+' 遍 / '+hw.target.minutes+' 分钟 / '+hw.target.bpm+' BPM</div>'
+   +mediaBlock(hw,false)
+   +renderScore(sc,{lines:hw.lines,marks:hw.marks})
+   +'<div class="card tight" style="margin-top:10px"><h3>老师划的重点</h3>'+markList(hw.marks)+'</div>'
+   +'<div class="card tight" style="margin-top:10px"><div class="spread">'
+     +'<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:24px;font-weight:800">00:00</div></div>'
+     +'<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:24px;font-weight:800">0</div></div>'
+     +'<button class="btn pri" onclick="B.addRep()">＋ 记一遍</button></div></div>'
+   +'<div class="card tight" style="margin-top:10px"><div class="row" style="gap:8px">'
+     +'<button class="btn sm pri" id="tBtn" onclick="timerToggle()">▶ 开始计时</button>'
+     +'<div class="row" style="gap:4px"><input type="number" id="pBpm" value="'+hw.target.bpm+'" style="width:74px" onchange="metroStop()"><span class="tiny muted">BPM</span></div>'
+     +'<button class="btn sm" id="mBtn" onclick="metroToggle()">▶ 节拍器</button></div></div>'
+   +'<div class="card tight" style="margin-top:10px"><h3>录音回课</h3>'
+     +'<div class="row" style="gap:8px"><button class="btn sm" id="rBtn" onclick="B.rec()">🎙 开始录音</button>'
+     +'<span class="tiny muted" id="rTip">录一段最完整的一遍即可</span></div>'
+     +'<div id="rBox"></div></div>'
+   +'<div class="card tight" style="margin-top:10px"><h3>今天练得怎么样</h3>'
+     +'<div class="row wrap" id="selfRow">'+SELF_LEVELS.map(s=>'<button class="chip" data-s="'+s.k+'" onclick="B.setSelf(\''+s.k+'\')">'+s.k+'</button>').join('')+'</div>'
+     +'<textarea id="pNote" style="margin-top:8px" placeholder="想对老师说的话（哪里卡住了？）"></textarea></div>'
+   +'<div class="row" style="margin-top:12px;gap:8px">'
+     +'<button class="btn grow" onclick="B.cancelPx()">先不练了</button>'
+     +'<button class="btn pri grow" onclick="B.submit()">提交回课 ✓</button></div>';
+  openSheet(h,()=>{B.setSelf('还行')});
+};
+B.addRep=function(){if(!ST.px)return;ST.px.repeats++;const e=document.getElementById('pRep');if(e){e.textContent=ST.px.repeats;e.style.transform='scale(1.25)';setTimeout(()=>e.style.transform='',150)}};
+B.setSelf=function(k){
+  ST.px.self=k;
+  document.querySelectorAll('#selfRow .chip').forEach(b=>{const on=b.dataset.s===k;b.className='chip'+(on?' sel stu':'');
+    if(on)b.style.fontWeight='700'});
+};
+B.rec=async function(){
+  const btn=document.getElementById('rBtn'),tip=document.getElementById('rTip'),box=document.getElementById('rBox');
+  if(rec&&rec.state==='recording'){rec.stop();return}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    tip.innerHTML='<span style="color:var(--warn)">这个环境不能录音（需要 https 或本地服务）。用手机录好，直接提交即可。</span>';return;
+  }
+  try{
+    recStream=await navigator.mediaDevices.getUserMedia({audio:true});
+    rec=new MediaRecorder(recStream);recChunks=[];
+    rec.ondataavailable=e=>{if(e.data.size)recChunks.push(e.data)};
+    rec.onstop=()=>{
+      const blob=new Blob(recChunks,{type:rec.mimeType||'audio/webm'});
+      recStream.getTracks().forEach(t=>t.stop());
+      const aid=uid('au');ST.px.audioId=aid;ST.px.audioBlob=blob;
+      DB.put(aid,blob);
+      box.innerHTML='<audio controls src="'+URL.createObjectURL(blob)+'" style="width:100%;margin-top:8px"></audio>'
+        +'<div class="row" style="margin-top:6px"><span class="tiny muted">已录制，可回放确认</span>'
+        +'<button class="btn xs" onclick="B.delRec()">删除重录</button></div>';
+      btn.textContent='🎙 重新录音';btn.className='btn sm';tip.textContent='已保存';
+      rec=null;
+    };
+    rec.start();btn.textContent='■ 停止录音';btn.className='btn sm pri';tip.textContent='录音中…（最长 3 分钟）';
+    setTimeout(()=>{if(rec&&rec.state==='recording')rec.stop()},180000);
+  }catch(e){tip.innerHTML='<span style="color:var(--warn)">麦克风没打开：'+esc(e.message||'')+'</span>'}
+};
+B.delRec=function(){
+  if(ST.px&&ST.px.audioId){DB.del(ST.px.audioId);ST.px.audioId=null;ST.px.audioBlob=null}
+  const box=document.getElementById('rBox');if(box)box.innerHTML='';
+  const btn=document.getElementById('rBtn');if(btn){btn.textContent='🎙 开始录音'}
+  const tip=document.getElementById('rTip');if(tip)tip.textContent='录一段最完整的一遍即可';
+};
+B.cancelPx=function(){stopPx();closeSheet();render()};
+B.submit=async function(){
+  const px=ST.px;if(!px)return;
+  const hw=byId(S.homework,px.id);
+  const minutes=Math.max(1,Math.round(px.sec/60))||1;
+  const sub={minutes:minutes,repeats:px.repeats,self:px.self||'还行',
+    note:(document.getElementById('pNote')||{}).value||'',audioId:px.audioId||'',at:Date.now()};
+  let audio=null;
+  if(px.audioBlob){ try{ audio={data:await blobToDataURL(px.audioBlob),type:px.audioBlob.type} }catch(e){} }
+  stopPx();closeSheet();ST.tab='s-task';
+  if(ONLINE){
+    toast('正在提交…');
+    try{
+      const r=await api('/api/submit',{id:px.id,sub:sub,audio:audio});
+      if(r.ok){ await pull(true); render(); toast('已提交！老师那边已经能看到 🎉'); return }
+      toast('提交失败：'+(r.msg||'请重试'));
+    }catch(e){ toast('提交失败，已暂存本机'); }
+  }
+  hw.sub=sub;hw.status='submitted';save();render();toast('已提交（本机）');
+};
+function viewFeedback(){
+  const list=S.homework.filter(h=>h.studentId===ST.id&&h.status==='reviewed').sort((a,b)=>b.review.at-a.review.at);
+  if(!list.length)return '<div class="empty">还没有老师回课<br>提交任务卡后，老师的评语会出现在这里</div>';
+  return list.map(hw=>{
+    const sc=byId(S.scores,hw.scoreId)||{title:'?'};
+    const miss=(hw.review.checks||[]).map((ok,i)=>ok?null:hw.marks[i]).filter(Boolean);
+    return '<div class="card"><div class="spread"><b>'+esc(sc.title)+'</b>'
+     +'<span class="tag '+(hw.review.judge==='达标'?'ok':hw.review.judge==='需改进'?'warn':'info')+'">'+esc(hw.review.judge)+'</span></div>'
+     +'<div class="tiny muted">'+new Date(hw.review.at).toLocaleDateString('zh-CN')+' · 你练了 '+hw.sub.minutes+' 分钟 / '+hw.sub.repeats+' 遍</div>'
+     +(hw.review.comment?'<div class="card tight" style="margin-top:8px;background:var(--stu-soft);border-color:var(--stu-line)">🎵 老师说：'+esc(hw.review.comment)+'</div>':'')
+     +(miss.length?'<div class="card tight" style="margin-top:8px;background:var(--warn-soft);border-color:#f5d9a8"><b class="small">还要改的地方</b>'
+        +miss.map(m=>'<div class="small">· 第'+(m.li+1)+'行第'+(m.i+1)+'音 · '+esc(m.type)+(m.note?'：'+esc(m.note):'')+'</div>').join('')+'</div>'
+       :(hw.marks.length?'<div class="small" style="margin-top:8px;color:var(--ok)">✓ 老师划的重点都做到了</div>':''))
+     +'</div>';
+  }).join('');
+}
+
+/* =========================================================
+   导入 / 导出 / 设置
+   ========================================================= */
+function dl(name,text){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+  a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+}
+function b64(b){return new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)})}
+function unb64(s){const p=s.split(',');const bin=atob(p[1]);const arr=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);return new Blob([arr],{type:p[0].match(/:(.*?);/)[1]||'audio/webm'})}
+async function collectAudio(ids){const o={};for(const id of ids){if(!id)continue;const b=await DB.get(id);if(b)o[id]=await b64(b)}return o}
+async function restoreAudio(map){for(const k in map){try{await DB.put(k,unb64(map[k]))}catch(e){}}}
+A.exportAll=async function(){
+  const ids=S.homework.map(h=>h.sub&&h.sub.audioId).filter(Boolean);
+  const data={type:'yangqin-mvp-full',ver:VER,exportedAt:new Date().toISOString(),data:S,audio:await collectAudio(ids)};
+  dl('扬琴助教_全部数据_'+today()+'.json',JSON.stringify(data));closeSheet();toast('已导出备份');
+};
+B.exportMine=async function(){
+  const me=byId(S.students,ST.id);
+  const hws=S.homework.filter(h=>h.studentId===ST.id);
+  const ids=hws.map(h=>h.sub&&h.sub.audioId).filter(Boolean);
+  const data={type:'yangqin-mvp-student',ver:VER,student:me,
+    homework:hws,audio:await collectAudio(ids)};
+  dl('扬琴作业_'+(me.name)+'_'+today()+'.json',JSON.stringify(data));closeSheet();
+  toast('已导出，把文件发给老师即可');
+};
+function doImport(text){
+  let j;try{j=JSON.parse(text)}catch(e){return toast('文件解析失败')}
+  if(j.type==='yangqin-mvp-full'){
+    if(!confirm('导入备份会覆盖当前全部数据，继续？'))return;
+    S=j.data;save();restoreAudio(j.audio||{});closeSheet();render();toast('备份已恢复');return;
+  }
+  if(j.type==='yangqin-mvp-student'){
+    if(!j.student)return toast('文件缺少学生信息');
+    let st=S.students.find(s=>s.name===j.student.name&&s.id===j.student.id)||S.students.find(s=>s.id===j.student.id);
+    if(!st){st={...j.student};S.students.push(st)}
+    let n=0,upd=0;
+    (j.homework||[]).forEach(h=>{
+      const ex=S.homework.find(x=>x.id===h.id);
+      if(ex){
+        if(h.sub&&(!ex.sub||h.sub.at>ex.sub.at)){
+          ex.sub=h.sub;if(ex.status!=='reviewed')ex.status='submitted';upd++;
+        }
+        if(h.review){ex.review=h.review;ex.status='reviewed'}
+      }
+      else{S.homework.push(h);n++}
+    });
+    save();restoreAudio(j.audio||{});closeSheet();render();
+    toast('导入成功：新增 '+n+' 条，更新 '+upd+' 条（'+st.name+'）');return;
+  }
+  toast('不认识的文件格式');
+}
+A.importPick=function(){
+  const i=document.createElement('input');i.type='file';i.accept='.json,application/json';
+  i.onchange=()=>{const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>doImport(r.result);r.readAsText(f)};
+  i.click();
+};
+A.resetDemo=function(){
+  confirmBox('重置为演示数据','当前所有课次、作业、批注都会被清空并恢复成示例内容。',()=>{
+    S=seed();save();closeSheet();render();toast('已重置');
+    if(ONLINE)api('/api/reset',{mode:'demo'}).then(()=>pull(true)).then(()=>render()).catch(()=>{});
+  });
+};
+A.clearAll=function(){
+  confirmBox('清空全部数据','所有学生、课次、作业都会删除，不可恢复。建议先导出备份。',()=>{
+    S={students:[],scores:SCORE_LIB.map(s=>JSON.parse(JSON.stringify(s))),lessons:[],homework:[],
+       settings:{teacherName:'老师',firstRun:false},meta:{created:Date.now()}};
+    save();closeSheet();render();toast('已清空');
+    if(ONLINE)api('/api/reset',{mode:'clear'}).then(()=>pull(true)).then(()=>render()).catch(()=>{});
+  });
+};
+function openSettings(){
+  const isT=window.ROLE==='T';
+  openSheet('<h3>数据与设置</h3>'
+   +'<div class="small muted">这个原型的数据只存在这台设备的浏览器里，换设备请用导出 / 导入。</div>'
+   +'<div class="divider"></div>'
+   +(isT
+     ?'<button class="btn block" onclick="A.exportAll()">⬇ 导出全部数据（备份）</button>'
+      +'<button class="btn block" style="margin-top:8px" onclick="A.importPick()">⬆ 导入（备份 / 学生作业文件）</button>'
+     :'<button class="btn pri block" onclick="B.exportMine()">⬇ 导出我的作业交给老师</button>')
+   +'<div class="divider"></div>'
+   +'<button class="btn block danger" onclick="A.resetDemo()">恢复演示数据</button>'
+   +'<button class="btn block danger" style="margin-top:8px" onclick="A.clearAll()">清空全部数据</button>'
+   +'<div class="tiny muted" style="margin-top:12px">版本 v'+VER+' · MVP 原型，不替代正式小程序<br>'
+   +'隐私：所有数据保存在本机浏览器，不上传任何服务器。</div>'
+   +'<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
+}
+
+/* =========================================================
+   启动
+   ========================================================= */
+window.ROLE='T';
+function render(){
+  const isT=window.ROLE==='T';
+  document.getElementById('btnTeacher').className=isT?'on':'';
+  document.getElementById('btnStudent').className=isT?'':'on stu';
+  document.getElementById('navT').classList.toggle('hide',!isT);
+  document.getElementById('navS').classList.toggle('hide',isT);
+  document.getElementById('logoDot').style.background=isT?'var(--brand)':'var(--stu)';
+  let h='';
+  if(isT){h=renderT()}
+  else{
+    h='<div class="stu-pick">'+S.students.map(s=>
+      '<div class="stu-av '+(s.id===ST.id?'on':'')+'" onclick="B.pick(\''+s.id+'\')">'
+      +'<div class="av" style="background:'+s.color+'">'+esc(s.name[0])+'</div><div class="nm">'+esc(s.name)+'</div></div>').join('')
+      +(S.students.length?'':'<div class="small muted">请先在老师端添加学生</div>')+'</div>'+viewS();
+  }
+  document.getElementById('app').innerHTML=h;
+  document.querySelectorAll('.subnav button').forEach(b=>{
+    const t=isT?T.tab:ST.tab;b.classList.toggle('on',b.dataset.tab===t);
+  });
+  document.getElementById('foot').innerHTML='<b>怎么用：</b>'
+   +(isT?'老师端 → 上课记录（选学生 → 选曲 → 点谱面加标记 → 保存生成任务卡，学生端立刻可见）→ 回课驾驶舱（孩子一提交，这里就会出现待回课）。'
+        :'孩子端 → 选自己的名字 → 今日任务 → 开始练习（计时 / 节拍器 / 录音 / 记遍数）→ 提交回课，老师那边立刻收到。')
+   +'<br>'+(ONLINE?'<b style="color:var(--ok)">多端实时模式</b>：老师端和孩子端打开同一个网址即可，数据 5 秒自动同步，录音会上传到服务器。'
+     :'<b style="color:var(--warn)">单机模式</b>（当前是本地文件打开）：数据只在这台设备，用「⚙ → 导出 / 导入」传递。想多人实时用，请用服务端方式启动。');
+}
+function switchRole(r){
+  window.ROLE=r;
+  document.getElementById('btnTeacher').className=r==='T'?'on':'';
+  document.getElementById('btnStudent').className=r==='T'?'':'on stu';
+  render();window.scrollTo(0,0);
+}
+document.getElementById('btnTeacher').onclick=()=>switchRole('T');
+document.getElementById('btnStudent').onclick=()=>switchRole('S');
+document.getElementById('btnMenu').onclick=openSettings;
+document.querySelectorAll('.subnav button').forEach(b=>{
+  b.onclick=()=>{const isT=b.dataset.tab[0]==='t';if(isT){T.tab=b.dataset.tab}else{ST.tab=b.dataset.tab}render();window.scrollTo(0,0)};
+});
+
+boot();
+async function boot(){
+  await load();
+  let me=null; try{me=localStorage.getItem('yangqin_me')}catch(e){}
+  if(me&&byId(S.students,me))ST.id=me; else if(S.students.length)ST.id=S.students[0].id;
+  if(!S.students.length)window.ROLE='T';
+  render();syncBadge();
+  if(ONLINE){
+    setInterval(()=>pull(true),3000);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
+  }
+
+
+if(S.settings&&S.settings.firstRun){
+  document.getElementById('layer').innerHTML='<div class="intro"><div class="intro-box">'
+   +'<h2>扬琴 AI 助教 · MVP 原型 v'+VER+'</h2>'
+   +'<div class="small muted">先把核心链路跑通：上课记录 → 谱面批注 → 布置作业 → 孩子练习 → 回课。</div>'
+   +'<ol><li><b>老师端</b>：上课记录 → 新建一次课 → 选学生 → 选曲目</li>'
+   +'<li>点谱面上的<b>音符</b>，加「重点 / 难点 / 慢练 / 轮音 / 竹法 / 分句」标记，写一句指令</li>'
+   +'<li>设定范围、遍数、分钟、BPM → 保存，自动生成孩子的任务卡</li>'
+   +'<li>右上角切到<b>孩子端</b>，选学生 → 今日任务 → 开始练习（计时 / 节拍器 / 录音 / 记遍数）</li>'
+   +'<li>提交回课后回到<b>老师端 · 回课驾驶舱</b>，逐条勾选要点 → 判定 → 写评语</li></ol>'
+   +'<div class="card tight small" style="margin-top:10px;background:#fff7e6">这是<b>流程原型</b>，不是正式产品：数据存在本机浏览器。<br>'
+   +'给孩子用时：孩子用自己的设备打开本文件 → 练习 → ⚙ 导出作业 → 发给你 → 你在老师端 ⚙ 导入。</div>'
+   +'<button class="btn pri block" style="margin-top:12px" onclick="document.getElementById(\'layer\').innerHTML=\'\';S.settings.firstRun=false;save()">开始试试 →</button>'
+   +'</div></div>';
+}
+}
+
+
+</script>
+<script>
+/* =========================================================
+   PRD 扩展包 v0.2  ——  补齐 PRD 中尚未落地的能力
+   M2 微目标 / M3 逐条批改与催交 / M5 85% 自适应 / M6 成长体系
+   M7 批注继承与导出 / 历史查询 / CSV / A4 打印 / 自编谱录入
+   ========================================================= */
+var TECH_LIB = [
+  {k:'轮音',     cat:'技法', std:'每拍 4 下均匀不断，听不出颗粒', reps:5, pass:3},
+  {k:'支手轮音', cat:'技法', std:'支手稳定不掉，轮音持续 4 拍', reps:5, pass:3},
+  {k:'双音轮音', cat:'技法', std:'两音同时落，力度一致', reps:5, pass:3},
+  {k:'反竹',     cat:'技法', std:'反竹音色清脆，不碰邻弦', reps:4, pass:3},
+  {k:'竹法顺序', cat:'技法', std:'左右竹交替正确，不错竹', reps:5, pass:4},
+  {k:'双音琴竹', cat:'技法', std:'双音同时落，听成"一个音"', reps:5, pass:3},
+  {k:'八度双音', cat:'技法', std:'八度两音整齐，无先后', reps:5, pass:3},
+  {k:'琶音',     cat:'技法', std:'由低到高连贯，颗粒清晰', reps:4, pass:3},
+  {k:'花音',     cat:'技法', std:'花音快速带过，不占主拍', reps:4, pass:3},
+  {k:'滑弹',     cat:'技法', std:'滑动连贯，落点准确', reps:4, pass:3},
+  {k:'拨弦',     cat:'技法', std:'拨弦音色干净，无杂音', reps:4, pass:3},
+  {k:'压音',     cat:'技法', std:'压弦音准到位，回弹干净', reps:4, pass:3},
+  {k:'泛音',     cat:'技法', std:'泛音清亮，无实音混杂', reps:4, pass:3},
+  {k:'顿音',     cat:'技法', std:'顿住后立即放松，不过长', reps:4, pass:3},
+  {k:'颤竹',     cat:'技法', std:'颤动均匀，手腕不僵', reps:4, pass:3},
+  {k:'连竹',     cat:'技法', std:'连接处无断口，气息连贯', reps:5, pass:3},
+  {k:'齐竹',     cat:'技法', std:'双手同时落竹，整齐', reps:5, pass:3},
+  {k:'单竹',     cat:'技法', std:'单竹音色扎实，位置准确', reps:5, pass:4},
+  {k:'上下滑音', cat:'技法', std:'滑音方向准确，终点音准', reps:4, pass:3},
+  {k:'揉弦',     cat:'技法', std:'揉弦幅度均匀，不抢拍', reps:4, pass:3},
+  {k:'跳音',     cat:'技法', std:'短促有弹性，手指不压', reps:4, pass:3},
+  {k:'保持音',   cat:'技法', std:'时值唱满，不提前收音', reps:5, pass:4},
+  {k:'全曲连贯', cat:'综合', std:'整首不断、不返工', reps:3, pass:2},
+  {k:'慢练过句', cat:'综合', std:'按设定 BPM 完整过一遍不出错', reps:3, pass:2},
+  {k:'背谱',     cat:'综合', std:'不看谱完整弹下来', reps:2, pass:1},
+  {k:'分句呼吸', cat:'综合', std:'句读清楚，句尾有收束', reps:3, pass:2}
+];
+var MARK2TECH = {'轮音':'轮音','竹法':'竹法顺序','分句':'分句呼吸','慢练':'慢练过句','重点':'全曲连贯','难点':'慢练过句'};
+var LOC_AUDIO = {};
+var EXT = {selStu:null, planStu:null, histStu:'', histTech:'', histWeeks:8, sort:'miss', rvIdx:0, cmpWeek:null};
+
+/* ---------- 微目标：数据工具 ---------- */
+function xid(){ return 'g_' + Math.random().toString(36).slice(2, 9); }
+function gDefault(pass){ return { reps:5, pass:pass || 3 }; }
+function ensureGoals(hw){
+  if (!hw) return [];
+  if (!hw.goals || !hw.goals.length){
+    var t = hw.target || { repeats:3, bpm:70 };
+    var reps = t.repeats || 3;
+    hw.goals = [{ id:xid(), tech:(hw.criteria && hw.criteria[0]) ? hw.criteria[0] : '全曲连贯',
+      seg:'全曲', std:reps + ' 遍中成功 ' + Math.max(1, Math.ceil(reps * 0.6)) + ' 遍',
+      reps:reps, pass:Math.max(1, Math.ceil(reps * 0.6)), bpm:t.bpm || 70, takes:[], note:'' }];
+  }
+  hw.goals.forEach(function(g){ if (!g.takes) g.takes = []; if (!g.id) g.id = xid(); });
+  return hw.goals;
+}
+function gDone(g){ return (g.takes || []).filter(function(t){ return t.ok; }).length; }
+function gPass(g){ return gDone(g) >= (g.pass || 1); }
+function gRatio(hw){ var gs = ensureGoals(hw); if (!gs.length) return 0;
+  return gs.filter(gPass).length / gs.length; }
+function hwValid(hw){ return gRatio(hw) > 0; }
+function hwSubDate(hw){ return hw.sub ? new Date(hw.sub.at || hw.createdAt) : null; }
+function dayKey(ts){ var d = new Date(ts); return d.toISOString().slice(0, 10); }
+
+/* 由批注草稿生成微目标（M7-08：批注 → 作业继承） */
+function draftGoals(p, sc){
+  var tg = p.target || { repeats:3, bpm:70 }, reps = tg.repeats || 3;
+  var pass = Math.max(1, Math.ceil(reps * 0.6)), out = [];
+  (p.marks || []).forEach(function(m){
+    if (m.toGoal === false) return;
+    var tk = MARK2TECH[m.type] || m.type;
+    var lib = TECH_LIB.filter(function(x){ return x.k === tk; })[0];
+    out.push({ id:xid(), tech:tk, seg:'第' + (m.li + 1) + '行第' + (m.i + 1) + '音',
+      std:lib ? (reps + ' 遍中成功 ' + Math.min(reps, lib.pass) + ' 遍') : (reps + ' 遍中成功 ' + pass + ' 遍'),
+      reps:reps, pass:lib ? Math.min(reps, lib.pass) : pass, bpm:tg.bpm || 70,
+      takes:[], note:(m.note || '').slice(0, 30), mark:{ li:m.li, i:m.i, type:m.type } });
+  });
+  if (!out.length){
+    out.push({ id:xid(), tech:'全曲连贯', seg:'全曲', std:reps + ' 遍中成功 ' + pass + ' 遍',
+      reps:reps, pass:pass, bpm:tg.bpm || 70, takes:[], note:'' });
+  }
+  return out;
+}
+function goalBar(g){
+  var d = gDone(g), r = g.reps || 1, pct = Math.round(Math.min(d, r) / r * 100);
+  return '<div class="pbar"><i style="width:' + pct + '%"></i></div>'
+    + '<div class="tiny muted" style="margin-top:3px">' + d + '/' + r + ' 遍'
+    + (gPass(g) ? ' · <b style="color:var(--ok)">✓ 达标（' + (g.pass || 1) + '/' + (g.reps || 1) + '）</b>'
+                : ' · 还需 ' + Math.max(0, (g.pass || 1) - d) + ' 遍达标') + '</div>';
+}
+function goalLine(g){
+  var gs = g.pass + '/' + g.reps + ' 遍';
+  return '<div class="row" style="gap:6px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line2)">'
+    + '<span class="tag info" style="margin-top:2px">' + esc(g.tech) + '</span>'
+    + '<div class="grow"><div class="small"><b>' + esc(g.seg) + '</b> · ' + esc(gs) + (g.bpm ? ' · ' + esc(g.bpm) + ' BPM' : '') + '</div>'
+    + '<div class="tiny muted">' + esc(g.std) + (g.note ? ' · ' + esc(g.note) : '') + '</div></div></div>';
+}
+
+/* ---------- 通用持久化 ---------- */
+async function patchHw(id, patch){
+  var hw = byId(S.homework, id); if (!hw) return;
+  Object.assign(hw, patch);
+  if (ONLINE){ try { await api('/api/patch', { kind:'homework', id:id, patch:patch }); } catch (e) {} }
+  save();
+}
+async function patchStu(id, patch){
+  var st = byId(S.students, id); if (!st) return;
+  Object.assign(st, patch);
+  if (ONLINE){ try { await api('/api/patch', { kind:'student', id:id, patch:patch }); } catch (e) {} }
+  save();
+}
+async function patchState(patch){
+  Object.assign(S, patch);
+  if (ONLINE){ try { await api('/api/patch', { kind:'state', patch:patch }); } catch (e) {} }
+  save();
+}
+async function upAudio(blob){
+  if (ONLINE){
+    try { var r = await uploadMedia('audio', blob); if (r && r.id) return { id:r.id, url:'/media/' + r.id }; } catch (e) {}
+  }
+  var id = 'loc_' + Math.random().toString(36).slice(2, 8);
+  LOC_AUDIO[id] = URL.createObjectURL(blob);
+  return { id:id, url:LOC_AUDIO[id] };
+}
+function audioUrl(id){ return LOC_AUDIO[id] ? LOC_AUDIO[id] : '/media/' + id; }
+
+/* ---------- 85% 自适应引擎（M5） ---------- */
+function weekKey(d){ var x = new Date(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.toISOString().slice(0, 10); }
+function stuHw(sid){ return S.homework.filter(function(h){ return h.studentId === sid; }); }
+function weekStat(sid, wk){
+  var list = stuHw(sid).filter(function(h){ return weekKey(h.createdAt) === wk; });
+  var gs = []; list.forEach(function(h){ ensureGoals(h).forEach(function(g){ gs.push(g); }); });
+  var done = gs.filter(gPass).length;
+  return { week:wk, cards:list.length, goals:gs.length, done:done,
+    rate:gs.length ? done / gs.length : null, submitted:list.filter(function(h){ return h.sub; }).length };
+}
+function recentStats(sid, n){
+  var wks = {}; stuHw(sid).forEach(function(h){ wks[weekKey(h.createdAt)] = 1; });
+  return Object.keys(wks).sort().reverse().slice(0, n).map(function(w){ return weekStat(sid, w); }).reverse();
+}
+function adaptFor(sid){
+  var st = recentStats(sid, 2), tot = 0, n = 0;
+  st.forEach(function(s){ if (s.rate !== null){ tot += s.rate; n++; } });
+  var gpts = 0; stuHw(sid).forEach(function(h){ ensureGoals(h).forEach(function(g){ gpts += (g.takes || []).length; }); });
+  var cur = new Date().toISOString().slice(0, 10);
+  if (gpts < 6 || n === 0)
+    return { level:'cold', tip:'数据不足，暂不提供建议', detail:'已记录 ' + gpts + ' 条练习数据（需 ≥ 6 条）', weeks:st, rate:null };
+  var rate = tot / n, lv, act, why;
+  if (rate >= 0.95){ lv = 'up'; act = '提速一档（BPM +5～10），或加一条新技法';
+    why = '近 ' + n + ' 周达成率 ' + Math.round(rate * 100) + '% ≥ 95% → 过于轻松，应提速'; }
+  else if (rate >= 0.80){ lv = 'keep'; act = '保持现有难度，遍数 +1 巩固';
+    why = '近 ' + n + ' 周达成率 ' + Math.round(rate * 100) + '% 落在 80–95% → 处于最优挑战区（85% 规则）'; }
+  else if (rate >= 0.55){ lv = 'down'; act = '降难度：BPM −10，或把片段拆成半行';
+    why = '近 ' + n + ' 周达成率 ' + Math.round(rate * 100) + '% 落在 55–80% → 偏难，先降难度'; }
+  else { lv = 'back'; act = '退回上一级：换成已掌握的片段重建信心';
+    why = '近 ' + n + ' 周达成率 ' + Math.round(rate * 100) + '% < 55% → 明显超出当前水平'; }
+  var stuck = st.length >= 2 && st.every(function(s){ return s.rate !== null && s.rate < 0.55; });
+  return { level:lv, act:act, why:why, rate:rate, weeks:st, stuck:stuck,
+    stuckTip:stuck ? '连续 2 周达成率 < 55%，该生可能卡住了：建议换片段或降低 BPM' : '' };
+}
+function mastery(sid){
+  var m = {};
+  stuHw(sid).forEach(function(h){ ensureGoals(h).forEach(function(g){
+    if (!m[g.tech]) m[g.tech] = { tech:g.tech, goals:0, done:0, takes:0, ok:0 };
+    m[g.tech].goals++; if (gPass(g)) m[g.tech].done++;
+    m[g.tech].takes += (g.takes || []).length; m[g.tech].ok += gDone(g);
+  }); });
+  return Object.keys(m).map(function(k){ var o = m[k]; o.rate = o.goals ? o.done / o.goals : 0; return o; })
+    .sort(function(a, b){ return b.goals - a.goals; });
+}
+function calcStreak(sid){
+  var days = {};
+  stuHw(sid).forEach(function(h){ if (h.sub && hwValid(h)) days[dayKey(h.sub.at || h.createdAt)] = 1; });
+  var ks = Object.keys(days).sort().reverse(); if (!ks.length) return { n:0, frozen:0, days:ks };
+  var st = byId(S.students, sid) || {}; var freeze = st.freeze == null ? 2 : st.freeze;
+  var n = 0, used = 0, cur = new Date();
+  for (var i = 0; i < 400; i++){
+    var k = cur.toISOString().slice(0, 10);
+    if (days[k]) { n++; }
+    else if (used < freeze && n > 0) { used++; }
+    else if (i > 0) { break; }
+    else if (!days[k] && i === 0) { /* 今天还没练，不算断 */ }
+    cur.setDate(cur.getDate() - 1);
+  }
+  return { n:n, frozen:freeze - used, days:ks };
+}
+function nudgeCount(hw){ return ((hw.nudges || []).filter(function(t){ return Date.now() - t < 7 * 86400e3; })).length; }
+
+/* =========================================================
+   老师端：微目标编辑器
+   ========================================================= */
+A.goalGen = function(){
+  var w = T.wiz, p = w.pieces[T.cur], sc = byId(S.scores, p.scoreId);
+  p.goals = draftGoals(p, sc); toast('已从 ' + p.marks.length + ' 条批注生成 ' + p.goals.length + ' 个微目标'); render();
+};
+A.goalAdd = function(){
+  var w = T.wiz, p = w.pieces[T.cur]; if (!p.goals) p.goals = [];
+  var t = TECH_LIB[0];
+  p.goals.push({ id:xid(), tech:t.k, seg:'第1行', std:'5 遍中成功 3 遍', reps:5, pass:3,
+    bpm:(p.target && p.target.bpm) || 70, takes:[], note:'' });
+  render();
+};
+A.goalSet = function(i, k, v){
+  var p = T.wiz.pieces[T.cur], g = p.goals[i]; if (!g) return;
+  if (k === 'reps' || k === 'pass' || k === 'bpm') v = parseInt(v, 10) || 0;
+  if (k === 'reps' && v > 10) v = 10; if (k === 'reps' && v < 1) v = 1;
+  if (k === 'pass' && v > g.reps) { v = g.reps; toast('成功阈值不能大于遍数'); }
+  g[k] = v; if (k === 'reps' || k === 'pass') g.std = g.reps + ' 遍中成功 ' + g.pass + ' 遍';
+};
+A.goalDel = function(i){ T.wiz.pieces[T.cur].goals.splice(i, 1); render(); };
+A.goalTech = function(i, k){
+  var p = T.wiz.pieces[T.cur], g = p.goals[i], t = TECH_LIB.filter(function(x){ return x.k === k; })[0];
+  if (!t) return; g.tech = t.k; g.std = t.reps + ' 遍中成功 ' + t.pass + ' 遍'; g.reps = t.reps; g.pass = t.pass; render();
+};
+A.markToGoal = function(i, on){ T.wiz.pieces[T.cur].marks[i].toGoal = !on; };
+
+function goalsEditor(){
+  var w = T.wiz; if (!w || w.step !== 3) return '';
+  var p = w.pieces[T.cur]; if (!p) return '';
+  if (!p.goals) p.goals = [];
+  var h = '<div class="card"><div class="spread"><h3>微目标（四要素）</h3>'
+    + '<button class="btn xs" onclick="A.goalGen()">↻ 从批注生成</button></div>'
+    + '<div class="tiny muted" style="margin-bottom:8px">每条必须含 <b>技法 · 片段 · 成功标准 · 遍数</b>。孩子端会按这一条条练，达标才结算。</div>';
+  if (p.marks && p.marks.length){
+    h += '<div class="tiny muted">本节课批注（勾选后才转为作业要点，不勾选的孩子端看不到）：</div><div class="row wrap" style="margin:6px 0">'
+      + p.marks.map(function(m, i){ var on = m.toGoal !== false;
+          return '<button class="chip ' + (on ? 'sel' : '') + '" onclick="A.markToGoal(' + i + ',' + on + ')">'
+            + esc(m.type) + ' 第' + (m.li + 1) + '行第' + (m.i + 1) + '音</button>'; }).join('')
+      + '</div>';
+  }
+  h += p.goals.map(function(g, i){
+    return '<div class="card tight" style="margin:8px 0;background:var(--bg2)">'
+      + '<div class="spread"><span class="tag info">' + (i + 1) + '</span>'
+      + '<button class="btn xs danger" onclick="A.goalDel(' + i + ')">删除</button></div>'
+      + '<div class="row wrap" style="margin-top:6px;gap:4px">'
+      + TECH_LIB.slice(0, 12).map(function(t){
+          return '<button class="chip ' + (g.tech === t.k ? 'sel' : '') + '" onclick="A.goalTech(' + i + ',\'' + t.k + '\')">' + esc(t.k) + '</button>';
+        }).join('') + '</div>'
+      + '<div class="grid3" style="margin-top:8px">'
+      + '<label class="fld"><span>技法</span><input value="' + esc(g.tech) + '" list="techList" onchange="A.goalSet(' + i + ',\'tech\',this.value)"></label>'
+      + '<label class="fld"><span>片段</span><input value="' + esc(g.seg) + '" onchange="A.goalSet(' + i + ',\'seg\',this.value)"></label>'
+      + '<label class="fld"><span>BPM</span><input type="number" value="' + (g.bpm || 70) + '" onchange="A.goalSet(' + i + ',\'bpm\',this.value)"></label>'
+      + '</div>'
+      + '<label class="fld" style="margin-top:6px"><span>成功标准</span><input value="' + esc(g.std) + '" onchange="A.goalSet(' + i + ',\'std\',this.value)"></label>'
+      + '<div class="row" style="margin-top:6px;gap:8px">'
+      + '<label class="fld grow"><span>建议遍数（1–10）</span><input type="number" min="1" max="10" value="' + g.reps + '" onchange="A.goalSet(' + i + ',\'reps\',this.value)"></label>'
+      + '<label class="fld grow"><span>成功阈值</span><input type="number" min="1" max="' + g.reps + '" value="' + g.pass + '" onchange="A.goalSet(' + i + ',\'pass\',this.value)"></label>'
+      + '</div>'
+      + '<label class="fld" style="margin-top:6px"><span>一句话指令（≤30 字，原样下发，不做改写）</span>'
+      + '<input maxlength="30" value="' + esc(g.note || '') + '" onchange="A.goalSet(' + i + ',\'note\',this.value)"></label>'
+      + '</div>';
+  }).join('');
+  h += '<datalist id="techList">' + TECH_LIB.map(function(t){ return '<option value="' + esc(t.k) + '">'; }).join('') + '</datalist>'
+    + '<button class="btn sm block" onclick="A.goalAdd()">＋ 加一条微目标</button>'
+    + '<div class="tiny muted" style="margin-top:6px">预计练习时长 ≈ ' +
+      p.goals.reduce(function(a, g){ return a + (g.reps || 0) * 1.5; }, 0).toFixed(0) + ' 分钟（按每条 1.5 分钟估）</div></div>';
+  return h;
+}
+
+/* 保存课次：带上微目标 + 批注继承 + 复练项 */
+A.saveLesson = async function(){
+  var w = T.wiz;
+  if (!w.studentId) return toast('先选学生');
+  if (!w.pieces.length) return toast('至少要有一首曲子');
+  var prevMiss = [];
+  stuHw(w.studentId).forEach(function(h){
+    (h.checks || []).forEach(function(ok, i){ if (!ok && h.marks && h.marks[i]) prevMiss.push(h.marks[i]); });
+  });
+  var lsn = { id:uid('lsn'), studentId:w.studentId, date:w.date,
+    pieces:w.pieces.map(function(p){ return { scoreId:p.scoreId, focus:p.criteria }; }),
+    points:[{ t:w.points.join('、') || '课堂要点', x:w.note }], note:w.note, createdAt:Date.now() };
+  var hwList = w.pieces.map(function(p, pi){
+    var sc = byId(S.scores, p.scoreId);
+    var goals = (p.goals && p.goals.length) ? p.goals : draftGoals(p, sc);
+    if (pi === 0 && prevMiss.length){
+      prevMiss.slice(0, 3).forEach(function(m){
+        goals.push({ id:xid(), tech:MARK2TECH[m.type] || '慢练过句', seg:'上节课未做到：第' + (m.li + 1) + '行第' + (m.i + 1) + '音',
+          std:'3 遍中成功 2 遍', reps:3, pass:2, bpm:(p.target && p.target.bpm) || 70, takes:[],
+          note:(m.note || '').slice(0, 30), mark:{ li:m.li, i:m.i, type:m.type } });
+      });
+    }
+    return { id:uid('hw'), studentId:w.studentId, lessonId:lsn.id, scoreId:p.scoreId,
+      title:sc.title + ' · ' + (p.lines.length === sc.lines.length ? '全曲' : '第' + p.lines.map(function(x){ return x + 1; }).join('/') + '行'),
+      lines:p.lines.slice(), target:{ ...p.target }, criteria:p.criteria.slice(),
+      marks:p.marks.map(function(m){ return { ...m }; }), due:dayAdd(w.date, 6), status:'assigned',
+      goals:goals, checks:[], nudges:[],
+      demoVideoId:p.demoVideoId || '', classAudioId:p.classAudioId || '',
+      sub:null, review:null, createdAt:Date.now() };
+  });
+  var st = byId(S.students, w.studentId);
+  T.wiz = null; T.tab = 't-review';
+  if (ONLINE){
+    toast('正在发布…');
+    try{
+      await api('/api/lesson', { lesson:lsn, homework:hwList });
+      await pull(true); render();
+      toast('已发布 ' + hwList.length + ' 张任务卡 → ' + st.name + '（学生端立即可见）');
+    }catch(e){ S.lessons.push(lsn); hwList.forEach(function(h){ S.homework.push(h); }); save(); render(); toast('发布失败，已暂存本机'); }
+  }else{
+    S.lessons.push(lsn); hwList.forEach(function(h){ S.homework.push(h); }); save(); render();
+    toast('已保存课次，并生成 ' + hwList.length + ' 张任务卡 → ' + st.name);
+  }
+};
+
+/* 已发布作业也能改微目标 */
+A.editGoals = function(id){
+  var hw = byId(S.homework, id); if (!hw) return;
+  ensureGoals(hw);
+  var gs = hw.goals;
+  var h = '<h3>微目标 · ' + esc(hw.title) + '</h3>'
+    + '<div class="tiny muted">改完孩子端立刻生效。成功阈值不得大于遍数。</div>'
+    + gs.map(function(g, i){
+        return '<div class="card tight" style="margin:8px 0">'
+          + '<div class="grid3">'
+          + '<label class="fld"><span>技法</span><input value="' + esc(g.tech) + '" list="techList2" onchange="A.gSet2(\'' + id + '\',' + i + ',\'tech\',this.value)"></label>'
+          + '<label class="fld"><span>片段</span><input value="' + esc(g.seg) + '" onchange="A.gSet2(\'' + id + '\',' + i + ',\'seg\',this.value)"></label>'
+          + '<label class="fld"><span>BPM</span><input type="number" value="' + (g.bpm || 70) + '" onchange="A.gSet2(\'' + id + '\',' + i + ',\'bpm\',this.value)"></label>'
+          + '</div>'
+          + '<label class="fld" style="margin-top:6px"><span>成功标准</span><input value="' + esc(g.std) + '" onchange="A.gSet2(\'' + id + '\',' + i + ',\'std\',this.value)"></label>'
+          + '<div class="row" style="margin-top:6px;gap:8px">'
+          + '<label class="fld grow"><span>遍数</span><input type="number" min="1" max="10" value="' + g.reps + '" onchange="A.gSet2(\'' + id + '\',' + i + ',\'reps\',this.value)"></label>'
+          + '<label class="fld grow"><span>阈值</span><input type="number" min="1" value="' + g.pass + '" onchange="A.gSet2(\'' + id + '\',' + i + ',\'pass\',this.value)"></label></div>'
+          + '<label class="fld" style="margin-top:6px"><span>一句话指令</span><input maxlength="30" value="' + esc(g.note || '') + '" onchange="A.gSet2(\'' + id + '\',' + i + ',\'note\',this.value)"></label>'
+          + '<div style="margin-top:6px">' + goalBar(g) + '</div></div>';
+      }).join('')
+    + '<datalist id="techList2">' + TECH_LIB.map(function(t){ return '<option value="' + esc(t.k) + '">'; }).join('') + '</datalist>'
+    + '<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">完成</button></div>';
+  openSheet(h);
+};
+A.gSet2 = async function(id, i, k, v){
+  var hw = byId(S.homework, id); if (!hw) return;
+  var g = hw.goals[i]; if (!g) return;
+  if (k === 'reps' || k === 'pass' || k === 'bpm') v = parseInt(v, 10) || 0;
+  if (k === 'reps' && v > 10) v = 10; if (k === 'reps' && v < 1) v = 1;
+  if (k === 'pass' && v > g.reps){ v = g.reps; toast('成功阈值不能大于遍数'); }
+  g[k] = v; if (k === 'reps' || k === 'pass') g.std = g.reps + ' 遍中成功 ' + g.pass + ' 遍';
+  await patchHw(id, { goals:hw.goals });
+};
+A.extendDue = function(id, days){
+  var hw = byId(S.homework, id); if (!hw) return;
+  patchHw(id, { due:dayAdd(hw.due, days || 3) }).then(function(){ render(); toast('截止日已延到 ' + hw.due); });
+};
+A.nudge = function(id){
+  var hw = byId(S.homework, id); if (!hw) return;
+  if (nudgeCount(hw) >= 2) return toast('7 天内已催过 2 次（防骚扰上限）');
+  var st = byId(S.students, hw.studentId) || { name:'' };
+  var txt = '【练琴提醒】' + st.name + '：' + hw.title + '，截止 ' + hw.due + '。今天练一遍就可以交啦～';
+  var box = document.createElement('textarea'); box.value = txt; document.body.appendChild(box);
+  box.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(box);
+  var arr = (hw.nudges || []).concat([Date.now()]);
+  patchHw(id, { nudges:arr }).then(function(){ render(); toast('提醒文案已复制，粘贴到微信群即可（7 天内 ' + arr.length + '/2 次）'); });
+};
+A.batchExtend = function(){
+  var ids = S.homework.filter(function(h){ return h.status !== 'reviewed'; }).map(function(h){ return h.id; });
+  confirmBox('统一延长截止', '把 ' + ids.length + ' 张未回课任务卡的截止日统一 +3 天？', function(){
+    ids.forEach(function(id){ var h = byId(S.homework, id); if (h) h.due = dayAdd(h.due, 3); });
+    S.homework.forEach(function(h){ if (ids.indexOf(h.id) >= 0 && ONLINE) api('/api/patch', { kind:'homework', id:h.id, patch:{ due:h.due } }).catch(function(){}); });
+    save(); render(); toast('已延长 ' + ids.length + ' 张');
+  });
+};
+
+/* ---------- 逐条批改（M3-06 / M3-07） ---------- */
+A.reviewGoals = function(id){
+  var hw = byId(S.homework, id); if (!hw) return; ensureGoals(hw);
+  EXT.rvIdx = 0;
+  var draw = function(){
+    var g = hw.goals[EXT.rvIdx]; if (!g){ closeSheet(); return; }
+    var rv = (hw.review && hw.review.items) ? hw.review.items[g.id] : null;
+    var h = '<div class="spread"><h3>逐条批改 ' + (EXT.rvIdx + 1) + '/' + hw.goals.length + '</h3>'
+      + '<span class="tiny muted">' + esc((byId(S.students, hw.studentId) || {}).name || '') + '</span></div>'
+      + '<div class="card tight">' + goalLine(g) + '<div style="margin-top:6px">' + goalBar(g) + '</div>'
+      + '<div class="tiny muted" style="margin-top:4px">孩子的练习记录：共 ' + (g.takes || []).length + ' 遍，达标 ' + gDone(g) + ' 遍</div>'
+      + ((g.takes || []).length ? '<div>' + g.takes.map(function(t, i){
+          return '<div class="row" style="gap:6px;margin-top:4px"><span class="tiny muted">第' + (i + 1) + '遍 ' + Math.round((t.sec || 0)) + '秒 '
+            + (t.ok ? '<b style="color:var(--ok)">达标</b>' : '未达标') + '</span>'
+            + (t.audioId ? '<audio controls src="' + audioUrl(t.audioId) + '" style="height:28px;flex:1"></audio>' : '');
+        }).join('') + '</div>' : '')
+      + '</div>'
+      + '<label class="fld" style="margin-top:10px"><span>给这一条的评语（留空就不显示任何字，系统绝不代写）</span>'
+      + '<textarea id="rvTxt" maxlength="120" placeholder="例：第 2 遍最稳，按这个感觉再来">' + esc((rv && rv.txt) || '') + '</textarea></label>'
+      + '<div class="row" style="gap:8px;margin-top:8px"><button class="btn sm" id="rvRecBtn" onclick="A.rvRec(\'' + id + '\')">🎙 录语音（≤60秒）</button>'
+      + '<span class="tiny muted" id="rvRecTip"></span></div><div id="rvRecBox"></div>'
+      + '<div class="row" style="margin-top:12px;gap:8px">'
+      + '<button class="btn" onclick="A.rvMove(-1)">← 上一条</button>'
+      + '<button class="btn grow" onclick="A.rvSave(\'' + id + '\')">保存这一条</button>'
+      + '<button class="btn pri" onclick="A.rvMove(1)">下一条 →</button></div>'
+      + '<div class="row" style="margin-top:8px"><button class="btn pri block" onclick="A.rvFinish(\'' + id + '\')">全部批改完成 ✓</button></div>';
+    openSheet(h);
+  };
+  A._rvDraw = draw; draw();
+};
+A.rvMove = function(d){
+  var hw = byId(S.homework, EXT._rvId); if (!hw) return;
+  A.rvSave(EXT._rvId, true);
+  EXT.rvIdx = Math.max(0, Math.min(hw.goals.length - 1, EXT.rvIdx + d));
+  A._rvDraw();
+};
+A.rvSave = async function(id, quiet){
+  var hw = byId(S.homework, id); if (!hw) return;
+  var g = hw.goals[EXT.rvIdx]; if (!g) return;
+  var el = document.getElementById('rvTxt');
+  hw.review = hw.review || {};
+  hw.review.items = hw.review.items || {};
+  hw.review.items[g.id] = { txt:el ? el.value : ((hw.review.items[g.id] || {}).txt || ''),
+    audioId:(hw.review.items[g.id] || {}).audioId || '' };
+  await patchHw(id, { review:hw.review });
+  if (!quiet) toast('已保存这一条');
+};
+A.rvRec = function(id){
+  var hw = byId(S.homework, id), g = hw.goals[EXT.rvIdx];
+  var btn = document.getElementById('rvRecBtn'), tip = document.getElementById('rvRecTip'), box = document.getElementById('rvRecBox');
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ tip.textContent = '这个环境不能录音'; return; }
+  if (A._rvRec && A._rvRec.state === 'recording'){ A._rvRec.stop(); return; }
+  navigator.mediaDevices.getUserMedia({ audio:true }).then(function(st){
+    var ch = []; A._rvRec = new MediaRecorder(st); A._rvRec.ondataavailable = function(e){ if (e.data.size) ch.push(e.data); };
+    A._rvRec.onstop = async function(){
+      st.getTracks().forEach(function(t){ t.stop(); });
+      var blob = new Blob(ch, { type:'audio/webm' });
+      var up = await upAudio(blob);
+      hw.review = hw.review || {}; hw.review.items = hw.review.items || {};
+      hw.review.items[g.id] = Object.assign(hw.review.items[g.id] || {}, { audioId:up.id });
+      await patchHw(id, { review:hw.review });
+      box.innerHTML = '<audio controls src="' + up.url + '" style="width:100%"></audio>';
+      btn.textContent = '🎙 重录'; tip.textContent = '已保存';
+    };
+    A._rvRec.start(); btn.textContent = '■ 停止'; tip.textContent = '录音中…';
+    setTimeout(function(){ if (A._rvRec && A._rvRec.state === 'recording') A._rvRec.stop(); }, 60000);
+  }).catch(function(){ tip.textContent = '没有麦克风权限'; });
+};
+A.rvFinish = async function(id){
+  await A.rvSave(id, true);
+  var hw = byId(S.homework, id);
+  hw.review = hw.review || {};
+  hw.review.judge = hw.review.judge || '达标';
+  hw.review.at = Date.now();
+  if (ONLINE){ try { await api('/api/review', { id:id, review:hw.review }); } catch (e) {} }
+  hw.status = 'reviewed'; save(); closeSheet(); render(); toast('已回课，孩子端可看到老师的逐条评语');
+};
+
+/* =========================================================
+   老师端：驾驶舱矩阵 / 教学计划 / 历史与导出
+   ========================================================= */
+function missDays(st){
+  var pend = stuHw(st.id).filter(function(h){ return h.status !== 'reviewed'; });
+  if (!pend.length) return 0;
+  var d = Math.floor((Date.now() - Math.min.apply(null, pend.map(function(h){ return h.createdAt; }))) / 86400e3);
+  return d;
+}
+function stabTrend(sid){
+  return recentStats(sid, 4).map(function(s){ return s.rate === null ? 0 : Math.round(s.rate * 100); });
+}
+function spark(v){
+  if (!v.length) return '';
+  var W = 90, H = 24, mx = 100, n = v.length;
+  var pts = v.map(function(x, i){ return (i / Math.max(1, n - 1) * W).toFixed(1) + ',' + (H - x / mx * H).toFixed(1); }).join(' ');
+  return '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" style="vertical-align:middle">'
+    + '<polyline points="' + pts + '" fill="none" stroke="#2563eb" stroke-width="2"/></svg>';
+}
+function viewCockpit(){
+  var rows = S.students.map(function(st){
+    var ss = recentStats(st.id, 1)[0] || { goals:0, done:0, rate:null, cards:0 };
+    var pend = stuHw(st.id).filter(function(h){ return h.status !== 'reviewed'; }).length;
+    var todo = stuHw(st.id).filter(function(h){ return h.status === 'submitted'; }).length;
+    var m = missDays(st);
+    return { st:st, rate:ss.rate, goals:ss.goals, done:ss.done, pend:pend, todo:todo, miss:m, trend:stabTrend(st.id) };
+  });
+  if (EXT.sort === 'miss') rows.sort(function(a, b){ return b.miss - a.miss; });
+  else if (EXT.sort === 'rate') rows.sort(function(a, b){ return (a.rate == null ? 9 : a.rate) - (b.rate == null ? 9 : b.rate); });
+  else rows.sort(function(a, b){ return b.todo - a.todo; });
+  var h = '<div class="card"><div class="spread"><h2>本周驾驶舱</h2>'
+    + '<button class="btn xs" onclick="A.batchExtend()">统一延长 +3 天</button></div>'
+    + '<div class="row wrap" style="margin-top:10px;gap:6px">'
+    + [['miss','按未交天数'], ['rate','按达成率'], ['todo','按待回课']].map(function(f){
+        return '<button class="chip ' + (EXT.sort === f[0] ? 'sel' : '') + '" onclick="A.setSort(\'' + f[0] + '\')">' + f[1] + '</button>';
+      }).join('') + '</div>'
+    + '<div class="tiny muted" style="margin-top:6px">默认按未交天数倒序，最需要催的排最前。折线为近 4 周达成率（只给趋势，不下结论）。</div></div>';
+  h += '<div class="card" style="padding:0;overflow:hidden"><table class="mtrx">'
+    + '<tr><th>学生</th><th>已练/目标</th><th>达成率</th><th>近4周</th><th>未交</th><th>操作</th></tr>'
+    + rows.map(function(r){
+        var pct = r.rate == null ? '—' : Math.round(r.rate * 100) + '%';
+        var col = r.rate == null ? 'var(--muted)' : (r.rate >= 0.85 ? 'var(--ok)' : r.rate >= 0.55 ? 'var(--warn)' : 'var(--bad)');
+        var nudgeAble = stuHw(r.st.id).filter(function(x){ return x.status !== 'reviewed' && nudgeCount(x) < 2; })[0];
+        return '<tr><td><b>' + esc(r.st.name) + '</b><div class="tiny muted">' + esc(r.st.level || '') + '</div></td>'
+          + '<td>' + r.done + '/' + r.goals + '</td>'
+          + '<td style="color:' + col + ';font-weight:700">' + pct + '</td>'
+          + '<td>' + spark(r.trend) + '</td>'
+          + '<td>' + (r.miss ? '<span class="tag bad">' + r.miss + ' 天</span>' : '<span class="tag ok">0</span>') + '</td>'
+          + '<td>' + (nudgeAble ? '<button class="btn xs" onclick="A.nudge(\'' + nudgeAble.id + '\')">催交</button>' : '<span class="tiny muted">—</span>') + '</td></tr>';
+      }).join('') + '</table></div>';
+  var stuck = S.students.filter(function(st){ var a = adaptFor(st.id); return a.stuck; });
+  if (stuck.length) h += '<div class="card" style="border-left:4px solid var(--warn)"><h3>⚠ 可能需要关注</h3>'
+    + stuck.map(function(st){ return '<div class="small">' + esc(st.name) + '：' + esc(adaptFor(st.id).stuckTip) + '</div>'; }).join('') + '</div>';
+  return h;
+}
+A.setSort = function(s){ EXT.sort = s; render(); };
+
+function viewPlan(){
+  var sid = EXT.planStu || (S.students[0] && S.students[0].id);
+  var st = byId(S.students, sid);
+  var h = '<div class="card"><h2>教学计划 · 难度自适应</h2>'
+    + '<div class="tiny muted">按 85% 规则（Wilson 2019）：≥95% 提速、80–95% 保持、55–80% 降难度、&lt;55% 退回上一级。系统只给建议，由你确认。</div>'
+    + '<div class="row wrap" style="margin-top:10px;gap:6px">'
+    + S.students.map(function(s){ return '<button class="chip ' + (s.id === sid ? 'sel' : '') + '" onclick="A.planStu(\'' + s.id + '\')">' + esc(s.name) + '</button>'; }).join('')
+    + '</div></div>';
+  if (!st) return h;
+  var a = adaptFor(sid);
+  var col = a.level === 'up' ? 'ok' : a.level === 'keep' ? 'ok' : a.level === 'down' ? 'warn' : a.level === 'back' ? 'bad' : '';
+  h += '<div class="card"><div class="spread"><h3>' + esc(st.name) + ' 的下周建议</h3><span class="tag ' + col + '">' + (a.level === 'cold' ? '冷启动' : a.level === 'up' ? '提速' : a.level === 'keep' ? '保持' : a.level === 'down' ? '降难度' : '退回上一级') + '</span></div>'
+    + '<div class="small" style="margin-top:8px"><b>' + esc(a.act || a.tip) + '</b></div>'
+    + '<div class="tiny muted" style="margin-top:4px">依据：' + esc(a.why || a.detail) + '</div>'
+    + (a.stuckTip ? '<div class="small" style="margin-top:6px;color:var(--warn)">⚠ ' + esc(a.stuckTip) + '</div>' : '')
+    + '<div class="row" style="margin-top:10px;gap:8px">'
+    + '<button class="btn pri grow" onclick="A.adoptPlan(\'' + sid + '\')">采纳建议 → 生成周计划</button></div>'
+    + '<div class="tiny muted" style="margin-top:6px">采纳后生成的是<b>建议清单草稿</b>，仍要你确认才写入任务卡（M5-02）。</div></div>';
+  h += '<div class="card"><h3>周达成趋势</h3>'
+    + (a.weeks.length ? a.weeks.map(function(w){
+        return '<div class="row" style="gap:8px;padding:5px 0;border-bottom:1px solid var(--line2)">'
+          + '<span class="tiny muted" style="width:88px">' + esc(w.week) + '</span>'
+          + '<span class="tiny muted">卡 ' + w.cards + ' · 目标 ' + w.goals + ' · 达成 ' + w.done + '</span>'
+          + '<span class="grow"></span><b>' + (w.rate === null ? '—' : Math.round(w.rate * 100) + '%') + '</b></div>';
+      }).join('') : '<div class="empty">还没有数据</div>') + '</div>';
+  var m = mastery(sid);
+  h += '<div class="card"><h3>技法掌握度档案</h3><div class="tiny muted">用于备课：看出哪些技法练得多、哪些老是拿不下。</div>'
+    + (m.length ? m.map(function(x){
+        var pct = Math.round(x.rate * 100);
+        return '<div style="margin-top:8px"><div class="spread tiny"><span>' + esc(x.tech) + '（' + x.done + '/' + x.goals + ' 条）</span><b>' + pct + '%</b></div>'
+          + '<div class="pbar"><i style="width:' + pct + '%"></i></div></div>';
+      }).join('') : '<div class="empty">还没有技法记录</div>') + '</div>';
+  return h;
+}
+A.planStu = function(id){ EXT.planStu = id; render(); };
+A.adoptPlan = function(sid){
+  var a = adaptFor(sid), m = mastery(sid).filter(function(x){ return x.rate < 0.8; }).slice(0, 3);
+  var txt = '【下周建议 · ' + (byId(S.students, sid) || {}).name + '】\n'
+    + '· ' + (a.act || a.tip) + '\n· 依据：' + (a.why || a.detail) + '\n'
+    + (m.length ? '· 建议复练技法：' + m.map(function(x){ return x.tech + '（达成 ' + Math.round(x.rate * 100) + '%）'; }).join('、') + '\n' : '')
+    + '（这是建议，不是自动改写的任务卡）';
+  openSheet('<h3>下周微目标建议清单</h3><pre style="white-space:pre-wrap;font-size:13px;line-height:1.6">' + esc(txt) + '</pre>'
+    + '<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">知道了</button>'
+    + '<button class="btn pri" onclick="A.copyPlan()">复制</button></div>');
+  A._planTxt = txt;
+};
+A.copyPlan = function(){
+  var b = document.createElement('textarea'); b.value = A._planTxt || ''; document.body.appendChild(b);
+  b.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(b); closeSheet(); toast('已复制');
+};
+
+function viewHist(){
+  var sid = EXT.histStu, wk = EXT.histWeek, tech = EXT.histTech;
+  var list = S.homework.slice().sort(function(a, b){ return b.createdAt - a.createdAt; });
+  if (sid) list = list.filter(function(h){ return h.studentId === sid; });
+  if (wk) list = list.filter(function(h){ return weekKey(h.createdAt) === wk; });
+  var wks = {}; S.homework.forEach(function(h){ wks[weekKey(h.createdAt)] = 1; });
+  var techs = {}; S.homework.forEach(function(h){ ensureGoals(h).forEach(function(g){ techs[g.tech] = 1; }); });
+  if (tech) list = list.filter(function(h){ return ensureGoals(h).some(function(g){ return g.tech === tech; }); });
+  var h = '<div class="card"><div class="spread"><h2>历史与导出</h2>'
+    + '<button class="btn xs" onclick="A.csv()">⬇ 导出 CSV</button></div>'
+    + '<div class="row wrap" style="margin-top:10px;gap:6px">'
+    + '<select onchange="A.histStu(this.value)" style="max-width:150px"><option value="">全部学生</option>'
+    + S.students.map(function(s){ return '<option value="' + s.id + '" ' + (sid === s.id ? 'selected' : '') + '>' + esc(s.name) + '</option>'; }).join('')
+    + '</select>'
+    + '<select onchange="A.histWk(this.value)" style="max-width:150px"><option value="">全部周</option>'
+    + Object.keys(wks).sort().reverse().map(function(k){ return '<option value="' + k + '" ' + (wk === k ? 'selected' : '') + '>' + k + '</option>'; }).join('')
+    + '</select>'
+    + '<select onchange="A.histTech(this.value)" style="max-width:150px"><option value="">全部技法</option>'
+    + Object.keys(techs).map(function(k){ return '<option value="' + esc(k) + '" ' + (tech === k ? 'selected' : '') + '>' + esc(k) + '</option>'; }).join('')
+    + '</select></div>'
+    + '<div class="tiny muted" style="margin-top:6px">共 ' + list.length + ' 张任务卡（可回溯全部历史）。导出不含音频文件本身。</div></div>';
+  h += list.length ? list.slice(0, 60).map(function(hw){
+    var st = byId(S.students, hw.studentId) || { name:'—' };
+    var gs = ensureGoals(hw);
+    return '<div class="card tight"><div class="spread"><div><b>' + esc(st.name) + '</b> · ' + esc(hw.title)
+      + '<div class="tiny muted">' + esc(hw.due) + ' 截止 · ' + (hw.status === 'reviewed' ? '已回课' : hw.status === 'submitted' ? '待回课' : '未提交') + '</div></div>'
+      + '<button class="btn xs" onclick="A.printCard(\'' + hw.id + '\')">🖨 A4</button></div>'
+      + '<div style="margin-top:6px">' + gs.map(goalLine).join('') + '</div></div>';
+  }).join('') : '<div class="empty">这个筛选下没有记录</div>';
+  return h;
+}
+A.histStu = function(v){ EXT.histStu = v; render(); };
+A.histWk = function(v){ EXT.histWeek = v; render(); };
+A.histTech = function(v){ EXT.histTech = v; render(); };
+A.csv = function(){
+  var rows = [['学生', '曲目', '截止', '状态', '技法', '片段', '成功标准', '遍数', '阈值', '达标遍数', '批注数', '批注-未做到']];
+  S.homework.forEach(function(hw){
+    var st = byId(S.students, hw.studentId) || { name:'' };
+    ensureGoals(hw).forEach(function(g){
+      rows.push([st.name, hw.title, hw.due,
+        hw.status === 'reviewed' ? '已回课' : hw.status === 'submitted' ? '待回课' : '未提交',
+        g.tech, g.seg, g.std, g.reps, g.pass, gDone(g), (hw.marks || []).length,
+        (hw.checks || []).filter(function(x){ return !x; }).length]);
+    });
+  });
+  var csv = '\ufeff' + rows.map(function(r){ return r.map(function(c){ return '"' + String(c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+  dl('练琴记录_' + today() + '.csv', csv);
+  toast('已导出 ' + (rows.length - 1) + ' 条（CSV 不含音频）');
+};
+A.printCard = function(id){
+  var hw = byId(S.homework, id); if (!hw) return;
+  var sc = byId(S.scores, hw.scoreId), st = byId(S.students, hw.studentId) || { name:'' };
+  var gs = ensureGoals(hw);
+  var el = document.getElementById('printArea'); if (!el){ el = document.createElement('div'); el.id = 'printArea'; document.body.appendChild(el); }
+  el.innerHTML = '<div class="wm">' + esc(st.name) + '</div>'
+    + '<h1 style="font-size:20px;margin:0 0 4px">' + esc(hw.title) + '</h1>'
+    + '<div class="tiny muted">' + esc(st.name) + ' · ' + esc(sc.key || '') + ' · 截止 ' + esc(hw.due) + ' · ' + hw.target.bpm + ' BPM</div>'
+    + '<h3 style="margin:14px 0 6px">这一周要拿下的</h3>'
+    + gs.map(function(g, i){
+        return '<div style="margin:6px 0;padding:6px;border:1px solid #ddd;border-radius:6px">'
+          + '<b>' + (i + 1) + '. ' + esc(g.tech) + '</b> · ' + esc(g.seg) + ' · ' + esc(g.std) + (g.bpm ? ' · ' + esc(g.bpm) + ' BPM' : '')
+          + (g.note ? '<div>老师的指令：' + esc(g.note) + '</div>' : '')
+          + '<div style="margin-top:4px">' + Array.apply(null, Array(Math.max(1, g.reps))).map(function(){ return '☐'; }).join(' ') + '</div></div>';
+      }).join('')
+    + (hw.marks && hw.marks.length ? '<h3 style="margin:14px 0 6px">谱面上的标记</h3>' + hw.marks.map(function(m){
+        return '<div>· ' + esc(m.type) + ' 第' + (m.li + 1) + '行第' + (m.i + 1) + '音' + (m.note ? '：' + esc(m.note) : '') + '</div>';
+      }).join('') : '')
+    + '<div style="margin-top:10px">' + renderScore(sc, { lines:hw.lines, marks:hw.marks }) + '</div>';
+  setTimeout(function(){ window.print(); }, 250);
+};
+
+/* 自编谱录入（M7-11） */
+A.importScore = function(){
+  openSheet('<h3>粘贴简谱/音名快速成谱</h3>'
+    + '<div class="tiny muted">一行一句。写法：<b>音名+八度</b>（C4 D4 E4），时值用 <b>/</b> 表示八分（C4/），<b>-</b> 延音，<b>0</b> 休止。技法写在音后面用 []，如 <b>C4[轮音]</b>。</div>'
+    + '<textarea id="impTxt" style="min-height:150px;margin-top:8px" placeholder="C4 C4 G4 G4\nA4 A4 G4-\nF4 F4 E4 E4"></textarea>'
+    + '<label class="fld" style="margin-top:8px"><span>曲名</span><input id="impT" placeholder="例：小星星"></label>'
+    + '<div class="row" style="margin-top:8px;gap:8px">'
+    + '<label class="fld grow"><span>调性</span><input id="impK" value="C 大调"></label>'
+    + '<label class="fld grow"><span>BPM</span><input id="impB" type="number" value="76"></label></div>'
+    + '<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
+    + '<button class="btn pri" onclick="A.impGo()">生成</button></div>');
+};
+A.impGo = function(){
+  var raw = document.getElementById('impTxt').value.trim();
+  if (!raw) return toast('先粘贴内容');
+  var errs = [], lines = raw.split('\n').map(function(s){ return s.trim(); }).filter(Boolean).map(function(ln, li){
+    var notes = [], toks = ln.split(/\s+/);
+    toks.forEach(function(t){
+      var m = t.match(/^([A-Ga-g])(\d)?(\/)?(-)?(\[([^\]]+)\])?$/);
+      if (!m){ errs.push('第' + (li + 1) + '行：' + t); return; }
+      notes.push({ p:m[1].toUpperCase() + (m[2] || '4'), d:m[3] ? 0.5 : 1, tie:!!m[4], t:m[6] || '' });
+    });
+    return { name:'第' + (li + 1) + '句', notes:notes };
+  });
+  if (errs.length && !lines.length) return toast('解析失败：' + errs[0]);
+  var sc = { id:uid('sc'), title:document.getElementById('impT').value || '自编谱 ' + today(),
+    key:document.getElementById('impK').value || 'C 大调', cat:'自编', bpm:parseInt(document.getElementById('impB').value, 10) || 76,
+    tip:'老师自编', owner:'teacher', lines:lines };
+  if (ONLINE) api('/api/score', { score:sc }).then(function(){ pull(true); }).catch(function(){});
+  S.scores.push(sc); save(); closeSheet(); render();
+  toast(errs.length ? '已生成，但有 ' + errs.length + ' 处没认出来' : '已生成《' + sc.title + '》');
+};
+
+/* =========================================================
+   孩子端：逐条练习 + 批注核对 + 成长
+   ========================================================= */
+B.practice = function(id){
+  var hw = byId(S.homework, id), sc = byId(S.scores, hw.scoreId);
+  ensureGoals(hw);
+  ST.px = { id:id, sec:0, repeats:0, audioId:null, audioBlob:null, gi:0 };
+  paused = true;
+  var draw = function(){
+    var g = hw.goals[ST.px.gi] || hw.goals[0];
+    var h = '<h3>' + esc(hw.title) + '</h3>'
+      + '<div class="small muted">目标 ' + hw.target.repeats + ' 遍 / ' + hw.target.minutes + ' 分钟 / ' + hw.target.bpm + ' BPM</div>'
+      + mediaBlock(hw, false)
+      + renderScore(sc, { lines:hw.lines, marks:hw.marks })
+      + '<div class="card tight" style="margin-top:10px"><h3>老师划的重点</h3>' + markList(hw.marks) + '</div>'
+      + '<div class="card tight" style="margin-top:10px"><div class="spread">'
+        + '<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:24px;font-weight:800">00:00</div></div>'
+        + '<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:24px;font-weight:800">0</div></div>'
+        + '<button class="btn pri" onclick="B.addRep()">＋ 记一遍</button></div>'
+        + '<div class="row" style="margin-top:8px;gap:8px">'
+        + '<button class="btn sm pri" id="tBtn" onclick="timerToggle()">▶ 开始计时</button>'
+        + '<div class="row" style="gap:4px"><input type="number" id="pBpm" value="' + hw.target.bpm + '" style="width:74px" onchange="metroStop()"><span class="tiny muted">BPM</span></div>'
+        + '<button class="btn sm" id="mBtn" onclick="metroToggle()">▶ 节拍器</button></div></div>'
+      + '<div class="card" style="margin-top:10px"><div class="spread"><h3>微目标 ' + (ST.px.gi + 1) + '/' + hw.goals.length + '</h3>'
+        + '<span class="tiny muted">' + esc(hw.goals.map(function(x, i){
+            return '<button class="chip ' + (i === ST.px.gi ? 'sel' : '') + '" onclick="B.goGoal(' + i + ')">' + (i + 1) + '</button>';
+          }).join('')) + '</span></div>'
+        + goalLine(g) + '<div style="margin-top:6px">' + goalBar(g) + '</div>'
+        + '<div class="row" style="margin-top:8px;gap:8px">'
+        + '<button class="btn sm pri" id="rBtn" onclick="B.rec()">🎙 录这一遍</button>'
+        + '<span class="tiny muted" id="rTip">录完自己判断：这一遍做到了吗？</span></div>'
+        + '<div id="rBox"></div>'
+        + '<div class="row" style="margin-top:8px;gap:8px">'
+        + '<button class="btn grow" onclick="B.take(false)">↻ 再来一遍</button>'
+        + '<button class="btn pri grow" onclick="B.take(true)">✓ 这遍做到了</button></div>'
+        + '<div class="tiny muted" style="margin-top:6px">系统只记录"练了/练了多久/稳不稳"，不评价弹得好不好。</div></div>'
+      + '<div class="card tight" style="margin-top:10px"><h3>老师划的重点，这次做到了吗</h3>'
+        + ((hw.marks && hw.marks.length) ? hw.marks.map(function(m, i){
+            var ok = (hw.checks || [])[i];
+            return '<div class="row" style="gap:8px;padding:6px 0;border-bottom:1px solid var(--line2)">'
+              + '<span class="tag" style="background:' + (MARK_TYPES.filter(function(t){ return t.k === m.type; })[0] || { bg:'#eee' }).bg + '">' + esc(m.type) + '</span>'
+              + '<span class="small grow">第' + (m.li + 1) + '行第' + (m.i + 1) + '音' + (m.note ? ' · ' + esc(m.note) : '') + '</span>'
+              + '<button class="btn xs ' + (ok === true ? 'pri' : '') + '" onclick="B.check(' + i + ',true)">做到了</button>'
+              + '<button class="btn xs ' + (ok === false ? 'danger' : '') + '" onclick="B.check(' + i + ',false)">还没</button></div>';
+          }).join('') : '<div class="small muted">这张卡没有谱面标记</div>')
+        + '<div class="tiny muted" style="margin-top:6px">没做到的会自动进下一张卡，老师会带着你重练。</div></div>'
+      + '<div class="card tight" style="margin-top:10px"><h3>今天练得怎么样</h3>'
+        + '<div class="row wrap" id="selfRow">' + SELF_LEVELS.map(function(s){
+            return '<button class="chip" data-s="' + s.k + '" onclick="B.setSelf(\'' + s.k + '\')">' + s.k + '</button>'; }).join('') + '</div>'
+        + '<textarea id="pNote" style="margin-top:8px" placeholder="想对老师说的话（哪里卡住了？）"></textarea>'
+        + '<label class="row tiny muted" style="margin-top:6px;gap:6px"><input type="checkbox" id="pByParent" style="width:auto"> 由家长代提交</label></div>'
+      + '<div class="row" style="margin-top:12px;gap:8px">'
+        + '<button class="btn grow" onclick="B.cancelPx()">先不练了</button>'
+        + '<button class="btn pri grow" onclick="B.submit()">提交回课 ✓</button></div>';
+    openSheet(h, function(){ B.setSelf('还行'); });
+  };
+  B._draw = draw; draw();
+};
+B.goGoal = function(i){ ST.px.gi = i; if (window._stopPx) window._stopPx(); B._draw(); };
+B.rec = async function(){
+  var btn = document.getElementById('rBtn'), tip = document.getElementById('rTip'), box = document.getElementById('rBox');
+  if (rec && rec.state === 'recording'){ rec.stop(); return; }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    tip.innerHTML = '<span style="color:var(--warn)">这个环境不能录音（需要 https 或本地服务）。不录音也能记遍数。</span>'; return;
+  }
+  try{
+    recStream = await navigator.mediaDevices.getUserMedia({ audio:true });
+    rec = new MediaRecorder(recStream); recCh = [];
+    rec.ondataavailable = function(e){ if (e.data.size) recCh.push(e.data); };
+    rec.onstop = async function(){
+      recStream.getTracks().forEach(function(t){ t.stop(); });
+      var blob = new Blob(recCh, { type:'audio/webm' });
+      ST.px.audioBlob = blob; ST.px.audioId = null;
+      box.innerHTML = '<audio controls src="' + URL.createObjectURL(blob) + '" style="width:100%;margin-top:6px"></audio>';
+      tip.textContent = '录好了，点「这遍做到了」或「再来一遍」';
+      btn.textContent = '🎙 重录'; rec = null;
+    };
+    rec.start(); btn.textContent = '■ 停止'; tip.textContent = '录音中…';
+    setTimeout(function(){ if (rec && rec.state === 'recording') rec.stop(); }, 300000);
+  }catch(e){ tip.textContent = '没有麦克风权限，可以直接记遍数'; }
+};
+B.take = async function(ok){
+  var hw = byId(S.homework, ST.px.id); if (!hw) return;
+  var g = hw.goals[ST.px.gi]; if (!g) return;
+  var aid = '';
+  if (ok && ST.px.audioBlob){ var up = await upAudio(ST.px.audioBlob); aid = up.id; }
+  else if (ST.px.audioBlob){ var up2 = await upAudio(ST.px.audioBlob); aid = up2.id; }
+  g.takes.push({ at:Date.now(), ok:!!ok, sec:ST.px.sec, audioId:aid });
+  ST.px.audioBlob = null; ST.px.audioId = null; ST.px.repeats++;
+  await patchHw(hw.id, { goals:hw.goals });
+  if (gPass(g)) toast('✓ ' + g.tech + ' ' + gDone(g) + '/' + g.reps + ' 遍，达标了');
+  else toast('已记 1 遍（' + gDone(g) + '/' + g.reps + '）');
+  B._draw();
+};
+B.check = async function(i, ok){
+  var hw = byId(S.homework, ST.px.id); if (!hw) return;
+  var c = (hw.checks || []).slice(); while (c.length < hw.marks.length) c.push(undefined);
+  c[i] = ok; await patchHw(hw.id, { checks:c }); B._draw();
+};
+B.submit = async function(){
+  var hw = byId(S.homework, ST.px.id); if (!hw) return;
+  var noteEl = document.getElementById('pNote'), parEl = document.getElementById('pByParent');
+  var okGoals = ensureGoals(hw).filter(gPass).length;
+  var sub = { minutes:Math.round((ST.px.sec || 0) / 60), repeats:ST.px.repeats,
+    self:ST.px.self || '还行', note:noteEl ? noteEl.value : '',
+    audioId:ST.lastAudioId || '', goals:hw.goals, checks:hw.checks || [],
+    okGoals:okGoals, byParent:parEl ? !!parEl.checked : false };
+  if (ONLINE){
+    var payload = { id:hw.id, sub:sub };
+    if (ST.px.audioBlob){ try { payload.audio = { data:await blobToDataURL(ST.px.audioBlob), type:ST.px.audioBlob.type }; } catch (e) {} }
+    try { await api('/api/submit', payload); } catch (e) {}
+    await pull(true);
+  }
+  hw.sub = sub; hw.status = 'submitted'; save();
+  if (window._stopPx) window._stopPx();
+  closeSheet(); render();
+  toast(okGoals ? '已提交！达标 ' + okGoals + ' 条，老师那边马上能看到' : '已提交，老师那边马上能看到');
+};
+B.copyPrev = function(hwId){
+  var hw = byId(S.homework, hwId); if (!hw) return;
+  var prev = stuHw(ST.id).filter(function(h){ return h.scoreId === hw.scoreId && h.id !== hw.id && h.sub; })
+    .sort(function(a, b){ return b.createdAt - a.createdAt; })[0];
+  if (!prev) return toast('还没有上一次的录音可以比');
+  var ids = [];
+  ensureGoals(prev).forEach(function(g){ (g.takes || []).forEach(function(t){ if (t.audioId) ids.push(t.audioId); }); });
+  if (!ids.length) return toast('上一次没有留下录音');
+  openSheet('<h3>和上一次比一比</h3><div class="tiny muted">只和自己比（不提供和别的同学的比较）。</div>'
+    + ids.slice(0, 5).map(function(id, i){
+        return '<div style="margin-top:8px"><div class="tiny muted">上次的第' + (i + 1) + '遍</div>'
+          + '<audio controls src="' + audioUrl(id) + '" style="width:100%"></audio></div>';
+      }).join('')
+    + '<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">关掉</button></div>');
+};
+
+function viewGrow(){
+  var me = byId(S.students, ST.id); if (!me) return '<div class="empty">请先在老师端添加学生</div>';
+  var sk = calcStreak(ST.id), m = mastery(ST.id);
+  var h = '<div class="card"><h2>' + esc(me.name) + ' 的成长</h2>'
+    + '<div class="grid3" style="margin-top:10px">'
+    + '<div class="card tight" style="margin:0;text-align:center"><div style="font-size:22px;font-weight:800">' + sk.n + '</div><div class="tiny muted">连续有效练习</div></div>'
+    + '<div class="card tight" style="margin:0;text-align:center"><div style="font-size:22px;font-weight:800">' + sk.frozen + '</div><div class="tiny muted">冻结卡剩余</div></div>'
+    + '<div class="card tight" style="margin:0;text-align:center"><div style="font-size:22px;font-weight:800">' + m.length + '</div><div class="tiny muted">练过技法</div></div>'
+    + '</div>'
+    + '<div class="tiny muted" style="margin-top:8px">连续记录绑定「完成一次有效练习」（有一条微目标达标），不是打开页面。断了不归零，会消耗一张冻结卡；每月 2 张。</div></div>';
+  h += '<div class="card"><h3>我练过的技法</h3>'
+    + (m.length ? m.map(function(x){
+        return '<div style="margin-top:8px"><div class="spread tiny"><span>' + esc(x.tech) + '（' + x.done + '/' + x.goals + ' 条达标）</span><b>' + Math.round(x.rate * 100) + '%</b></div>'
+          + '<div class="pbar"><i style="width:' + Math.round(x.rate * 100) + '%"></i></div></div>';
+      }).join('') : '<div class="empty">还没有记录</div>')
+    + '<div class="tiny muted" style="margin-top:8px">这里没有分数、没有排名，只有你自己和上次相比。</div></div>';
+  var hist = stuHw(ST.id).filter(function(x){ return x.status === 'reviewed'; }).sort(function(a, b){ return b.createdAt - a.createdAt; });
+  h += '<div class="card"><h3>老师的回课</h3>'
+    + (hist.length ? hist.slice(0, 10).map(function(hw){
+        var sc = byId(S.scores, hw.scoreId) || { title:'' };
+        var items = (hw.review && hw.review.items) ? hw.review.items : {};
+        return '<div class="card tight" style="margin:8px 0"><div class="spread"><b>' + esc(sc.title) + '</b>'
+          + '<span class="tiny muted">' + new Date(hw.review.at).toLocaleDateString('zh-CN') + '</span></div>'
+          + '<div style="margin-top:6px">' + ensureGoals(hw).map(function(g){
+              var it = items[g.id];
+              return '<div style="padding:4px 0;border-bottom:1px solid var(--line2)">'
+                + '<div class="tiny">' + esc(g.tech) + ' · ' + esc(g.seg) + ' · ' + gDone(g) + '/' + g.reps + ' 遍</div>'
+                + (it && it.txt ? '<div class="small" style="color:var(--brand)">老师说：“' + esc(it.txt) + '”</div>' : '')
+                + (it && it.audioId ? '<audio controls src="' + audioUrl(it.audioId) + '" style="width:100%;height:30px"></audio>' : '')
+                + '</div>';
+            }).join('') + '</div>'
+          + '<button class="btn xs" style="margin-top:6px" onclick="B.copyPrev(\'' + hw.id + '\')">🔁 和上一次比一比</button></div>';
+      }).join('') : '<div class="empty">还没有老师回课</div>') + '</div>';
+  return h;
+}
+
+/* =========================================================
+   装配：导航 + 渲染钩子
+   ========================================================= */
+function extNav(){
+  var nt = document.querySelector('#navT .subnav-in'), ns = document.querySelector('#navS .subnav-in');
+  if (nt && !document.getElementById('navPlanBtn')){
+    nt.insertAdjacentHTML('beforeend',
+      '<button id="navPlanBtn" data-tab="t-cockpit" onclick="A.go(\'t-cockpit\')">驾驶舱</button>'
+      + '<button id="navPlanBtn2" data-tab="t-plan" onclick="A.go(\'t-plan\')">教学计划</button>'
+      + '<button id="navHistBtn" data-tab="t-hist" onclick="A.go(\'t-hist\')">历史/导出</button>');
+  }
+  if (ns && !document.getElementById('navGrowBtn')){
+    ns.insertAdjacentHTML('beforeend', '<button id="navGrowBtn" data-tab="s-grow" onclick="B.go(\'s-grow\')">我的成长</button>');
+  }
+}
+var _renderT = renderT, _viewS = viewS, _render = render;
+window.renderT = function(){
+  if (T.tab === 't-cockpit') return viewCockpit();
+  if (T.tab === 't-plan') return viewPlan();
+  if (T.tab === 't-hist') return viewHist();
+  return _renderT.apply(this, arguments);
+};
+window.viewS = function(){
+  if (ST.tab === 's-grow') return viewGrow();
+  return _viewS.apply(this, arguments);
+};
+window.render = function(){ extNav(); return _render.apply(this, arguments); };
+
+/* 卡片上补：微目标进度 + 批注核对结果 */
+var _cardHwTeacher = cardHwTeacher, _cardHwStudent = cardHwStudent;
+window.cardHwTeacher = function(hw){
+  var gs = ensureGoals(hw), done = gs.filter(gPass).length;
+  var extra = '<div class="card tight" style="margin-top:-6px;background:var(--bg2)">'
+    + '<div class="spread"><div class="tiny muted">微目标 ' + done + '/' + gs.length + ' 达标</div>'
+    + '<div class="row" style="gap:6px">'
+    + '<button class="btn xs" onclick="A.editGoals(\'' + hw.id + '\')">改目标</button>'
+    + '<button class="btn xs" onclick="A.reviewGoals(\'' + hw.id + '\')">逐条批改</button>'
+    + '<button class="btn xs" onclick="A.extendDue(\'' + hw.id + '\',3)">+3天</button>'
+    + '<button class="btn xs" onclick="A.nudge(\'' + hw.id + '\')">催交(' + nudgeCount(hw) + '/2)</button>'
+    + '</div></div>'
+    + '<div style="margin-top:6px">' + gs.map(goalLine).join('') + '</div>'
+    + ((hw.checks || []).length ? '<div class="tiny muted" style="margin-top:6px">批注核对：'
+        + hw.checks.map(function(ok, i){ return (hw.marks[i] ? hw.marks[i].type : '') + (ok ? '✓' : '✗'); }).join('、') + '</div>' : '')
+    + '</div>';
+  return _cardHwTeacher(hw) + extra;
+};
+window.cardHwStudent = function(hw){
+  var gs = ensureGoals(hw), done = gs.filter(gPass).length;
+  var extra = '<div class="card tight" style="margin-top:-6px;background:var(--bg2)">'
+    + '<div class="spread"><div class="tiny muted">这一周要拿下 ' + gs.length + ' 条（已达标 ' + done + '）</div></div>'
+    + '<div style="margin-top:6px">' + gs.map(function(g){
+        return '<div style="margin-bottom:6px">' + goalLine(g) + goalBar(g) + '</div>'; }).join('') + '</div></div>';
+  return _cardHwStudent(hw) + extra;
+};
+console.log('PRD 扩展包 v0.2 已加载');
+
+</script>
+</body>
+</html>
