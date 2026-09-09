@@ -1,11 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 360" width="560" height="360" role="img">
   <title>余音 · 民乐老师的 AI 助教</title>
   <style>
-    /* 主时间线 8s 循环：朱砂晕染 → 音点亮起 → 涟漪三环渐散 → 余音浮现 → 归于平静 */
+    /* 主时间线 8s 循环：晕染 → 音符浮现 → 涟漪渐散 → 音符消散 → 余音浮现 → 归于平静 */
     .scene{animation:scene 8s ease-in-out infinite}
     .halo{transform-box:fill-box;transform-origin:center;animation:halo 8s ease-in-out infinite}
-    .wet{transform-box:fill-box;transform-origin:center;animation:wet 8s ease-in-out infinite}
-    .dotg{transform-box:fill-box;transform-origin:center;animation:popDot 8s ease-out infinite}
+    .note{transform-box:fill-box;transform-origin:center;animation:noteLife 8s ease-in-out infinite}
     .r1,.r2,.r3{transform-box:fill-box;transform-origin:center}
     .r1{animation:ripple1 8s ease-out infinite}
     .r2{animation:ripple2 8s ease-out infinite}
@@ -17,63 +16,64 @@
     /* 淡晕：如朱砂在宣纸上慢慢洇开 */
     @keyframes halo{
       0%,5%{opacity:0;transform:scale(.6)}
-      20%{opacity:1;transform:scale(1)}
-      60%{opacity:.85;transform:scale(1.04)}
-      100%{opacity:.85;transform:scale(1.04)}
+      18%{opacity:1;transform:scale(1)}
+      45%{opacity:.85;transform:scale(1.04)}
+      70%,100%{opacity:0;transform:scale(1.15)}
     }
-    /* 湿墨环：带宣纸洇痕的中层 */
-    @keyframes wet{
-      0%,8%{opacity:0;transform:scale(.5)}
-      24%{opacity:.4;transform:scale(1)}
-      60%{opacity:.3;transform:scale(1.06)}
-      100%{opacity:.3;transform:scale(1.06)}
+    /* 音符的一生：浮现 → 停留 → 随涟漪消散（声音散去） */
+    @keyframes noteLife{
+      0%,8%{opacity:0;transform:translateY(8px) scale(1.08)}
+      20%{opacity:1;transform:translateY(0) scale(1.15)}
+      46%{opacity:1;transform:translateY(-2px) scale(1.15)}
+      62%,100%{opacity:0;transform:translateY(-14px) scale(1.18)}
     }
-    @keyframes popDot{
-      0%,12%{transform:scale(0)}
-      21%{transform:scale(1.15)}
-      27%,100%{transform:scale(1)}
-    }
+    /* 三道涟漪依次扩散：26% / 36% / 46% 起 */
     @keyframes ripple1{
-      0%,26%{opacity:0;transform:scale(.4)}
-      35%{opacity:.5}
-      54%{opacity:0;transform:scale(2)}
+      0%,24%{opacity:0;transform:scale(.4)}
+      33%{opacity:.5}
+      52%{opacity:0;transform:scale(2)}
       100%{opacity:0;transform:scale(2)}
     }
     @keyframes ripple2{
-      0%,36%{opacity:0;transform:scale(.4)}
-      45%{opacity:.32}
-      64%{opacity:0;transform:scale(2)}
+      0%,34%{opacity:0;transform:scale(.4)}
+      43%{opacity:.32}
+      62%{opacity:0;transform:scale(2)}
       100%{opacity:0;transform:scale(2)}
     }
     @keyframes ripple3{
-      0%,46%{opacity:0;transform:scale(.4)}
-      55%{opacity:.2}
-      74%{opacity:0;transform:scale(2)}
+      0%,44%{opacity:0;transform:scale(.4)}
+      53%{opacity:.18}
+      72%{opacity:0;transform:scale(2)}
       100%{opacity:0;transform:scale(2)}
     }
+    /* 余音浮现：音符散去之时 */
     @keyframes riseWord{
       0%,48%{opacity:0;transform:translateY(10px)}
-      62%,100%{opacity:1;transform:translateY(0)}
+      64%,100%{opacity:1;transform:translateY(0)}
     }
     @keyframes fadeTag{0%,58%{opacity:0}72%,100%{opacity:1}}
   </style>
   <defs>
-    <radialGradient id="yg" cx="40%" cy="34%" r="75%">
+    <radialGradient id="yg" cx="38%" cy="32%" r="78%">
       <stop offset="0%" stop-color="#C4573F"/>
       <stop offset="55%" stop-color="#A63A2C"/>
       <stop offset="100%" stop-color="#8E3025"/>
     </radialGradient>
+    <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A63A2C"/>
+      <stop offset="100%" stop-color="#7E2B20"/>
+    </linearGradient>
     <!-- 淡晕：朱砂色向外融于纸 -->
     <radialGradient id="haloG" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#C4573F" stop-opacity="0.28"/>
       <stop offset="55%" stop-color="#C4573F" stop-opacity="0.12"/>
       <stop offset="100%" stop-color="#C4573F" stop-opacity="0"/>
     </radialGradient>
-    <!-- 湿墨洇痕：湍流只作用于这一层，红调不发灰 -->
-    <filter id="bleed" x="-40%" y="-40%" width="180%" height="180%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="3" seed="7"/>
-      <feDisplacementMap in="SourceGraphic" scale="6"/>
-      <feGaussianBlur stdDeviation="2.4"/>
+    <!-- 笔触：极轻的洇痕，柔而不脏 -->
+    <filter id="brush" x="-30%" y="-30%" width="160%" height="160%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.11" numOctaves="2" seed="11"/>
+      <feDisplacementMap in="SourceGraphic" scale="3"/>
+      <feGaussianBlur stdDeviation="0.5"/>
     </filter>
   </defs>
 
@@ -83,22 +83,26 @@
 
   <g class="scene">
     <!-- 水墨淡晕（静态兜底：完整可见） -->
-    <circle class="halo" cx="280" cy="150" r="86" fill="url(#haloG)"/>
-    <!-- 湿墨洇痕中层 -->
-    <circle class="wet" cx="280" cy="150" r="44" fill="#B04A3A" opacity="0.28" filter="url(#bleed)"/>
+    <circle class="halo" cx="278" cy="146" r="88" fill="url(#haloG)"/>
 
     <!-- 涟漪三环 -->
-    <circle class="r1" cx="280" cy="150" r="56" fill="none" stroke="#B04A3A" stroke-width="2" opacity="0.35"/>
-    <circle class="r2" cx="280" cy="150" r="56" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity="0.18"/>
-    <circle class="r3" cx="280" cy="150" r="56" fill="none" stroke="#B04A3A" stroke-width="1" opacity="0.1"/>
+    <circle class="r1" cx="278" cy="146" r="58" fill="none" stroke="#B04A3A" stroke-width="2" opacity="0.35"/>
+    <circle class="r2" cx="278" cy="146" r="58" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity="0.18"/>
+    <circle class="r3" cx="278" cy="146" r="58" fill="none" stroke="#B04A3A" stroke-width="1" opacity="0.1"/>
 
-    <!-- 朱砂音点 -->
-    <g class="dotg">
-      <circle cx="280" cy="150" r="30" fill="url(#yg)"/>
-      <circle cx="271" cy="141" r="5.5" fill="#D98A75" opacity="0.32"/>
+    <!-- 艺术音符：八分音符，笔触感（静态兜底：完整可见） -->
+    <g class="note" opacity="1" transform="translate(-41.7,-21) scale(1.15)">
+      <!-- 符头：斜置椭圆，朱砂釉面 -->
+      <ellipse cx="258" cy="168" rx="16.5" ry="12" transform="rotate(-21 258 168)" fill="url(#yg)" filter="url(#brush)"/>
+      <!-- 符干：微倾、上细下粗（填充路径，非描边） -->
+      <path d="M 268.6 164.2 C 270.2 146, 272.4 120, 273.8 98 L 277.2 98.4 C 276.2 120, 274.4 147, 273 165.8 Z" fill="url(#sg)"/>
+      <!-- 符尾：一笔挥出的飘带 -->
+      <path d="M 273.8 98 C 288 96, 302 104, 306.5 122 C 309.5 134, 305.5 148, 295.5 155 C 303 146, 305 133, 300.5 122 C 295.5 109, 285 104, 273.4 106.5 Z" fill="url(#sg)" filter="url(#brush)"/>
+      <!-- 符头高光：一笔反光，去球感 -->
+      <ellipse cx="252.5" cy="163.5" rx="5.5" ry="3.4" transform="rotate(-24 252.5 163.5)" fill="#D98A75" opacity="0.4"/>
     </g>
 
-    <!-- 字标 -->
+<!-- 字标 -->
     <text class="word" x="280" y="262" text-anchor="middle" font-family="Songti SC,STSong,STZhongsong,SimSun,serif" font-size="50" font-weight="500" fill="#1C1A17" letter-spacing="20">余音</text>
     <text class="tagline" x="280" y="306" text-anchor="middle" font-family="PingFang SC,-apple-system,sans-serif" font-size="15" fill="#8A8378" letter-spacing="3">课结束了，声音还在</text>
   </g>
