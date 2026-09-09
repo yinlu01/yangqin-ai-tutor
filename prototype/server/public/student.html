@@ -86,7 +86,7 @@ h3{font-size:14.5px;margin:0 0 8px}
 .tag.bad{background:var(--bad-soft);color:var(--bad)}
 .tag.info{background:var(--info-soft);color:var(--info)}
 .tag.pur{background:var(--pur-soft);color:var(--pur)}
-input[type=text],input[type=number],input[type=date],textarea,select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}
+input[type=text],input[type=number],input[type=date],input[type=tel],textarea,select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}
 textarea{resize:vertical;min-height:62px;line-height:1.55}
 input:focus,textarea:focus,select:focus{border-color:var(--brand-line)}
 label.fld{display:block;margin-bottom:10px}
@@ -209,7 +209,7 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
     <div style="font-family:'Songti SC','STSong',SimSun,serif;font-size:30px;letter-spacing:14px;text-indent:14px;margin-top:6px">余音</div>
     <div style="font-size:12px;color:#A19A8F;letter-spacing:2px;margin:4px 0 16px">课结束了，声音还在</div>
   </div>
-  <div class="card">
+  <div class="card" style="max-width:320px;margin:0 auto">
     <label class="fld"><span>手机号</span>
       <input type="tel" id="lgPhone" inputmode="numeric" placeholder="老师登记过的手机号" onkeydown="if(event.key==='Enter')doLogin()"></label>
     <button class="btn pri block stu" onclick="doLogin()">进入我的练习</button>
