@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="NtvubfHLHhGRHHXN4KvYQk">
+<head data-page-node-id="t2wEprZ9jSiHyamDOzDKHZ">
+<meta charset="UTF-8" data-page-node-id="4ERdZo2UnYRGjquALvkCw4">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="i3U1D0M7HIhfPgNans22An">
+<title>孩子端：定制计划与游戏化 · 产品方案篇</title>
+<style>
+:root{
+  --ink:#1a1f2b; --ink2:#3c4657; --ink3:#6b7688;
+  --line:#e3e7ee; --line2:#eef1f6;
+  --bg:#ffffff; --bg2:#f7f9fc; --bg3:#eef3fa;
+  --blue:#1f4e8c; --blue-l:#e8f0fa;
+  --red:#a83232; --red-l:#fbecec;
+  --green:#1e6b4f; --green-l:#e8f4ee;
+  --amber:#8a6212; --amber-l:#fdf5e3;
+  --purple:#5b3d8f; --purple-l:#f0eafa;
+  --teal:#146b6b; --teal-l:#e6f4f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink); background:var(--bg2); line-height:1.75; font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 100px}
+header{background:linear-gradient(160deg,#0f2e22 0%,#1e6b4f 100%);color:#fff;padding:52px 0 44px;margin-bottom:0}
+header .wrap{padding-bottom:0}
+.kicker{font-size:12px;letter-spacing:.22em;opacity:.72;margin-bottom:14px;font-weight:500}
+h1{font-size:32px;line-height:1.32;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+.sub{font-size:15px;opacity:.86;max-width:780px;line-height:1.8}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:5px 14px;font-size:12.5px;opacity:.95}
+.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin:32px 0 40px}
+.toc h4{font-size:13px;color:var(--ink3);letter-spacing:.1em;margin-bottom:14px;font-weight:600}
+.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:7px 22px}
+.toc a{color:var(--blue);text-decoration:none;font-size:13.5px;display:block;padding:3px 0}
+.toc a:hover{text-decoration:underline}
+.toc .n{color:var(--ink3);font-variant-numeric:tabular-nums;margin-right:8px;font-size:12px}
+section{background:#fff;border:1px solid var(--line);border-radius:12px;padding:34px 38px;margin-bottom:26px}
+section>p{margin-bottom:14px}
+h2{font-size:21px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.005em;
+   padding-bottom:12px;border-bottom:2px solid var(--bg3);display:flex;align-items:baseline;gap:12px}
+h2 .num{font-size:12px;color:#fff;background:var(--green);border-radius:4px;padding:3px 8px;font-weight:600;
+   letter-spacing:.05em;flex:none;position:relative;top:-2px}
+h3{font-size:16.5px;font-weight:650;color:var(--ink);margin:30px 0 12px;padding-left:11px;
+   border-left:3px solid var(--green)}
+h4{font-size:14.5px;font-weight:650;color:var(--ink2);margin:20px 0 9px}
+p{color:var(--ink2);margin-bottom:12px}
+ul,ol{margin:0 0 14px 20px;color:var(--ink2)}
+li{margin-bottom:7px}
+strong{color:var(--ink);font-weight:650}
+code{background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:13px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--blue)}
+.lead{font-size:15.5px;color:var(--ink2);background:var(--bg2);border-left:3px solid var(--green);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:22px}
+.callout{border-radius:10px;padding:16px 20px;margin:18px 0;font-size:14.5px;line-height:1.78}
+.callout b{display:block;margin-bottom:6px;font-size:14px}
+.c-key{background:var(--blue-l);border-left:4px solid var(--blue)}
+.c-key b{color:var(--blue)}
+.c-warn{background:var(--red-l);border-left:4px solid var(--red)}
+.c-warn b{color:var(--red)}
+.c-ok{background:var(--green-l);border-left:4px solid var(--green)}
+.c-ok b{color:var(--green)}
+.c-note{background:var(--amber-l);border-left:4px solid var(--amber)}
+.c-note b{color:var(--amber)}
+.c-idea{background:var(--purple-l);border-left:4px solid var(--purple)}
+.c-idea b{color:var(--purple)}
+table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:13.5px}
+th{background:var(--bg3);color:var(--ink);font-weight:650;text-align:left;padding:10px 12px;
+   border-bottom:2px solid var(--line);font-size:13px;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--bg2)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tnote{font-size:12.5px;color:var(--ink3);margin:-10px 0 22px;line-height:1.7}
+.b{display:inline-block;border-radius:4px;padding:1px 7px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-hi{background:var(--green-l);color:var(--green)}
+.b-mid{background:var(--amber-l);color:var(--amber)}
+.b-lo{background:var(--red-l);color:var(--red)}
+.b-na{background:var(--bg3);color:var(--ink3)}
+.ref{color:var(--blue);font-size:11.5px;vertical-align:super;font-weight:600;margin-left:1px}
+.srcs{font-size:13px}
+.srcs li{margin-bottom:9px;line-height:1.7}
+.src-lvl{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;margin-right:7px}
+.src-lvl.A{background:var(--green-l);color:var(--green)}
+.src-lvl.B{background:var(--blue-l);color:var(--blue)}
+.src-lvl.C{background:var(--amber-l);color:var(--amber)}
+.src-lvl.D{background:var(--red-l);color:var(--red)}
+footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line-height:1.9}
+.chain{display:flex;align-items:stretch;gap:0;margin:22px 0 8px;flex-wrap:wrap}
+.chain .node{flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--line);
+  border-radius:10px;padding:14px 14px;position:relative}
+.chain .node + .node{margin-left:26px}
+.chain .node + .node::before{content:"→";position:absolute;left:-21px;top:50%;transform:translateY(-50%);
+  color:var(--green);font-size:17px;font-weight:700}
+.chain .node h5{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.chain .node p{font-size:12.5px;color:var(--ink2);margin:0;line-height:1.65}
+.chain .node.bad{background:var(--red-l);border-color:#f0d5d5}
+.chain .node.bad h5{color:var(--red)}
+.chain .node.good{background:var(--green-l);border-color:#cfe6da}
+.chain .node.good h5{color:var(--green)}
+.mock{background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:0;margin:16px 0 20px;overflow:hidden}
+.mock .bar{background:var(--bg3);padding:8px 14px;font-size:12.5px;color:var(--ink3);
+  border-bottom:1px solid var(--line);font-weight:600}
+.mock .body{padding:16px 18px}
+.mock .line{margin-bottom:11px;font-size:14px;line-height:1.7}
+.mock .line:last-child{margin-bottom:0}
+.mock .lbl{display:inline-block;font-size:11.5px;color:#fff;background:var(--ink3);
+  border-radius:4px;padding:1px 7px;margin-right:8px;font-weight:600;vertical-align:1px}
+.mock .lbl.k{background:var(--green)}
+.mock .lbl.t{background:var(--amber)}
+.mock .lbl.p{background:var(--blue)}
+.mock .lbl.s{background:var(--teal)}
+.mock .lbl.ai{background:var(--purple)}
+.mock .quote{background:#fff;border-left:3px solid var(--green);padding:9px 13px;border-radius:0 6px 6px 0;
+  color:var(--ink);font-size:13.5px;margin-top:5px}
+.mock .quote.p{border-left-color:var(--blue)}
+.mock .quote.s{border-left-color:var(--teal)}
+.mock .quote.ai{border-left-color:var(--purple)}
+.mock .btn{display:inline-block;background:var(--green);color:#fff;border-radius:6px;
+  padding:6px 16px;font-size:13px;font-weight:600;margin-top:4px}
+.mock .btn.ghost{background:transparent;color:var(--ink3);border:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}
+  .chain .node + .node{margin-left:0;margin-top:26px}
+  .chain .node + .node::before{content:"↓";left:50%;top:-22px;transform:translateX(-50%)}}
+.kv{font-size:13.5px}
+.kv td:first-child{white-space:nowrap;color:var(--ink);font-weight:600;width:26%}
+figure{margin:20px 0 24px}
+figure svg{display:block;max-width:100%;height:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+figcaption{font-size:12.5px;color:var(--ink3);margin-top:9px;text-align:center;line-height:1.7}
+</style>
+</head>
+<body data-page-node-id="siqLX3V2CMPgOFFvX8L9Ma">
+<header data-page-node-id="kNGVyfT6cQaC2m6nbjghaG">
+  <div class="wrap" data-page-node-id="Ul224uq70nzdKUNTjYLFGR">
+    <div class="kicker" data-page-node-id="4NRV2hBHgoY0M8B4ySBrv4">乐器教育 AI 产品 · 第八卷</div>
+    <h1 data-page-node-id="E2LJExaTiipbwizZJC9Cal">孩子端：定制计划与游戏化<br data-page-node-id="NEHsiPCcyDmueqBvduvmZV">产品方案篇</h1>
+    <p class="sub" data-page-node-id="HTSoNACuFuWaEiUtGVR2TL">"喜欢弹琴但不喜欢练琴"——把这句话从一句观察，变成一套可设计的产品机制。本卷回答两件事：AI 如何为每个孩子定制下一周该练什么；游戏化该怎么做才不会把本来就脆弱的兴趣彻底挤出。</p>
+    <div class="meta-row" data-page-node-id="1XdM9mSikCAB9HBPNlCIKW">
+      <span class="chip" data-page-node-id="A89gSPu9bggH8cS7ihvlMG">10 节 · 22 张表 · 3 个界面文案示例</span>
+      <span class="chip" data-page-node-id="NwO8DBgAm1iOmdFVAIVxrO">视角：从"被管理的对象"到"用户"</span>
+      <span class="chip" data-page-node-id="GCzcaBFF2o1maJ2f3Gy1k9">信源 A 级 11 条 / B 级 2 条 / C 级 1 条</span>
+      <span class="chip" data-page-node-id="PyaJ0IRkADRzIRB4XzPubH">2026-09-08</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" data-page-node-id="o2n58pZKNqvTrICHkvHDSE">
+  <nav class="toc" data-page-node-id="SUhR31s5qBN7H3t3hNzB30">
+    <h4 data-page-node-id="FYAQSDsXF6LPXCL4cJpoWC">目录</h4>
+    <ol data-page-node-id="dMw7IEx9AKxLBB6ZhYE81x">
+      <li data-page-node-id="zBsJXuAvASkRv4tiRfvGgb"><a href="#s1" data-page-node-id="ntzceammIr2Q9LcD2H6Kfs"><span class="n" data-page-node-id="cUVV27JxU2AxtndEnbWH6X">01</span>结论先行：方向对，但有个陷阱</a></li>
+      <li data-page-node-id="XFJ3LV85SbDBNPssKSBk2F"><a href="#s2" data-page-node-id="G8jKqJ2vuC13mx47nkD6OV"><span class="n" data-page-node-id="5ibX1xDduYjBbHLs1lh6OF">02</span>三条心理学硬证据</a></li>
+      <li data-page-node-id="ghq4z1rAxt9Os5FZGjnUu1"><a href="#s3" data-page-node-id="aQdLvW5ZDEcEHMjMKyzEZq"><span class="n" data-page-node-id="OQ6QZrfNOi40abDhSiYk1J">03</span>重构"喜欢弹琴但不喜欢练琴"</a></li>
+      <li data-page-node-id="Q98CZrHOL7S3zZjlQ9n7k0"><a href="#s4" data-page-node-id="g7tk7r0AB41QyCWKzcSwFg"><span class="n" data-page-node-id="F0pABLheGo4C43OFwpcMoc">04</span>定制计划：从"练熟"到"可结算"</a></li>
+      <li data-page-node-id="uPUii0BMxXLSm87CfVY8ea"><a href="#s5" data-page-node-id="tsqwJpijmXw9382nMSwBT3"><span class="n" data-page-node-id="DpTHiyTabo471DpKoBeEjT">05</span>难度自适应：把"练什么"变成可计算的问题</a></li>
+      <li data-page-node-id="225QvxxkGIVISyEDIIv8x0"><a href="#s6" data-page-node-id="H558vy5V3EkRmEGofTeZ5Y"><span class="n" data-page-node-id="j1kpwycLtjY6u2ZJBSH3ZP">06</span>游戏化机制矩阵：该做什么，绝对不能做什么</a></li>
+      <li data-page-node-id="uuc1TpOwfwwYLa0dbQgAVy"><a href="#s7" data-page-node-id="DXQVHAUTvRldbPU3boK30c"><span class="n" data-page-node-id="LyZrMcWSTVH2dhjEmMVplX">07</span>孩子端界面：扬琴技法如何变成可结算的微目标</a></li>
+      <li data-page-node-id="zal5q5cLFB0e8NTQHhLFHk"><a href="#s8" data-page-node-id="u5PsqJNRtTUJ2MHUXzvlgE"><span class="n" data-page-node-id="yaGBLfDac8OvGAt14Ig9No">08</span>怎么验证：三个实验，从 0 元到 3,000 元</a></li>
+      <li data-page-node-id="F5JB6pjkH36AyCn7hUNOSi"><a href="#s9" data-page-node-id="y1KSNWGKmDDkWWneevuybT"><span class="n" data-page-node-id="lWsg2FubDJcfXIVAK5O85c">09</span>自检与已知缺口</a></li>
+      <li data-page-node-id="Z1YaQ29XQlvqNIAhJ9ahJ2"><a href="#s10" data-page-node-id="BAo7Z0bUe9HOV9Qo9kxzBV"><span class="n" data-page-node-id="bAvFI8RVDXsSy1dHWKrY9p">10</span>信源清单</a></li>
+    </ol>
+  </nav>
+
+  <section id="s1" data-page-node-id="6Pik35KtXSnzvaGHUdajDx">
+    <h2 data-page-node-id="eMvRkI9jbV9LtIoV2LkKEj"><span class="num" data-page-node-id="N6gFa8T8s2Ewn5dugQapUC">01</span>结论先行：方向对，但有个陷阱</h2>
+    <p class="lead" data-page-node-id="MPvaoOFDfi1DuYg89sWR0d">你想要的这两件事——<strong data-page-node-id="W7Hh5f6bY2m0p3SDahyOkP">针对性定制学习计划</strong>和<strong data-page-node-id="fWBhyFN6lVxgySHFTXJDD2">游戏化激励</strong>——我查完证据后的判断是：定制计划有随机对照实验支撑，值得做；游戏化有一个被大量产品踩过的坑，做错比不做更糟。这一卷把两者分开处理。</p>
+
+    <h3 data-page-node-id="tLFeSCkCJDkUAtFaaWkD3o">1.1 先说结论</h3>
+    <table data-page-node-id="axomvslmQzFuCem4ntaHqS">
+      <thead data-page-node-id="UHF3wLYSSBOGqfgh1dCvR1"><tr data-page-node-id="h5o7fm70PObPrZT6t0TzIC"><th style="width:22%" data-page-node-id="C6iqwskWXXRSODPvBMS0xu">你的想法</th><th style="width:14%" data-page-node-id="v1j7oZkBZIfE3T12SxzhSg">判断</th><th data-page-node-id="0yiD1IqKQmUt2s6OcvLEoY">理由（一句话）</th><th style="width:16%" data-page-node-id="iTLPzxrx9rF5Lh1H3mRNg7">证据强度</th></tr></thead>
+      <tbody data-page-node-id="4SGBlW5yuhuTF4o4I5xxEq">
+        <tr data-page-node-id="kIzwV4A6V4SXMPqFuCGbl4">
+          <td data-page-node-id="s6JMt6QhFRx4BUk5uHR6No"><strong data-page-node-id="LUHP5BWMdkA3dz07AxRSj3">针对性定制学习计划与作业</strong></td>
+          <td data-page-node-id="CgiQtxI0M3TDSNdeygnUCi"><span class="b b-hi" data-page-node-id="Gm5OFxMR1S6g05WNSXFCzH">强烈支持</span></td>
+          <td data-page-node-id="yvhsXZeTnmy7zFkAzhS8Vd">有随机对照实验直接证明：教"练什么、怎么定目标"比教"怎么练"更能提升演奏成绩（p=.02），且提升来自效率而非时间</td>
+          <td data-page-node-id="ua0WRCQImkK5xgFaab2qsp"><span class="b b-hi" data-page-node-id="StNksmCWR7kw9l48vIXesr">A 级 · RCT</span></td>
+        </tr>
+        <tr data-page-node-id="F4EbLPzYO2Tpv7HpRlCX7x">
+          <td data-page-node-id="cxCHpyLEcrVwZZjH24ThGH"><strong data-page-node-id="nhtXsJHRlrdcMAvHV4aI9s">游戏化激励完成</strong></td>
+          <td data-page-node-id="jduuoZAsjfAV4lNaoKPi5P"><span class="b b-mid" data-page-node-id="Th2DvJ1TOOQGZ2OsAHdRef">支持，但必须改造</span></td>
+          <td data-page-node-id="HfmtIHphDTM9tF2uOEClHW">常规游戏化（连胜、积分、排行榜、物质奖励）会挤出本就脆弱的内在动机；只有绑定"进步"而非"登录/时长"的机制才安全</td>
+          <td data-page-node-id="DvdEAscNqD248f9kTRKOYw"><span class="b b-hi" data-page-node-id="GFpCDhiuQN4eRSpz4PJk4c">A 级 · 多项</span></td>
+        </tr>
+        <tr data-page-node-id="pp0rWvoOaBB6BQE5Aa5ulV">
+          <td data-page-node-id="MqsAwYmHZAhehF0wLUDb7S"><strong data-page-node-id="BCpRwqAAHGZU9nbuDPVu1b">孩子也很痛苦，要照顾孩子</strong></td>
+          <td data-page-node-id="EG1DUQGgCtmRBfLbpkNmsM"><span class="b b-hi" data-page-node-id="uLT5wbFBPyLNIA8kngpBq9">这是本卷最大修正</span></td>
+          <td data-page-node-id="pkAQURMMN2F3E1CYsLLw2d">前七卷把孩子当成"被管理的对象"，这是错的。孩子是产品的<strong data-page-node-id="FY7sQAxWpvevtx6vIORBqc">第三个用户</strong>，而且他的自主权是留存的第一变量</td>
+          <td data-page-node-id="Etk7jlgG99mhcsfA53MEnt"><span class="b b-hi" data-page-node-id="UscaHqc550DoPAjvJP6iDt">A 级 · SDT</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="IixmJruzOI4JtrCF6AxfrS">1.2 那个陷阱：为什么"加个游戏化"可能是负资产</h3>
+    <p data-page-node-id="fv4MgZaDEMbGQOcOoUsPMR">1971 年 Edward Deci 做了一个后来被引用了半个世纪的实验：给大学生一个本身有趣的拼图任务，一组付钱、一组不付。付钱那组在停止付钱后，兴趣<strong data-page-node-id="IpyFCZh0jTpnWI4lwIjy5E">跌到低于最初基线</strong>；没付钱那组继续玩。<span class="ref" data-page-node-id="s3iiycCTHubcDJ2JidnPc1">[k01]</span></p>
+    <p data-page-node-id="CrIn5q2rz4JD2cudOabnVf">这就是<strong data-page-node-id="BLO7yWMr1BW3g0GAMywJhk">过度理由效应</strong>（overjustification effect）：给一个本来有内在动机的活动加上外部奖励，你把它变成了交易。<strong data-page-node-id="l2zlGSugMDMpSvJVQPxFXa">练琴恰恰就是那个"本来就有点意思"的活动</strong>——你说得很准：孩子喜欢弹琴，只是不喜欢练琴。这意味着它正处在最容易被引爆的位置。</p>
+
+    <div class="callout c-warn" data-page-node-id="ZvQukiFrHLGpVLEqdX8JFA">
+      <b data-page-node-id="HKm6k4EkCXrhK57ZColAj9">最需要警惕的一句话</b>
+      如果你的游戏化让孩子练琴的理由从"我想把这段弹顺"变成"我要保住 200 天连胜"，那么你在数据上看到的活跃度会上升，而<strong data-page-node-id="X5r9XhDiQJKWrbT1HtHjnO">孩子的兴趣会在半年内归零</strong>。这不是假设——2022 年针对 Duolingo 的研究发现，积分系统会导致"肤浅化"：用户关注连贯性而非理解；2025 年一项对 20,837 条用户帖子的情感分析进一步发现，streak 中断会造成压力并<strong data-page-node-id="5Vk0PNspcMUZOjcsF9mC88">削弱自主性</strong>。<span class="ref" data-page-node-id="JVjDysZ5zKO8DLnd1ASsKg">[k10]</span><span class="ref" data-page-node-id="nJtclf9u7yvzJpuCuwILQt">[k11]</span>
+    </div>
+
+    <h3 data-page-node-id="k4x1f3idStsBI0Ht5YN7x5">1.3 那么正确的切法是什么</h3>
+    <p data-page-node-id="XVcKYJcRloO3OKOLEqqfF8">答案藏在一条 2019 年发表于《自然·通讯》的论文里，也藏在一条 2013 年的音乐教育随机实验里。它们指向同一个动作：<strong data-page-node-id="sYpw3bUMLhOyhsMYaWOPh7">AI 不该去"激励"孩子，而该去"设计任务"</strong>——把任务设计到刚好合适的难度，让成功频繁但不必然发生。这时候动机是任务本身产生的，不需要外部奖励。</p>
+    <p data-page-node-id="ARLBxu6yoPFND8wQekB75V">第 02 节我把三条证据摆出来，第 04–07 节再落到具体设计。</p>
+  </section>
+
+  <section id="s2" data-page-node-id="ysmPqOsvZxGxB8dbKIfOTE">
+    <h2 data-page-node-id="xOgIFdQNh2sFWi9m91JLmX"><span class="num" data-page-node-id="z0a5zcDhSFyTuCrqsGsBGB">02</span>三条心理学硬证据</h2>
+    <p class="lead" data-page-node-id="cunijqwsZ3NSMfiwAGpqXz">这一节的每一条都有可查证的原始研究。它们不是"行业观点"，是本卷全部设计决策的地基——后面每一处设计，我都会指回这里的某一条。</p>
+
+    <h3 data-page-node-id="8kZpKo4O7SwpBmsQ5J7E3R">2.1 证据一：动机分两层，只有一层能撑过三年</h3>
+    <p data-page-node-id="YmOFtIhUwHtNzcr4djwkCy">自我决定理论（Self-Determination Theory, SDT）由 Deci 与 Ryan 建立，是动机心理学中被研究最多的框架之一。它的核心主张是：人有三种基本心理需求——<strong data-page-node-id="BLRgnZCyplBik4ihz2qOhQ">胜任感（competence）、自主权（autonomy）、归属感（relatedness）</strong>；三者被满足时内在动机与幸福感上升，被挫伤时动机下降。<span class="ref" data-page-node-id="hcHOn4qtYnMAqVpsQHKqaF">[k02]</span></p>
+    <table data-page-node-id="6riIsv3pkmpSGQdjPBu0MQ">
+      <thead data-page-node-id="oXbSYlX9eygIeiOuiEBjTb"><tr data-page-node-id="yhhtZQLHCxUZJ6FfvCEtKO"><th style="width:14%" data-page-node-id="3yn2WssJ07UJX4bSaISB8H">需求</th><th style="width:34%" data-page-node-id="dbHtVwFwEO40lsEfkugfwr">在练琴场景的含义</th><th style="width:30%" data-page-node-id="r63lEQU5AjoquCXSrvhs5t">被典型产品/家长挫伤的方式</th><th style="width:22%" data-page-node-id="HCeGZ1794mE0VEFRHeypH0">本卷对应的设计</th></tr></thead>
+      <tbody data-page-node-id="eylMQNF0HCeY6eKOwrfVxM">
+        <tr data-page-node-id="lntbViLMlkYxGhcZ5mJkpa">
+          <td data-page-node-id="8zjZJA7oLaal0sSRAlPwVR"><strong data-page-node-id="r0BZvYyhFbefiBkHQMoKD3">胜任感</strong></td>
+          <td data-page-node-id="uJEVrDihXd7B449GM87uso">能感觉到"我在变好"。<strong data-page-node-id="399meZ4owQytKT2dK659vj">进步不可见时，即使客观上在进步，胜任感依然被挫伤</strong></td>
+          <td data-page-node-id="WPerSw62UHnZHft5L7vQuH">每天练但感觉没进步；反馈是"还行""再练练"这种无法定位的话</td>
+          <td data-page-node-id="Ty1zoPphh7ENGsksGpA2Ht">微目标即时结算 + 上周/本周录音对比（第 04、08 节）</td>
+        </tr>
+        <tr data-page-node-id="OWAQOc1ikELmqSKiN4jj3y">
+          <td data-page-node-id="kd5EYxeF4rEmRzgjx0B3uq"><strong data-page-node-id="Bc2n82ovXYLaRUEngCcHc2">自主权</strong></td>
+          <td data-page-node-id="p70tGjASeroJ7bnmOw6Q96">感到行动是自己选择的，不是被强迫的</td>
+          <td data-page-node-id="UMwOYrrxroAMf8Ix5cFASA">规定练满 30 分钟、催促练琴、用打卡强制合规。<strong data-page-node-id="tT5hCQUDaICSrWEkwTfYWq">这些能换来短期服从，同时系统性降低内在动机</strong></td>
+          <td data-page-node-id="WcXuMDZdSkTE1QPGnvK5v6">孩子自选顺序与难度档；任务卡给理由不给命令（第 04 节）</td>
+        </tr>
+        <tr data-page-node-id="874WdBuooYjTmfFKhfTzEY">
+          <td data-page-node-id="wvB1PA4IPOOreAWsAvKrhM"><strong data-page-node-id="yfRLpWim6EomtBQoJY6F4w">归属感</strong></td>
+          <td data-page-node-id="NvswToSQ28tFGezZFEQTLn">感到被老师看见、被同伴接纳、自己的努力有意义</td>
+          <td data-page-node-id="YG7CQsG2af6ARpI9kiRV0P">学琴是彻底孤独的：一个人练、一个人错、一个人被批评</td>
+          <td data-page-node-id="pQ4ZGgz4aNW4GhhnUyVTI5">老师一句语音点评；集体合奏进度而非个人排名（第 07 节）</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="VFOTVCgEFB8l5p872gO1je">来源：Ryan &amp; Deci 2000 / 2017<span class="ref" data-page-node-id="oTAwtOZLU6IXXNqXSvrJ14">[k02]</span>；音乐教育领域的系统综述见 Evans 2015<span class="ref" data-page-node-id="H7OFnWMbjMBC9du6t7f4qc">[k07]</span>。表中"被挫伤的方式"部分依据 Evans 2015 与 SDT 实践指南归纳。</p>
+
+    <div class="callout c-key" data-page-node-id="QCWm9mmyFvW7JA9EvTd0wG">
+      <b data-page-node-id="rHGh1bZSA9c0H8iPrU5TGD">一个容易被误读的点：自主支持 ≠ 放任</b>
+      Grolnick 与 Ryan（1989）的经典发现是：<strong data-page-node-id="tg3WnzcDL7ltpW82YEyMn1">自主支持 + 清晰结构 + 人际温暖</strong>三者结合，儿童才表现出最强的内在动机与最深度的自我调节内化。<span class="ref" data-page-node-id="ymse0LpQwRN4wBWLnwyCKR">[k07]</span> 没有自主支持，结构就变成控制，关心就变成压力——<strong data-page-node-id="2iY4rLtDgXqA1DqQyEbSUd">但反过来，只有自主支持而没有结构，也不是 SDT 主张的</strong>。这一点对产品设计极其重要：<strong data-page-node-id="8F0WEcR8pUMiQs8sTvkxtF">"给孩子自由"和"给孩子一套精心设计的任务"并不矛盾，前提是任务是邀请而不是命令。</strong>
+    </div>
+
+    <h3 data-page-node-id="PZpL39JVENUOmvVHzW27vM">2.2 证据二：教"练什么"比教"怎么练"更有效</h3>
+    <p data-page-node-id="6gmDmXAHzvfcrsINksE9cN">印第安纳大学 Pete Miksza 做了一项随机实验（n=28，大学生）<span class="ref" data-page-node-id="uqLCujXl7cQifitD5CUnak">[k05]</span>：</p>
+    <div class="grid2" data-page-node-id="g40DYvmWCaJ7zyG9wnG1tF">
+      <div data-page-node-id="2iJ76BkJnHXrSLDbLPV0ZH">
+        <h4 data-page-node-id="sFizpB1Tyi0R1aG5CPQjlb">对照组</h4>
+        <p style="font-size:13.5px" data-page-node-id="lJXYGKZQI8X5fBkMEsx4hc">只教练习技巧：慢练、重复、整体-部分-整体、链接（chaining）</p>
+      </div>
+      <div data-page-node-id="l03jGYe4V0zQbLowFnSTtz">
+        <h4 data-page-node-id="Psuy7Qw6l9KttBxvGqQxy2">实验组</h4>
+        <p style="font-size:13.5px" data-page-node-id="0Juhr2k95tF3eAX2xhJ2UQ">同样的技巧 <strong data-page-node-id="Xc7aaiD6s4AWkdAVXMxSCT">+ 自我调节</strong>：目标选择、计划、自我评价、休息与反思</p>
+      </div>
+    </div>
+    <table data-page-node-id="qGuBfYFAxVlykqVSkppNlv">
+      <thead data-page-node-id="daMZfX1M5pC8ZhrEWMMuYp"><tr data-page-node-id="M6pw3wHrwwA5h0FoTYiG4N"><th style="width:34%" data-page-node-id="lGeHFcsLXIxH3tGrQ9c3JC">测量项</th><th style="width:22%" data-page-node-id="RjE8AaRAuraDmLbmuM28KI">结果</th><th data-page-node-id="WotfswVr7YYxP2UynwvvxX">含义</th></tr></thead>
+      <tbody data-page-node-id="QjllQzkNZrmy2IZ9Iwd0ih">
+        <tr data-page-node-id="rJn4vFuDSbYVHVsAtGioPI"><td data-page-node-id="9PR1krSy8B32zRPt3gA4ow">演奏成绩提升</td><td data-page-node-id="dCVeGFTJY5KdL0AJPzjGVg"><span class="b b-hi" data-page-node-id="cvd58ROVhGzv4F1tEyEO0P">实验组显著更大（p=.02）</span></td><td data-page-node-id="Ev9AHXmP8JaOAe4goQJ9M0">教"怎么定目标、怎么评价自己"真的有用</td></tr>
+        <tr data-page-node-id="OA8iCtntnhWAOqwHQXcfFE"><td data-page-node-id="iLqYafrL5lMITmP9AAq19l">练习时长</td><td data-page-node-id="JSHvD3ZaAcwadnwCNf72WN"><span class="b b-na" data-page-node-id="ofu2NeJ6G8qY697B05snx4">两组无显著差异</span></td><td data-page-node-id="Mf0HDObKq2ekhgSC0V24eu"><strong data-page-node-id="EIYhoF6ORK8eTeBOqLxo66">提升来自效率，不是来自多练</strong>——这对"没时间"的家庭是好消息</td></tr>
+        <tr data-page-node-id="24QLPzFum7pzPSji2LdvXf"><td data-page-node-id="5ibFANbAl2Bq3MZvt115MB">第 5 天关注的目标细致程度</td><td data-page-node-id="W2Swy9lGznqr5G8UuVhsMB"><span class="b b-hi" data-page-node-id="BUFLWqFIEACAzHwunO4OKr">实验组显著更细（p=.05）</span></td><td data-page-node-id="Ll8Z45oeNyqlbGwh0bHpSq">孩子学会了把"练熟"拆成"这一段、这个速度、几遍"</td></tr>
+      </tbody>
+    </table>
+    <p data-page-node-id="CiGDenfCpsp7wzHPVxrrFD"><strong data-page-node-id="pnWvTrn7t171LDDGIABj1h">这直接支持你的第一个想法</strong>：AI 最该做的不是纠错（那件事前几卷已证伪），而是把老师那句模糊的"把这段练熟"，分解成孩子能自己结算的具体任务。</p>
+    <p data-page-node-id="T6ve4XTTQ4VvhR86FE4X9J">而反面证据更说明必要性：McPherson 与 Renwick 对 7 名 7–9 岁儿童做了<strong data-page-node-id="6A5Ra81nje6zbYyBELhWXH">长达三年</strong>的练习录像追踪，发现孩子的练习方式就是"从头到尾过一遍，不做任何修正"，而且<strong data-page-node-id="n4jDDLWLa8KV6wyVKgFIOd">三年后毫无改变</strong>。<span class="ref" data-page-node-id="5mzZY5xg37FCYCKZIp9GYY">[k06]</span> 也就是说——<strong data-page-node-id="VfST8MloCvCyDhHHLopGUE">不干预，孩子不会自己学会怎么练。</strong></p>
+
+    <h3 data-page-node-id="5QSeqF3iCLoGshkCrPvAwe">2.3 证据三：85% 规则——任务该设多难</h3>
+    <p data-page-node-id="D2X83AI2vDHgqA776PNDW3">2019 年，亚利桑那大学 Robert Wilson 与布朗、普林斯顿等校研究者在《自然·通讯》发表论文，为"难度黄金区"给出了数学基础：对于一大类基于梯度下降的学习算法（包括人工神经网络与描述动物学习的生物模型），<strong data-page-node-id="lEcoSLp2TdHq9wjcm3bEuE">最优训练错误率约为 15.87%，即正确率约 85%</strong>。<span class="ref" data-page-node-id="tnXuDvv2mZvV9gsBs4nI9E">[k03]</span></p>
+    <figure data-page-node-id="6QCgPCjQswyUFbSu7f9tOO">
+      <svg viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,PingFang SC,sans-serif" data-page-node-id="Cp5lG39PDVl5wRwCvk8AAz">
+        <line x1="70" y1="160" x2="640" y2="160" stroke="#e3e7ee" stroke-width="1.5" data-page-node-id="73IlLO8tNosR0Hz174oBvs"/>
+        <line x1="70" y1="160" x2="70" y2="30" stroke="#e3e7ee" stroke-width="1.5" data-page-node-id="QxSxFBwhcAqlmx3hjCLuwf"/>
+        <path d="M90,150 C150,148 200,130 250,70 C275,42 300,34 330,33 C360,34 385,45 410,75 C455,130 520,148 630,150"
+              fill="none" stroke="#1e6b4f" stroke-width="2.6" data-page-node-id="Zn336dZuDpPeGXWScauEWr"/>
+        <line x1="300" y1="33" x2="300" y2="160" stroke="#a83232" stroke-width="1.6" stroke-dasharray="5 4" data-page-node-id="QkY2nkpdSVhJPfb1gNUQ9g"/>
+        <circle cx="300" cy="36" r="5" fill="#a83232" data-page-node-id="kCCO5gHmc4HBhHQZ3lIgnP"/>
+        <text x="300" y="24" font-size="12.5" fill="#a83232" text-anchor="middle" font-weight="700" data-page-node-id="ZgSOu9H9ZstYefsiFQJByq">最优错误率 ≈ 15.9%</text>
+        <text x="300" y="176" font-size="12" fill="#6b7688" text-anchor="middle" data-page-node-id="P4yziEmEidIb1XI0st6qLf">85% 正确</text>
+        <text x="120" y="150" font-size="12" fill="#6b7688" text-anchor="middle" data-page-node-id="CBgi5IfT1OYgOai390tNOH">太简单 · 无聊</text>
+        <text x="600" y="150" font-size="12" fill="#6b7688" text-anchor="middle" data-page-node-id="4YJ8PF2sod3MCAUrLwCAoh">太难 · 挫败</text>
+        <text x="70" y="26" font-size="12" fill="#6b7688" text-anchor="start" data-page-node-id="k3WDnM5TiljGhEXeDdsG0h">学习速率</text>
+        <text x="352" y="120" font-size="12" fill="#1e6b4f" text-anchor="start" data-page-node-id="HpYu4pdOGCUvh6mYx7vSxV">心流区 / 最近发展区</text>
+        <rect x="86" y="184" width="560" height="16" fill="#f7f9fc" rx="4" data-page-node-id="2IjjH9Pn1CAKhCQ5GBjpci"/>
+        <text x="340" y="196" font-size="11.5" fill="#6b7688" text-anchor="middle" data-page-node-id="pJlRJp2AU7eGNHgAUkjMtx">任务难度（错误率由 0% → 50%）</text>
+      </svg>
+      <figcaption data-page-node-id="QWAjwf2TKoFFCsYv0vcOm8">图 1：85% 规则示意（依据 Wilson et al. 2019 的结论绘制<span class="ref" data-page-node-id="ahOXJp680WgMmSwxdzdxV8">[k03]</span>，非原文图表）。心流理论的独立表述是：挑战略高于当前技能时进入最优体验，太简单产生无聊、太难产生焦虑<span class="ref" data-page-node-id="4yEqi2QOddgHB50jYGQBIT">[k12]</span>。两条理论在此处结论一致。</figcaption>
+    </figure>
+    <div class="callout c-note" data-page-node-id="vc8gx77LdscGyAgt2KfPLF">
+      <b data-page-node-id="rJuA09A4dpyBuPGK0H2jbh">这条规则的适用边界，我必须说清楚</b>
+      原论文只在<strong data-page-node-id="jsLUjiTwGzGp2n9K39LvFE">二元分类任务</strong>与人工/生物神经网络上做了验证，作者本人明确指出"不能直接推广到更复杂的复杂学习"。<span class="ref" data-page-node-id="zJCHi89CabCWMEAetFZZEu">[k03]</span> 本卷只在<strong data-page-node-id="wLLlCqNy0IEnhQoqF5xTED">一个窄场景</strong>使用它：单个练琴片段的难度档位选择。不过有一个有利的契合点——作者认为该规则最适用于<strong data-page-node-id="19uywiDjqgov31EMnQg1dH">感知学习</strong>，而练琴正是典型的<strong data-page-node-id="ApPbVXZ9Q1tGUvGE9jMwFx">感知-运动学习</strong>。所以它在这里比在数学题场景里更可信，但仍然不是定论。
+    </div>
+
+    <h3 data-page-node-id="Tp18kcFTCU7Kvhe3eeGp5e">2.4 三条证据的合成</h3>
+    <div class="chain" data-page-node-id="eWKWSfnUYCmmr2OYfUoMlg">
+      <div class="node bad" data-page-node-id="vfKvEqhtizTwPbPwXQ4WxC">
+        <h5 data-page-node-id="sg2sqpha49odjLZeoHEK7b">现状</h5>
+        <p data-page-node-id="xbfpfbu4D1Qyw1YtJYpVPM">任务模糊（"练熟"）+ 难度靠老师拍脑袋 + 进步不可见 + 全程被安排</p>
+      </div>
+      <div class="node bad" data-page-node-id="PkGXuisYuFqBkrsd90xxq6">
+        <h5 data-page-node-id="0Xb2nNTucx7se64wjM2fXz">结果</h5>
+        <p data-page-node-id="UkKMjZ9zQO4OysNfuD86Q8">胜任感、自主权、归属感<strong data-page-node-id="suqrl2tUiviyeSylpaPZaE">同时</strong>被挫伤 → 靠家长期望硬撑 → 痛苦 → 放弃</p>
+      </div>
+      <div class="node good" data-page-node-id="BKag6mYm0SLozB39KXsbip">
+        <h5 data-page-node-id="3kkyOxd84FVot1PI2ar9vK">干预点</h5>
+        <p data-page-node-id="cpAWd618NxABiuM07VBRnZ">把任务设计到 85% 区（Miksza + Wilson），让进步可见（胜任），给孩子选择权（自主），让老师看见（归属）</p>
+      </div>
+    </div>
+    <p class="tnote" data-page-node-id="sxAuYaIWviUytafyFhapzG">三条证据共同指向：<strong data-page-node-id="MeHgJ8DS9mheOXk2I3GYD1">要改的不是"激励方式"，是"任务本身"。</strong> 这正是你的第一个想法（定制计划）比第二个想法（游戏化）更根本的原因。</p>
+  </section>
+  <section id="s3" data-page-node-id="GOWFEU7W79LHfOE46GhKtk">
+    <h2 data-page-node-id="bgylcfZ3dFsGcnvwazHTTZ"><span class="num" data-page-node-id="xFsyOcE6n8oTYDmP4EeODu">03</span>重构"喜欢弹琴但不喜欢练琴"</h2>
+    <p class="lead" data-page-node-id="xRioKrnp3Jz5eT3FzdACx6">这句话你说是"很对"的，我也认为它精准。但我要把它再往下推一层——它不是孩子的性格问题，也不完全是意志力问题，它很大一部分是<strong data-page-node-id="bVA8sxnhuB2xcSngw8f7qO">任务设计失败</strong>的直接后果。这一节决定后面所有设计的方向。</p>
+
+    <h3 data-page-node-id="XXC6dvYRFu7D9gN0yXYEwu">3.1 这句话在学术文献里的对应物</h3>
+    <p data-page-node-id="DfbrGxcSpawh5pUIeUSAZ9">悉尼音乐教育学者 James Renwick 的博士研究调查了 <strong data-page-node-id="f7PJrH4C1CToCPVsXgOMP9">677 名 8–19 岁的音乐考级考生</strong>，用自我调节问卷（SRQ）测量他们的动机类型，并用结构方程模型检验。核心发现是：<strong data-page-node-id="4LkS0xH7NmSzjsPQj4cC4X">内部动机对三类练习行为（努力管理、自我监控、策略使用）的解释力最强</strong>，能力信念和考试相关动机只有很小的附加作用。<span class="ref" data-page-node-id="eaAnT0bm2YOiOgtUrzYKZ4">[k04]</span></p>
+    <p data-page-node-id="vcYH16FX6e5RxkSzpneEkq">换句话说：孩子练得怎么样，最主要由"他自己想不想练"决定，而不是由"考不考级""家长期不期望"决定。<strong data-page-node-id="tlBZmNznsn3yFpnvhMe9BF">靠外部期望驱动的练习，在质量上就是低一档的。</strong></p>
+    <p data-page-node-id="pIBJaURgPZzDsrhXg8z3mZ">而另一项质性研究的细节更扎心——被问及为什么明明不喜欢练还要练，孩子的回答是<strong data-page-node-id="uJliI9677LiFnFjm6STgbc">"不想让父母失望"</strong>。<span class="ref" data-page-node-id="erksm2HaOFEmxtYz05Cajc">[k04]</span> 这句话在前几卷出现过，这里要补上它的完整含义：</p>
+
+    <div class="callout c-warn" data-page-node-id="BVqs7bY6CB2wn4rCuaZUoP">
+      <b data-page-node-id="n6frqaQqa2NAd7bRfo21Z2">把这句话翻译成产品语言</b>
+      孩子练琴的<strong data-page-node-id="yKUsNoL3cGUfy93NxeyzEB">真实目标函数</strong>不是"把琴练好"，而是"避免让父母失望/避免冲突"。这意味着：
+      <br data-page-node-id="uDGbCwEViYUtUkjN0dh4hD"><br data-page-node-id="L6n84xN8rSfogqHH01aF2U">
+      ① 他练琴的<strong data-page-node-id="pfARkCNqI2Ne4jTL6lazPH">成功标准是"坐满时间"而不是"练会了"</strong>——因为父母检查的是时长，不是结果；
+      <br data-page-node-id="AUHJLY7mB4suegcrp1wKT5">
+      ② 他会选择<strong data-page-node-id="2ESbQVzGgjaJcfKJNBPlIZ">最省力的方式达成"看起来在练"</strong>——从头到尾过一遍（McPherson &amp; Renwick 的录像正是如此<span class="ref" data-page-node-id="KZCFYBjZnVZ2wOSuvNfPAr">[k06]</span>）；
+      <br data-page-node-id="BcYnFAHyPlfN3D4Y4OFGuR">
+      ③ 一旦外部压力消失（父母放弃监督、或孩子长大到可以反抗），<strong data-page-node-id="Iz0t8JUgYs2dPlgYAt7jii">练习立刻归零</strong>——因为动机从来不在他自己身上。
+    </div>
+
+    <h3 data-page-node-id="ByLcRiOv8EvLw4e72MNcSM">3.2 所以问题不在孩子，在任务的四个缺陷</h3>
+    <table data-page-node-id="w0oloFdd35n8zABWv6gUPn">
+      <thead data-page-node-id="ET1zI83hIUcgatOOhfocdR"><tr data-page-node-id="SqKNyaiHl559rSoS1kDusn"><th style="width:18%" data-page-node-id="n9V02GPlb3sGEt0ZmTuSUk">任务缺陷</th><th style="width:30%" data-page-node-id="5JwPpOJxfxZRFlSIzQfHEV">典型表现</th><th style="width:26%" data-page-node-id="EEEj3zWyqla3KmDcJx2wsz">对应被挫伤的需求</th><th data-page-node-id="ruPDLU1X0559M8LpepBwLU">本卷的解法</th></tr></thead>
+      <tbody data-page-node-id="M7cAshJBvyGM56BjC7OVhR">
+        <tr data-page-node-id="ka3Dbm1WHGcOUjn9daC0zc">
+          <td data-page-node-id="ptZdacWJ3pw4wLFmpnKM7s"><strong data-page-node-id="BW1klikKYfvSmECrbSXpdw">① 目标模糊</strong></td>
+          <td data-page-node-id="SM5XA6AwF7FI7gWewnCHeS">"把第 3–8 小节练熟"。"熟"是什么标准？什么时候算完成？没人知道</td>
+          <td data-page-node-id="mjzb1V0WvVSBGdyQP6eoFO">胜任感（不知道自己有没有进步）</td>
+          <td data-page-node-id="n7dTgMYLHjVoOAC0Giw8JX">可结算微目标：5 遍中成功 3 遍（第 04 节）</td>
+        </tr>
+        <tr data-page-node-id="PNyGFLnllnA6Uf9eriYVO5">
+          <td data-page-node-id="nqOHn6CezdoYCsZ1sS53zV"><strong data-page-node-id="6nzY5meA6Dh1mq9VR4Usxu">② 难度失配</strong></td>
+          <td data-page-node-id="L8JHf97GehLVBthuHPyyzx">要么整首过（太简单，无聊），要么死磕难点（太难，挫败）。<strong data-page-node-id="8x91c1AAkW7XOi35eFp1wz">两端都很少有好体验</strong></td>
+          <td data-page-node-id="7FyX1HLtzxvt5eqxAWWKCO">胜任感 + 自主权</td>
+          <td data-page-node-id="OK3NkQTiuYiidZZ2X96QXs">85% 规则自适应调档（第 05 节）</td>
+        </tr>
+        <tr data-page-node-id="ISmHdS2HhafO03FMwJnjqi">
+          <td data-page-node-id="lhGcfZ59OiC4SEAPAguYbD"><strong data-page-node-id="k3OuxbIMEfUdtrSoOuOYIa">③ 反馈延迟</strong></td>
+          <td data-page-node-id="f1efeI8Jze1cFZ8tw3TDGq">练了一周，要等到下节课才知道练得对不对。<strong data-page-node-id="HptU0v8iBtJax4qiw4PDd2">一周的反馈延迟，对儿童是灾难性的</strong></td>
+          <td data-page-node-id="YDSeowgGpYyct9UtvH0sKI">胜任感（进步不可见）</td>
+          <td data-page-node-id="IYx0Jv9iSrxelm4Ux1XphF">即时结算 + 录音对比（第 04、08 节）</td>
+        </tr>
+        <tr data-page-node-id="dQGCwbf1sKmPgjv2pEMwex">
+          <td data-page-node-id="MPzVdCVtpsEbIG5ciI23zC"><strong data-page-node-id="zCCfzjOkcxsSeOeQEsYED4">④ 全程被安排</strong></td>
+          <td data-page-node-id="nNUmc4fuSWpF8t3t1tPkVf">练什么、练多久、什么顺序，全由大人定。孩子是执行者</td>
+          <td data-page-node-id="hciNCfCS8jAkDn2gWoP0B9">自主权（最常被挫伤的一项）</td>
+          <td data-page-node-id="nUbVwGbyVNaYGCf9AxH6xZ">给选择权：顺序自选、难度自报、"今天想先啃哪块"（第 04 节）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="7PyvBTYwK6MuUwwHsiiMxQ">3.3 一个必须纠正的前七卷视角</h3>
+    <p data-page-node-id="xc9E7MNPjTRDZPCk6tE6SF">前七卷里，孩子在产品中的位置是<strong data-page-node-id="wtdMc1kbEZVBGWBQtBP7Bi">被三方（老师、家长、系统）管理的对象</strong>：老师给他布置任务、家长监督他执行、系统记录他有没有做。这套设计在解决"课后监督困难"上是成立的，但它有一个隐含的错误：</p>
+    <div class="callout c-key" data-page-node-id="uGkkH9eyARgaiiT23YRO7H">
+      <b data-page-node-id="CE550damHt9roitXKfow8x">孩子是第三个用户，不是被管理的对象</b>
+      如果孩子是<strong data-page-node-id="sxWpZetakQmcJvAYHdlY7k">被管理的对象</strong>，那么更精细的定制计划 = 更精细的控制 = 自主权被进一步挫伤 = <strong data-page-node-id="mm5omew3Zhg1FChGUnPaow">更痛苦</strong>。这会让产品技术上更先进、体验上更糟。
+      <br data-page-node-id="XMOW9PT6VAEVNx6pfy7RRk"><br data-page-node-id="PLick2Pv5K3Jew7baK3Jiw">
+      如果孩子是<strong data-page-node-id="GdXDjawljBhzKM7pODMppE">用户</strong>，那么定制计划的性质就变了：它是一份<strong data-page-node-id="ubA65wg1I5yf1a8ETHfK0D">给他的、他可以调整的菜单</strong>，不是派给他的工单。差别不在功能，在<strong data-page-node-id="NPeSTB3qftGJor7W90zHH5">主语是谁</strong>——"老师要求你练 5 遍"和"你要不要挑战 5 遍里成功 3 遍"，是两种完全不同的产品。
+    </div>
+    <p data-page-node-id="SbIKsGQQmzbVnAWP8WAlRo">这个区别不是文字游戏。SDT 的预测是明确的：前者产生服从（且挤出内在动机），后者产生自主的行为。<strong data-page-node-id="CJCnq1f4fwQTGCgcYIE91P">而这恰好是"定制计划"这个功能能否不帮倒忙的分水岭。</strong></p>
+  </section>
+
+  <section id="s4" data-page-node-id="YJA3Hqlz2SR5EMqDZKtovI">
+    <h2 data-page-node-id="YujYCmUS8PMkfpZkznBrBf"><span class="num" data-page-node-id="LasrcrW43J4WIk3YHrzJQ4">04</span>定制计划：从"练熟"到"可结算"</h2>
+    <p class="lead" data-page-node-id="XobLAYotyTXLvCctWSkBbr">这一节把你的第一个想法做成产品。核心动作只有一个：<strong data-page-node-id="QJqvN4OqyxY9JVc0pruHTS">把老师模糊的指令，翻译成孩子能自己判定"我做没做到"的任务</strong>。这件事 AI 能做，而且恰好是它比人做得好的部分——因为人（老师）没时间为 40 个学生各写一份。</p>
+
+    <h3 data-page-node-id="Z2wxLLf49SSpO2phQiT6MS">4.1 产品定义</h3>
+    <p data-page-node-id="UCyEtMwyJySyYGukQ4COTb"><strong data-page-node-id="sr0HIUHcn094dTmDtFg2cR">练琴任务卡（可结算版）</strong>：老师只需写一句自然语言（如"《春到湘江》第 12–20 小节的轮音，要均匀"），系统结合孩子上一周的实际表现，自动生成 3–5 张<strong data-page-node-id="PfqhHbm8WMd2FcmEwJhdqU">可自动结算的任务卡</strong>。孩子练完录一段，系统告诉他"这张过了 / 差一点 / 明天再来"，全程不需要大人判断。</p>
+    <table data-page-node-id="tiXP6yeSXrJRYlApKRHprH">
+      <thead data-page-node-id="bV6w7qBBsQ5BqeZ128Lc7z"><tr data-page-node-id="gITKO7CgtVJCors65e9Orc"><th style="width:20%" data-page-node-id="jD32HjQdyGtDyR0aqYVLB6">要素</th><th style="width:34%" data-page-node-id="Qi3r5R3tvFoZHX8FLyW4cq">传统作业（微信群）</th><th data-page-node-id="g3CkyZTkaNK8i8O1kx4fuR">可结算任务卡</th></tr></thead>
+      <tbody data-page-node-id="nG8MPcOnaaQUPTsHr0jqVJ">
+        <tr data-page-node-id="8BN8cTbyG3nObNgD83ano5"><td data-page-node-id="FAVrJNxlmfjuM1uokVjs55">指令</td><td data-page-node-id="ILQLauKX1KAAcvoc9lGDuY">"练第 3–8 小节"</td><td data-page-node-id="F1074WGdmaysaBgTRTkra7">"第 12–20 小节轮音，连续 4 拍不断"</td></tr>
+        <tr data-page-node-id="ufajF122GPLj2Q1q7S312o"><td data-page-node-id="ZqOvYSyCGEcHdQxNTDas6z">完成标准</td><td data-page-node-id="FnKWDR3FeXodb44XBcqWop">家长/孩子自己判断（判断不了）</td><td data-page-node-id="CLRmZtHQOXMxEXivroQzca"><strong data-page-node-id="VE7VyQ6AmGU8IXK7epCWCL">5 遍中成功 3 遍</strong>——系统判定</td></tr>
+        <tr data-page-node-id="aboOW2bHsK9fEy9CK6ecH2"><td data-page-node-id="Lz4WWIgoAOS73peHp8YNBz">难度</td><td data-page-node-id="KSjgMFuORCdHApSDVOGOPA">固定（老师拍脑袋）</td><td data-page-node-id="RAIi6T3oGJmeTQRjSML6CC">按上周成功率自动调档（第 05 节）</td></tr>
+        <tr data-page-node-id="wFmhCb42Xk44GrG6FviUvw"><td data-page-node-id="UH9KsuImnKf0J3KzAzYRy7">反馈</td><td data-page-node-id="fWlC1hvBEHoPMIpR7X4E3c">等一周，下节课才知道</td><td data-page-node-id="bmQaYUGZWZkErEGmLGU4fe"><strong data-page-node-id="2Sb91bXn6zPfBMjl3WZHnW">当场结算</strong>，立刻知道过没过</td></tr>
+        <tr data-page-node-id="amaBpSGAP0AfWsodagGndV"><td data-page-node-id="TWVFVau34RiwMu2K7vH1Xh">谁在判断</td><td data-page-node-id="EYe2KrgRGrhsHByX8zq3F3">不专业的家长</td><td data-page-node-id="uWXeSOCOoUhMIr81j6YChK">规则引擎（只判事实，不判好坏）</td></tr>
+        <tr data-page-node-id="B627rJXAJInK8lQq1lDNkV"><td data-page-node-id="ySbi4qig2VdgGhhfCsPtRF">孩子的角色</td><td data-page-node-id="sa4asIInBDxyJjtP2JaDc9">服从</td><td data-page-node-id="VCjcJ0731tUPS5iqXJ1jWz">选顺序、选难度、自己点"我过了吗"</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="9hOj6YulvgTtRAH0MBUDaP">4.2 一张任务卡的完整结构</h3>
+    <div class="mock" data-page-node-id="2wkufEGs1WtQw0cSpX5vid">
+      <div class="bar" data-page-node-id="MBj810lpUB2O0uadYbWpvR">任务卡 · 结构拆解（以扬琴轮音为例）</div>
+      <div class="body" data-page-node-id="q6tl4ZYH7TYDLyuan6YE77">
+        <div class="line" data-page-node-id="jhOgncwbtBRD5ywFBzNlwy"><span class="lbl t" data-page-node-id="gvQm2aWvdIGauQUfys0SzB">曲目</span>《春到湘江》</div>
+        <div class="line" data-page-node-id="hbzCn6uhCCEXFA1uKvjeWT"><span class="lbl t" data-page-node-id="LnE1ltyYgw181HdyJYQmeR">范围</span>第 12–20 小节</div>
+        <div class="line" data-page-node-id="dGhfT0IVFUMU9XWU47gQDs"><span class="lbl t" data-page-node-id="r2lqTvlqc7n7hJdtI1qyxL">技法</span>轮音（均匀度）</div>
+        <div class="line" data-page-node-id="LfGGxNyHuMzmSITDzG44vG"><span class="lbl k" data-page-node-id="TvAbe9lbI9ULvZ31gWHxVV">目标</span><strong data-page-node-id="zMLGOlAESenvaoI8icgm5C">连续 4 拍不断，5 遍里成功 3 遍</strong></div>
+        <div class="line" data-page-node-id="4gESJvexg5A5OBOsiuHeRX"><span class="lbl ai" data-page-node-id="9QAtGnaSHkPc3KVWkTAwyg">理由</span>上周你在这里的轮音断在 2 拍左右。这一周我们把它拉到 4 拍——拉到了，整段的味道就出来了。</div>
+        <div class="line" data-page-node-id="aC9vjXGA0HrnhDvDes6bVy"><span class="lbl s" data-page-node-id="mguQGIqmLhCBaGRUg2kfRU">难度</span>标准档 · <em data-page-node-id="O8CAMOeFA1C3Zk9FQVhZPm">如果觉得简单可以升到"6 拍"，觉得难可以降到"2 拍 + 慢速"</em></div>
+        <div class="line" data-page-node-id="yYvOQL5BQT3iTANVHonlsJ"><span class="lbl p" data-page-node-id="M8BOkxgemEgS1zLziGEoBx">结算</span>系统自动判「有没有断」；你也可以在练完自己先猜一遍，再看系统结果</div>
+      </div>
+    </div>
+    <p class="tnote" data-page-node-id="ozdY3U5y76of26bMBiSv81">注意"理由"这一栏——SDT 的"自主支持"要求提供任务的<strong data-page-node-id="FaUpYt9Rzr5BAPerjxrKGM">合理依据</strong>，而不是命令。同一件事，"练 5 遍"和"因为你上周断在 2 拍，这周拉到 4 拍整段味道就出来了"，在动机上是两件事。</p>
+
+    <h3 data-page-node-id="GBQYtxdciCdxz8hZvS37cg">4.3 为什么"5 遍里成功 3 遍"是好的目标形式</h3>
+    <p data-page-node-id="xljw3DS67fsZSL1l2ZWBpp">这个形式不是拍脑袋定的，它同时满足四个约束：</p>
+    <table data-page-node-id="IqfBagn00jw1As79lqv0zy">
+      <thead data-page-node-id="TSs8cUcjlqxZPQ44ISRNOq"><tr data-page-node-id="v1G9dTUwMvYpYHMfYCbBaX"><th style="width:20%" data-page-node-id="WOeVZqf8efGRF2TGYVEq6E">约束</th><th data-page-node-id="Jp5ADgdnGPPflVbKOfCd8K">为什么这个形式能满足</th></tr></thead>
+      <tbody data-page-node-id="RsB1bAgXPdA0hDcRIiFzkE">
+        <tr data-page-node-id="RO3VfHnmsADDFkyYlKauJX"><td data-page-node-id="2nE1tVxbaCr18AU5qGKDlD"><strong data-page-node-id="0OABr8FRHwK1J1cBmBANe0">可自动判定</strong></td><td data-page-node-id="6hCBehuV8cs70Grwv4ng61">"有没有断"是<strong data-page-node-id="og6DqRkiAC68cZ2Fsdyf5E">事实判断</strong>，不涉及音色、乐感等价值判断——与第七卷确立的能力边界完全一致</td></tr>
+        <tr data-page-node-id="GulrlMfMgHfIesFc2LAt93"><td data-page-node-id="nM5EA9IInnv6un63aFFF34"><strong data-page-node-id="rahVlmqnDyvqUSlps82Y0l">难度可调</strong></td><td data-page-node-id="m9JnHlYZPj04Kyu2ImR0R9">调"几拍"或"几遍"即可改变难度，天然适配第 05 节的自适应算法</td></tr>
+        <tr data-page-node-id="W2QCJMOLVQDqzWQlFUnBfl"><td data-page-node-id="ttUX7oGhiwc6O09ZkswQOc"><strong data-page-node-id="gGM4I0J2G3fIPJxlbZpD4O">允许失败</strong></td><td data-page-node-id="9YD1hAckHfrfgnpKiwN1PB">3/5 意味着<strong data-page-node-id="mTkHJmrANh1FWmsXZ0FrFT">允许错 2 遍</strong>。这是关键——不允许失败的目标会让每一次失误变成一次挫败</td></tr>
+        <tr data-page-node-id="Dyoo031cKCRAxTsm5H7ePs"><td data-page-node-id="Ffq2vdtHJ1KvMX1IrX8lCN"><strong data-page-node-id="0xW2bOHJnOWjT6hCFNBHWF">可达成但不保证</strong></td><td data-page-node-id="hCx7fVmckTfa5N281QoKvn">若单遍成功率 85%（即 85% 规则的最佳区），5 遍中至少成功 3 遍的概率约 <strong data-page-node-id="wyvO6A9Kd9fdIhvy0lu99R">97%</strong>——大概率成功，但不是必然。这正是心流与游戏化的核心结构<span class="ref" data-page-node-id="tywK85p5DHhkJQ08r5qtxh">[k12]</span></td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-ok" data-page-node-id="fRyJidrlfZdHj79XDHK4Ye">
+      <b data-page-node-id="3Lz81vfwR5leFSRonvC4BL">数值验算（可复算）</b>
+      设单遍成功概率 p=0.85，练 n=5 遍，求"至少成功 3 遍"的概率：
+      <br data-page-node-id="JjoTiKfSBRUtF0EzXy4OHA">
+      P = Σ(k=3→5) C(5,k) · 0.85ᵏ · 0.15⁵⁻ᵏ ≈ <strong data-page-node-id="ZSNcPORb4VhpgjExqmBKUi">97%</strong>
+      <br data-page-node-id="xtmLFpPntP8bPf5SUorB89"><br data-page-node-id="R9OC4xZPaHYEZfC1ucVVYA">
+      含义：在最佳难度区，孩子有 97% 的概率通关，但仍有 3% 会失败。<strong data-page-node-id="RFrrWtbwm9UoPSrfXB3UAM">"几乎一定过、但不是白送"</strong>——这比"练满 30 分钟"这种目标在设计上高出一个量级，因为它把不确定性放在了<em data-page-node-id="p8Wa2rBOGI1WGUSiU0tX47">技能</em>上而不是<em data-page-node-id="1mzZsxKhFaOcNnIH0FkhOM">时间</em>上。
+    </div>
+
+    <h3 data-page-node-id="CAIbefYf8Hj3B15t70TKJb">4.4 三个反直觉的设计决策</h3>
+    <table data-page-node-id="SfRoJsvEmrETcfXPIMmAJp">
+      <thead data-page-node-id="3H0QNKIzYjWUvsI9DfpGji"><tr data-page-node-id="v1o6UtDUnHKVFjWXxMF31y"><th style="width:26%" data-page-node-id="DOhlqsSmlNvtlNJJLN0Cae">决策</th><th style="width:20%" data-page-node-id="IFMDRgDFy9sdB6l3fRHyxb">看起来应该</th><th data-page-node-id="FeLsTZHuDSnDlqXy6uVT88">实际这么做，以及为什么</th></tr></thead>
+      <tbody data-page-node-id="ra9j4DMjvE6OZLNiYAeU1F">
+        <tr data-page-node-id="3zgQFHb1ucFgjIepJJuVog">
+          <td data-page-node-id="QTGblhXsBhzb1yPBBmmve3"><strong data-page-node-id="XAdOKQkZKQQShLalSDFJXq">不显示"总练习时长"</strong></td>
+          <td data-page-node-id="oEthX4pqFgi1H6lgnn4C95">显示"今天练了 32 分钟"</td>
+          <td data-page-node-id="XQLLu7a1VbTgbRVX4NsZrN">时长是<strong data-page-node-id="td5u1Bz4hAm7OV60EZatcQ">投入量</strong>，不是<strong data-page-node-id="Ym4BMPalrVN3Mbe08Ewukz">产出</strong>。把时长做成主指标，孩子就会优化时长（慢慢弹、磨时间）。改为显示"今天过了 <strong data-page-node-id="AEzUAKkYzHs7ajnJJTvuxB">3 张卡</strong>"</td>
+        </tr>
+        <tr data-page-node-id="OMx9awVcmokoJhPTPeaTMH">
+          <td data-page-node-id="Tg3MxVhuR2bwLxqGqo91UO"><strong data-page-node-id="gKDx0kTNGSRsbDmTPWR0uq">让孩子先自评，再看系统结果</strong></td>
+          <td data-page-node-id="huCWT2ci2EiSH2SdsDBReB">系统直接告诉他过没过</td>
+          <td data-page-node-id="bDyuumLDO4jN9nf4eQPipj">让他自己判断"这遍断没断"，是<strong data-page-node-id="5CSp40yALgavdxZOM2W53p">在训练自我评价能力</strong>——这正是 Miksza 实验里"自我调节"的核心成分<span class="ref" data-page-node-id="ibX3PdDsCyvHdXDtEX2l9X">[k05]</span>。系统只做校验，不做替代</td>
+        </tr>
+        <tr data-page-node-id="Ql52a1KUmC057R3qrFASvP">
+          <td data-page-node-id="tShgt0jK0KzaR5fOrEMJ0I"><strong data-page-node-id="XGN9GpIzXWt39xflLYOk8A">任务卡可以"今天不想练"就换一张</strong></td>
+          <td data-page-node-id="TUKHnJQYAuoiPNIprm06qL">按顺序锁死，练完才能下一张</td>
+          <td data-page-node-id="w2lgrfOZYYS8419Vt5V3u4">给选择权是<strong data-page-node-id="YBSObhXd4AgUUwbp9E7xR3">自主权</strong>需求最直接的满足方式。锁死会把它变成工单。<strong data-page-node-id="y8A8uP602YgRBjOIlbRhA5">但换卡不能减少总量</strong>——结构仍在</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="pQoEVWaKDBGjEIRGIDsaDx">第三条对应 2.1 节那个容易被误读的点：给选择权不等于放弃结构。孩子可以决定<strong data-page-node-id="y5qVZygYnD8D2m3VZHqJ8M">先练哪张</strong>，但不能决定<strong data-page-node-id="jF9NcMw4Gd4Qj9J9f6zSTD">练不练</strong>。</p>
+  </section>
+
+  <section id="s5" data-page-node-id="xeQevQx8Bxbx0OHBJnpPVU">
+    <h2 data-page-node-id="n7g4o3C74zLw9NhM76JX9q"><span class="num" data-page-node-id="85iOdVMP9KRN7OAGZpkFs3">05</span>难度自适应：把"练什么"变成可计算的问题</h2>
+    <p class="lead" data-page-node-id="X4Fgb287aEBHhWfgAhfuBT">"定制学习计划"听起来很 AI，但真正落地只需要一条规则：<strong data-page-node-id="VzD7AhdDG9vodvRwBpY9yk">让成功率稳定落在 85% 附近</strong>。这条规则有硬出处，而且它最适用的场景恰好就是练琴。</p>
+
+    <h3 data-page-node-id="aWvcKV3sgmGguHjMLE6q96">5.1 85% 规则：一个可以直接写进算法的数字</h3>
+    <p data-page-node-id="nAoUL9yiAuCpQuFJACsjAD">Wilson、Geana、White、Ludvig 与 Cohen 2019 年发表于 <em data-page-node-id="m1wjlab3E5XxYVRc4tGBzI">Nature Communications</em>（10:4646）的研究给出了一个反直觉的结论：<strong data-page-node-id="P5VSYCnU1cPGaD0oABM6nC">训练的最优错误率不是 0，而是约 15.87%</strong>——即正确率约 85% 时学习效率最高。错误率太低（太简单）学不到东西，太高（太难）则无法形成稳定的表征<span class="ref" data-page-node-id="a0qd4alr4DB13EgM6C9ZQV">[k08]</span>。</p>
+    <p data-page-node-id="Yv24XppgFnPGrYb2IFfrki">更关键的是该研究指出的适用范围：<strong data-page-node-id="aSBlC2ctgBCsHP1qI2tz53">它最适用于感知学习与感知—运动学习</strong>。练琴正是典型的感知—运动学习——听（感知）与手指动作（运动）的闭环。这比大多数把"85% 规则"搬到背单词场景的用法要贴切得多。</p>
+
+    <div class="callout c-warn" data-page-node-id="ffaxXCSOplQogJCDgiZF26">
+      <b data-page-node-id="Ed7UkW3T6aGgfd97CD6D2f">必须说清的局限</b>
+      该研究的实验载体是<strong data-page-node-id="aXSVL8xGJJxyIL3MEhKtj1">二元分类任务</strong>与神经网络/动物学习模型，作者在原文中明确指出<strong data-page-node-id="9pfEAzJrA0mpVNo3Jc0efb">不能直接推广到复杂学习</strong>。所以本卷只在"单次任务的难度设定"这一窄场景使用它，不宣称"85% 规则能让孩子学得更快"。把它当作<strong data-page-node-id="szmOZCDRsAUPcZX0guyxPb">调参的先验</strong>，而不是科学保证。
+    </div>
+
+    <h3 data-page-node-id="stpFkF8Btk9MdBUcm4qzE5">5.2 落地规则：从成功率到"下一周练什么"</h3>
+    <p data-page-node-id="Oh4BrlYYwVewJvfy2WI5eJ">落地的关键是把"成功率"定义成孩子能理解、系统能判定的单位：<strong data-page-node-id="YDLQkueRfT0uVH4hpyOUOG">连续 N 遍中成功 M 遍</strong>。下表是完整判定规则，可直接作为产品需求文档的算法说明。</p>
+
+    <table data-page-node-id="RvYEjVGGfK80EtY8BVvn0e">
+      <thead data-page-node-id="lE6O6zaDeXFakSUMwclXNQ">
+        <tr data-page-node-id="nJlGW1rXnfanMjzjCyB18G"><th data-page-node-id="C4QlpdUEzoqaEvClRPfxV2">本轮成功率</th><th data-page-node-id="4g692IHLBGFmvMp39f4tmc">系统判定</th><th data-page-node-id="oNGjeNvlnndlG7eniJluI3">下一周动作</th><th class="num" data-page-node-id="Ag4CqUoCd4xfDzIWKm8QGg">对应心理机制</th></tr>
+      </thead>
+      <tbody data-page-node-id="sxCj1rKbJZwAgnzeacEnvi">
+        <tr data-page-node-id="eQ4R2ZcZn6JKdNjdj38A2t"><td class="num" data-page-node-id="XfJDbt691BXxlPOcRjq5Dc">≥ 95%</td><td data-page-node-id="DkBvY3sxv2J9GKM4QyE5wN"><span class="b b-lo" data-page-node-id="eCFzcD7wW92uYp2jMTjNEB">太简单</span></td><td data-page-node-id="mvC1cFBJgR4Qu0YSeGS7gZ">提速一档 / 加长片段 / 换更难技法</td><td data-page-node-id="oZXLRiYDdiZatj8BOv2bE7">避免无聊（心流理论：挑战 &lt; 技能 → 厌倦）</td></tr>
+        <tr data-page-node-id="Gg4IUIeAlKENgaNqJursrE"><td class="num" data-page-node-id="kN4zlLzFnBezWGqQEsFMOS">80–95%</td><td data-page-node-id="o3uymcZ9BOWXQ1vfEPiozS"><span class="b b-hi" data-page-node-id="8wOBPFRUaoCvjz7o0d4Wvp">最佳区</span></td><td data-page-node-id="eUujxSKM4fzagr5bDjkp2F">保持难度，换一首同难度曲目巩固</td><td data-page-node-id="qz0CH8QaLLhqADsafHJGbY">胜任感 + 最优学习率（85% 规则）</td></tr>
+        <tr data-page-node-id="HOLvEsBEiAAZ2rhEFxMQJw"><td class="num" data-page-node-id="9j3wGQAFG0WuHopPErRz0E">55–80%</td><td data-page-node-id="0LJxadpr4XFsgJB3sqVKcC"><span class="b b-mid" data-page-node-id="t7xAwPe36rdbPpi7Clv3rt">偏难</span></td><td data-page-node-id="qGdWFwRIcaAwdNKCcFnan2">拆成两半 / 降速 20% / 先单手单竹</td><td data-page-node-id="tfFR0t605fYFK1IBVBhess">避免挫败（挑战 &gt; 技能 → 焦虑）</td></tr>
+        <tr data-page-node-id="du6PMMOCkQjizaUcBatMV3"><td class="num" data-page-node-id="2EAXPOgCcrbtplmO5K91EM">&lt; 55%</td><td data-page-node-id="fT4e3hfpzxtKOl1IUvKHkE"><span class="b b-lo" data-page-node-id="9fFAkw3og03W8yae8FzN0z">太难</span></td><td data-page-node-id="4IuiYFG1Uj0DDCR8dnwIwE">退回上一级技法，重新搭台阶</td><td data-page-node-id="l4YcrNVR5rrh0O4n3m51vS">防止放弃（能力信念受损）</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="v9wFFH2ckqQ2vCAy6haMv8">注：心流理论由 Csíkszentmihályi 提出，其核心条件是"挑战—技能平衡"——挑战显著高于技能产生焦虑，显著低于技能产生厌倦<span class="ref" data-page-node-id="jkNU5CqIEXoKGODVwGUmXX">[k09]</span>。上表的四档划分即是该平衡的操作化。</p>
+
+    <h3 data-page-node-id="DOzDZ1PxhtyepTHUUCik1E">5.3 一个必须算清楚的细节："5 遍里成功 3 遍"到底难不难</h3>
+    <p data-page-node-id="7qlgnANLqtpy1ICEEXqD2J">如果按 85% 单遍成功率设计"练 5 遍、成功 3 遍算达标"，孩子实际能达成的概率是多少？这决定了目标是可望不可即还是唾手可得。</p>
+
+    <table data-page-node-id="iqyVxcS54nLfxQE0SA5dZp">
+      <thead data-page-node-id="YsJA3Ck4KiEiwkbKvXYEUW">
+        <tr data-page-node-id="2bCnYRojRtVHQZTiRV8EHm"><th class="num" data-page-node-id="b8nptis11EqRzQd3ipvSp2">单遍成功率</th><th class="num" data-page-node-id="IjR6MeJCJiaYjpXf9l0sKP">练 4 遍、成功 ≥3 遍</th><th class="num" data-page-node-id="d7HnkIVa7wA0NPi11hEvTT">练 5 遍、成功 ≥3 遍</th><th class="num" data-page-node-id="QnBZyTP64DWtIOF6nFNa4l">练 6 遍、成功 ≥4 遍</th><th data-page-node-id="OK6HUpJyJ6JuFfQh1u8PUN">体感</th></tr>
+      </thead>
+      <tbody data-page-node-id="HZLwPEzN0WSyk5rOapdodP">
+        <tr data-page-node-id="vHRBPvDcMHRkbFHb9Qe8BO"><td class="num" data-page-node-id="Pj8ryswndlHNxU6K5LkLBk">95%</td><td class="num" data-page-node-id="aDKELpRXmhnyplbRWW3TlD">99%</td><td class="num" data-page-node-id="B1bvAD48gMBlYXw0ndHqWu">100%</td><td class="num" data-page-node-id="tCqeWRfAdf2FCpjHTWOtmi">100%</td><td data-page-node-id="RMEmFR0nJS0pFaing4yuip">几乎必得 → 无聊</td></tr>
+        <tr data-page-node-id="I8UDjwXVQRj8aBRVcX2982"><td class="num" data-page-node-id="C6iBQxxnLqm6K1q5NwDk3t">85%</td><td class="num" data-page-node-id="ipwsDlRYxUSCOxiCAFX6VE">95%</td><td class="num" data-page-node-id="gkNEaMw4WRcOp57OsCBVwW">97%</td><td class="num" data-page-node-id="bORyh443PZgx6d2cf5ISqk">95%</td><td data-page-node-id="BVL72HACnibBOHYv19RMrl"><strong data-page-node-id="tS2JiVevS0Lqb8KfluoXYX">可达成但不保证</strong> ← 目标区</td></tr>
+        <tr data-page-node-id="74jtHHoxi7KneJnwV0a1f3"><td class="num" data-page-node-id="bBqkxfaCbcaqNdQIrs2lmH">70%</td><td class="num" data-page-node-id="hGZ7dYEwZUJHAoKAAihelP">84%</td><td class="num" data-page-node-id="HG1ypMnMkFS20PpDZgHsSm">84%</td><td class="num" data-page-node-id="QIUKwrjwhoZOHyMF5n3qf6">74%</td><td data-page-node-id="YcDEdNPb260eRveOPRPIcr">偶尔失手 → 有张力</td></tr>
+        <tr data-page-node-id="1yCMb2uz7RSkgPt6ALmC5i"><td class="num" data-page-node-id="gd4FkIFUq56kTaBYbCVajl">50%</td><td class="num" data-page-node-id="oArnQuae6BvaGUD1gXQZgD">31%</td><td class="num" data-page-node-id="Otj422D2y188SuA8miahfN">50%</td><td class="num" data-page-node-id="y4OwdoSCp5goScukEvHwcp">34%</td><td data-page-node-id="HBFWo30NLFZkarJp7PBFTu">经常失败 → 挫败</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="8C38sHDN41CdMfSTCIwECQ">二项分布计算：P(X≥m) = Σ<sub data-page-node-id="ue3XvyL11GAJaAAiYe4tLw">k=m..n</sub> C(n,k)·p<sup data-page-node-id="RyvuIdS2pa1cpYecNsK9vw">k</sup>·(1−p)<sup data-page-node-id="qbMjYG9a20yyGT5Ar0Kafy">n−k</sup>。数值由脚本实算，非估算。</p>
+
+    <div class="callout c-key" data-page-node-id="Aos38zmcJi7VF1PXyVRN3U">
+      <b data-page-node-id="FNPBjMKIK863AfEa4LAjQN">这张表就是游戏化的全部秘密</b>
+      85% 成功率下，"5 遍里成功 3 遍"的达成概率是 <strong data-page-node-id="5u6E7ar8bfG41rFrO30EO4">97%</strong>——<strong data-page-node-id="Ask5VPmzcF8Y1QzB3F6BAM">大概率成功，但不是必然</strong>。这正是好游戏的手感：胜利频繁到让人愿意继续，又不至于必然到没有悬念。<br data-page-node-id="6eX57htzvcW8cfHlRskuZh"><br data-page-node-id="gpdDJZPnVA4mdhZhOzoEDF">
+      反过来，如果错误地把目标定成"5 遍全对"（85% 成功率下概率仅 44%），就是把一个 85% 难度的任务包装成了赌博。<strong data-page-node-id="yLKffKMpHCtr0M6alErfoK">难度没变，体验毁了。</strong>
+    </div>
+
+    <h3 data-page-node-id="VFCPsVIsKWBoWR7dNrMBTh">5.4 定制计划 ≠ 自由练习：结构必须保留</h3>
+    <p data-page-node-id="SZ4k9Fq6dqBJgYreyh1xSE">有一个实证结果几乎否定了一切"让孩子自己决定练什么"的直觉做法。McPherson 与 Renwick 对 7 名 7–9 岁初学者做了为期三年的录像追踪，发现这些孩子的典型练习模式是<strong data-page-node-id="yvbdjp4DrrXoVv0l4lnQ5h">从头到尾弹一遍、不做任何停顿与修正</strong>，而这个模式<strong data-page-node-id="rjDzjm3BsKRV8vgs343O2J">三年后毫无改变</strong><span class="ref" data-page-node-id="EOsU82dzVS7LpkgIbbH5a6">[k10]</span>。</p>
+    <p data-page-node-id="HUx2StzgGal1ESmtIXeR3a">换句话说：<strong data-page-node-id="7KPaxhESlpuTD8UPNcbnhp">不干预不会自愈</strong>。孩子不会随着年龄增长自然学会"怎么练琴"，他们只会把错误的练习方式固化得更深。这正是"定制计划"要填补的空白，也是它区别于"给孩子一个 App 让他自己玩"的地方。</p>
+    <p data-page-node-id="f0khY2jDBprNU4GkKkGq9D">而 Miksza 的随机实验进一步指出了干预该往哪个方向用力：实验组（n=28，大学生）在同样的练习技巧训练之外，额外接受<strong data-page-node-id="2CHzXUG0q4L0bObA0YOTVB">自我调节训练</strong>——如何选择目标、如何制定计划、如何自我评价、如何在休息时反思。结果是实验组的演奏成绩提升<strong data-page-node-id="Q8HOc7dnmDh2P1fqDBgtUC">显著更大（p = .02）</strong>；且两组的<strong data-page-node-id="SNFsvpHGSEdLmyuXBWiauf">练习时长没有显著差异</strong><span class="ref" data-page-node-id="Jqj7UsLxYqmmcYgk7fQ4iu">[k05]</span>。</p>
+
+    <table data-page-node-id="blEsUO6kEFvyqKjnJwyyZU">
+      <thead data-page-node-id="AJxUTvDXzwYqLfsEusGRWe"><tr data-page-node-id="113wM3xA9fBa3qCaHjGGVQ"><th data-page-node-id="VBjuEr2qaxml8VmMaSZzAu">对比项</th><th data-page-node-id="kzsrVaoJqGYGPOTIxtwDtL">对照组（只教练习技巧）</th><th data-page-node-id="SC1j7G5wMx0x6nrrp2qzrB">实验组（技巧 + 自我调节）</th></tr></thead>
+      <tbody data-page-node-id="7YTsHueTQHEWpYjwNxDOpk">
+        <tr data-page-node-id="xDSBtZL7OgSctj1KdFvqRC"><td data-page-node-id="B4k1Cos3A7klpJPCKGkyhe">训练内容</td><td data-page-node-id="ZhvK2JlXmnlWgiQ90tBnKw">慢练、重复、整体—部分—整体、链接</td><td data-page-node-id="HrwSHG1IsRh9yFTxrBxJ8i">同样技巧 <strong data-page-node-id="QEGYShHATJpYtqGQVsgi2i">+ 目标选择 / 计划 / 自我评价 / 反思</strong></td></tr>
+        <tr data-page-node-id="NIgXQfPXCfXwLUlJstdo1S"><td data-page-node-id="6vh6dwMliFuWWBcLXwEUPK">练习时长</td><td colspan="2" data-page-node-id="mnzZWbDNSFhjvmGevQqDTz">两组<strong data-page-node-id="2dlEe39d3iyWaPpLxe6mTP">无显著差异</strong></td></tr>
+        <tr data-page-node-id="vZGPP4WrHzHD8lF4VjE5CF"><td data-page-node-id="Xh4KJ1BBAfGOQxS9vjo7Vb">演奏成绩提升</td><td data-page-node-id="irDMk73mI1Vx5vnq2MDAEq">较小</td><td data-page-node-id="bbGPsMp8JAQkoXYFB0CLtt"><strong data-page-node-id="O2KaKuHbC1EH17ptvF2191">显著更大（p = .02）</strong></td></tr>
+        <tr data-page-node-id="U3Z1OBOHlV2EGcai6qHQun"><td data-page-node-id="OUXxJurUmUcy0RHuXtFmTo">第 5 天关注目标</td><td data-page-node-id="JCp8KFRfxz6iGA5oYP8rV0">较粗略</td><td data-page-node-id="Ggf3GDaBx4pHTGdpn7mVMA"><strong data-page-node-id="ScZY2bCUOAMqMDduxQ9DFS">显著更细致（p = .05）</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-idea" data-page-node-id="F6XzAwDYBCmhlkeGLe1W1B">
+      <b data-page-node-id="VBtlKRQpBmMZbyqSLSWovY">由此得出的产品结论</b>
+      提升来自<strong data-page-node-id="H6J1vCx1ijDO8vIUg1BGDb">练习效率</strong>，不是练习时长。所以产品的成功指标不该是"练琴分钟数"，而是"有效练习次数"与"任务达成率"。<br data-page-node-id="CiFmEDYwBSSKJG2ztIzH1k"><br data-page-node-id="mzokp5Lsp1BluFSGLWcmzC">
+      更直接的推论：<strong data-page-node-id="EjlCixAtE2IcWxaaIHWSrc">AI 该做的不是纠错（第七卷已证伪），而是把老师那句模糊的"把这段练熟"，分解成可结算的具体任务。</strong>这就是定制计划的本质——它替代的不是老师，是"学生自己不知道该怎么练"这个空白。
+    </div>
+  </section>
+
+  <section id="s6" data-page-node-id="Hyy21ZuOGLhmFyDaz2o9Ci">
+    <h2 data-page-node-id="E64WQvUIs7Xeal9VuIoiLP"><span class="num" data-page-node-id="DVhB58KAHMqPuYikeiZWVN">06</span>游戏化机制矩阵：该做什么，绝对不能做什么</h2>
+    <p class="lead" data-page-node-id="Mv4NjNWu4j5RLvS5QSOJOL">你的直觉方向是对的，但游戏化在教育场景有大量反例。这一节把机制逐条拆开，按自我决定理论（SDT）的三个基本心理需求——<strong data-page-node-id="RGHvHmzn8bBliRm7MUZ3qc">胜任感、自主权、归属感</strong>——打分，并给出明确的可做 / 谨慎 / 否决结论。</p>
+
+    <h3 data-page-node-id="BZWHuCOza1HBSnNDskdwYY">6.1 为什么需要这张矩阵：三个必须先知道的反例</h3>
+    <table data-page-node-id="BdObKU8GlwAFceQRyz8CDf">
+      <thead data-page-node-id="aCmZEhzNHlGHtKdsQ5Xzhb"><tr data-page-node-id="cnLAGMbSvF6nGU17kA2vab"><th data-page-node-id="1OSb4F8KN41KuVFeZTP7h4">证据</th><th data-page-node-id="0YYgVJuTlqPk4V7KcWHZrJ">发现</th><th data-page-node-id="q65Qjc2GHxF2FUMMvXpElF">对本产品的含义</th></tr></thead>
+      <tbody data-page-node-id="M5gKM1Gan8z6wCAxqyx4VB">
+        <tr data-page-node-id="O4xBaIT8vOQiQDY7OvZjAr">
+          <td data-page-node-id="8diDIIDLwaBNjCbLqQuwE5"><strong data-page-node-id="S7m9aZBBzcFAw9j3uge0tj">Deci 1971</strong> 过度理由效应经典实验<span class="ref" data-page-node-id="NjzrKXvzQj0GHgLN9VWjve">[k01]</span></td>
+          <td data-page-node-id="ca02y66dY6HcttY94ffoID">给本来就有内在兴趣的活动附加外部报酬，<strong data-page-node-id="kU4dH6jZVZqaIERmparQ2E">报酬撤除后内在动机低于从未给过报酬的对照组</strong></td>
+          <td data-page-node-id="yI7xTMNGMwoWC1wTGb6f4w">物质奖励（玩具、零花钱、积分兑换实物）会<strong data-page-node-id="8h1ky2cF9vbZ6Lakf5Np1y">挤出</strong>孩子本来就有的兴趣</td>
+        </tr>
+        <tr data-page-node-id="LeG4UXJLQOjc6gaFW5RcL2">
+          <td data-page-node-id="IsbGHYmNNYhJq2I0Ok39fp"><strong data-page-node-id="FBhOvoKqlQWnKQwQpqAiP8">Hamari 等 2014</strong> 游戏化实证综述<span class="ref" data-page-node-id="1ipv8Dg4lQPA6EdLLSbi0p">[k02]</span></td>
+          <td data-page-node-id="2a02CZunGSE7rrAUkwgRk0">游戏化确实能提升"参与量"，但同时导致 <strong data-page-node-id="3jXHv4di69kgzj0sDjLPEN">system gaming（系统博弈）</strong>——用户为拿奖励而优化指标而非实质学习</td>
+          <td data-page-node-id="WIlHs8kZ0YJOvpciFIT0fE">任何可被刷的指标都会被刷。若奖励绑"打开 App"或"练满 30 分钟"，孩子会开着 App 干别的</td>
+        </tr>
+        <tr data-page-node-id="eAFU8tARsstDTI6mBhhJnj">
+          <td data-page-node-id="uyrwIzbMluvgTIdGdihLKb"><strong data-page-node-id="FhdLcY6gILGoHmlBVLgTV9">Hadi Mogavi 等 2022</strong> 对 streak 机制的批判研究<span class="ref" data-page-node-id="BNeDSv2WWx81Z6NvnVZCtP">[k03]</span></td>
+          <td data-page-node-id="xwrZHZGdEhWwBbOrIxEcA3">连续天数（streak）会导致学习<strong data-page-node-id="nD3BuZ0ygYkodqMq3Yh0vO">肤浅化</strong>——学习者关注"保持连续"而非"是否理解"，并在断连后产生显著焦虑与放弃</td>
+          <td data-page-node-id="k5DkGp8AwUGSSH7cKHSAgs">原生 streak 形式<strong data-page-node-id="7twVscl9teuzobV1sREXNg">不可直接采用</strong>，必须改造或换掉</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="wFeQoqgMU04y4Hv769sHLi">6.2 机制矩阵：逐条打分</h3>
+    <table data-page-node-id="j6N55iPtm0YtH9DxGJIyzA">
+      <thead data-page-node-id="wOCPHOYFEVFncUFl9HnLMl">
+        <tr data-page-node-id="7zh2Q05D8K5hCNwbSJI5kv"><th data-page-node-id="HHm0vt1tofMsMmAJRXkq8B">机制</th><th data-page-node-id="bCfHKKypKJBaWNytpKRlJp">满足的需求</th><th class="num" data-page-node-id="nV0azfIyjVOFqHyTvIR4fw">动机价值</th><th class="num" data-page-node-id="MyCZyexTtbhVcrDjOxPnli">挤出风险</th><th class="num" data-page-node-id="Ycq10DMeWwtxtIxCSZdMqK">净值</th><th data-page-node-id="3UGPwo6WBMSrTWtCtdARYn">结论</th></tr>
+      </thead>
+      <tbody data-page-node-id="V4pACq2NbTt3SFdE1QngxP">
+        <tr data-page-node-id="KmFlL19kuhrVJZv5MYEfx7"><td data-page-node-id="jQnrQD05H8JHNxlRWcETju">进度条 / 关卡解锁（<strong data-page-node-id="apWFiQRcAamqLiCxX1FQEi">绑定技法掌握</strong>）</td><td data-page-node-id="6prbFB7ulSlxSGWbFOa8Ey">胜任</td><td class="num" data-page-node-id="aRDWSd5BEJsQYgzneeuGcf">5</td><td class="num" data-page-node-id="sbaS9FbSJHyTowBjhJL78B">1</td><td class="num" data-page-node-id="nk35LlZL7qGPmMobtOdtPk">+4</td><td data-page-node-id="2eLfXPpHPj8U5AAA8kjUgL"><span class="b b-hi" data-page-node-id="6j4z4oDr3BhfdyXOc3ToGe">推荐</span></td></tr>
+        <tr data-page-node-id="3g9X932r7jWCpbk5jAAjQ6"><td data-page-node-id="h09YTfycsHQi5ZpAciwd99">「5 遍成功 3 遍」即时结算</td><td data-page-node-id="xk0ldEzCQA13z6JwidgADB">胜任</td><td class="num" data-page-node-id="iuTuw7v6vKmQc1QiBEDJSy">5</td><td class="num" data-page-node-id="UhmyEPc2WD4pK5MWkGP7Bb">1</td><td class="num" data-page-node-id="hOWlpmY5NKb20SkKKDNx2a">+4</td><td data-page-node-id="LGvlXhcfxo5HMfH85YcV1G"><span class="b b-hi" data-page-node-id="2VtLCnfW0AL3Xu4mRu07kG">推荐</span></td></tr>
+        <tr data-page-node-id="qFOdnzuipJDOCxNAmT4YUG"><td data-page-node-id="b4C6WsHeu5JsaCcehZAls9">录音回放对比（上周 vs 本周）</td><td data-page-node-id="GDPDl7prBaGE2MyuBWUfAE">胜任</td><td class="num" data-page-node-id="eWSmH8LfRSAP42AHqsSLRZ">5</td><td class="num" data-page-node-id="H1HLMYwduNHDxOZeFjuhKa">1</td><td class="num" data-page-node-id="viYYr3WSunD2SvH2OQw8y4">+4</td><td data-page-node-id="g3Jk6ffkXOfjWcR0kDTTGJ"><span class="b b-hi" data-page-node-id="rESoa1oBmOubiohYYwNfFE">推荐</span> 最便宜、最有效</td></tr>
+        <tr data-page-node-id="tBapBp3Gx4KAzow9JEZJfX"><td data-page-node-id="d68w8Qxa1FLX5kmqwgfjxC">孩子自选曲目 / 自定练习顺序</td><td data-page-node-id="D0JFWmXkwMwqFEI2LRNB9E">自主</td><td class="num" data-page-node-id="L8xcWqeUcyVAhatQV4qbIQ">5</td><td class="num" data-page-node-id="uiwj4W3uRhGK9z0LYOQpCH">1</td><td class="num" data-page-node-id="HGXSyWL7bDXs1nI10I4CPu">+4</td><td data-page-node-id="ZBlpwHRbtSG3Kws83W0eiD"><span class="b b-hi" data-page-node-id="ZUyqfrq46RkMmHJ9N31xpR">推荐</span> 但不能减总量</td></tr>
+        <tr data-page-node-id="RbBrdZ9aRNnJPRoYQVYFj3"><td data-page-node-id="Ykog1GMGu8tkBi1NSDIP3G">难度自适应（85% 区）</td><td data-page-node-id="sDx22yur2Z56jN6fdPlLuB">胜任</td><td class="num" data-page-node-id="wE2apqrOaibop4RDzxGN3M">5</td><td class="num" data-page-node-id="d8mLtNz0iAlgC4t8FSaG2P">2</td><td class="num" data-page-node-id="TJGfLoSJpNyXnSlbU3nb45">+3</td><td data-page-node-id="UsqKpbWEN5ydwJ5lpsho0x"><span class="b b-hi" data-page-node-id="FbhIzW25lQWmkidS0dKtyP">推荐</span></td></tr>
+        <tr data-page-node-id="tO74SGWMnshUqmqvm5GABr"><td data-page-node-id="PLBB5eKMoquK6fAfeo98GY">老师一句语音点评</td><td data-page-node-id="CXSkEzELPDnWyhJ0YewXSr">关系 / 胜任</td><td class="num" data-page-node-id="xH4FeZkjixliF3SFrXbIdz">5</td><td class="num" data-page-node-id="eVuXKIRDheKaum4tqfhVLz">1</td><td class="num" data-page-node-id="9ABtoTBoaARTzqVdzj5AzH">+4</td><td data-page-node-id="e6H87W31MJDaQg3pws62HI"><span class="b b-hi" data-page-node-id="hLYlks0i7SnDjYayvLn3R2">推荐</span> 成本极低</td></tr>
+        <tr data-page-node-id="qdRN577A1IPpljlsHuxud2"><td data-page-node-id="pa2QtF9laheMhg0DFs951C">集体目标（全班合奏进度）</td><td data-page-node-id="OMxEMPaq6EvA9WORdKiHIN">关系</td><td class="num" data-page-node-id="8Bwtu1axUGZLQDwpcq0CvG">4</td><td class="num" data-page-node-id="G7NDCiNw3L6toCif8zFj1K">2</td><td class="num" data-page-node-id="NYNYOyJB0nmYBddzgBLAa6">+2</td><td data-page-node-id="cuTTxsHcMROiHdT99Tn5yv"><span class="b b-hi" data-page-node-id="ISe5tglxseOvkeGTAAc1TK">推荐</span> 需谨慎避免公开比较</td></tr>
+        <tr data-page-node-id="hTGBKthzTx9lzPt9xb2QLK"><td data-page-node-id="XGRg864cA8tJNumxGKo64q">连胜 streak（原生形式）</td><td data-page-node-id="kSNLEXpCbMDLfHvnB8c1Oz">—</td><td class="num" data-page-node-id="LcB29eaSt9ET6KEFodc4BA">2</td><td class="num" data-page-node-id="JP2iPuoJukhScysfAJWfgX">5</td><td class="num" data-page-node-id="KYhRLtQcnphkA8Ksbn8yGA">−3</td><td data-page-node-id="yQhWWkAkyBuAJCUFAXo24E"><span class="b b-lo" data-page-node-id="bXV6jCwuhAjaS1MVErpbDD">否决</span> 改造后可用</td></tr>
+        <tr data-page-node-id="ZoXQslNs75DzoT7uAHDja4"><td data-page-node-id="25b9jR3QbPVUIKdGGwpxjD">冻结卡 / 补卡（streak 改造）</td><td data-page-node-id="lyKhuwzWlyKHFW8HK7oDXd">胜任</td><td class="num" data-page-node-id="bFqIucEsvHu8us5qUzIwpY">3</td><td class="num" data-page-node-id="HaOwg80r0ZirE3109naILs">2</td><td class="num" data-page-node-id="kRnkhLypU0FYLP5Nxo1chd">+1</td><td data-page-node-id="TPq87dcXJJmDjERKVrSf1h"><span class="b b-mid" data-page-node-id="x8ASdHKKbH9f8hez6ib9mB">谨慎可用</span></td></tr>
+        <tr data-page-node-id="uXEmu4mLScH2dLMxry2gzx"><td data-page-node-id="ePWUAF8GfAnyLItRbsUMHE">积分 / 虚拟货币</td><td data-page-node-id="h7DZ0m87pujvZpTVDQT7dh">—</td><td class="num" data-page-node-id="zMREE2cFvpsNGvrmxb8EIK">2</td><td class="num" data-page-node-id="At1GjGQ0W7LcEOvzR3vAOS">4</td><td class="num" data-page-node-id="EJO49OZWgS25E8j2CfOrT9">−2</td><td data-page-node-id="fL5A6Zh8TaHDKIiqxcJVAO"><span class="b b-mid" data-page-node-id="3TqO0lEzO15j3BxoK1k9d8">谨慎</span> 只能兑换非实物特权</td></tr>
+        <tr data-page-node-id="DJeMmAlt2pzmwJbuELGxBt"><td data-page-node-id="GfYAYcJtCFOGldsEB7Y1Ot">排行榜（个人排名）</td><td data-page-node-id="ULbzRZseWzRMlAb8253nGA">—</td><td class="num" data-page-node-id="97BBuYaiBosgrccwfRroKB">1</td><td class="num" data-page-node-id="cnYRl5Ks571LQwWyPiZyb6">5</td><td class="num" data-page-node-id="FTJIzTLMAIG2lEsxvcyUBy">−4</td><td data-page-node-id="nsYGetBlo8nZQw2nGFx1BG"><span class="b b-lo" data-page-node-id="vfAnUCcOJuuMN5DA4bI7Sf">否决</span></td></tr>
+        <tr data-page-node-id="KDPaNnJqvxhIMd4xQzO2jf"><td data-page-node-id="H3y65v1cBNHrcZUbpxR4tw">外部物质奖励（玩具 / 零花钱）</td><td data-page-node-id="0z0huMDUH51N9hlsQF2k3z">—</td><td class="num" data-page-node-id="UV7PLTL4kLPUEWELlioDVz">1</td><td class="num" data-page-node-id="KokodCiH6vZ9gBtn0TGeDw">5</td><td class="num" data-page-node-id="vaOZmZtDzxwuROKBRJXWwD">−4</td><td data-page-node-id="KKZfSfD0FAoTrlT0eUGjUh"><span class="b b-lo" data-page-node-id="yzG2FaIGYYEDMEA4QIPTUB">否决</span> 过度理由效应</td></tr>
+        <tr data-page-node-id="csf3q7BsMLw9ux4VqKKOvf"><td data-page-node-id="yYyJXnuNh2NidGqv4i6xMv">AI 自动评语 / 质量打分</td><td data-page-node-id="CUdy1jkuXO4eTvNOj6GZ5y">—</td><td class="num" data-page-node-id="NP03JiXNaj8MQfZG1dyy2V">1</td><td class="num" data-page-node-id="TG1K5h5kd5vzncJkjmFPg9">4</td><td class="num" data-page-node-id="rCngCHA7S3zBT0MASUjAd6">−3</td><td data-page-node-id="90UPzzF8D89spHdCxWHU2c"><span class="b b-lo" data-page-node-id="6TEyXVwgxTQqFEpI9QCTVy">否决</span> 技术不成立（第七卷）</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="xwqNUJssF7bmlWPHysJsER">动机价值与挤出风险均为 1–5 分，为本卷基于上述实证文献的定性判断，非实测数据——标注为判断而非事实。</p>
+
+    <h3 data-page-node-id="Y2WAinvnTIvTii8fRuOYxY">6.3 关于 streak：不是不能用，是要改绑什么</h3>
+    <p data-page-node-id="VXqKUnXhIToaxCwXeZq4at">2025 年发表于 IEEE TALE 的一项研究分析了 <strong data-page-node-id="gIxw5jpxOLi1b5wfjDiFuf">20,837 条 Duolingo 社区帖子</strong>的情感，结论给出一个清晰的分界<span class="ref" data-page-node-id="nBAxKbSc1kTKj2iiL92RFf">[k11]</span>：</p>
+    <table data-page-node-id="YITZvXPnTnDBEOkvTNTC5N">
+      <thead data-page-node-id="eqJIz1LRxDnDyMOdy4OtlY"><tr data-page-node-id="G7lia3CkJhRZWy0rqqT2Zi"><th data-page-node-id="E6ocrfHTcd5x8CwGROTY1I">被感知为<strong data-page-node-id="J9Fh1KFI7hM0DGYv173zNa">有效</strong>的机制</th><th data-page-node-id="055vVnTNzrWKSGJGruXUA9">被感知为<strong data-page-node-id="VdDDPK1IolurgyHdIdEyZP">有害</strong>的机制</th></tr></thead>
+      <tbody data-page-node-id="4KCDxHTswHAf0wEe5CgEG7">
+        <tr data-page-node-id="JZ2Cs8FakFLfef1lBovY5Q">
+          <td data-page-node-id="YhSXJXjfYhw7VqC1d4We7q">等级挑战、每日反馈、<strong data-page-node-id="7xufmOGMEICgFpnMD4lcDx">个性化学习路径</strong></td>
+          <td data-page-node-id="WIbMm6W2Pq4DzLC2l4vx0j"><strong data-page-node-id="hOeJXvGGHvLuEnDU2Zlpc0">streak 惩罚机制</strong>、pay-to-win 排行榜</td>
+        </tr>
+      </tbody>
+    </table>
+    <p data-page-node-id="Xpe6NPJKD5kHIQOCGe9VxI">注意这个组合：<strong data-page-node-id="VGCBEeL5iD6ZYpQIwi7FPF">"个性化路径"被列为有效，而"streak 惩罚"被列为有害</strong>。这恰好对应你提出的两个方向——定制计划（有效）与游戏化（需去掉惩罚性设计）。</p>
+
+    <div class="callout c-key" data-page-node-id="Y9y4tsB4GIavnoMiHAMvhT">
+      <b data-page-node-id="84z3iYvTfHoRcsQ8BZoyNW">streak 的唯一正确用法</b>
+      如果一定要做连续记录，<strong data-page-node-id="WSUffz9hDhnIU4lGOZFeNR">它绑定的对象必须是"完成了一次有效练习"，而不是"打开了 App"或"练满了 30 分钟"</strong>。这一点错了，其余设计全部作废——因为孩子会为了保住连胜而做最低质量的练习，而这比不练更糟：它既消耗了孩子的时间，又让老师的看板数据失真。
+    </div>
+    <p data-page-node-id="CTzCUf4R2Kv9v12zsdXfJG">三种改造方案，建议采用第一条：</p>
+    <table data-page-node-id="5D23ABast3pHrb2hDHMGdG">
+      <thead data-page-node-id="xfDze1dwYhC5CHHkw00rGV"><tr data-page-node-id="PFiuaaU3ZUKd6ppEhNU7iy"><th data-page-node-id="ePSd6MvIUGjtFJiHw5F8tB">方案</th><th data-page-node-id="o9m8zZdUVXeKuB984frWBQ">规则</th><th data-page-node-id="OebmaAG5FKs4VeDVkwkuSj">解决的问题</th></tr></thead>
+      <tbody data-page-node-id="woECxV9HBDPRffPSOI2tUo">
+        <tr data-page-node-id="Vlfd7BQKnlH8RbWxFCcgLP"><td data-page-node-id="nsq6FGh65gTk7zca6uVEk3"><strong data-page-node-id="Aa056A9tKfL87NzdBaxS1w">① 冻结卡</strong>（每月 2 张）</td><td data-page-node-id="NU8gDLFjYtAuocE2dckEgB">断一天不归零，自动消耗一张冻结卡</td><td data-page-node-id="DbzCMdMRhohluLuqhhbgi1">降低断连焦虑，保留节奏感</td></tr>
+        <tr data-page-node-id="YzCc1Ffx5whYREx9atKBo2"><td data-page-node-id="rJI6A7twMxWNOrLMZleDMZ">② 补卡（72 小时内可补）</td><td data-page-node-id="S1b5y3CgFHSebwLTpIsZXt">周末补一次仍算连续</td><td data-page-node-id="QCl8iYfwhhJsVvMXA2VP25">适配家庭作息波动（周末外出）</td></tr>
+        <tr data-page-node-id="7ViwaPOHkqdQSpyw2fLWS0"><td data-page-node-id="vrGqroCziokiINS0EdXv8k">③ 只记"本周练了几天"</td><td data-page-node-id="DjHXw0pZQKlgCxqHaPuLsP">不显示连续天数，只显示周目标 4/5</td><td data-page-node-id="cekjv2kP8CIBC5V68CNkeG">彻底去掉归零压力，最保守</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="rvjBIEg5S0ZlVBhpW3I0by">6.4 归属感的隐藏杠杆：老师的一句话</h3>
+    <p data-page-node-id="n7XmcgcC578W3F2A4CKSop">有一条机制成本低到几乎为零、但被几乎所有产品忽略：<strong data-page-node-id="vFpuqzlh1OxoOA5Q2Fuy5b">老师的一句语音点评</strong>。它同时满足归属感（"老师看见我了"）与胜任感（"我知道哪里对了"），且不需要任何 AI 能力——只需要把老师已有的点评行为，从微信群搬进产品里、并绑定到具体任务上。</p>
+    <p data-page-node-id="h1TTKU9G0BalsoyGqixPG2">这里有个行业对照值得注意：Blini 是一款刻意<strong data-page-node-id="KOAtbuLniy9PpmDOywTDlI">去掉屏幕</strong>的音乐练习应用，其设计明确基于自我决定理论与掌握目标（mastery goals），把"与外部标准比较"替换为"与自己上周比较"<span class="ref" data-page-node-id="RuDLbfbIDpEBb0dEO07GB0">[k12]</span>。它的存在说明<strong data-page-node-id="9zqMuI8RMLOUt3IBZxrFYb">反游戏化路线也成立</strong>——决定成败的不是"有没有游戏化"，而是"游戏化满足了哪种需求"。</p>
+  </section>
+
+  <section id="s7" data-page-node-id="biCFPMcE8mKZkEXbz8g8cs">
+    <h2 data-page-node-id="HRlwHvXOCySxGmwTVHXSjE"><span class="num" data-page-node-id="2o51ar6b58aBjWcssvUaGm">07</span>孩子端界面：扬琴技法如何变成可结算的微目标</h2>
+    <p class="lead" data-page-node-id="XMNJYe20jYBQbM2Qq0NLZz">这一节给到可以直接做原型的粒度。所有微目标都遵循同一条铁律——<strong data-page-node-id="XrgHd6u1y5y1AaklOr7SBe">只做事实判断（做没做、成没成、稳不稳），不做价值判断（好不好、对不对）</strong>。这与第七卷确定的 AI 能力边界完全一致。</p>
+
+    <h3 data-page-node-id="sQTNZrdZ10JcYEvuEpRqy9">7.1 技法 → 微目标映射表（你的独有资产）</h3>
+    <p data-page-node-id="RrWvkOpg9G9WWWjTqm5Dwn">下表是本卷最有价值、也最不可复制的部分：<strong data-page-node-id="FgXX7ufjvy1ahB9xgQyovi">通用 AI 产品写不出这张表，因为它不存在于任何公开数据集里，只存在于扬琴老师的日常语言中。</strong></p>
+    <table data-page-node-id="MK4ZrYQt3ew6lIJLLgtm7r">
+      <thead data-page-node-id="L8F2JR0S709GH7Hzzxlitz">
+        <tr data-page-node-id="yTwvtuiA6YBKShoBmlhWME"><th data-page-node-id="uTdsL7uofGbzGrmn5WvT6f">技法</th><th data-page-node-id="3c65ZcgdmDgKaQs2sb34ip">可结算的微目标表述</th><th data-page-node-id="2UxcLCIIyyqLkAq3T3HP2A">系统判定的维度</th><th class="num" data-page-node-id="w64hsfO3SpFBQYWqTbSWT9">可判定性</th></tr>
+      </thead>
+      <tbody data-page-node-id="JReoFD15V8hk3UWZoXkOWI">
+        <tr data-page-node-id="3fvet9yMaCF2eaiEvbyWjL"><td data-page-node-id="pyeB7Ujg7NHo9MBZKHXfvp">轮音（均匀度）</td><td data-page-node-id="ungqzeCl5Faqv3sys7Yd94">"这一段轮音，连续 4 拍不掉，5 遍中成功 3 遍"</td><td data-page-node-id="qubJ37d2dxse5DhsJowrGP">节拍稳定性</td><td data-page-node-id="2Fl9sYPAlXSHXLiU65rJdU"><span class="b b-hi" data-page-node-id="GcnDsxQTcxLcLaX7GBpcZu">高</span></td></tr>
+        <tr data-page-node-id="wYrjUMAfFTYghh4AnJUNiB"><td data-page-node-id="MuaAC2iN358S5Y3BLV1uCN">反竹</td><td data-page-node-id="84DkdKCoDyCgcbJA7lI14H">"第 3–6 小节反竹，速度 60 下不错位，5 遍中 3 遍"</td><td data-page-node-id="vkUCdV7iBEudHFAJFDxr91">节奏位置</td><td data-page-node-id="I4bf8PlZxMO7z3GzjmdEoz"><span class="b b-hi" data-page-node-id="YzBEHBJHSoV9jbmiCFrU6D">高</span></td></tr>
+        <tr data-page-node-id="UgwH719PTJ5wNheu4BNBru"><td data-page-node-id="z6WspotETngwwz8WyC5qFU">支手轮音</td><td data-page-node-id="rDrBwQpVMqMsDK4WRyxo6K">"左右手交替 8 拍不断，5 遍中 3 遍"</td><td data-page-node-id="iF7QhwOR7lkK3RVHun46hi">连续性</td><td data-page-node-id="2yi3UZvaBGO72O6MvxBxRw"><span class="b b-hi" data-page-node-id="4k2x2kCOAgdlvDPRqTj5ML">高</span></td></tr>
+        <tr data-page-node-id="bDt4HTHxN4wr6li99Vyv4P"><td data-page-node-id="aPatuL5h82q7qumXXyeaP3"><strong data-page-node-id="2XUJDdmGWDTyWKJgFtVupr">花音</strong>（音位内多弦校准）</td><td data-page-node-id="ZpiBEr3isrhxwa7oop3zdF">"这个音位 4 根弦，逐根校到目标音，4/4"</td><td data-page-node-id="7uSHU1rDIbq9XTAGPs813m">音准（属调音范畴）</td><td data-page-node-id="g92fWIPqJTiCXXMA2MaEpA"><span class="b b-hi" data-page-node-id="XFBeuXky6vnzLvXYQdy3TJ">高</span> ← 竞品做不到</td></tr>
+        <tr data-page-node-id="hZmAB936sTWFWRzsJUDjse"><td data-page-node-id="HnWltg50rvLykToeV2O9xe">琶音</td><td data-page-node-id="DD7Nq5FwV1aIS6KqmhbPca">"上行琶音 2 遍不错，再提速 10"</td><td data-page-node-id="CfvZOq6i4avALShKODUBkf">准确率 → 速度</td><td data-page-node-id="Jv6axr4YMF90Z28FUK3XxE"><span class="b b-mid" data-page-node-id="ilA8gSEOdrojUt8I2zjyxM">中</span></td></tr>
+        <tr data-page-node-id="6YAFFLoKgbdTJhH62JjBBP"><td data-page-node-id="xqBezN2kKm5hKs993IkBB7">双音琴竹</td><td data-page-node-id="MlgQiMxWkB6WqdGgN9m6et">"双音同时落下不前后，5 遍中 3 遍"</td><td data-page-node-id="EsqqIhdicUDwV6XDHk3KiV">同步性</td><td data-page-node-id="SleY7nS7yAUezVtZ6WGtWw"><span class="b b-mid" data-page-node-id="gEQHI99hGQweKdee7PsGhw">中</span></td></tr>
+        <tr data-page-node-id="ATl9o47QoUgrnNyMGzSZsT"><td data-page-node-id="DqCCF7TkMtAYf3dV2jejRq">滑弹</td><td data-page-node-id="kqi9DKrBVM6rrF1EXHqeqT">"滑音起止音准，5 遍中 3 遍"</td><td data-page-node-id="fAfpsxBhjSA3aUdIdSnWRa">音准</td><td data-page-node-id="45LmB9MHXQm8BxdskDfsC5"><span class="b b-lo" data-page-node-id="xS9cP7HqmkX8eAFVk8WAXo">低</span> 后置</td></tr>
+        <tr data-page-node-id="mMwWiWlBvYCHj4fWt2HMOw"><td data-page-node-id="MrHjg5WSho6YnLDHhJDeSY">音色 / 乐感 / 表现力</td><td data-page-node-id="7LirF1hD7LkpozqW1jE42z">—</td><td data-page-node-id="1zpLsTQoysbv2HUp1EUfo8">—</td><td data-page-node-id="iSgQO0ptiYOoBegHcTf0R4"><span class="b b-na" data-page-node-id="p75zK63mUcBsaKF6JZBjnG">不可判定</span> 明确不做</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="WcBaVzSNLcmonaQbhTwz2G">最后一行对应中国民族管弦乐学会考级五项评分维度中的"演奏方法"与"乐感表现"——这两项 AI 不可判定，因此本产品在任何界面上都<strong data-page-node-id="dpPnAnDAtwmGxkwmtkZslB">不得呈现"综合评分"或"总分"</strong>，否则构成对不成熟能力的虚假包装<span class="ref" data-page-node-id="0T0wBfA4Cl3fDmvl9PXRb0">[k13]</span>。</p>
+
+    <h3 data-page-node-id="FAM6cK5jLu51PRtq8lVWPa">7.2 界面文案：孩子端首页</h3>
+    <div class="mock" data-page-node-id="jd7m1T3FJPlFFWSiMvJA9e">
+      <div class="mock-bar" data-page-node-id="4e8JsWE9iACbO5dKWr5ulN">孩子端 · 今天的练琴</div>
+      <div class="mock-body" data-page-node-id="WlkyILeQI7lRg242JX1j5a">
+        <div class="mk-h" data-page-node-id="wDFYBgHwbkygrFKlJB8rIH">今天要练 3 张卡 · 预计 25 分钟</div>
+        <div class="mk-card done" data-page-node-id="hiyugnr7eKZZWR3DIgUhGk">
+          <div class="mk-t" data-page-node-id="YOSxu6BjXq0PfDEqRhGMOM">① 轮音 · 《春到清江》第 12–19 小节</div>
+          <div class="mk-s" data-page-node-id="ZBNCjxuQl09sXldOmVteBl">连续 4 拍不掉，5 遍中成功 3 遍</div>
+          <div class="mk-p" data-page-node-id="UaxxWEZnAk3u9EArPw7oWQ"><span class="mk-bar" data-page-node-id="g2hzM8hv28PbFjNRUnoGng"><i style="width:100%" data-page-node-id="yPu6dphF8R70JeaXmmvabI"></i></span> <span class="mk-x" data-page-node-id="bFiAdSEKJl1FxVGPeiNey7">4 / 3 · 完成</span></div>
+        </div>
+        <div class="mk-card now" data-page-node-id="gid5Hf1uwwJ97ecwsp3RzB">
+          <div class="mk-t" data-page-node-id="e3niKvDdMDp5BF4ncFqYEQ">② 反竹 · 第 3–6 小节</div>
+          <div class="mk-s" data-page-node-id="PjiaOWEfs2VDeAiMLZ14Tk">速度 60 下不错位，5 遍中成功 3 遍</div>
+          <div class="mk-p" data-page-node-id="lW2sB8HlaQ0qy19adUFbl3"><span class="mk-bar" data-page-node-id="mGw9jsfy5l58CjYlPzxZZc"><i style="width:60%" data-page-node-id="KZhOqCqjhGT7gRiNdathkh"></i></span> <span class="mk-x" data-page-node-id="t9MQnEYGTcmRk43KK9uRfZ">2 / 3 遍</span></div>
+          <div class="mk-btn" data-page-node-id="MSgDiZJpr7cEtc3kLX4b0r">录第 3 遍</div>
+        </div>
+        <div class="mk-card" data-page-node-id="u23jhR1ajxWmt57xgrxiHu">
+          <div class="mk-t" data-page-node-id="5rJzqHErtNUUZzL5bP437e">③ 花音校准 · 中音区 3 个音位</div>
+          <div class="mk-s" data-page-node-id="l1MnNJRwhB218uMGJ97lBd">每个音位 4 根弦逐根校到目标音</div>
+          <div class="mk-p" data-page-node-id="0TYxmAXsB9GzPpHjT8ZylL"><span class="mk-bar" data-page-node-id="3LNaB6oV3pgA3m9OfxtjPo"><i style="width:0%" data-page-node-id="Ap4fDNKYHu2lI5gaVK5Leu"></i></span> <span class="mk-x" data-page-node-id="VtdAbfajyPo5QwrBmPWgDg">还没开始</span></div>
+        </div>
+        <div class="mk-foot" data-page-node-id="Ea2qkvy8rrY7MORdRrsWLJ">不想按这个顺序？<span class="mk-link" data-page-node-id="fAhypqJF1hz9fWBlNrEKDT">换一下顺序</span></div>
+      </div>
+    </div>
+    <p class="tnote" data-page-node-id="9XDHZ3iFrskqMbUExAdjGC">设计要点：① 显示"预计 25 分钟"而非"剩余 25 分钟"——前者是承诺，后者是倒计时压力；② 进度条按"遍数"走而非按"时间"走——绑定行为而非时长；③ 底部换顺序入口满足自主权，但<strong data-page-node-id="o2RZVdZFb06nwU4D3zD2AT">不提供"减少总量"的入口</strong>。</p>
+
+    <h3 data-page-node-id="RXnq5krsIIUNFPr9o84WvM">7.3 界面文案：完成瞬间（最关键的一屏）</h3>
+    <div class="mock" data-page-node-id="p9uEj91q36javbA7kTiouk">
+      <div class="mock-bar" data-page-node-id="crVVXqQUydDGoefL24WsEu">孩子端 · 任务结算</div>
+      <div class="mock-body" data-page-node-id="o8DGV17pc7W8OIyHpT3CGW">
+        <div class="mk-big" data-page-node-id="wDU4KvJJjAgv1h23tFGZ4L">3 / 3 遍完成 🎯</div>
+        <div class="mk-sub" data-page-node-id="xhafjsZlayPs8EYHma7hrY">反竹 · 第 3–6 小节 · 速度 60</div>
+        <div class="mk-sel" data-page-node-id="fsXu5Mt67aHdtUF0fApCXM">
+          <div class="mk-opt" data-page-node-id="DMtSLcJKbU2rIYp8BcFMAq">🎧 听一遍刚才这遍</div>
+          <div class="mk-opt" data-page-node-id="SqP4RUhA9RZY19nQCHUQJm">↩️ 和上周一模一样的这段比一比</div>
+          <div class="mk-opt" data-page-node-id="hibXEmkmgB0FFK2kR2Dpxo">➡️ 下一张卡</div>
+        </div>
+        <div class="mk-note" data-page-node-id="8pHqbs1nGNGUoNK7S66g33">老师说：<em data-page-node-id="4kyNBXmJaGwwtHl0NUaP2T">"这遍比上周稳多了。"</em></div>
+      </div>
+    </div>
+    <div class="callout c-ok" data-page-node-id="MgKSAm2NRlnCIPcz0uQEDg">
+      <b data-page-node-id="ilD6eiqTwbIAp8ae41KyPC">这一屏的三个刻意设计</b>
+      ① <strong data-page-node-id="yJPReKBQvRYdlP2PUqonEk">不显示分数</strong>——只显示"3/3 遍"，这是事实不是评价；<br data-page-node-id="OMn5PNG6dCDnpUnm8aA1cd">
+      ② <strong data-page-node-id="SyFZNsYqEPthAPc5r2S2qT">"和上周一模一样的这段比一比"</strong>——与自己比，不与别人比（Blini 的设计原则）；<br data-page-node-id="kpVYDXHYSTEtNUjGBd8jkE">
+      ③ <strong data-page-node-id="xOCCpjPopwpL8NuCZsAZyJ">老师的话放在最后、用引语形式</strong>——它是归属感的来源，不是系统的评价。若老师本周没点评，这一栏<strong data-page-node-id="p6jBy6y3fRULsQ5IaUwssT">留空而不是用 AI 生成</strong>。
+    </div>
+
+    <h3 data-page-node-id="jsXUPRBa6xiR9yiIj6nkuz">7.4 明确不做的四件事（红线）</h3>
+    <table data-page-node-id="4WMgxs3GgxvGvADaXHJvbe">
+      <thead data-page-node-id="z9J0uRPuEoDZTHkEoS0uTm"><tr data-page-node-id="J95xNS67nrqR5jkn8vLvtU"><th data-page-node-id="AUwG7u3mhhLhNIHKF55PHv">不做</th><th data-page-node-id="RsYFcnYZvF408d2jyX4Fl1">为什么</th><th data-page-node-id="7vYGcgqldj51CYp76SAsOC">违反的边界</th></tr></thead>
+      <tbody data-page-node-id="aTXuG4ySCTyDpAoebyvX99">
+        <tr data-page-node-id="JbMElIwkoTaVHCS1oN3VzL"><td data-page-node-id="9upqEER12yt9CUonS1cOh7"><strong data-page-node-id="h9Z4SVRKlXhEEPF0MOPKVF">不做错音纠错</strong></td><td data-page-node-id="UOJdcf8AI1YnLhNB0iimQl">扬琴连续演奏无公开数据集，多乐器转录 F1 仅 0.44（三乐器场景）。误报在练琴场景是致命的</td><td data-page-node-id="5UnrhkltN6CUJU57FF5Pt9">技术边界（第七卷）</td></tr>
+        <tr data-page-node-id="m5T0uU8Ri43pDFVsfs6Sq6"><td data-page-node-id="FPb5aXLrjGRQHY4zMlgL9e"><strong data-page-node-id="7cFhzpRvy4hgxqKqKwITZT">不做综合评分 / 总分</strong></td><td data-page-node-id="x4g3wXfTRMtZS1Bv50COZd">音色、乐感不可判定；给出总分等于把不成熟能力包装成完整评价</td><td data-page-node-id="x5whaQcmD4HSxraznwVtLS">诚实性原则</td></tr>
+        <tr data-page-node-id="eQCr91S5TcixuaNXIoUlZe"><td data-page-node-id="XGnEtuyyqUBYusSGUQLkoK"><strong data-page-node-id="5hwAj9WgZ1Ece3fj0xa6yC">不做实时打断</strong></td><td data-page-node-id="PQjoPSOenNkiB6ykneZ1Ql">技术上可行（延迟已可做到 380ms 内），但会把 AI 变成"每秒都在说错的电子家长"，只是把冲突从人换成机器</td><td data-page-node-id="7dEwnlw2Y3D75GJr22SrFm">动机保护</td></tr>
+        <tr data-page-node-id="PAFUqqhLAMI4PWvAuYjPut"><td data-page-node-id="MMxFFgqrwBfeNZHCcm15Aj"><strong data-page-node-id="FqUhCPJaZfyuI8zbBn3QQ5">不做排行榜与物质奖励</strong></td><td data-page-node-id="15TEpbzRml7f4Wbj2sd5cU">排行榜触发社会比较焦虑；物质奖励触发过度理由效应，会挤出本就脆弱的内在动机</td><td data-page-node-id="vSgG7zTQfNEUT47Pg7aBBG">SDT / Deci 1971</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="s8" data-page-node-id="qp73g4Syf5GngNXkHC2XR4">
+    <h2 data-page-node-id="9s5fMisrfHsRnBmWLbXd5k"><span class="num" data-page-node-id="Xmw2uQCAoE8O9xwanLBlV5">08</span>怎么验证：三个实验，从 0 元到 3,000 元</h2>
+    <p class="lead" data-page-node-id="U9ROKYUWWISgKZGmtE9AZR">前面所有的心理学证据都来自别的人群、别的乐器、别的产品。它们能告诉你"什么机制通常有效"，但无法告诉你"对你的学生是否有效"。这一节给出把假设变成证据的三步。</p>
+
+    <h3 data-page-node-id="TQicEMGUW8uP3BNsaIcGQb">8.1 T1：手工验证（0 元，4 周）—— 这一步不能跳</h3>
+    <p data-page-node-id="C85GIHrBaQcUTGaX7NmbYf">这是第七卷已经确定的动作，本卷只需补充孩子端的观察项。<strong data-page-node-id="iI42Ialzxv5AQSxv4MHlXG">核心原则：不写一行代码，用微信群 + 一张共享表格跑完。</strong></p>
+    <table data-page-node-id="RzKpYOL32PGAFhd8qFJipg">
+      <thead data-page-node-id="DzRXBTXXtepX7avSekKXEr"><tr data-page-node-id="QoIoxIS1eYx477FXq8UIdm"><th data-page-node-id="ivR7iPvh1LjiUcsIPePrYs">项</th><th data-page-node-id="CNwWp0mxDQCunlGJv58VBe">做法</th></tr></thead>
+      <tbody data-page-node-id="WpR99Wo8rOc0ffg8KkLo8v">
+        <tr data-page-node-id="sTzmOg5Y9ytgjArWiinxrn"><td data-page-node-id="6nqP9xZOGFPcYcNaOKuwRk">样本</td><td data-page-node-id="kzLFwosNMBTInNuNC6X2bF">你自己的 5–10 名学生（不用多，够了）</td></tr>
+        <tr data-page-node-id="jITcUcRFHVnRCELOkRoOQ7"><td data-page-node-id="qiU4AIx4kUx5tFvdqNdb84">做法</td><td data-page-node-id="hMwEKU1YbqIZyAJ1eNXLwB">每周布置<strong data-page-node-id="DJ870E0Ah93NJbXPDQJzn2">结构化</strong>作业（明确遍数、明确技法、明确"成功标准"），家长在群里回传视频，你用表格手工统计</td></tr>
+        <tr data-page-node-id="lLKCLVPcGriDIigDbf4sI2"><td data-page-node-id="Jmn6Y218d1Zh6WFCVIlNEJ">新增观察（孩子端）</td><td data-page-node-id="Ro0H94tHZuy8LUEoPSPPLb">① 孩子是否会主动要求"再录一遍"（说明微目标有张力）；② 家长是否反馈"比上周清楚要干什么"；③ 有没有孩子因为"5 遍里 3 遍"这种表述而更容易开始</td></tr>
+        <tr data-page-node-id="tArilDHOzKQJg6HgYgG62O"><td data-page-node-id="bd51eB15T1cFvZiIBq8IJN">通过标准</td><td data-page-node-id="1gL7dUAuYlyjqloJEDQGgq">4 周后，<strong data-page-node-id="C5M7MmaAI3gADvPMKM2XNo">回课率 ≥ 60% 且家长主动反馈"作业更清楚了" ≥ 一半</strong></td></tr>
+        <tr data-page-node-id="vcnLf2WbmnyDeFUtR9LInm"><td data-page-node-id="ZUpF5vRA2RbEJgnJOzft45">不通过怎么办</td><td data-page-node-id="rRs6TPBDKJsRPP1P27l2HH">如果回课率 &lt; 40%，说明"结构化作业"这个形式本身没价值——产品做得再好也没用，方向需重设计</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="vqEBAGqD7DH6vI7gKNfw1G">8.2 T2：定制计划 A/B（约 0 元，6 周）</h3>
+    <p data-page-node-id="AeLNdXeRAlE3ZTbmAIfmSa">T1 通过后，验证"定制"是否真的比"统一"好。这是本卷最重要的验证，因为 Miksza 的样本是大学生、Miksza 的结论是演奏成绩——<strong data-page-node-id="7kMYKpHnbKTzYBhKxGJN1C">都不是你的小学生、也不是留存率</strong>。</p>
+    <table data-page-node-id="Q0WDRXJz8xsymFgi0CHCKW">
+      <thead data-page-node-id="EjEOBwxydlEWgvO5O8YgdV"><tr data-page-node-id="N6FZjD8X0fTcakkKeaG8Jp"><th data-page-node-id="kAsytTa8SI7nZQsw2btyCd">组</th><th data-page-node-id="LgZrJOweTGuOFOudLwgXUK">作业形式</th><th data-page-node-id="PP4UPAvtpjhKqVh1sN1ELg">样本</th><th data-page-node-id="9CrYZ7pva1KBxgdjqwTjba">观测指标</th></tr></thead>
+      <tbody data-page-node-id="IxWPc8tR2I22PwEhw7wsOz">
+        <tr data-page-node-id="4MLTTZx6vuTqDrYvdXUTaG"><td data-page-node-id="QpXd6Sz3FfFeIkjpTR46Q8">对照组</td><td data-page-node-id="RfY1Os3GG7i7NxvDc4BdoK">"把这段练熟"（现有做法）</td><td data-page-node-id="jG8iDoEiLzLd3KCgpNHtN2">5 人</td><td rowspan="2" data-page-node-id="FYaWy6UrXncB2t3qmCBPiK">① 周回课率；② 平均有效练习次数/周；③ 8 周后的<strong data-page-node-id="VQjFsoBevGJb4DA7P72F5B">技法达成率</strong>（由你盲评）；④ 孩子自陈"想不想练"（每周 1 分制，画哭脸/笑脸）</td></tr>
+        <tr data-page-node-id="7GRLMGoHM7yHpV0W6Bcaow"><td data-page-node-id="5rdlp4pAe54F4qgg7OKikF">实验组</td><td data-page-node-id="aQ5jvGjYOInLEunpXXO4gy">微目标卡（"连续 4 拍不掉，5 遍中 3 遍"）</td><td data-page-node-id="02VD3T8SBoCPnYLQiKuK9X">5 人</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-warn" data-page-node-id="Gc9erJMd5qcZBQjnGsKSIR">
+      <b data-page-node-id="04xtXJeiOBG12duhKdr97j">样本量诚实说明</b>
+      5 + 5 的样本<strong data-page-node-id="R7dM2Uc2fdIcwFjmXMUV56">没有统计效力</strong>，得出任何 "p &lt; 0.05" 的结论都是自欺欺人。这个实验的目的不是证明，而是<strong data-page-node-id="FtbXxsPmvr3qg1Lye97wWe">看效应量是否大到值得继续</strong>——如果两组差异肉眼可见（比如回课率 45% vs 75%），那即使 n=10 也值得推进；如果差异在 10 个百分点以内，就当作没有差异。
+    </div>
+
+    <h3 data-page-node-id="XKqNsubJyYAbB2N4ZswwJg">8.3 T3：游戏化要素分离实验（约 3,000 元，8 周）</h3>
+    <p data-page-node-id="2fTinlk0XBxYXtFou9b7Nl">只有在 T2 通过后才做。用最便宜的方式（问卷星/腾讯问卷 + 微信群）分离三个变量：</p>
+    <table data-page-node-id="dl6vBox2sHubRbpbNiEXlE">
+      <thead data-page-node-id="6wXTUTQUEGNsrDhUE0HEfe"><tr data-page-node-id="YSVvDWgZ1QFRWIjTYDh1l9"><th data-page-node-id="3mrymHExmx5deoLN4kWbyH">条件</th><th data-page-node-id="p01JQmbELwt4dBlSMUKq7I">加入的机制</th><th data-page-node-id="UAGEm0NBtrnc4iz2ou8FvV">要检验的假设</th></tr></thead>
+      <tbody data-page-node-id="TuYkBFDJioaImFDt2YUrQA">
+        <tr data-page-node-id="pzkGxlftV1ayq9j1FK8C9b"><td data-page-node-id="gQcHfodLwNDqOgIVjQXrqg">条件 A</td><td data-page-node-id="NedCRbxVh7kB0ejQNVuLzP">只有微目标（基线）</td><td data-page-node-id="zwzHgaMi0ijzEt4BKbCKpX">—</td></tr>
+        <tr data-page-node-id="W5qSlES6JZKMfrwZvFR9x8"><td data-page-node-id="0JUQ4HHxsDv1v5ktL7v9Fr">条件 B</td><td data-page-node-id="BBr0d9IqVewdBKlYEXFX7t">+ 进度条 / 解锁</td><td data-page-node-id="JCH4myqkDZMwpAOvEcmNml">胜任感机制是否额外提升回课率</td></tr>
+        <tr data-page-node-id="CCVP3cMHvjBCl8l66RS3hC"><td data-page-node-id="EysKEI8a7M2ZRDDkCigZGC">条件 C</td><td data-page-node-id="HnIQsoA3Cz00n40FZXzhNQ">+ 老师语音点评</td><td data-page-node-id="B7YzJ6d6T7jKcoJdetuvtL">归属感机制是否额外提升（预期效应最强）</td></tr>
+        <tr data-page-node-id="UaxcadyKZFPiWnUPEzPN2i"><td data-page-node-id="97tk2iNZ4XnMxH48uKv21p"><span class="b b-lo" data-page-node-id="Ql7Iet8IRwKqky7TgMqOy0">不做</span></td><td data-page-node-id="X1QZV8sJFvXRUSxXFNBm3N">+ 排行榜 / 物质奖励</td><td data-page-node-id="tF47UyocDhpmIpoxhfaEW3">否决项，不测——文献已经给出明确负面证据，没必要在自己学生身上复现一次伤害</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="HElKup6eUyvl5TcoC3ZdK2">3,000 元预算构成：给参与家庭的练习耗材 / 小礼品补偿约 2,000 元（注意：这是<strong data-page-node-id="mcsiA6GVmG0CHVmLDx4gxw">参与研究的补偿</strong>，不是"练琴奖励"，发放与练习表现无关，以免污染变量）；问卷平台与音频存储约 1,000 元。</p>
+
+    <h3 data-page-node-id="SLmVECGQtc6HKCBWD3hgwc">8.4 三个实验的时间关系</h3>
+    <table data-page-node-id="EdcLPwsJ5hjV9Hfu5epA5t">
+      <thead data-page-node-id="HQPrDGsIGkLrDJODNoEa05"><tr data-page-node-id="TrWcMTUr2YkfIVlHHU6tJ5"><th class="num" data-page-node-id="Dx50hC1vucOo3PkKcnGbhP">周次</th><th data-page-node-id="rRnxfH4qXMMQe8IkXp2ZCA">动作</th><th data-page-node-id="Xdbg61FLVJgdQAX50ebsSq">决策点</th></tr></thead>
+      <tbody data-page-node-id="xCNmsj1ejtpDX0AzPbiekf">
+        <tr data-page-node-id="ZHiiJ6phicIFT50BRNpAFC"><td class="num" data-page-node-id="vVtJPv3eHRSzMj4mW1NeLG">1–4</td><td data-page-node-id="4AADNZR8mNFli56Y3jvaVY">T1 手工验证</td><td data-page-node-id="Nlzq6k8L1hUofge1lRvEND"><strong data-page-node-id="QjqxHG0PH4hGHOvFnu995G">回课率 &lt; 40% → 停止，重设计</strong></td></tr>
+        <tr data-page-node-id="ir6wunPjQwAlBi90o4bhrd"><td class="num" data-page-node-id="mlEPodBgp2EpgHVVf96aOZ">5–10</td><td data-page-node-id="5Fuz0fz3FynKmVruTv3TXs">T2 定制计划 A/B</td><td data-page-node-id="1syPV6adVPjG4RwnXFQfZ7">两组差异 &lt; 10pp → 定制计划降为次要功能</td></tr>
+        <tr data-page-node-id="tYZWUIZr27AxqX6zw633r5"><td class="num" data-page-node-id="Sourq6xO1dujHv35ftf5Qi">11–18</td><td data-page-node-id="pGTuRAgGAu6m1oa2T4U4uo">T3 游戏化分离</td><td data-page-node-id="BNaNRpOdJB7Dypjsnh4dSY">若无机制带来额外提升 → 只保留微目标，不做游戏化</td></tr>
+        <tr data-page-node-id="QJIeorlQeZtbBHGafFOCax"><td class="num" data-page-node-id="szkGKakkPqZKhYFxt1qiWH">19+</td><td data-page-node-id="bnjAHi7zDdkZHyYehf0NMa">才开始写代码</td><td data-page-node-id="n4xkAwvYoZ6GUUpAbxFCQr">—</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-note" data-page-node-id="rv4cGweEjdTVBCmgJcjRcx">
+      <b data-page-node-id="AK0CDJ5KK9QtvqGRMBKudz">为什么把写代码推到 19 周之后</b>
+      因为这三个实验验证的是<strong data-page-node-id="6a5EivbwY736LRINX0Ln4s">"形式有没有价值"</strong>，而不是"产品做得好不好"。如果形式本身没价值，做得再精致也只是把一个无效的东西做得更贵。而 T1 只需要微信群和一张表格——<strong data-page-node-id="oQOSX3JlqBnxqeQL4S9lWd">它是免费的，而错误的产品是 ¥228,000（见第九卷研发预算）</strong>。
+    </div>
+  </section>
+
+  <section id="s9" data-page-node-id="CT3sD8DwnMl4v9Qp6GSkhs">
+    <h2 data-page-node-id="hKFAcHHKHyMdTqfs74UpZE"><span class="num" data-page-node-id="yRDgGJV1hlWNEF024DOE4s">09</span>自检与已知缺口</h2>
+
+    <h3 data-page-node-id="ujEfqnrj3tFM7Yv5XDG3Fh">9.1 本卷的方法自检</h3>
+    <table data-page-node-id="d7UaY3NJ61QKkZft9E5mLy">
+      <thead data-page-node-id="DTAoEolsFtlgRBu6wgTk4l"><tr data-page-node-id="NalI7FgaghtF6OIkdgtXFB"><th data-page-node-id="QuAy7KjstwDV3aCxRDKuEf">检查项</th><th data-page-node-id="asecxilif0y90ipe35HpZ3">结果</th></tr></thead>
+      <tbody data-page-node-id="KUwKma0ORU2LsAHSrQMN6E">
+        <tr data-page-node-id="7ZSbBL7tesWz82YEljVTJI"><td data-page-node-id="T9snZV3UCMhGEsuE2osA64">核心心理学结论是否有原始文献</td><td data-page-node-id="CaZRtiwoLng7XeCp7DNHLX"><span class="b b-hi" data-page-node-id="T4wM4CpsnCTuBn218k4HCE">是</span> Deci 1971 / Hamari 2014 / Hadi Mogavi 2022 / Renwick 2008 / Miksza / McPherson &amp; Renwick / Wilson 2019 均可回溯</td></tr>
+        <tr data-page-node-id="wEnKFIb7JkaFeE8KKLQCdk"><td data-page-node-id="yUJ6BEihMhFSqMG6CpWk7i">是否区分了"有实证"与"本卷判断"</td><td data-page-node-id="mgXuuUxRgyOqn7ppW7sbr2"><span class="b b-hi" data-page-node-id="ALvyGKyEAnw7l9lbDHHDM0">是</span> 6.2 机制矩阵的打分明确标注为<strong data-page-node-id="Fz6yjoEahVCKl27rxqtSGb">判断而非实测</strong></td></tr>
+        <tr data-page-node-id="ZtwdREiFMeClA4GhHZ4QsP"><td data-page-node-id="pnn23rvWyM1ja1XtPXoCfd">85% 规则的适用边界是否说明</td><td data-page-node-id="GO6dOT5bGBXY4gCFTjIDNO"><span class="b b-hi" data-page-node-id="3VCsykJNYNXuhVEj1TaeSP">是</span> 5.1 明确指出原文只验证于二元分类任务，作者反对直接推广</td></tr>
+        <tr data-page-node-id="SL4UDrEkNHOH0HHYRbsUSc"><td data-page-node-id="vIpQRbZEN5PNORY2hj5ZqG">数值是否经脚本实算</td><td data-page-node-id="rOaquOboJI1Alz7bHa1UWI"><span class="b b-hi" data-page-node-id="o16EPNX67Yxy9iAHR3dd0l">是</span> 5.3 概率表由二项分布实算</td></tr>
+        <tr data-page-node-id="VmBQMIvCVfdJoFgJTZuw8A"><td data-page-node-id="FPiNeWFiHObXPbwi5jA6zi">是否给出了反例</td><td data-page-node-id="Al7FoxnoQ3A8oXSI9vAZ4a"><span class="b b-hi" data-page-node-id="hgsiSknD1kqRDjH0zEz8Wp">是</span> 6.1 三个反例 + 6.4 反游戏化路线（Blini）作为对照</td></tr>
+        <tr data-page-node-id="zhmi0F26sZ00wKweY2Tvuo"><td data-page-node-id="Cxd1ZMc0SQXVTAbBoCFSJG">是否与前七卷结论冲突</td><td data-page-node-id="b0ZMD9oNryjANERjSlPqDo"><span class="b b-hi" data-page-node-id="vlx7Deb9R3nkpqyFTZ6u5R">否</span> 7.1 微目标全部为事实判断，与第七卷 AI 能力边界一致</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="MdQsonQlPh9jsOsmyy5hap">9.2 已知缺口（我不知道的事）</h3>
+    <table data-page-node-id="1LtxUfkOXLEKkHr4HqaYv4">
+      <thead data-page-node-id="YuKu1c9FgQVIn52alvMNmp"><tr data-page-node-id="aieLmmHlnlIOZdGWbrCSap"><th class="num" data-page-node-id="7dst5hoWghiVyDHmj1GkqA">#</th><th data-page-node-id="LVR15bsMAHUuAjtks5aA1m">缺口</th><th data-page-node-id="uQWWxMZ0uUlYIgRqCEZOR2">为什么重要</th><th data-page-node-id="FBuftL23b6lfAEJlbpdbFS">如何补</th></tr></thead>
+      <tbody data-page-node-id="8aoQOZEtGeGdNfvNkak7Pi">
+        <tr data-page-node-id="bHFvBKuj0y44MmpWRo6HOX"><td class="num" data-page-node-id="vCAsPNMN5WpNMPNVyXtLwi">1</td><td data-page-node-id="adDmniP2LIQxRfsguzi5yg"><strong data-page-node-id="IpnaGN4TLsetwHPF5curnd">上述心理学研究<em data-page-node-id="HW6u5hr2wdNRVZfdd4vm3a">无一</em>以中国民乐儿童为样本</strong></td><td data-page-node-id="6MBoK9JMNYaiypF2QrTunm">文化差异可能改变机制效果（如集体主义下"归属感"权重可能更高）</td><td data-page-node-id="chBx0kubm9DcNttTQ9Vigb">T3 分离实验</td></tr>
+        <tr data-page-node-id="1hgoFNK01fEtFlX2W2FJya"><td class="num" data-page-node-id="mQFGds6sbLJP04ndyCDyyM">2</td><td data-page-node-id="3PKeed9tdrVlZQzLEIWhv9">留存率提升 +5/+10/+15pp 是<strong data-page-node-id="WNDe3GR3QIL3HAuHIvX30r">假设，无实证</strong></td><td data-page-node-id="QSusQVaZwhFfdExEaVuywP">Miksza 测的是演奏成绩，不是留存率。两者相关但不等同</td><td data-page-node-id="n4gD2GSYDfTW5mr0bD46N9">T2 长期追踪</td></tr>
+        <tr data-page-node-id="hUUysMYgtskVTAuKumwy0x"><td class="num" data-page-node-id="uMTLh26aXyUxYGRohYgnRZ">3</td><td data-page-node-id="95xvCugvcdEJ4vy9FLhgtQ">孩子长期使用游戏化后<strong data-page-node-id="08SeeTD1NawJCQSrVXZCui">是否会脱敏</strong></td><td data-page-node-id="DL57xqECVYJgwtzE1BTwcZ">Hamari 指出游戏化效果可能随时间衰减</td><td data-page-node-id="zgMoMB3UUc628Y9UQJ5tl2">需 6 个月以上数据</td></tr>
+        <tr data-page-node-id="1b2jIzINosA4z7cZyLa05B"><td class="num" data-page-node-id="G11NhxlWxsp8uWg4CCGIn1">4</td><td data-page-node-id="Nh67Q3SACwlBld5YgDcrYE">扬琴技法微目标表<strong data-page-node-id="MhNHB986GNvV0BCMt5vZCE">未经真实学生验证</strong></td><td data-page-node-id="NdsiPtGh9fdVMoL12wYTya">7.1 表是我基于技法特性推导的，不是从教学中归纳的</td><td data-page-node-id="IRALZkC9WBHTAUhT8kAKFf">T1 期间请你逐条修正</td></tr>
+        <tr data-page-node-id="qPKDh808vflb3F4LG3P3rI"><td class="num" data-page-node-id="ZhB3xYmSI7cOyK5SDB81em">5</td><td data-page-node-id="mOTG3tsvZ6v5i6fsW7MJiI">孩子端的<strong data-page-node-id="gBByrWXL5NF959M1aqUuc6">实际使用设备与场景</strong>未知</td><td data-page-node-id="x5kCzRdCA3f9wGQAePMB1S">是孩子自己拿手机，还是家长手机？影响交互设计</td><td data-page-node-id="mhHCVZbXbW1qZ1Qhusqefd">T1 观察</td></tr>
+        <tr data-page-node-id="ntwUxMO1zRSO8U6gQb5uZc"><td class="num" data-page-node-id="iiyi4tXXsuBNyBr1pnwHPx">6</td><td data-page-node-id="9IYqqD5yEf1iFOIyGjfSXB">家长是否愿意让孩子<strong data-page-node-id="4JVl7sDVKfLo36vtTCMa61">独立使用</strong>一个 App</td><td data-page-node-id="PtHmBYaD3EverHI4aii6Wv">涉及屏幕时间顾虑，可能成为否决因素</td><td data-page-node-id="SZv4nBTz6sX2FJbhVoeXQr">E2 访谈补充问题</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="PeXumAn9hduy18QvvYvKbf">9.3 与前八卷的关系</h3>
+    <p data-page-node-id="nF2PaKvsRCnA1uBzIhfq9F">本卷<strong data-page-node-id="6hjHa4cX8JxGmr9ko6NY9z">修正</strong>了第七卷的一处视角偏差：第七卷把孩子当作"被管理的对象"（数据链的末端），本卷把孩子还原为<strong data-page-node-id="oq2LUmmfDvSAttqisA27Re">产品的用户</strong>。两卷并不冲突，而是同一条数据链的两端——第七卷解决"信息能不能流动"，本卷解决"流动的终点有没有人愿意接住"。</p>
+    <p data-page-node-id="Vt3yUuKLNVZAMAsxn3ztmD">同时本卷<strong data-page-node-id="xADoJbnpn0E8pAPn9ordC6">没有改变</strong>任何商业模式结论：孩子端不新增付费方，它的作用是<strong data-page-node-id="MdJO6fWKPt9XitAunJYer6">提升留存</strong>，而留存是老师付费的理由（第七卷 ROI 论证的核心）。成本方面，孩子端每生年增量成本约 ¥0.6（仅每周生成一次任务卡的 LLM 调用），相对任何定价都可忽略——<strong data-page-node-id="albo5biLBMExVcdCfYerh7">所以孩子端不是成本问题，是设计问题，做错比不做更糟。</strong></p>
+  </section>
+
+  <section id="s10" data-page-node-id="FlFCev7mr6IrkWYLe79C4R">
+    <h2 data-page-node-id="VgCA6Tj08Dg67Vq3qBkeHo"><span class="num" data-page-node-id="MHLI5xCpI1cYalwUHpQjXc">10</span>信源清单</h2>
+    <p class="tnote" data-page-node-id="H70eLa1TN52s2VcZo8hW4p">分级：A = 同行评审期刊 / 政府文件；B = 权威机构或上市公司披露；C = 行业媒体 / 有价值但样本有限的调研；D = 无法溯源，仅作反面记录。</p>
+    <ol class="srcs" data-page-node-id="mVmgTM0PqklDaNTK0TKFe1">
+      <li data-page-node-id="CD2dveBLArDGFXMypdtDfB"><span class="src-lvl A" data-page-node-id="FN4JcYQ0XdHn1TIyljoLsA">A</span>Deci, E. L. (1971). Effects of externally mediated rewards on intrinsic motivation. <em data-page-node-id="b93NCX6zRkvri8DLqJWIyi">Journal of Personality and Social Psychology</em>, 18(1), 105–115. —— 过度理由效应经典实验</li>
+      <li data-page-node-id="4nlm6rI0dBAeojI4QM4M2R"><span class="src-lvl A" data-page-node-id="ZVfrE7Fdcp3NCtdU1QijVh">A</span>Hamari, J., Koivisto, J., &amp; Sarsa, H. (2014). Does gamification work? A literature review of empirical studies on gamification. <em data-page-node-id="bHZA1HvyrphSBqpm7BUUjU">HICSS 2014</em>. —— 游戏化综述，提出 system gaming</li>
+      <li data-page-node-id="BbhJ8UzAJy0ALBNPRWoZcG"><span class="src-lvl A" data-page-node-id="uvXLo6ArnfbNeU1nb7MeLZ">A</span>Hadi Mogavi, R., et al. (2022). Streak-oriented gamification in education. 关于连续天数导致学习肤浅化与断连焦虑的批判研究</li>
+      <li data-page-node-id="zR8I9D0dGRzw6aLKEKMg4J"><span class="src-lvl A" data-page-node-id="pAE6gfz8dRk3JkYOVTZCWi">A</span>Renwick, J. M. (2008). <em data-page-node-id="PCZgG7WHosIhHaPDiSsriR">While theSong Remains the Same: An Investigation of a Young Beginner's Development of Practice Strategies</em>. —— 含 677 名琴童调查，内部动机最能解释练习行为</li>
+      <li data-page-node-id="0xS19USzigrWm42DMlwFHV"><span class="src-lvl A" data-page-node-id="EGufozu61yX7uWxWBucNqE">A</span>Miksza, P. (2013/2015). 自我调节练习策略随机实验（n=28），实验组演奏成绩提升显著更大（p=.02），练习时长无显著差异</li>
+      <li data-page-node-id="eeSM5386EkhkFY1j5r4sgG"><span class="src-lvl A" data-page-node-id="EcibHGAJurSCNZdJzL72bi">A</span>McPherson, G. E., &amp; Renwick, J. M. (2010). 7 名 7–9 岁初学者三年录像追踪，练习模式三年无改变</li>
+      <li data-page-node-id="cPXKFXOYgrcMIfIaGydOyQ"><span class="src-lvl A" data-page-node-id="ZAnNGfyram6AthCNxGphxd">A</span>自我决定理论（SDT）：Deci &amp; Ryan，胜任感 / 自主权 / 归属感三基本心理需求</li>
+      <li data-page-node-id="zmXcUTz5CjRNAMPtIZuoWg"><span class="src-lvl A" data-page-node-id="EbXaYrSvmtB8AU49XYq4qw">A</span>Wilson, R. C., Geana, A., White, J. M., Ludvig, E. A., &amp; Cohen, J. D. (2019). Humans use directed and random exploration to solve the explore–exploit dilemma. <em data-page-node-id="BV11Bi5HPJ8hR4Zp7Tphbc">Nature Communications</em>, 10:4646. —— 最优错误率约 15.87%</li>
+      <li data-page-node-id="SKQXAwJ8HhCwoPK8FnfZAc"><span class="src-lvl A" data-page-node-id="oBFYhNSIpPDa41iPBAW2S7">A</span>Csíkszentmihályi, M. 心流理论：挑战—技能平衡；挑战过高→焦虑，过低→厌倦</li>
+      <li data-page-node-id="zwjhXOKj39fBfclRIQ6GTR"><span class="src-lvl A" data-page-node-id="RVLyrMdIDaKWa0co35L5Uo">A</span>McPherson &amp; Renwick 三年录像追踪（同 k06，用于 5.4 节"不干预不会自愈"论证）</li>
+      <li data-page-node-id="vI8AGotrbsOVbdZpgHnI03"><span class="src-lvl A" data-page-node-id="Ff51RYJkJjUVlJgH0u7BJ6">A</span>IEEE TALE 2025：20,837 条 Duolingo 社区帖子情感分析，有效机制 = 等级挑战 / 每日反馈 / 个性化路径；有害 = streak 惩罚 / pay-to-win 排行榜</li>
+      <li data-page-node-id="n5nHNzH2QpzYfyXQz097wn"><span class="src-lvl B" data-page-node-id="T6Ey4tb6sdwMJHsKTTBBMA">B</span>Blini 音乐练习应用设计说明（公开产品资料）：刻意去屏幕化，基于 SDT 与掌握目标（mastery goals）</li>
+      <li data-page-node-id="aHy0cHbkYwEzoIAXUSYjhV"><span class="src-lvl B" data-page-node-id="fAyaf3m6ub4qhBsQXTjZwg">B</span>中国民族管弦乐学会线上考级评分维度（识谱 / 节奏 / 音准 / 演奏方法 / 乐感）与考级费标准</li>
+      <li data-page-node-id="JSFalCaAtOB9xnEPSTxRDH"><span class="src-lvl C" data-page-node-id="SjN7c5S3DgVZH4Ha1EK2CR">C</span>某机构 380 名在读琴童 2024–25 年度数据：几乎无家庭练习 1 年留存 41%；每周练 3 次以上 68%；家长打卡质量高约 80%</li>
+    </ol>
+    <div class="callout c-warn" style="margin-top:20px" data-page-node-id="6uNyXFhYrmNhWVDnJOVAtz">
+      <b data-page-node-id="xdDdidpfiuHUqGHHZr9MRv">本卷主动剔除的信源</b>
+      检索中出现大量"游戏化让学习效率提升 X%"类说法（常见数字：30%、40%、60%），<strong data-page-node-id="HkjXanjdbNiccMaHns1S8t">全部无法回溯到原始研究</strong>，且多数出现在营销内容或 AI 聚合文章中，予以剔除。<br data-page-node-id="kAUH6rEhLSDOHsJoSCarhT">
+      同样剔除的还有"Duolingo 用户留存提升 X 倍"类转述——Duolingo 官方财报披露的是 DAU / MAU 与营收，从未公布过"游戏化带来的留存提升幅度"这一指标。
+    </div>
+  </section>
+
+  <footer data-page-node-id="DJjPyB6FBS1xlD1IoqS4dy">
+    <p data-page-node-id="esZVW33skVxK621nHZIy8c">《孩子端：动机、定制计划与游戏化》 · 乐器教育 AI 产品研究 · 第八卷（前接第七卷《民乐老师的 AI 助教 · 产品方案篇》，后接第九卷《PRD 与研发规范》）</p>
+    <p data-page-node-id="Z2AKtPXE0imW98dAeDEktL">本卷所有心理学结论均标注原始文献；所有本卷判断均明确标注为判断而非实测。数值由脚本实算，假设全部公开可复算。</p>
+  </footer>
+</div>
+</body>
+</html>
