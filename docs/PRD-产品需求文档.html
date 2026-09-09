@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>民乐老师的 AI 助教 · 产品需求文档 PRD v1.0</title>
+<style>
+:root{
+  --ink:#1a1f2b; --ink2:#3c4657; --ink3:#6b7688;
+  --line:#e3e7ee; --line2:#eef1f6;
+  --bg:#ffffff; --bg2:#f7f9fc; --bg3:#eef3fa;
+  --blue:#1f4e8c; --blue-l:#e8f0fa;
+  --red:#a83232; --red-l:#fbecec;
+  --green:#1e6b4f; --green-l:#e8f4ee;
+  --amber:#8a6212; --amber-l:#fdf5e3;
+  --purple:#5b3d8f; --purple-l:#f0eafa;
+  --teal:#146b6b; --teal-l:#e6f4f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink); background:var(--bg2); line-height:1.75; font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 100px}
+header{background:linear-gradient(160deg,#0f2d1f 0%,#146b6b 100%);color:#fff;padding:52px 0 44px;margin-bottom:0}
+header .wrap{padding-bottom:0}
+.kicker{font-size:12px;letter-spacing:.22em;opacity:.72;margin-bottom:14px;font-weight:500}
+h1{font-size:32px;line-height:1.32;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+.sub{font-size:15px;opacity:.86;max-width:780px;line-height:1.8}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:5px 14px;font-size:12.5px;opacity:.95}
+.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin:32px 0 40px}
+.toc h4{font-size:13px;color:var(--ink3);letter-spacing:.1em;margin-bottom:14px;font-weight:600}
+.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:7px 22px}
+.toc a{color:var(--blue);text-decoration:none;font-size:13.5px;display:block;padding:3px 0}
+.toc a:hover{text-decoration:underline}
+.toc .n{color:var(--ink3);font-variant-numeric:tabular-nums;margin-right:8px;font-size:12px}
+section{background:#fff;border:1px solid var(--line);border-radius:12px;padding:34px 38px;margin-bottom:26px}
+section>p{margin-bottom:14px}
+h2{font-size:21px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.005em;
+   padding-bottom:12px;border-bottom:2px solid var(--bg3);display:flex;align-items:baseline;gap:12px}
+h2 .num{font-size:12px;color:#fff;background:var(--teal);border-radius:4px;padding:3px 8px;font-weight:600;
+   letter-spacing:.05em;flex:none;position:relative;top:-2px}
+h3{font-size:16.5px;font-weight:650;color:var(--ink);margin:30px 0 12px;padding-left:11px;
+   border-left:3px solid var(--teal)}
+h4{font-size:14.5px;font-weight:650;color:var(--ink2);margin:20px 0 9px}
+p{color:var(--ink2);margin-bottom:12px}
+ul,ol{margin:0 0 14px 20px;color:var(--ink2)}
+li{margin-bottom:7px}
+strong{color:var(--ink);font-weight:650}
+code{background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:13px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--blue)}
+pre{background:var(--bg3);padding:14px 16px;border-radius:8px;overflow-x:auto;font-size:12.5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.7;margin:12px 0 18px;color:var(--ink)}
+.lead{font-size:15.5px;color:var(--ink2);background:var(--bg2);border-left:3px solid var(--teal);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:22px}
+.callout{border-radius:10px;padding:16px 20px;margin:18px 0;font-size:14.5px;line-height:1.78}
+.callout b{display:block;margin-bottom:6px;font-size:14px}
+.c-key{background:var(--blue-l);border-left:4px solid var(--blue)}
+.c-key b{color:var(--blue)}
+.c-warn{background:var(--red-l);border-left:4px solid var(--red)}
+.c-warn b{color:var(--red)}
+.c-ok{background:var(--green-l);border-left:4px solid var(--green)}
+.c-ok b{color:var(--green)}
+.c-note{background:var(--amber-l);border-left:4px solid var(--amber)}
+.c-note b{color:var(--amber)}
+.c-idea{background:var(--purple-l);border-left:4px solid var(--purple)}
+.c-idea b{color:var(--purple)}
+table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:13.5px}
+th{background:var(--bg3);color:var(--ink);font-weight:650;text-align:left;padding:10px 12px;
+   border-bottom:2px solid var(--line);font-size:13px;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--bg2)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tnote{font-size:12.5px;color:var(--ink3);margin:-10px 0 22px;line-height:1.7}
+.b{display:inline-block;border-radius:4px;padding:1px 7px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-hi{background:var(--green-l);color:var(--green)}
+.b-mid{background:var(--amber-l);color:var(--amber)}
+.b-lo{background:var(--red-l);color:var(--red)}
+.b-na{background:var(--bg3);color:var(--ink3)}
+.b-p0{background:var(--red-l);color:var(--red)}
+.b-p1{background:var(--amber-l);color:var(--amber)}
+.b-p2{background:var(--bg3);color:var(--ink3)}
+.ref{color:var(--blue);font-size:11.5px;vertical-align:super;font-weight:600;margin-left:1px}
+.srcs{font-size:13px}
+.srcs li{margin-bottom:9px;line-height:1.7}
+.src-lvl{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;margin-right:7px}
+.src-lvl.A{background:var(--green-l);color:var(--green)}
+.src-lvl.B{background:var(--blue-l);color:var(--blue)}
+.src-lvl.C{background:var(--amber-l);color:var(--amber)}
+.src-lvl.D{background:var(--red-l);color:var(--red)}
+footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line-height:1.9}
+/* 流程链 */
+.chain{display:flex;align-items:stretch;gap:0;margin:22px 0 8px;flex-wrap:wrap}
+.chain .node{flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--line);
+  border-radius:10px;padding:14px 14px;position:relative}
+.chain .node + .node{margin-left:26px}
+.chain .node + .node::before{content:"↓";position:absolute;left:-21px;top:50%;transform:translateY(-50%);
+  color:var(--red);font-size:17px;font-weight:700}
+.chain .node h5{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.chain .node p{font-size:12.5px;color:var(--ink2);margin:0;line-height:1.65}
+.chain .node.bad{background:var(--red-l);border-color:#f0d5d5}
+/* FR 编号 */
+.fr{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--teal);
+  font-weight:700;white-space:nowrap}
+.ac{background:var(--bg2);border-left:3px solid var(--teal);padding:8px 12px;margin:6px 0 0;
+  font-size:12.5px;color:var(--ink2);border-radius:0 6px 6px 0}
+.ac b{color:var(--teal);font-size:11.5px;letter-spacing:.05em}
+/* 界面文案示例 */
+.mock{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0 6px;max-width:420px;
+  box-shadow:0 2px 12px rgba(26,31,43,.06)}
+.mock-bar{background:var(--bg3);color:var(--ink2);font-size:12px;padding:8px 14px;font-weight:600;
+  border-bottom:1px solid var(--line)}
+.mock-body{padding:14px 16px 16px;background:#fff}
+.mk-h{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:12px}
+.mk-sub{font-size:12.5px;color:var(--ink3);text-align:center;margin-bottom:14px}
+.mk-card{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:9px;background:var(--bg2)}
+.mk-card.now{border-color:var(--amber);background:#fffdf5}
+.mk-card.done{background:var(--green-l);border-color:#cfe6da}
+.mk-t{font-size:13px;font-weight:650;color:var(--ink);margin-bottom:3px}
+.mk-s{font-size:12px;color:var(--ink3);line-height:1.6;margin-bottom:7px}
+.mk-p{display:flex;align-items:center;gap:8px}
+.mk-bar{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;display:block}
+.mk-bar i{display:block;height:100%;background:var(--amber);border-radius:3px}
+.mk-x{font-size:11.5px;color:var(--ink3);white-space:nowrap;font-variant-numeric:tabular-nums}
+.mk-btn{background:var(--amber);color:#fff;text-align:center;border-radius:6px;padding:6px;
+  font-size:12.5px;font-weight:600;margin-top:8px}
+.mk-opt{border:1px solid var(--line);border-radius:7px;padding:8px 12px;font-size:12.5px;
+  color:var(--ink2);margin-bottom:7px;background:var(--bg2)}
+@media print{body{background:#fff}section{break-inside:avoid;border:none;padding:0 0 20px}}
+@media (max-width:720px){.wrap{padding:0 16px 60px}section{padding:24px 20px}h1{font-size:25px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="kicker">PRODUCT REQUIREMENTS DOCUMENT · 第九卷</div>
+    <h1>民乐老师的 AI 助教<br>产品需求文档（PRD）v1.0</h1>
+    <p class="sub">本卷是前八卷的落地交付物。它把第七卷《民乐老师的 AI 助教 · 产品方案篇》确定的产品定义与第八卷《孩子端：动机、定制计划与游戏化》确定的动机机制，翻译成可直接交付研发的功能需求、验收标准、数据模型与排期。<strong>本卷中所有需求均可被测试、所有数值均可被复算、所有未决事项均被显式标注。</strong></p>
+    <div class="meta-row">
+      <span class="chip">文档版本 v1.0 · 2026-09-08</span>
+      <span class="chip">目标版本 V1.0</span>
+      <span class="chip">14 节 · 功能需求 73 条 · 非功能需求 20 条</span>
+      <span class="chip">状态：待评审</span>
+    </div>
+  </div>
+</header>
+<div class="wrap">
+
+  <nav class="toc">
+    <h4>目录</h4>
+    <ol>
+      <li><a href="#s1"><span class="n">01</span>文档信息与变更记录</a></li>
+      <li><a href="#s2"><span class="n">02</span>背景：待解决的数据断链</a></li>
+      <li><a href="#s3"><span class="n">03</span>目标与非目标</a></li>
+      <li><a href="#s4"><span class="n">04</span>用户角色与权限模型</a></li>
+      <li><a href="#s5"><span class="n">05</span>核心用户旅程</a></li>
+      <li><a href="#s6"><span class="n">06</span>功能需求总表与优先级</a></li>
+      <li><a href="#s7"><span class="n">07</span>功能需求详述（FR）</a></li>
+      <li><a href="#s8"><span class="n">08</span>非功能需求（NFR）</a></li>
+      <li><a href="#s9"><span class="n">09</span>AI 能力边界与评测规范</a></li>
+      <li><a href="#s10"><span class="n">10</span>数据模型</a></li>
+      <li><a href="#s11"><span class="n">11</span>接口、埋点与指标体系</a></li>
+      <li><a href="#s12"><span class="n">12</span>版本规划与研发计划</a></li>
+      <li><a href="#s13"><span class="n">13</span>风险、依赖与未决问题</a></li>
+      <li><a href="#s14"><span class="n">14</span>验收标准与发布门禁</a></li>
+      <li><a href="#s15"><span class="n">15</span>MVP 原型 v0.2 与 PRD 需求对照</a></li>
+    </ol>
+  </nav>
+
+  <section id="s1">
+    <h2><span class="num">01</span>文档信息与变更记录</h2>
+
+    <h3>1.1 文档定位</h3>
+    <table>
+      <thead><tr><th>项</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>产品名称</td><td><strong>民乐老师的 AI 助教</strong>（暂定名，微信小程序）</td></tr>
+        <tr><td>文档版本</td><td>v1.0（首版，待评审）</td></tr>
+        <tr><td>目标发布版本</td><td>V1.0</td></tr>
+        <tr><td>上游依据</td><td>第七卷《民乐老师的 AI 助教 · 产品方案篇》（产品定义与商业论证）<br>第八卷《孩子端：动机、定制计划与游戏化》（动机机制与游戏化红线）<br>第五卷《决策收敛书》（客户与定价）</td></tr>
+        <tr><td>配套文档</td><td><code>SPEC-研发规范.md</code>（工程规范，与本文档配套）</td></tr>
+        <tr><td>适用范围</td><td>本卷覆盖 V0.5 至 V1.0。<strong>V0.1 手工验证不含代码，不在本卷范围内</strong>（见第七卷第 11 节 T1）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1.2 变更记录</h3>
+    <table>
+      <thead><tr><th class="num">版本</th><th>日期</th><th>变更内容</th><th>变更原因</th></tr></thead>
+      <tbody>
+        <tr><td class="num">v1.0</td><td>2026-09-08</td><td>首版发布</td><td>由第七、八卷方案转译为可交付需求</td></tr>
+        <tr><td class="num">v1.1</td><td>2026-09-08</td><td>新增 <strong>M7 谱库与谱面批注</strong>（12 条）；V0.5 范围加入 M7；WBS 与数据模型同步；修正 v1.0 优先级分布表 P0 计数漏 1 条（47 → 48）</td><td>用户补充需求：老师端/孩子端双端 + 内置入门谱库 + 老师对课上谱面做批注与重点标记，作为作业依据</td></tr>
+      
+        <tr><td>v1.1</td><td>2026-09-09</td><td>新增第 15 节；MVP 原型升级 v0.2，补齐 M2 微目标四要素、M3 逐条批改与驾驶舱矩阵、M5 85% 自适应建议、M6 成长体系、M7 批注继承与 A4 导出；同步修正「学生 ID 在演示数据与客户端种子间不一致」的缺陷</td><td>产品</td></tr></tbody>
+    </table>
+
+    <h3>1.3 术语表</h3>
+    <table>
+      <thead><tr><th>术语</th><th>定义</th></tr></thead>
+      <tbody>
+        <tr><td><strong>任务卡</strong></td><td>老师布置的一次结构化练习作业，含 1–5 个微目标。是产品的核心数据实体</td></tr>
+        <tr><td><strong>微目标</strong></td><td>任务卡内可结算的最小单位，形如"连续 4 拍不掉，5 遍中成功 3 遍"</td></tr>
+        <tr><td><strong>回课</strong></td><td>学生按微目标录制的练习音频/视频提交</td></tr>
+        <tr><td><strong>事实判断</strong></td><td>系统只回答"有没有做、做没做完、稳不稳"——本产品 AI 允许做的事</td></tr>
+        <tr><td><strong>价值判断</strong></td><td>"弹得对不对、好不好"——<strong>本产品 AI 明确不做</strong></td></tr>
+        <tr><td><strong>驾驶舱</strong></td><td>老师端的全班一屏视图，用于批量查看与批改回课</td></tr>
+        <tr><td><strong>有效练习</strong></td><td>一次达成微目标结算条件的练习。产品的核心计量单位，<strong>不是分钟数</strong></td></tr>
+        <tr><td><strong>花音</strong></td><td>扬琴同一音位上多根弦的校准状态。本产品唯一竞品无法复制的能力</td></tr>
+        <tr><td><strong>WEPM</strong></td><td>Weekly Effective Practice Count，周有效练习次数。北极星指标</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-note">
+      <b>阅读顺序建议</b>
+      时间紧：第 03 节（目标边界）→ 第 06 节（需求总表）→ 第 09 节（AI 边界）→ 第 12 节（排期）。<br>
+      要评审：全文，重点核对第 07 节的验收标准（AC）与第 09 节的评测门槛。
+    </div>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">02</span>背景：待解决的数据断链</h2>
+    <p class="lead">本产品要解决的是一条<strong>四段式数据链上的信息衰减</strong>。这不是三个独立痛点，是同一个根因的四个截面。理解这一点是评审后续所有需求的前提。</p>
+
+    <h3>2.1 问题结构</h3>
+    <div class="chain">
+      <div class="node">
+        <h5>① 课堂</h5>
+        <p>信息产生：老师发现学生的问题，提出要点</p>
+      </div>
+      <div class="node bad">
+        <h5>② 课后</h5>
+        <p>指令传递：要点以"群里一句话"形式发出，模糊、不可执行</p>
+      </div>
+      <div class="node bad">
+        <h5>③ 家庭</h5>
+        <p>执行：家长不懂、孩子不知道怎么练，只能"从头弹一遍"</p>
+      </div>
+      <div class="node bad">
+        <h5>④ 回课</h5>
+        <p>验证：老师逐个点开视频，无法批量判断，只能重新听一遍</p>
+      </div>
+    </div>
+    <p class="tnote">红色节点为断点。第 ④ 个断点用户在最初的需求描述中未提及，但它是前三个的必然结果，也是老师痛感最直接的地方。</p>
+
+    <h3>2.2 根因</h3>
+    <div class="callout c-warn">
+      <b>老师的大脑是这条链上唯一的数据库</b>
+      教学信息只以三种形式存在：老师的记忆、微信群里的一句话、孩子的肌肉记忆。这三种载体<strong>都会衰减，且无法被第三方（家长）执行</strong>。<br><br>
+      推论一：做一个"电子笔记本"没用——记了也没人看。<br>
+      推论二：做一个"AI 纠错陪练"也没用——红海，且扬琴连续演奏转录无公开数据集（见第 09 节）。
+    </div>
+
+    <h3>2.3 为什么切入点在"指令传递"</h3>
+    <p>四个断点中，只有第 ② 个同时具备三个条件：<strong>它是三个痛点的交汇处、它的改造成本最低、它的收益在第一周就能被感知</strong>。</p>
+    <table>
+      <thead><tr><th>断点</th><th>能否切入</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>① 课堂数据缺失</td><td><span class="b b-mid">后置（V1.0）</span></td><td>"先付出后收益"——老师第一周感受不到价值就会流失</td></tr>
+        <tr><td><strong>② 指令传递</strong></td><td><span class="b b-hi">首选（V0.5）</span></td><td>付出 10 分钟（与现在群里打字相同），批改从 50 分钟降到 16 分钟</td></tr>
+        <tr><td>③ 家庭执行</td><td><span class="b b-hi">同步（V0.5/V0.8）</span></td><td>是 ② 的下游，② 结构化后 ③ 自然可执行</td></tr>
+        <tr><td>④ 回课验证</td><td><span class="b b-hi">同步（V0.5）</span></td><td>是 ② 的闭环，② 结构化后 ④ 才能批量化</td></tr>
+      </tbody>
+    </table>
+
+    <h3>2.4 产品一句话定义</h3>
+    <div class="callout c-key">
+      <b>把老师脑子里的东西，变成家长能执行、孩子能对照、老师能验证的"练琴任务卡"。</b><br><br>
+      它不是陪练工具，是<strong>教学记忆的外化系统</strong>。这个定义决定了后续所有需求的取舍标准：任何不能让信息在链上流动得更好的功能，都不做。
+    </div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">03</span>目标与非目标</h2>
+    <p class="lead">非目标（Non-Goals）比目标更重要。本产品已有大量"看起来应该做"的功能被明确排除，评审时若有人提出新增，请先对照这一节。</p>
+
+    <h3>3.1 产品目标</h3>
+    <table>
+      <thead><tr><th class="num">#</th><th>目标</th><th>衡量指标</th><th>目标值（V1.0 上线后 6 个月）</th></tr></thead>
+      <tbody>
+        <tr><td class="num">G1</td><td>让老师的课后监督成本可量化地下降</td><td>老师每周处理回课时长</td><td>从 70 分钟 → ≤ 25 分钟（20 名学生）</td></tr>
+        <tr><td class="num">G2</td><td>让家庭练习真实发生并可验证</td><td>周回课率</td><td>≥ 60%</td></tr>
+        <tr><td class="num">G3</td><td>让孩子知道"怎么练"而不只是"练多久"</td><td>微目标达成率</td><td>≥ 75%</td></tr>
+        <tr><td class="num">G4</td><td>让老师愿意持续使用</td><td>老师周活跃留存</td><td>第 4 周 ≥ 70%</td></tr>
+        <tr><td class="num">G5</td><td>验证付费意愿</td><td>老师付费转化率</td><td>≥ 15%（阶段二起）</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote">G1 的基线 70 分钟来自第七卷测算：20 名学生 × （发作业 0.5 + 听回课 2.0 + 打字点评 1.0）分钟 = 70 分钟/周。目标值 25 分钟对应"发卡 10 分钟 + 一屏扫 6 分钟 + 重点听 5 人 10 分钟"。</p>
+
+    <h3>3.2 非目标（明确不做）</h3>
+    <table>
+      <thead><tr><th>不做</th><th>为什么不做的依据</th><th>违反的边界</th></tr></thead>
+      <tbody>
+        <tr><td><strong>错音 / 音准纠错（连续演奏）</strong></td><td>扬琴连续演奏无公开数据集；多乐器转录在竞赛场景 F1 仅 0.4367。误报在练琴场景是致命的</td><td>技术边界（09 节）</td></tr>
+        <tr><td><strong>综合评分 / 总分</strong></td><td>音色、乐感不可判定。给出总分等于把不成熟能力包装成完整评价</td><td>诚实性原则</td></tr>
+        <tr><td><strong>实时纠错打断</strong></td><td>技术可行（延迟可做到 380ms 内），但会把 AI 变成"每秒都在说错的电子家长"，只是把冲突从人换成机器</td><td>动机保护（第 八卷 7.4）</td></tr>
+        <tr><td><strong>排行榜与物质奖励</strong></td><td>排行榜触发社会比较焦虑；物质奖励触发过度理由效应，会挤出本就脆弱的内在动机</td><td>SDT / Deci 1971</td></tr>
+        <tr><td><strong>AI 自动生成评语</strong></td><td>老师不点评时留空，而不是用 AI 编。一句假的夸奖比没有夸奖更伤信任</td><td>信任成本</td></tr>
+        <tr><td><strong>真人 1v1 陪练撮合</strong></td><td>师资成本 &gt;60% + 获客 ~50% → 结构性亏损；快陪练、柚子练琴、VIP 陪练、小音咖全灭</td><td>商业模式（第一卷）</td></tr>
+        <tr><td><strong>琴行 / 机构 SaaS（排课、收费、CRM）</strong></td><td>红海，需销售团队，校宝在线已有 26 万+机构。本产品只做"教学"这一段</td><td>竞争边界</td></tr>
+        <tr><td><strong>音色 / 姿态 / 表现力评估</strong></td><td>对应考级五项中的"演奏方法"与"乐感表现"，不可判定</td><td>技术边界</td></tr>
+        <tr><td><strong>多乐器同时首发</strong></td><td>每种乐器的技法词表与微目标库都需要领域专家标注。首版只做扬琴 + 一个对照乐器</td><td>资源约束</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-warn">
+      <b>评审纪律</b>
+      上表九条是<strong>有依据的排除</strong>，不是"暂时不做"。任何要求新增的请求，必须先说明<strong>它推翻了哪一条依据、依据是否仍然成立</strong>。若只是"竞品有所以我们也该有"，直接驳回。
+    </div>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">04</span>用户角色与权限模型</h2>
+    <p class="lead">本产品有四类角色，但<strong>只有一类是付费方，只有一类是产品的"用户"（会从中获得乐趣）</strong>。混淆这两件事是绝大多数教育产品失败的原因。</p>
+
+    <h3>4.1 角色定义</h3>
+    <table>
+      <thead>
+        <tr><th>角色</th><th>是谁</th><th>核心诉求</th><th>付费</th><th>产品对它的意义</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>老师</strong><br><span class="b b-p0">主客户</span></td>
+          <td>民乐（首期扬琴）个体教师或机构教师</td>
+          <td>保住学生（留存）、少花时间、显得专业</td>
+          <td><span class="b b-hi">是</span>（V1.0 起）</td>
+          <td>工具 + 渠道</td>
+        </tr>
+        <tr>
+          <td><strong>孩子</strong><br><span class="b b-p0">真实用户</span></td>
+          <td>6–15 岁在学学生</td>
+          <td>知道自己该干什么、被看见、不要被骂</td>
+          <td><span class="b b-na">否</span></td>
+          <td><strong>唯一会从中获得乐趣的人</strong></td>
+        </tr>
+        <tr>
+          <td><strong>家长</strong><br><span class="b b-p1">付费执行者</span></td>
+          <td>学生父母（多为母亲）</td>
+          <td>不用当监工、知道进展、不被老师责备</td>
+          <td><span class="b b-mid">阶段二是</span></td>
+          <td>执行者 → 逐步退出</td>
+        </tr>
+        <tr>
+          <td><strong>助教 / 机构管理员</strong><br><span class="b b-p2">V1.1+</span></td>
+          <td>机构内的辅助教学人员</td>
+          <td>协助批改、查看全机构数据</td>
+          <td><span class="b b-na">随机构</span></td>
+          <td>后置，本版不做</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-key">
+      <b>一条容易被忽略的产品原则</b>
+      第八卷最重要的修正是：<strong>孩子不是被管理的对象，是用户</strong>。第七卷把孩子当作数据链的末端（被记录、被催），第八卷把它还原为产品的使用者。<br><br>
+      落到设计上的后果：孩子端的每一个界面都必须回答"这对孩子有什么好处"，而不只是"这让家长/老师能看到什么"。<strong>凡是只服务监督、不服务孩子的界面，都不得出现在孩子端。</strong>
+    </div>
+
+    <h3>4.2 权限矩阵</h3>
+    <table>
+      <thead>
+        <tr><th>能力</th><th>老师</th><th>孩子</th><th>家长</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>创建 / 编辑任务卡</td><td><span class="b b-hi">✓</span></td><td>—</td><td>—</td><td>老师独有</td></tr>
+        <tr><td>查看任务卡</td><td><span class="b b-hi">✓</span></td><td><span class="b b-hi">✓</span></td><td><span class="b b-hi">✓</span></td><td>三方看到的<strong>文案不同</strong>（见 FR-M2-06）</td></tr>
+        <tr><td>提交回课录音</td><td>—</td><td><span class="b b-hi">✓</span></td><td><span class="b b-hi">✓</span>（代提交）</td><td>家长可代提交，但需标记 <code>submitted_by</code></td></tr>
+        <tr><td>查看本人练琴数据</td><td>—</td><td><span class="b b-hi">✓</span></td><td><span class="b b-hi">✓</span></td><td>—</td></tr>
+        <tr><td>查看<strong>全班</strong>数据</td><td><span class="b b-hi">✓</span></td><td>—</td><td>—</td><td>家长<strong>永远不得</strong>看到其他孩子的数据</td></tr>
+        <tr><td>批改 / 点评</td><td><span class="b b-hi">✓</span></td><td>—</td><td>—</td><td>—</td></tr>
+        <tr><td>调整练习顺序</td><td><span class="b b-hi">✓</span></td><td><span class="b b-hi">✓</span></td><td>—</td><td>孩子可调整<strong>顺序</strong>，不可减少<strong>总量</strong></td></tr>
+        <tr><td>查看他人录音</td><td><span class="b b-mid">仅本人学生</span></td><td>—</td><td>—</td><td>老师仅可听自己学生的录音</td></tr>
+        <tr><td>导出 / 删除学生数据</td><td><span class="b b-hi">✓</span>（仅本人学生）</td><td>—</td><td><span class="b b-hi">✓</span>（仅本人子女）</td><td>合规要求，见 NFR-08</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.3 关系模型</h3>
+    <pre>Teacher (1) ──&lt; teaches &gt;── (N) Student
+Student  (1) ──&lt; belongs_to &gt;── (N) Parent      # 一个学生可有多个家长
+Teacher  (1) ──&lt; creates &gt;── (N) TaskCard
+TaskCard (1) ──&lt; contains &gt;── (N) MicroGoal
+MicroGoal(1) ──&lt; has &gt;── (N) Submission         # 一次练习录音
+Submission(1) ──&lt; generates &gt;── (1) PracticeStat
+Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V0.8+）</pre>
+    <div class="callout c-note">
+      <b>关系约束（必须在数据库层强制）</b>
+      ① 一个学生<strong>同一时期只能有一位主课老师</strong>（避免任务卡冲突）；<br>
+      ② 老师与学生的关系<strong>必须由学生端确认</strong>（不能老师单方面添加）——这是未成年人信息保护的合规要求；<br>
+      ③ 家长只能通过学生关联查看数据，<strong>不能反向查看老师其他学生</strong>。
+    </div>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">05</span>核心用户旅程</h2>
+    <p class="lead">四个旅程覆盖了产品的全部核心路径。评审时请用这四个旅程逐条走查第 07 节的需求，任何旅程走不通的地方都是需求缺口。</p>
+
+    <h3>5.1 旅程 A：老师布置作业（目标 ≤ 10 分钟 / 周）</h3>
+    <table>
+      <thead><tr><th class="num">步</th><th>动作</th><th>系统响应</th><th>设计意图</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>老师进入「本周任务」</td><td>显示上周任务卡，顶部提示"复制上周并修改"</td><td>降低启动成本</td></tr>
+        <tr><td class="num">2</td><td>选择学生 / 全班</td><td>支持按"全班统一"或"分组差异化"</td><td>老师多数时候是全班统一的</td></tr>
+        <tr><td class="num">3</td><td>从<strong>技法模板库</strong>挑选微目标</td><td>显示扬琴技法词表，选中后自动生成标准表述</td><td>把"打一段字"变成"点几下"</td></tr>
+        <tr><td class="num">4</td><td>设定成功标准</td><td>默认"5 遍中成功 3 遍"，可改</td><td>默认值来自第八卷 85% 规则</td></tr>
+        <tr><td class="num">5</td><td>（可选）录入一句语音要点</td><td>语音原样保留，<strong>不做转写展示</strong></td><td>V0.5 不做 ASR，先跑通链路</td></tr>
+        <tr><td class="num">6</td><td>发布</td><td>推送给家长 + 孩子端</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="ac"><b>AC-A</b> 老师从进入到发布全程 ≤ 10 分钟（20 名学生的全班统一卡片）。若超过，说明模板库不够用。</div>
+
+    <h3>5.2 旅程 B：孩子完成练习（目标 ≤ 25 分钟 / 天）</h3>
+    <table>
+      <thead><tr><th class="num">步</th><th>动作</th><th>系统响应</th><th>设计意图</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>孩子打开小程序</td><td>显示"今天要练 3 张卡 · 预计 25 分钟"</td><td>承诺而非倒计时</td></tr>
+        <tr><td class="num">2</td><td>选择一张卡（<strong>可换顺序</strong>）</td><td>显示微目标与成功标准</td><td>满足自主权</td></tr>
+        <tr><td class="num">3</td><td>点击"录第 N 遍"</td><td>开始录音，实时显示遍数进度</td><td>绑定行为而非时长</td></tr>
+        <tr><td class="num">4</td><td>录音结束</td><td>系统标记"第 N 遍完成"，<strong>不判断对错</strong></td><td>核心边界</td></tr>
+        <tr><td class="num">5</td><td>达到成功标准</td><td>结算页：显示"3/3 遍完成"，提供回放对比</td><td>胜任感</td></tr>
+        <tr><td class="num">6</td><td>全部完成</td><td>显示今日进度 + 老师留言（若有）</td><td>归属感</td></tr>
+      </tbody>
+    </table>
+    <div class="ac"><b>AC-B</b> 孩子完成一张卡的点击次数 ≤ 微目标遍数 + 3。任何多出来的点击都是摩擦。</div>
+
+    <h3>5.3 旅程 C：老师批改回课（目标 ≤ 25 分钟 / 周）</h3>
+    <table>
+      <thead><tr><th class="num">步</th><th>动作</th><th>系统响应</th><th>设计意图</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>老师进入「驾驶舱」</td><td>一屏显示全班：已练 / 未练 / 遍数 / 时长</td><td>替代逐个点开</td></tr>
+        <tr><td class="num">2</td><td>扫一眼</td><td>AI 已预标注：练了几次、是否达标准、稳定性趋势</td><td>把"听"变成"确认"</td></tr>
+        <tr><td class="num">3</td><td>挑出 3–5 个重点听</td><td>只点开这几个的录音</td><td>80% 的时间节省来自这里</td></tr>
+        <tr><td class="num">4</td><td>语音或文字点评</td><td>点评绑定到具体微目标</td><td>点评要能被孩子看到</td></tr>
+        <tr><td class="num">5</td><td>（可选）一键催未交</td><td>向家长发送提醒</td><td>替代群里@所有人</td></tr>
+      </tbody>
+    </table>
+    <div class="ac"><b>AC-C</b> 20 名学生的批改全程 ≤ 25 分钟，其中"听录音"的时间 ≤ 10 分钟。</div>
+
+    <h3>5.4 旅程 D：家长陪同 → 退出（V0.5 → V1.0 逐步实现）</h3>
+    <table>
+      <thead><tr><th class="num">步</th><th>动作</th><th>系统响应</th><th>设计意图</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>家长收到任务卡</td><td>首屏固定显示："<strong>听不懂没关系，不用您判断对错。</strong>"</td><td>拆解能力焦虑</td></tr>
+        <tr><td class="num">2</td><td>家长陪练</td><td>只显示"第几遍"，<strong>不显示对错判断</strong></td><td>拆解责任焦虑</td></tr>
+        <tr><td class="num">3</td><td>家长想了解情况</td><td>周报：练了几次、达成率、老师留言</td><td>进度可视化</td></tr>
+        <tr><td class="num">4</td><td>长期</td><td>「家长陪练时长」下降被做成<strong>正向成就</strong></td><td>退出机制（V1.0）</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-ok">
+      <b>旅程 D 是整个产品最反直觉的设计</b>
+      绝大多数教育产品在<strong>增加</strong>家长的参与度（打卡、签到、上传视频）。本产品反其道而行：<strong>把家长陪练时长的下降做成正向成就。</strong><br><br>
+      理由：家长陪练痛苦的根源不是"累"，是"我不懂还要装懂"。当孩子能通过任务卡独立完成练习时，家长退出是<strong>成功</strong>而非失职。这一条同时解决了家长痛点与孩子的亲子冲突。
+    </div>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">06</span>功能需求总表与优先级</h2>
+    <p class="lead">85 条功能需求分布在 8 个模块。优先级定义：<strong>P0 = 不做则版本不成立</strong>；P1 = 影响核心体验但可延后；P2 = 增强项。</p>
+
+    <h3>6.1 模块总览</h3>
+    <table>
+      <thead>
+        <tr><th>模块</th><th>解决什么</th><th class="num">需求数</th><th>版本</th><th class="num">人天</th><th class="num">成本</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>M0 基础设施</strong></td><td>登录、权限、存储、发布</td><td class="num">12</td><td>V0.5</td><td class="num">26</td><td class="num">¥31,200</td></tr>
+        <tr><td><strong>M2 练琴任务卡</strong></td><td>课堂数据缺失 + 课后监督 + 家长陪练</td><td class="num">16</td><td>V0.5</td><td class="num">32</td><td class="num">¥38,400</td></tr>
+        <tr><td><strong>M3 回课驾驶舱</strong></td><td>课后监督 + 回课验证</td><td class="num">14</td><td>V0.5</td><td class="num">39</td><td class="num">¥46,800</td></tr>
+        <tr><td><strong>M5 定制计划</strong></td><td>孩子不知道"怎么练"</td><td class="num">9</td><td>V0.8</td><td class="num">19</td><td class="num">¥22,800</td></tr>
+        <tr><td><strong>M6 游戏化</strong></td><td>动机维护</td><td class="num">8</td><td>V0.8</td><td class="num">13</td><td class="num">¥15,600</td></tr>
+        <tr><td><strong>M1 课堂速记</strong></td><td>课堂数据缺失（源头）</td><td class="num">6</td><td>V1.0</td><td class="num">18</td><td class="num">¥21,600</td></tr>
+        <tr><td><strong>M4 家长端</strong></td><td>家长陪练痛苦</td><td class="num">7</td><td>V1.0</td><td class="num">7</td><td class="num">¥8,400</td></tr>
+        <tr><td><strong>M7 谱库与谱面批注</strong></td><td>作业要点的<strong>来源</strong>：老师批注什么，孩子练什么</td><td class="num">12</td><td>V0.5</td><td class="num">20</td><td class="num">¥24,000</td></tr>
+        <tr><td><strong>NFR 合规 + QA</strong></td><td>未成年人保护、备案、评测集</td><td class="num">—</td><td>全程</td><td class="num">33</td><td class="num">¥39,600</td></tr>
+        <tr><th>合计</th><th></th><th class="num">85</th><th></th><th class="num">207</th><th class="num">¥248,400</th></tr>
+      </tbody>
+    </table>
+    <p class="tnote">人天拆分见第 12 节；单价按 ¥1,200/人天（外包中位）估算，全部假设公开可复算。合规与 QA 人天按模块分摊计入各版本。</p>
+
+    <h3>6.2 版本切分逻辑</h3>
+    <table>
+      <thead><tr><th>版本</th><th>包含</th><th>验证什么</th><th class="num">工期</th></tr></thead>
+      <tbody>
+        <tr><td><strong>V0.1</strong><br><span class="b b-na">无代码</span></td><td>微信群 + 共享表格手工跑 4 周</td><td>结构化作业<strong>这个形式本身</strong>有没有价值</td><td class="num">4 周</td></tr>
+        <tr><td><strong>V0.5</strong><br>数据链原型</td><td>M0 + M2 + M3 + <strong>M7</strong></td><td>信息能否在链上流动（G1、G2）</td><td class="num">8.3 周</td></tr>
+        <tr><td><strong>V0.8</strong><br>孩子端</td><td>+ M5 + M6</td><td>孩子是否愿意用、留存是否提升（G3）</td><td class="num">3.6 周</td></tr>
+        <tr><td><strong>V1.0</strong><br>完整版</td><td>+ M1 + M4 + 合规</td><td>付费意愿（G5）</td><td class="num">4.9 周</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-warn">
+      <b>V0.1 不可跳过</b>
+      它是唯一<strong>零成本</strong>的验证：如果结构化作业这个形式本身对学生没有价值，V0.5 做得再精致也只是把无效的东西做得更贵。<strong>V0.1 不通过（回课率 &lt; 40%），本 PRD 全部作废，需重新设计。</strong>
+    </div>
+
+    <h3>6.3 需求优先级分布</h3>
+    <table>
+      <thead><tr><th>优先级</th><th class="num">条数</th><th>定义</th><th>评审要求</th></tr></thead>
+      <tbody>
+        <tr><td><span class="b b-p0">P0</span></td><td class="num">57</td><td>不做则版本不成立</td><td>逐条确认验收标准</td></tr>
+        <tr><td><span class="b b-p1">P1</span></td><td class="num">22</td><td>影响核心体验，可延后一个版本</td><td>确认延后不破坏旅程</td></tr>
+        <tr><td><span class="b b-p2">P2</span></td><td class="num">6</td><td>增强项</td><td>可整体砍掉</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">07</span>功能需求详述（FR）</h2>
+    <p class="lead">每条需求都带可测试的验收标准（AC）。<strong>AC 是交付判据</strong>——研发完成但 AC 未通过的，视为未完成。</p>
+
+    <h3>7.1 M0 基础设施（12 条）</h3>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M0-01</td>
+          <td>微信一键登录，通过 <code>wx.login</code> 换取 openid 建立账户</td>
+          <td>首次进入授权后 3 秒内完成；二次进入无感登录；同一微信在同一设备切换账号需显式退出</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-02</td>
+          <td>角色选择：首次登录选择「我是老师」/「我是家长」，后续由角色决定首页</td>
+          <td>角色一经选择，非通过客服流程不可自行切换（防止误选导致数据错乱）</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-03</td>
+          <td><strong>师生关系建立需学生端确认</strong>：老师生成邀请码/二维码 → 家长扫码 → 确认绑定</td>
+          <td>未经确认，老师<strong>不得</strong>看到该学生任何数据。数据库层以 <code>relation_status</code> 字段强制</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-04</td>
+          <td><strong>未成年人家长同意</strong>：绑定学生时，家长须勾选同意《儿童个人信息处理规则》</td>
+          <td>同意记录（时间、版本、openid）落库且不可篡改；未同意不得采集任何音频</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-05</td>
+          <td>音频上传：支持断点续传、弱网重试、后台上传</td>
+          <td>3 分钟音频在 4G 下上传成功率 ≥ 99%；中断后恢复自动续传；失败给出明确重试入口</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-06</td>
+          <td>对象存储：音频私有读写，通过临时签名 URL 访问，有效期 ≤ 2 小时</td>
+          <td>直接访问存储域名返回 403；签名 URL 过期后失效</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-07</td>
+          <td>音频格式统一：上传前本地转码为 128kbps 单声道 AAC</td>
+          <td>3 分钟音频 ≤ 3MB；转码在客户端完成，失败时上传原始格式并标记</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-08</td>
+          <td>数据库建模与迁移：使用版本化迁移脚本，禁止手工改表</td>
+          <td>每次迁移有 up/down；<code>migrate</code> 可重复执行；生产库无手工变更记录</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-09</td>
+          <td>环境隔离：dev / staging / prod 三套环境，数据不互通</td>
+          <td>staging 不得含任何真实未成年人数据；prod 数据不得回流到 dev</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-10</td>
+          <td>监控告警：API 错误率、P95 延迟、上传失败率、ASR 服务可用性</td>
+          <td>错误率 &gt; 2% 持续 5 分钟触发告警；告警直达企微/短信</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-11</td>
+          <td>灰度发布：支持按 openid 白名单灰度</td>
+          <td>新版本可先对 ≤ 20 个种子用户开放；一键回滚耗时 ≤ 5 分钟</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M0-12</td>
+          <td>操作审计日志：记录所有对未成年人数据的读写</td>
+          <td>日志包含操作者、时间、对象、动作；保留 ≥ 180 天；不可被应用账号删除</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>7.2 M2 练琴任务卡（16 条）—— 产品的核心</h3>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M2-01</td>
+          <td><strong>技法模板库</strong>：内置扬琴技法词表（轮音、反竹、支手轮音、花音、琶音、双音琴竹、滑弹等），选中后自动生成微目标标准表述</td>
+          <td>词表覆盖 ≥ 20 个扬琴常用技法；每个技法有 ≥ 1 个预置成功标准模板；词表可由运营后台维护<strong>而无需发版</strong></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-02</td>
+          <td><strong>微目标结构</strong>：每条微目标必须包含 {技法, 曲目片段, 成功标准, 建议遍数} 四要素</td>
+          <td>四要素任一为空则不允许保存；成功标准默认值为"5 遍中成功 3 遍"</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-03</td>
+          <td>任务卡创建：支持「全班统一」与「分组差异化」两种模式</td>
+          <td>全班模式一次操作覆盖所有学生；差异化模式可按学生单独覆盖，覆盖后标记 <code>customized=true</code></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-04</td>
+          <td><strong>复制上周并修改</strong>：一键复制上周任务卡结构，仅修改差异部分</td>
+          <td>复制耗时 ≤ 3 秒；复制后仍可逐条修改；复制来源可追溯</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-05</td>
+          <td>成功标准可配置：遍数（1–10）、成功阈值（1–遍数）、可选速度/时长约束</td>
+          <td>阈值不得大于遍数；速度单位统一为 BPM；超出范围前端拦截并提示</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-06</td>
+          <td><strong>三方差异化文案</strong>：同一张卡，老师/孩子/家长看到的文案不同</td>
+          <td>家长端首屏固定显示"<strong>听不懂没关系，不用您判断对错。</strong>"；孩子端不显示任何面向家长的管理性文字</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-07</td>
+          <td>语音要点：老师可为任务卡附加 ≤ 60 秒语音</td>
+          <td>V0.5 仅存储与回放，<strong>不做转写、不做 AI 摘要</strong>；语音与卡片绑定展示</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-08</td>
+          <td>孩子端任务卡展示：显示"今天要练 N 张卡 · 预计 M 分钟"</td>
+          <td>预计时长按微目标遍数 × 单遍预估时长累加；<strong>不显示倒计时</strong></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-09</td>
+          <td><strong>孩子可调整练习顺序，但不可减少总量</strong></td>
+          <td>提供"换一下顺序"入口；<strong>不提供删除/跳过单卡的入口</strong>；换序仅影响展示顺序</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-10</td>
+          <td>任务卡状态机：未开始 → 进行中 → 已完成 / 已过期</td>
+          <td>过期规则由老师设定（默认发布后 7 天）；过期卡片不进入"今日待练"但保留在历史</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-11</td>
+          <td>任务卡发布通知：<strong>受限于小程序订阅消息机制</strong>（见 NFR-18），需采用「订阅授权 + 微信群兜底」双通道</td>
+          <td>① 在家长首次查看任务卡等<strong>用户点击行为后</strong>请求订阅授权（基础库 2.8.2 起无点击不得调起）；② 授权后每次发布下发一条；③ <strong>未授权用户走微信群兜底</strong>——生成卡片图片供老师转发到群</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-12</td>
+          <td>模板复用：老师可将自己的任务卡保存为个人模板</td>
+          <td>模板库分「系统预置」与「我的模板」；我的模板支持增删改</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-13</td>
+          <td>历史查询：按学生、按周查询历史任务卡与完成情况</td>
+          <td>支持回溯 ≥ 12 个月；可按技法筛选</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-14</td>
+          <td>多乐器扩展位：数据模型预留 <code>instrument</code> 字段</td>
+          <td>新增乐器仅需配置技法词表与微目标模板，<strong>不改表结构、不改代码</strong></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-15</td>
+          <td>批量操作：支持对全班统一延长截止、统一催交</td>
+          <td>批量操作需二次确认；操作结果逐条反馈成功/失败</td>
+          <td class="num"><span class="b b-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M2-16</td>
+          <td>任务卡分享：生成图片分享至微信（用于机构宣传）</td>
+          <td>分享图<strong>不得包含</strong>其他学生信息；不得包含可识别的未成年人面部</td>
+          <td class="num"><span class="b b-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-key">
+      <b>FR-M2-14 是战略级需求，不是技术洁癖</b>
+      第五卷已证：扬琴单独只贡献约 1.1% 的收入，古筝等扩展品类才是规模来源。如果每种乐器都要改一次代码，扩展成本会高到无法执行。<strong>这一条必须在 V0.5 就做对，事后补的代价是重写数据模型。</strong>
+    </div>
+
+    <h3>7.3 M3 回课驾驶舱（14 条）</h3>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M3-01</td>
+          <td>录音采集：孩子端按微目标逐遍录音，实时显示"第 N 遍 / 共 M 遍"</td>
+          <td>录音最长 5 分钟自动截断；支持重录（重录不删除上一遍，用于对比）</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-02</td>
+          <td><strong>AI 只做事实判定</strong>：对每段录音输出 {是否演奏, 时长, 完整性, 节拍稳定性}</td>
+          <td>输出不含任何价值判断词汇（"好""差""错音"）；判定口径见第 09 节</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-03</td>
+          <td>微目标自动结算：达到成功标准时，前端显示"3/3 遍完成"</td>
+          <td>结算由规则引擎完成（遍数对比），<strong>不调用大模型、不调用音高识别</strong></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-04</td>
+          <td><strong>驾驶舱一屏视图</strong>：全班学生 × 本周状态矩阵</td>
+          <td>20 名学生在单屏内可见（滚动 ≤ 1 屏）；每行显示：姓名、已练/目标、达成率、稳定性趋势、未交天数</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-05</td>
+          <td>驾驶舱排序与筛选：按未交天数、达成率、稳定性排序</td>
+          <td>默认按"未交天数倒序"（最需要催的排最前）；筛选状态持久化到本周</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-06</td>
+          <td>老师批改：语音（≤ 60 秒）或文字，绑定到具体微目标</td>
+          <td>批改耗时目标 ≤ 20 秒/条；支持"上一条/下一条"键盘式快速流转</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-07</td>
+          <td><strong>不使用 AI 生成评语</strong>：老师未点评时，孩子端该位置留空</td>
+          <td>代码层面禁止任何"AI 自动生成鼓励语"的逻辑；Code Review 专项检查</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-08</td>
+          <td>一键催交：生成<strong>可一键转发到微信群</strong>的提醒卡片（主通道），订阅消息为辅助通道</td>
+          <td>同一学生 7 天内最多催 2 次（防骚扰）；催交记录可见</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-09</td>
+          <td>录音回放：老师可听任一遍，支持倍速、拖拽</td>
+          <td>1.5× 倍速默认开启（节省老师时间）；加载 ≤ 1 秒</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-10</td>
+          <td>孩子端回放对比：可听"这一遍"与"上周同一段"</td>
+          <td>对比为<strong>与自己比</strong>；不提供与其他同学的对比（见 FR-M6-04）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-11</td>
+          <td>稳定性趋势：以折线显示近 4 周节拍稳定性</td>
+          <td>仅显示趋势，<strong>不给出"进步/退步"的文字结论</strong>（那属于价值判断）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-12</td>
+          <td>低置信度静默：当音频质量不足以判定时，<strong>输出"未能判定"而非猜测</strong></td>
+          <td>环境噪声 &gt; 阈值或有效音频 &lt; 3 秒时，状态显示"未判定"；<strong>不得显示为"未完成"</strong></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-13</td>
+          <td>数据导出：老师可导出本人学生数据（CSV）</td>
+          <td>导出不含音频文件本身；导出操作记入审计日志</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-14</td>
+          <td>音频留存策略：默认保留 90 天，到期自动删除</td>
+          <td>删除为<strong>硬删除</strong>（含备份）；老师可提前设置更短留存期；删除日志记录</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M3-15</td>
+          <td><strong>录音中断保护</strong>：监听 <code>onInterruptionBegin/End</code>（微信语音/视频来电会强制中断）</td>
+          <td>中断时<strong>不静默丢弃</strong>已录内容；提示"录音被来电打断"，提供「继续录 / 重录这一遍」；中断前音频需可上传或暂存</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-warn">
+      <b>FR-M3-12 与 FR-M3-07 是产品的两条生命线</b>
+      这两条的共同点是：<strong>系统宁可少说，不可说错。</strong><br><br>
+      一次把"练对了"判成"练错了"，老师会<strong>终身不再信任</strong>这个系统；一句 AI 编造的夸奖被孩子发现是假的，信任同样归零。第七卷的敏感性分析已证明：<strong>准确率下降 20% 会通过"误判 → 教师不信任 → 停用 → 流失"摧毁 LTV，其破坏力远大于成本上升。</strong>
+    </div>
+  </section>
+
+  <section id="s7b">
+    <h2><span class="num">07</span>功能需求详述（续）</h2>
+
+    <h3>7.4 M5 定制计划（9 条，V0.8）</h3>
+    <p class="tnote">本模块的产品依据来自第八卷：Miksza 随机实验证明"教练什么、怎么定目标"比"教怎么练"更有效（p=.02），且提升来自<strong>效率</strong>而非时长；McPherson &amp; Renwick 三年追踪证明不干预不会自愈。</p>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M5-01</td>
+          <td><strong>难度自适应引擎（85% 规则）</strong>：根据本轮成功率自动建议下一周难度</td>
+          <td>判定表严格实现第 09 节表 9-3；≥95% 提速、80–95% 保持、55–80% 降难度、&lt;55% 退回上一级</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-02</td>
+          <td>建议<strong>而非自动执行</strong>：系统给出下一周难度建议，由老师确认或调整</td>
+          <td>默认不自动改写任务卡；老师一键采纳后生效；老师调整行为被记录用于优化</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-03</td>
+          <td>周计划生成：基于上周达成数据，生成下周微目标建议清单</td>
+          <td>生成耗时 ≤ 5 秒；每条建议标注依据（"上周达成率 92%，建议提速"）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-04</td>
+          <td>难度建议可解释：每条建议必须显示触发它的具体数据</td>
+          <td>例如："近 2 周达成率均 ≥ 95% → 建议提速一档"。<strong>不允许无依据的建议</strong></td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-05</td>
+          <td>冷启动处理：新学生前 2 周不启用自适应，使用老师设定难度</td>
+          <td>数据点 &lt; 6 条时，系统显示"数据不足，暂不提供建议"而非猜测</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-06</td>
+          <td>孩子端自选：在老师给定的卡片集合内，孩子可自选顺序（V0.5 已有）+ 自选挑战项（V0.8 新增）</td>
+          <td>挑战项从老师预设的"可选池"中挑选；<strong>自选不改变总量下限</strong></td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-07</td>
+          <td>掌握度档案：按技法维度累计学生的达成记录</td>
+          <td>可查询"该生轮音技法共练习 N 次，达成率 X%"，用于老师备课</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-08</td>
+          <td>计划偏离提醒：连续 2 周达成率 &lt; 55% 时提醒老师"该生可能卡住了"</td>
+          <td>提醒为<strong>中性描述</strong>（"可能卡住"），不得使用"退步""不认真"等评价性措辞</td>
+          <td class="num"><span class="b b-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M5-09</td>
+          <td>自适应参数可配置：85% 阈值可在后台按乐器调整</td>
+          <td>默认值 85%；调整需记录变更人与理由</td>
+          <td class="num"><span class="b b-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>7.5 M6 游戏化（8 条，V0.8）</h3>
+    <p class="tnote">本模块的<strong>排除项比包含项更重要</strong>。依据：Deci 1971 过度理由效应、Hamari 等 2014 系统博弈、Hadi Mogavi 等 2022 streak 肤浅化。完整机制矩阵见第八卷第 06 节。</p>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M6-01</td>
+          <td><strong>进度与解锁：绑定技法掌握</strong>，不绑定天数或时长</td>
+          <td>解锁条件为"某技法累计达成 N 次"；<strong>禁止</strong>以"连续登录 X 天"为解锁条件</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-02</td>
+          <td>即时结算：完成微目标时显示"3/3 遍完成"，<strong>不显示分数</strong></td>
+          <td>界面无任何百分制/星级评分；无"优秀/良好/及格"字样</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-03</td>
+          <td>回放对比：提供"和上周一模一样的这段比一比"</td>
+          <td><strong>仅支持与自己对比</strong>；代码层面不提供任何跨用户比较接口</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-04</td>
+          <td><span class="b b-lo">红线</span> <strong>禁止排行榜</strong></td>
+          <td>代码中不存在任何按达成率/时长对用户排序并展示给他人的功能；Code Review 专项检查项</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-05</td>
+          <td><span class="b b-lo">红线</span> <strong>禁止外部物质奖励</strong>（玩具、零花钱、可兑换实物）</td>
+          <td>无积分商城；无实物兑换；运营活动不得引入外部奖品</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-06</td>
+          <td>连续记录（若做）：<strong>绑定"完成一次有效练习"</strong>，且提供每月 2 张冻结卡</td>
+          <td>绑定对象为"微目标结算成功"，<strong>不是"打开 App"或"练满时长"</strong>；断连不归零而是消耗冻结卡</td>
+          <td class="num"><span class="b b-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-07</td>
+          <td><strong>例外推送</strong>：仅三种情况——连续 3 天未练、老师点评了、考级临近。<strong>受 NFR-18 约束：实际可达性取决于用户是否授权订阅</strong></td>
+          <td>系统<strong>不存在</strong>每日定时推送任务；推送频率上限 3 次/周；<strong>所有触达必须有微信群兜底路径</strong>，不得假设订阅消息必然送达</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M6-08</td>
+          <td>老师语音点评触达：孩子端以引语形式展示，未点评时留空</td>
+          <td>与 FR-M3-07 联动；展示形态为「老师说："……"」，不使用系统口吻</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-warn">
+      <b>FR-M6-04 / 05 / 07 是"反向需求"——它们约束的是不要实现什么</b>
+      反向需求最容易在迭代中被无意违反（例如运营同学提"加个排行榜提升活跃"）。因此这三条<strong>必须写成自动化测试</strong>：在代码仓库中放置断言测试，检查是否存在排行榜接口、是否存在积分兑换表、是否存在每日定时推送任务。测试失败则 CI 阻断。
+    </div>
+
+    <h3>7.6 M1 课堂速记（6 条，V1.0）</h3>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M1-01</td>
+          <td>课堂录音：老师可录制 ≤ 5 分钟课堂片段</td>
+          <td>录音在老师端发起；<strong>需课堂内口头告知学生</strong>（产品界面提示）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M1-02</td>
+          <td>ASR 转写：接入语音识别，<strong>加载民乐术语词表作为热词</strong></td>
+          <td>术语词表 ≥ 200 词；术语识别准确率 ≥ 90%（评测集见 09 节）</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M1-03</td>
+          <td><strong>ASR 服务必须可切换</strong>：抽象层屏蔽云端 API 与自部署模型</td>
+          <td>切换实现仅需改配置，不改业务代码；两种实现均通过同一契约测试</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M1-04</td>
+          <td>要点结构化：从转写文本提取要点，生成<strong>任务卡草稿</strong></td>
+          <td>输出为草稿，<strong>必须经老师确认才生成正式卡</strong>；草稿明确标注"AI 生成，请核对"</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M1-05</td>
+          <td>写入学生档案：确认后的要点沉淀为该生的长期记录</td>
+          <td>上课前自动展示"上次要点"，减少老师重建上下文的时间</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M1-06</td>
+          <td>课堂录音留存：默认 30 天，短于回课音频的 90 天</td>
+          <td>课堂录音含更多无关对话，隐私风险更高，故留存更短</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>7.7 M4 家长端（7 条，V1.0）</h3>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fr">FR-M4-01</td>
+          <td>家长首屏固定引导："<strong>听不懂没关系，不用您判断对错。</strong>"</td>
+          <td>该文案在家长端任务卡页<strong>始终可见</strong>，不可被运营位挤掉</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M4-02</td>
+          <td>周报：每周汇总练琴次数、达成率、老师留言</td>
+          <td>周报<strong>不含排名、不含与其他孩子的比较</strong>；措辞中性（"本周练了 4 次"而非"比上周少 1 次"）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M4-03</td>
+          <td><strong>家长退出进度条</strong>：把"陪练时长下降"做成正向成就</td>
+          <td>显示"本月孩子独立完成 X 次，比上月多 Y 次"；<strong>不使用"您的陪伴减少了"这类负向表述</strong></td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M4-04</td>
+          <td>代提交：家长可代孩子提交录音，标记 <code>submitted_by=parent</code></td>
+          <td>统计数据需能区分自主提交与代提交（用于判断真实独立性）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M4-05</td>
+          <td>家长不得查看其他学生数据</td>
+          <td>接口层校验；越权访问返回 403 并记审计日志</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M4-06</td>
+          <td>数据删除：家长可申请删除本人子女全部数据</td>
+          <td>删除在 15 个工作日内完成（合规要求）；含音频硬删除与日志脱敏</td>
+          <td class="num"><span class="b b-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td class="fr">FR-M4-07</td>
+          <td>付费（阶段二）：家长为子女购买 ¥199/年</td>
+          <td>支付链路为微信支付；<strong>不得向未成年人做自动化营销或自动续费催单</strong>（见 NFR-09）</td>
+          <td class="num"><span class="b b-p1">P1</span></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h3>7.8 M7 谱库与谱面批注（12 条，V0.5）—— M2 的上游</h3>
+    <p class="lead">老师在课上改的是什么？是<strong>谱面</strong>。没有这一层，任务卡里的"要点"只能靠老师手打，10 分钟布置作业的目标必然失守。</p>
+    <table>
+      <thead>
+        <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="fr">FR-M7-01</td><td><strong>内置谱库</strong>：内置扬琴入门曲目与基本功练习（五声音阶、轮音长音、八度双音、琶音 + 小星星/两只老虎/欢乐颂等），含调性、默认 BPM、技法标注</td><td>首发 ≥ 30 首（扬琴）；每首含 {调性, 默认 BPM, 难度, 技法标注}；可在不发版前提下补充</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-02</td><td><strong>谱面数据结构</strong>：以「行 + 音符」两级结构存储，音符含 {音高, 八度, 时值, 技法标记}，与乐器无关</td><td>同一结构可承载简谱与扬琴技法标记；改为古筝/二胡时<strong>不需改表结构</strong></td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-03</td><td>谱面渲染：小程序内渲染可横向滚动的简谱，支持放大、按行定位、只显示作业指定行</td><td>手机端单行不折行；10 行以内首屏渲染 ≤ 1 秒；作业范围外的行默认折叠</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-04</td><td><strong>谱面批注</strong>：老师可在谱面上点选任意音符加标记，类型为 {重点, 难点, 慢练, 轮音, 竹法, 分句}，词表可配置</td><td>点选 → 加标记 ≤ 2 次点击；单曲批注全程 ≤ 90 秒；标记类型可由运营后台扩展<strong>而无需发版</strong></td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-05</td><td>批注必须能带<strong>一句话指令</strong>（≤ 30 字），该指令原样下发给孩子，不做 AI 改写</td><td>指令为空时允许只留标记类型；<strong>系统不得自动生成或润色该文案</strong>（FR-M3-07 一致性）</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-06</td><td>批注锚定：批注挂在 {课次, 学生, 曲目, 谱面版本, 行号, 音符序号} 上，<strong>不修改公共谱库</strong></td><td>两位老师对同一首曲子的批注互不可见；系统谱库更新后旧批注不错位（按 score_version 快照）</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-07</td><td>自编谱隔离：老师自编谱存为 <code>owner_teacher_id</code> 非空的私有谱，与系统谱库隔离</td><td>私有谱仅本人可见；删除老师账号时私有谱随之下线，已引用该谱的历史作业保留快照</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-08</td><td><strong>批注 → 作业继承</strong>：布置作业时自动带出本节课批注，可逐条勾选是否转为任务卡要点</td><td>布置一首已批注曲目的作业 ≤ 30 秒；未勾选的批注不出现在孩子端；继承关系可追溯</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-09</td><td>孩子端高亮：任务卡打开时谱面按标记类型着色，点标记显示老师写的那句话</td><td>6 类标记颜色可区分（色盲友好：形状 + 颜色双编码）；点击标记 ≤ 1 次显示指令</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-10</td><td>回课时可<strong>逐条确认批注是否做到</strong>，勾选结果进入学生成长记录</td><td>回课界面按批注逐条列出；允许"未做到"并生成下一张卡的复练项</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-11</td><td>自编谱快速录入：支持文本简谱批量粘贴（八度、八分音符、延音、休止记号），自动成谱</td><td>10 行以内录入 ≤ 60 秒；解析失败时逐行报错并保留原文本</td><td class="num"><span class="b b-p1">P1</span></td></tr>
+        <tr><td class="fr">FR-M7-12</td><td>任务卡导出 A4 PDF（含批注高亮），供无手机/要纸质谱的场景使用</td><td>导出 ≤ 5 秒；标注与谱面在同一页；带学生姓名水印</td><td class="num"><span class="b b-p2">P2</span></td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-warn">
+      <b>M7 不是"锦上添花"，是 M2 的输入端</b>
+      第 05 节把老师布置作业的目标定在 <strong>≤ 10 分钟 / 周</strong>。如果要点要手打，光是"第 3 行第 2 小节换弦别碰邻弦"这类指令就足以吃掉全部时间预算。<br><br>
+      因此 M7 与 M2 必须同版本交付（V0.5）。<strong>先做 M7 再做 M2</strong>，顺序不能颠倒：批注是数据，任务卡只是它的展示与结算层。
+    </div>
+</section>
+
+  <section id="s8">
+    <h2><span class="num">08</span>非功能需求（NFR）</h2>
+
+    <h3>8.1 性能与可用性</h3>
+    <table>
+      <thead><tr><th class="fr">NFR-ID</th><th>指标</th><th>目标值</th><th>测量方式</th></tr></thead>
+      <tbody>
+        <tr><td class="fr">NFR-01</td><td>小程序首屏加载（4G）</td><td>≤ 2.0 秒</td><td>真机埋点 P75</td></tr>
+        <tr><td class="fr">NFR-02</td><td>音频上传成功率（3 分钟 / 4G）</td><td>≥ 99%</td><td>服务端统计</td></tr>
+        <tr><td class="fr">NFR-03</td><td>驾驶舱加载（40 名学生）</td><td>≤ 1.5 秒</td><td>真机埋点 P75</td></tr>
+        <tr><td class="fr">NFR-04</td><td>录音分析结果返回</td><td>≤ 10 秒（3 分钟音频）</td><td>服务端 P95</td></tr>
+        <tr><td class="fr">NFR-05</td><td>系统可用性</td><td>≥ 99.5%（月度）</td><td>监控</td></tr>
+        <tr><td class="fr">NFR-06</td><td>弱网可用：2G/弱 3G 下可查看已缓存内容</td><td>任务卡与历史可读</td><td>手动测试</td></tr>
+      </tbody>
+    </table>
+
+    <h3>8.2 合规（<strong>不可妥协</strong>）</h3>
+    <table>
+      <thead><tr><th class="fr">NFR-ID</th><th>要求</th><th>依据</th><th>验证方式</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="fr">NFR-07</td>
+          <td><strong>处理未成年人个人信息须取得监护人单独同意</strong>，并制定专门处理规则</td>
+          <td>《未成年人网络保护条例》《个人信息保护法》第 31 条</td>
+          <td>同意记录可审计；专门规则在小程序显著位置可查</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-08</td>
+          <td><strong>不得进行声纹识别</strong>（会触发敏感个人信息"单独同意"）</td>
+          <td>个人信息安全规范：声纹属生物识别信息</td>
+          <td>代码审计：不存在声纹特征提取或比对逻辑</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-09</td>
+          <td><strong>不得向未成年人进行自动化营销</strong>（含自动续费催单、个性化推荐诱导）</td>
+          <td>《未成年人网络保护条例》第 24 条</td>
+          <td>无面向未成年人的营销推送；续费提醒仅发给家长</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-10</td>
+          <td>教育 App 需完成<strong>提供者备案</strong>（前置：ICP 备案 + 等保定级）</td>
+          <td>《教育移动互联网应用程序备案管理办法》</td>
+          <td>备案号在小程序"关于"页展示</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-11</td>
+          <td>音频最小必要采集：仅采集练习音频，<strong>不采集环境音、不后台录音</strong></td>
+          <td>最小必要原则</td><td>权限申请仅麦克风；无后台录音代码</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-12</td>
+          <td>数据出境：所有数据存储与处理<strong>境内完成</strong></td>
+          <td>《数据出境安全评估办法》</td><td>云资源地域审计</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-13</td>
+          <td>若使用大模型 API，需确认服务方已备案且<strong>不将用户输入用于训练</strong></td>
+          <td>《生成式人工智能服务管理暂行办法》</td><td>合同中明确约定；API 调用关闭数据回流</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-18</td>
+          <td><strong>小程序触达能力受限</strong>：无自由推送，仅能使用订阅消息；一次性订阅需用户逐次授权，且须在用户点击行为或支付回调后方可调起</td>
+          <td>微信小程序平台规则（<code>wx.requestSubscribeMessage</code>，基础库 2.8.2 起）</td>
+          <td>所有触达需求必须设计<strong>微信群兜底路径</strong>；不得把关键闭环建立在"推送必然送达"的假设上</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-19</td>
+          <td><strong>必须配置《用户隐私保护指引》</strong>，且与实际调用的隐私接口一致；录音前须经隐私授权</td>
+          <td>微信小程序平台规则（隐私保护指引，提审时校验）</td>
+          <td>mp 后台配置指引；代码调用 <code>wx.requirePrivacyAuthorize</code>；提审前自检接口与声明一致</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-20</td>
+          <td><strong>录音中断处理</strong>：微信语音/视频来电会强制中断录音</td>
+          <td><code>RecorderManager.onInterruptionBegin/End</code></td>
+          <td>必须监听中断事件，提示用户并提供"继续/重录"；不得静默丢失已录内容</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-warn">
+      <b>合规不是上线前补的材料，是架构约束</b>
+      NFR-08（不做声纹）、NFR-09（不做自动化营销）、NFR-11（不后台录音）三条<strong>直接否定了若干常见功能设计</strong>。若在需求评审后才处理，会导致返工。<br><br>
+      特别注意 NFR-09：它意味着<strong>常见的"连续包年自动续费 + 到期前自动扣款提醒"在面向未成年人时必须改造</strong>——催缴对象只能是家长，且不得使用诱导性话术。
+    </div>
+
+    <h3>8.3 成本约束（这是硬约束，不是优化建议）</h3>
+    <table>
+      <thead><tr><th class="fr">NFR-ID</th><th>要求</th><th>数值</th><th>为什么</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="fr">NFR-14</td>
+          <td><strong>ASR 方案必须可切换</strong>（云端 API ↔ 自部署）</td><td>25,000 学生规模下：云端 ≈ ¥17,269/月，自部署 ≈ ¥2,219/月</td>
+          <td>ASR 是最大单项成本，直接决定约一半毛利</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-15</td>
+          <td>单生年边际成本上限</td><td>≤ ¥7（云端路线）/ ≤ ¥1（自部署路线）</td>
+          <td>对应教师端摊薄收入 ¥17.5/生/年（¥698 ÷ 40）</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-16</td>
+          <td>微目标结算<strong>禁止调用大模型</strong></td><td>单次成本 = ¥0</td>
+          <td>结算是纯规则（遍数对比），调用模型纯属浪费</td>
+        </tr>
+        <tr>
+          <td class="fr">NFR-17</td>
+          <td>成本监控：按学生维度统计 AI 调用成本</td><td>单生成本超阈值 150% 触发告警</td>
+          <td>防止异常用户或 bug 造成成本失控</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="tnote">成本模型完整假设见第七卷第 06 节与第八卷第 09 节；本卷数值由脚本实算，汇率与单价假设均已公开。</p>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">09</span>AI 能力边界与评测规范</h2>
+    <p class="lead">这一节是产品与算法之间的<strong>契约</strong>。它规定 AI 可以输出什么、不可以输出什么，以及达到什么标准才允许上线。第七卷已证明：<strong>准确率是本产品最致命的变量</strong>——它的破坏力远大于成本。</p>
+
+    <h3>9.1 判定矩阵：AI 能做什么，不能做什么</h3>
+    <table>
+      <thead>
+        <tr><th>判定维度</th><th>类型</th><th class="num">可行性</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>是否演奏（有声/无声）</td><td>事实</td><td><span class="b b-hi">高</span></td><td>能量阈值检测，成熟技术</td></tr>
+        <tr><td>演奏时长</td><td>事实</td><td><span class="b b-hi">高</span></td><td>纯计时</td></tr>
+        <tr><td>片段完整性（是否弹完）</td><td>事实</td><td><span class="b b-mid">中</span></td><td>时长 + onset 密度比对，需设定容差</td></tr>
+        <tr><td>节拍稳定性（速度方差）</td><td>事实</td><td><span class="b b-mid">中</span></td><td>onset 检测 + 方差计算；扬琴为击弦乐器，onset 清晰</td></tr>
+        <tr><td>遍数统计</td><td>事实</td><td><span class="b b-hi">高</span></td><td>由用户触发计数，非 AI 推断</td></tr>
+        <tr><td><strong>花音诊断</strong>（音位内多弦校准）</td><td>事实</td><td><span class="b b-hi">高</span></td><td>单音音高检测，古筝同类技术已达 98.15% 准确率；<strong>本产品唯一不可复制的能力</strong></td></tr>
+        <tr><td>速度（BPM）</td><td>事实</td><td><span class="b b-mid">中</span></td><td>需老师预设目标 BPM 做比对</td></tr>
+        <tr><td colspan="4" style="background:var(--red-l);font-weight:650;color:var(--red)">以下为明确禁区</td></tr>
+        <tr><td>错音 / 音准纠错（连续演奏）</td><td>价值</td><td><span class="b b-lo">不可行</span></td><td>扬琴连续演奏无公开数据集；多乐器转录竞赛 F1 仅 0.4367</td></tr>
+        <tr><td>音色 / 力度控制</td><td>价值</td><td><span class="b b-lo">不可行</span></td><td>无标注数据，且高度主观</td></tr>
+        <tr><td>演奏姿态 / 手型</td><td>价值</td><td><span class="b b-lo">不可行</span></td><td>需视频 + 大量标注；且易误判</td></tr>
+        <tr><td>乐感 / 表现力</td><td>价值</td><td><span class="b b-lo">不可行</span></td><td>对应考级五项之一，AI 不可判定</td></tr>
+        <tr><td>综合评分 / 总分</td><td>价值</td><td><span class="b b-lo">禁止</span></td><td>等于把不成熟能力包装成完整评价</td></tr>
+        <tr><td>自动生成评语</td><td>价值</td><td><span class="b b-lo">禁止</span></td><td>见 FR-M3-07</td></tr>
+      </tbody>
+    </table>
+
+    <h3>9.2 上线门槛（Gate）</h3>
+    <p>任何 AI 判定能力上线前，必须通过以下门槛。<strong>未通过的维度一律降级为"未判定"，不得上线。</strong></p>
+    <table>
+      <thead>
+        <tr><th>判定维度</th><th class="num">准确率门槛</th><th class="num">评测集最小规模</th><th>不达标时的降级方案</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>是否演奏</td><td class="num">≥ 98%</td><td class="num">200 条</td><td>降级为纯用户手动确认</td></tr>
+        <tr><td>片段完整性</td><td class="num">≥ 90%</td><td class="num">150 条</td><td>改为老师端手动标记</td></tr>
+        <tr><td>节拍稳定性</td><td class="num">≥ 85%</td><td class="num">150 条</td><td>仅显示趋势，不做结算依据</td></tr>
+        <tr><td>花音诊断</td><td class="num">≥ 95%</td><td class="num">100 条</td><td>不做，退回人工调音提示</td></tr>
+        <tr><td>ASR 民乐术语</td><td class="num">≥ 90%</td><td class="num">100 条</td><td>术语表扩充后重测</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-warn">
+      <b>准确率门槛不是"越高越好"，而是"错一次都不行"</b>
+      练琴场景的特殊性在于：<strong>误报的代价远高于漏报。</strong>把"练对了"判成"练错了"，孩子会困惑、家长会质疑、老师会停用；而把"没练"判成"练了"，最坏情况只是数据虚高。<br><br>
+      因此门槛设定采用<strong>不对称标准</strong>：对于"判定为失败/未达成"的输出，要求准确率显著高于"判定为成功"的输出。具体指标在第 09.4 节的评测报告中分别统计。
+    </div>
+
+    <h3>9.3 评测集规范</h3>
+    <table>
+      <thead><tr><th>项</th><th>规范</th></tr></thead>
+      <tbody>
+        <tr><td>数据来源</td><td>真实学生练习录音，<strong>需取得监护人书面授权</strong>用于算法评测</td></tr>
+        <tr><td>标注人</td><td><strong>必须由具备扬琴教学能力的人标注（你本人）</strong>。算法工程师不具备此能力</td></tr>
+        <tr><td>标注一致性</td><td>随机抽取 20% 样本做双人标注，Kappa ≥ 0.8 方可采信；低于则重新对齐标注标准</td></tr>
+        <tr><td>数据分层</td><td>按乐器（扬琴为主）、按年龄段、按录音设备（手机型号）分层，每层不少于总量的 15%</td></tr>
+        <tr><td>版本管理</td><td>评测集版本化（<code>evalset-v1</code>）；任何模型变更必须在同一评测集上回归</td></tr>
+        <tr><td>隔离要求</td><td><strong>测试集不得参与任何训练或调参</strong>；一旦发现污染，该版本结果作废</td></tr>
+        <tr><td>回归频率</td><td>每次模型/词表变更触发全量回归；每月定时回归一次防漂移</td></tr>
+      </tbody>
+    </table>
+
+    <h3>9.4 评测报告必须包含的内容</h3>
+    <pre>模型版本 / 评测集版本 / 评测日期
+────────────────────────────────
+总体准确率          : ___
+分维度准确率        : 是否演奏 / 完整性 / 稳定性 / 花音 / 术语
+不对称指标          :
+   判定为"达成"的准确率  : ___
+   判定为"未达成"的准确率 : ___   ← 该值必须 ≥ 上一行
+   误报率（把对判成错）   : ___   ← 关键红线
+分层表现            : 按乐器 / 年龄段 / 设备分别列出
+未判定率            : ___   ← 应为 &gt; 0，说明系统知道自己的边界
+结论                : 通过 / 不通过（不通过则列出降级方案）</pre>
+
+    <div class="callout c-ok">
+      <b>"未判定率"应该大于零，这是好事</b>
+      如果一个系统的未判定率是 0%，只有两种可能：要么它从不遇到难样本（评测集不够难），要么它在不懂的时候硬猜。<strong>后者是灾难。</strong><br><br>
+      健康的系统应该有 5%–15% 的未判定率——这说明它能识别自己的边界。评测报告中这一项如果为 0，应视为<strong>红色警告</strong>而非优秀。
+    </div>
+
+    <h3>9.5 线上监控（模型漂移）</h3>
+    <table>
+      <thead><tr><th>监控项</th><th>阈值</th><th>动作</th></tr></thead>
+      <tbody>
+        <tr><td>未判定率突增</td><td>周环比 &gt; +50%</td><td>告警，人工抽检 100 条</td></tr>
+        <tr><td>老师手动推翻 AI 判定的比例</td><td>&gt; 10%</td><td><strong>立即告警</strong>，这是最直接的信任崩塌信号</td></tr>
+        <tr><td>孩子端"重录"率突增</td><td>周环比 &gt; +30%</td><td>排查是否判定错误导致反复重录</td></tr>
+        <tr><td>用户主动反馈"判错了"</td><td>任意 1 条</td><td>24 小时内人工复核并回复</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote">第二条是最关键的指标。<strong>老师手动推翻 AI 判定</strong>意味着系统已经失信，此时 DAU 可能还没下降（老师还在用其他功能），但信任已经破裂——这是领先指标，必须优先于所有留存指标处理。</p>
+  </section>
+
+  <section id="s10">
+    <h2><span class="num">10</span>数据模型</h2>
+
+    <h3>10.1 实体清单</h3>
+    <table>
+      <thead><tr><th>实体</th><th>说明</th><th class="num">预估量级（1,000 老师）</th></tr></thead>
+      <tbody>
+        <tr><td><code>Teacher</code></td><td>老师账户</td><td class="num">1,000</td></tr>
+        <tr><td><code>Student</code></td><td>学生（未成年人，敏感）</td><td class="num">25,000</td></tr>
+        <tr><td><code>Parent</code></td><td>家长账户</td><td class="num">30,000</td></tr>
+        <tr><td><code>Relation</code></td><td>师生 / 亲子关系（含确认状态）</td><td class="num">55,000</td></tr>
+        <tr><td><code>TaskCard</code></td><td>任务卡</td><td class="num">1,075,000/年</td></tr>
+        <tr><td><code>MicroGoal</code></td><td>微目标</td><td class="num">3,225,000/年</td></tr>
+        <tr><td><code>Submission</code></td><td>练习提交（含音频指针）</td><td class="num">9,675,000/年</td></tr>
+        <tr><td><code>PracticeStat</code></td><td>判定结果（AI 输出）</td><td class="num">9,675,000/年</td></tr>
+        <tr><td><code>TechniqueDict</code></td><td>技法词表（核心资产）</td><td class="num">20–500</td></tr>
+        <tr><td><code>SkillProfile</code></td><td>学生技法掌握度档案</td><td class="num">250,000</td></tr>
+        <tr><td><code>ConsentRecord</code></td><td>监护人同意记录（不可篡改）</td><td class="num">25,000</td></tr>
+        <tr><td><code>AuditLog</code></td><td>审计日志</td><td class="num">大，需分区</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote">量级按：1,000 老师 × 25 学生 × 43 周 × 3 张卡/周 × 3 遍/卡 推算。</p>
+
+    <h3>10.2 核心表结构</h3>
+
+    <h4>TaskCard（任务卡）</h4>
+    <pre>CREATE TABLE task_card (
+  id            BIGINT PRIMARY KEY,
+  teacher_id    BIGINT NOT NULL,
+  student_id    BIGINT NOT NULL,          -- 全班模式时为批量生成
+  instrument    VARCHAR(20) NOT NULL,     -- 扩展位：yangqin / guzheng / ...
+  week_no       INT NOT NULL,             -- 第几周（ISO week）
+  title         VARCHAR(100),
+  status        ENUM('draft','published','expired') DEFAULT 'draft',
+  due_at        DATETIME,
+  source        ENUM('manual','copied','ai_draft') DEFAULT 'manual',
+  created_at    DATETIME, updated_at DATETIME,
+  INDEX idx_teacher_week (teacher_id, week_no),
+  INDEX idx_student_week (student_id, week_no)
+);</pre>
+
+    
+    <h4>Score（谱库） &amp; ScoreAnnotation（谱面批注）</h4>
+    <pre>CREATE TABLE score (
+  id             BIGINT PRIMARY KEY,
+  instrument     VARCHAR(20) NOT NULL,      -- yangqin / guzheng / erhu ...
+  title          VARCHAR(120) NOT NULL,
+  category       ENUM('basic','repertoire','exam','custom') NOT NULL,
+  key_name       VARCHAR(10),               -- 调性，如 'D'
+  bpm            INT,                       -- 默认速度
+  level          TINYINT,                   -- 1-10 难度
+  source         VARCHAR(60),               -- 来源与版权标记
+  owner_teacher_id BIGINT,                  -- 自编谱归属；系统谱为 NULL
+  version        INT NOT NULL DEFAULT 1,    -- 谱面版本，批注按版本锚定
+  content        JSON NOT NULL,             -- {lines:[{name, notes:[{n,o,d,t}]}]}
+  INDEX idx_instr_level (instrument, level)
+);
+
+CREATE TABLE score_annotation (
+  id             BIGINT PRIMARY KEY,
+  lesson_id      BIGINT NOT NULL,
+  student_id     BIGINT NOT NULL,
+  score_id       BIGINT NOT NULL,
+  score_version  INT NOT NULL,              -- 快照版本，防止系统谱更新导致错位
+  line_index     INT NOT NULL,              -- 第几行
+  note_index     INT NOT NULL,              -- 行内第几个音符（延音符计入序号）
+  mark_type      VARCHAR(20) NOT NULL,      -- 重点/难点/慢练/轮音/竹法/分句
+  instruction    VARCHAR(60),               -- ≤30 字，原样下发给孩子
+  created_at     DATETIME,
+  UNIQUE KEY uk_pos (lesson_id, score_id, line_index, note_index),
+  INDEX idx_lesson (lesson_id),
+  INDEX idx_student_score (student_id, score_id)
+);
+-- MicroGoal 增加可空外键 annotation_id，形成 批注 → 微目标 → 提交 → 判定 的闭环</pre>
+<h4>MicroGoal（微目标）</h4>
+    <pre>CREATE TABLE micro_goal (
+  id             BIGINT PRIMARY KEY,
+  card_id        BIGINT NOT NULL,
+  technique_code VARCHAR(40) NOT NULL,   -- 关联技法词表
+  piece          VARCHAR(100),           -- 曲目
+  bar_range      VARCHAR(40),            -- 小节范围，如 "12-19"
+  target_reps    INT NOT NULL DEFAULT 5, -- 建议遍数
+  success_reps   INT NOT NULL DEFAULT 3, -- 成功阈值
+  bpm            INT,                    -- 可空：速度约束
+  sort_order     INT,
+  INDEX idx_card (card_id)
+);</pre>
+
+    <h4>Submission &amp; PracticeStat（提交与判定）</h4>
+    <pre>CREATE TABLE submission (
+  id              BIGINT PRIMARY KEY,
+  goal_id         BIGINT NOT NULL,
+  student_id      BIGINT NOT NULL,
+  rep_index       INT NOT NULL,          -- 第几遍
+  audio_key       VARCHAR(255) NOT NULL, -- 对象存储键，非直链
+  duration_ms     INT,
+  submitted_by    ENUM('student','parent') NOT NULL,
+  created_at      DATETIME,
+  UNIQUE KEY uk_goal_rep (goal_id, rep_index)
+);
+
+CREATE TABLE practice_stat (
+  submission_id   BIGINT PRIMARY KEY,
+  judgement       ENUM('achieved','not_achieved','undetermined') NOT NULL,
+                  -- undetermined = 低置信度，系统闭嘴
+  played          BOOLEAN,               -- 是否演奏
+  completeness    DECIMAL(4,3),          -- 完整性 0-1
+  tempo_stability DECIMAL(5,2),          -- 节拍稳定性（方差）
+  confidence      DECIMAL(4,3) NOT NULL, -- 置信度，低于阈值置 undetermined
+  model_version   VARCHAR(30) NOT NULL,  -- 可追溯
+  created_at      DATETIME
+);</pre>
+
+    <div class="callout c-key">
+      <b><code>judgement</code> 字段的三个值，就是整个产品的价值观</b>
+      大多数产品只设计两个值（达成 / 未达成）。本产品<strong>强制第三个值 <code>undetermined</code></strong>——它在数据库层面保证了"系统可以承认自己不知道"。<br><br>
+      这个字段不能被产品经理以"太复杂"为由砍掉。砍掉它，等于砍掉产品最重要的诚实性设计。
+    </div>
+
+    <h4>TechniqueDict（技法词表 —— 核心资产）</h4>
+    <pre>CREATE TABLE technique_dict (
+  code            VARCHAR(40) PRIMARY KEY,   -- 如 yangqin.lunyin
+  instrument      VARCHAR(20) NOT NULL,
+  name_zh         VARCHAR(40) NOT NULL,      -- 轮音
+  default_tpl     VARCHAR(200),              -- 默认微目标表述模板
+  judge_dimension VARCHAR(30),               -- 判定维度：stability/accuracy/...
+  judgeable       BOOLEAN NOT NULL,          -- false = 明确不可判定（乐感等）
+  version         INT NOT NULL DEFAULT 1
+);</pre>
+    <p class="tnote"><code>judgeable=false</code> 的技法（如乐感、表现力）<strong>在 UI 层不得出现在可选列表中</strong>——从源头杜绝"包装不成熟能力"的可能。</p>
+
+    <h3>10.3 数据保留策略</h3>
+    <table>
+      <thead><tr><th>数据</th><th>保留期</th><th>删除方式</th><th>依据</th></tr></thead>
+      <tbody>
+        <tr><td>练习音频</td><td>90 天</td><td>硬删除（含备份）</td><td>NFR-14 / FR-M3-14</td></tr>
+        <tr><td>课堂录音</td><td>30 天</td><td>硬删除</td><td>隐私风险更高</td></tr>
+        <tr><td>判定统计（不含音频）</td><td>3 年</td><td>可匿名化保留</td><td>教学档案需要</td></tr>
+        <tr><td>监护人同意记录</td><td>永久</td><td>不可删除</td><td>合规举证</td></tr>
+        <tr><td>审计日志</td><td>180 天</td><td>滚动覆盖</td><td>NFR-M0-12</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="s11">
+    <h2><span class="num">11</span>接口、埋点与指标体系</h2>
+
+    <h3>11.1 外部依赖</h3>
+    <table>
+      <thead><tr><th>依赖</th><th>用途</th><th>风险</th><th>降级方案</th></tr></thead>
+      <tbody>
+        <tr><td>微信小程序</td><td>载体与登录</td><td><strong>触达能力受限（订阅消息需逐次授权）</strong>；审核政策变化</td><td>微信群兜底 + 服务号（见 NFR-18）</td></tr>
+        <tr><td>微信支付</td><td>收费</td><td>需企业主体</td><td>V0.5/V0.8 不涉及付费，可延后</td></tr>
+        <tr><td>对象存储 + CDN</td><td>音频存储分发</td><td>成本波动</td><td>多厂商比价，预留切换接口</td></tr>
+        <tr><td>ASR 服务</td><td>课堂速记（V1.0）</td><td><strong>成本占一半毛利</strong></td><td>抽象层可切换自部署（NFR-14）</td></tr>
+        <tr><td>大模型 API</td><td>要点结构化、计划文案</td><td>需确认不用于训练</td><td>降级为纯规则模板</td></tr>
+        <tr><td>onset / 音高检测</td><td>稳定性与花音判定</td><td>准确率不达标</td><td>降级为"未判定"（09.2 表）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>11.2 核心 API（摘要）</h3>
+    <pre>POST   /api/v1/task-cards                 创建任务卡（支持批量）
+GET    /api/v1/task-cards?student_id&week  查询任务卡（角色化文案）
+POST   /api/v1/task-cards/{id}/publish     发布并推送
+POST   /api/v1/submissions                 提交录音（返回上传签名）
+GET    /api/v1/teacher/cockpit             驾驶舱一屏数据
+POST   /api/v1/submissions/{id}/review     老师批改（语音/文字）
+GET    /api/v1/students/{id}/skill-profile 技法掌握度
+POST   /api/v1/ai/analyze                  触发音频分析（异步）
+GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
+    <p class="tnote">完整 API 规范（字段、错误码、限流）见 <code>SPEC-研发规范.md</code> 第 7 节。所有涉及未成年人数据的接口必须做关系校验（FR-M0-03）。</p>
+
+    <h3>11.3 北极星指标</h3>
+    <div class="callout c-key">
+      <b>WEPM：周有效练习次数（Weekly Effective Practice Count）</b>
+      定义：一个学生在<strong>一周内完成的有效练习次数</strong>（一次 = 一个微目标达成结算）。<br><br>
+      为什么不是 DAU：<strong>DAU 会奖励"打开但不练"，而系统博弈（Hamari 2014）会让用户精准地优化被激励的指标。</strong><br>
+      为什么不是时长：<strong>Miksza 实验已证明提升来自效率而非时长</strong>，且时长极易被"开着 App 干别的"刷高。
+    </div>
+
+    <h3>11.4 分层指标</h3>
+    <table>
+      <thead><tr><th>层级</th><th>指标</th><th>定义</th><th>目标（V1.0+6M）</th></tr></thead>
+      <tbody>
+        <tr><td><strong>北极星</strong></td><td>WEPM</td><td>周有效练习次数 / 活跃学生</td><td>≥ 4 次/周</td></tr>
+        <tr><td rowspan="2">老师侧</td><td>周批改时长</td><td>老师处理全班回课的分钟数</td><td>≤ 25 分钟</td></tr>
+        <tr><td>周活跃留存</td><td>连续 4 周仍每周发布任务卡的比例</td><td>≥ 70%</td></tr>
+        <tr><td rowspan="2">孩子侧</td><td>微目标达成率</td><td>达成结算 / 提交总数</td><td>≥ 75%</td></tr>
+        <tr><td><strong>自主提交占比</strong></td><td>孩子自己提交 / 家长代提交</td><td>≥ 60%（独立性指标）</td></tr>
+        <tr><td rowspan="2">家长侧</td><td>周报打开率</td><td>—</td><td>≥ 50%</td></tr>
+        <tr><td><strong>陪练时长下降率</strong></td><td>家长陪同时间的月环比</td><td>下降为正向</td></tr>
+        <tr><td rowspan="2">系统健康</td><td><strong>未判定率</strong></td><td>undetermined / 总判定</td><td>5%–15%（过低为警告）</td></tr>
+        <tr><td><strong>老师推翻率</strong></td><td>老师手动改判 / AI 判定</td><td>&lt; 10%（超标立即告警）</td></tr>
+        <tr><td>商业</td><td>付费转化率</td><td>付费老师 / 活跃老师</td><td>≥ 15%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>11.5 核心埋点事件</h3>
+    <table>
+      <thead><tr><th>事件</th><th>关键属性</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>card_published</code></td><td>teacher_id, student_count, goal_count, source</td><td>衡量 G1（老师使用强度）</td></tr>
+        <tr><td><code>practice_submitted</code></td><td>student_id, goal_id, rep_index, submitted_by, duration</td><td>WEPM 计算基础</td></tr>
+        <tr><td><code>goal_settled</code></td><td>goal_id, judgement, confidence, model_version</td><td>达成率与未判定率</td></tr>
+        <tr><td><code>judgement_overridden</code></td><td>submission_id, old, new, teacher_id</td><td><strong>信任崩塌领先指标</strong></td></tr>
+        <tr><td><code>review_sent</code></td><td>teacher_id, student_id, type(voice/text)</td><td>老师投入度</td></tr>
+        <tr><td><code>cockpit_viewed</code></td><td>teacher_id, duration_ms</td><td>验证"一屏"是否真的省时</td></tr>
+        <tr><td><code>order_reordered</code></td><td>student_id, from, to</td><td>自主权使用情况</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-warn">
+      <b><code>judgement_overridden</code> 必须优先于所有留存指标处理</b>
+      当老师开始手动推翻 AI 判定时，DAU 可能还没下降——他还在用其他功能。但信任已经破裂，停用只是时间问题。<strong>这是唯一能提前预警的指标，必须配置实时告警。</strong>
+    </div>
+  </section>
+
+  <section id="s12">
+    <h2><span class="num">12</span>版本规划与研发计划</h2>
+
+    <h3>12.1 WBS 与人天估算</h3>
+    <table>
+      <thead><tr><th>模块</th><th class="num">前端</th><th class="num">后端</th><th class="num">算法</th><th class="num">小计</th><th class="num">成本</th></tr></thead>
+      <tbody>
+        <tr><td>M0 基础设施</td><td class="num">8</td><td class="num">18</td><td class="num">0</td><td class="num">26</td><td class="num">¥31,200</td></tr>
+        <tr><td>M2 练琴任务卡</td><td class="num">19</td><td class="num">13</td><td class="num">0</td><td class="num">32</td><td class="num">¥38,400</td></tr>
+        <tr><td>M3 回课驾驶舱</td><td class="num">19</td><td class="num">12</td><td class="num">8</td><td class="num">39</td><td class="num">¥46,800</td></tr>
+        <tr><td>M5 定制计划</td><td class="num">3</td><td class="num">9</td><td class="num">7</td><td class="num">19</td><td class="num">¥22,800</td></tr>
+        <tr><td>M6 游戏化</td><td class="num">8</td><td class="num">5</td><td class="num">0</td><td class="num">13</td><td class="num">¥15,600</td></tr>
+        <tr><td>M1 课堂速记</td><td class="num">5</td><td class="num">7</td><td class="num">6</td><td class="num">18</td><td class="num">¥21,600</td></tr>
+        <tr><td>M4 家长端</td><td class="num">4</td><td class="num">3</td><td class="num">0</td><td class="num">7</td><td class="num">¥8,400</td></tr>
+        <tr><td>M7 谱库与谱面批注</td><td class="num">12</td><td class="num">8</td><td class="num">0</td><td class="num">20</td><td class="num">¥24,000</td></tr>
+        <tr><td>合规（NFR）</td><td class="num">1</td><td class="num">11</td><td class="num">0</td><td class="num">12</td><td class="num">¥14,400</td></tr>
+        <tr><td>QA 与评测集</td><td class="num">6</td><td class="num">7</td><td class="num">8</td><td class="num">21</td><td class="num">¥25,200</td></tr>
+        <tr><th>合计</th><th class="num">85</th><th class="num">93</th><th class="num">29</th><th class="num">207</th><th class="num">¥248,400</th></tr>
+      </tbody>
+    </table>
+    <p class="tnote"><strong>假设全部公开，请务必复算</strong>：人天单价 ¥1,200（外包中位，需实际报价校验）；3 人团队（1 前端 / 1 后端 / 1 兼职算法）；有效产能系数 0.7（扣除沟通、返工、等待）；缓冲 15%。<strong>这是量级估算，不是报价。</strong></p>
+
+    <h3>12.2 排期甘特</h3>
+    <figure>
+      <svg viewBox="0 0 680 300" role="img" aria-label="研发排期甘特图">
+        <defs>
+          <linearGradient id="gA" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#1f4e8c"/><stop offset="100%" stop-color="#4a7fc1"/>
+          </linearGradient>
+        </defs>
+        <style>
+          .gl{font:11px -apple-system,"PingFang SC",sans-serif;fill:#6b7688}
+          .gt{font:12.5px -apple-system,"PingFang SC",sans-serif;fill:#1a1f2b;font-weight:600}
+          .gv{font:10.5px -apple-system,"PingFang SC",sans-serif;fill:#fff;font-weight:600}
+          .ax{stroke:#e3e7ee;stroke-width:1}
+        </style>
+        <!-- 时间轴 -->
+        <line class="ax" x1="150" y1="30" x2="150" y2="270"/>
+        <text class="gl" x="158" y="24">M1</text>
+        <text class="gl" x="228" y="24">M2</text>
+        <text class="gl" x="298" y="24">M3</text>
+        <text class="gl" x="368" y="24">M4</text>
+        <text class="gl" x="438" y="24">M5</text>
+        <text class="gl" x="508" y="24">M6</text>
+        <text class="gl" x="578" y="24">M7</text>
+        <!-- V0.1 -->
+        <text class="gt" x="8" y="52">V0.1 手工验证</text>
+        <rect x="150" y="40" width="70" height="18" rx="4" fill="#8a6212"/>
+        <text class="gv" x="158" y="53">4 周 · ¥0</text>
+        <!-- V0.5 -->
+        <text class="gt" x="8" y="92">V0.5 数据链原型</text>
+        <rect x="220" y="80" width="148" height="18" rx="4" fill="url(#gA)"/>
+        <text class="gv" x="228" y="93">8.3 周 · ¥120,000</text>
+        <!-- V0.8 -->
+        <text class="gt" x="8" y="132">V0.8 孩子端</text>
+        <rect x="368" y="120" width="64" height="18" rx="4" fill="#146b6b"/>
+        <text class="gv" x="376" y="133">3.6 周</text>
+        <!-- V1.0 -->
+        <text class="gt" x="8" y="172">V1.0 完整版</text>
+        <rect x="432" y="160" width="87" height="18" rx="4" fill="#5b3d8f"/>
+        <text class="gv" x="440" y="173">4.9 周</text>
+        <!-- 合规 -->
+        <text class="gt" x="8" y="212">合规与备案</text>
+        <rect x="330" y="200" width="189" height="18" rx="4" fill="#a83232"/>
+        <text class="gv" x="338" y="213">贯穿 V0.8–V1.0（前置：ICP + 等保）</text>
+        <!-- 评测集 -->
+        <text class="gt" x="8" y="252">评测集构建与回归</text>
+        <rect x="220" y="240" width="299" height="18" rx="4" fill="#1e6b4f"/>
+        <text class="gv" x="228" y="253">贯穿全程 · 需本人标注（不可外包）</text>
+        <!-- 决策点 -->
+        <line x1="290" y1="30" x2="290" y2="270" stroke="#a83232" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text class="gl" x="296" y="288" fill="#a83232">▲ 决策点：回课率 &lt; 40% 则停止</text>
+      </svg>
+      <figcaption class="tnote">图 12-1　研发排期。关键约束：V0.1 不通过则后续全部作废；评测集标注必须由具备扬琴教学能力者完成。</figcaption>
+    </figure>
+
+    <h3>12.3 团队配置</h3>
+    <table>
+      <thead><tr><th>角色</th><th class="num">投入</th><th>职责</th><th>能否外包</th></tr></thead>
+      <tbody>
+        <tr><td>产品（你本人）</td><td class="num">全程</td><td>需求、验收、<strong>技法词表与评测集标注</strong></td><td><span class="b b-lo">否</span> 核心资产</td></tr>
+        <tr><td>前端（小程序）</td><td class="num">V0.5 起</td><td>三端界面</td><td><span class="b b-hi">可</span></td></tr>
+        <tr><td>后端</td><td class="num">V0.5 起</td><td>API、数据、音频管线</td><td><span class="b b-hi">可</span></td></tr>
+        <tr><td>算法</td><td class="num">兼职</td><td>onset/音高检测、ASR 接入</td><td><span class="b b-mid">部分</span> 评测集不可外包</td></tr>
+        <tr><td>合规顾问</td><td class="num">V0.8 起</td><td>备案、等保、隐私政策</td><td><span class="b b-hi">可</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-key">
+      <b>唯一不可外包的两件事</b>
+      ① <strong>技法词表</strong>（200–500 词：轮音、反竹、支手轮音、花音、琶音、双音琴竹、滑弹……）——通用 ASR 遇到这些词必然出错，且它不存在于任何公开数据集，只存在于你的日常语言中。<br>
+      ② <strong>评测集标注</strong>——算法工程师无法判断扬琴演奏得对不对。这两件事外包了，产品就没有护城河了。
+    </div>
+
+    <h3>12.4 现金流与回本</h3>
+    <table>
+      <thead><tr><th>阶段</th><th class="num">老师数</th><th class="num">单价</th><th class="num">年收入</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>阶段一 0–100</td><td class="num">100</td><td class="num">¥0</td><td class="num">¥0</td><td>全免费，验证留存</td></tr>
+        <tr><td>阶段二 100–1000</td><td class="num">900</td><td class="num">¥199</td><td class="num">¥179,100</td><td>家长付费，老师分成 30%</td></tr>
+        <tr><td>阶段三 1000+</td><td class="num">1000</td><td class="num">¥698</td><td class="num">¥698,000</td><td>老师付费，学生端免费</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote">研发期投入约 ¥169,451（3 人 × 3.9 月 × 0.6 系数）。阶段二满额年收入为研发投入的 106%，阶段三为 4.1 倍。<strong>但这是"满额"而非"爬坡"情形</strong>——第七卷的爬坡测算为 Y1 净 ¥3.1 万、Y2 ¥12.5 万、Y3 ¥41.8 万，请以后者为准。</p>
+
+    <div class="callout c-warn">
+      <b>不要跳过阶段二</b>
+      第七卷已指出：<strong>国内个人老师的 SaaS 付费习惯远弱于欧美</strong>（Tonara 在欧美跑通，不证明国内成立）。若从阶段一直接跳到阶段三（向老师收费），很可能付费转化率为零。<br><br>
+      阶段二（家长付 ¥199、老师分成 30%）的意义不是那点收入，而是<strong>用真实付费验证三件事</strong>：家长愿不愿意付、老师愿不愿意推、30% 分成够不够驱动。这三件事没验证过就向老师收费，会同时失去老师和家长。
+    </div>
+  </section>
+
+  <section id="s13">
+    <h2><span class="num">13</span>风险、依赖与未决问题</h2>
+
+    <h3>13.1 风险登记</h3>
+    <table>
+      <thead><tr><th class="num">#</th><th>风险</th><th class="num">概率</th><th class="num">影响</th><th>缓解</th></tr></thead>
+      <tbody>
+        <tr><td class="num">R1</td><td><strong>V0.1 不通过</strong>（结构化作业无价值）</td><td class="num">中</td><td class="num"><span class="b b-lo">致命</span></td><td>先跑 V0.1（¥0），不通过则重设计</td></tr>
+        <tr><td class="num">R2</td><td>AI 判定准确率不达标</td><td class="num">中</td><td class="num"><span class="b b-lo">高</span></td><td>降级为"未判定"；严守 09.2 门槛</td></tr>
+        <tr><td class="num">R3</td><td>老师付费意愿为零</td><td class="num"><span class="b b-lo">较高</span></td><td class="num"><span class="b b-lo">高</span></td><td>三阶段验证；阶段二必须先跑</td></tr>
+        <tr><td class="num">R4</td><td>ASR 成本失控</td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>NFR-14 抽象层；NFR-17 成本监控</td></tr>
+        <tr><td class="num">R5</td><td>合规不通过（备案/等保）</td><td class="num">低</td><td class="num"><span class="b b-lo">高</span></td><td>V0.8 即启动，预留 8 周</td></tr>
+        <tr><td class="num">R6</td><td>孩子端无手机 / 家长不给用</td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>家长端代提交；V0.1 观察</td></tr>
+        <tr><td class="num">R7</td><td>竞品（一起练琴等）扩展至扬琴</td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>护城河在花音 + 技法词表 + 老师渠道</td></tr>
+        <tr><td class="num">R8</td><td>学龄人口收缩导致市场萎缩</td><td class="num"><span class="b b-hi">确定</span></td><td class="num"><span class="b b-mid">中</span></td><td>已发生事实，靠留存而非拉新（第六卷）</td></tr>
+        <tr><td class="num">R9</td><td><strong>小程序无法可靠触达家长</strong>（订阅消息需逐次授权，长期订阅行业范围未确认）</td><td class="num"><span class="b b-lo">高</span></td><td class="num"><span class="b b-lo">高</span></td><td>微信群兜底 + 服务号方案；<strong>V0.1 阶段即应摸清真实触达率</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>13.2 未决问题（<strong>必须由你回答，我不会替你假设</strong>）</h3>
+    <table>
+      <thead><tr><th class="num">#</th><th>问题</th><th>为什么关键</th><th>何时必须回答</th></tr></thead>
+      <tbody>
+        <tr><td class="num">Q1</td><td><strong>你会不会教古筝？</strong></td><td>古筝在学约 1,000 万，是规模来源；不会则扩展路径需另找"古筝版的你"</td><td>V0.8 前</td></tr>
+        <tr><td class="num">Q2</td><td>你的学生中，家长是否普遍配备可用智能手机？</td><td>决定孩子端是否可行</td><td>V0.1 观察</td></tr>
+        <tr><td class="num">Q3</td><td>你能投入多少时间做评测集标注？</td><td>100+ 条标注，每条需专业判断；不可外包</td><td>V0.5 启动前</td></tr>
+        <tr><td class="num">Q4</td><td>是否已有 ≥ 5 位同行老师愿意试用？</td><td>没有种子用户则 V0.5 无法验证</td><td>V0.5 启动前</td></tr>
+        <tr><td class="num">Q5</td><td>预算上限是多少？</td><td>¥224,400 是量级估算，需对齐实际承受力</td><td>立项前</td></tr>
+        <tr><td class="num">Q6</td><td>是否接受"前两年基本无收入"？</td><td>第七卷：Y1 净 ¥3.1 万、Y2 ¥12.5 万</td><td>立项前</td></tr>
+        <tr><td class="num">Q7</td><td><strong>教育培训类小程序能否申请长期订阅消息？</strong>若不能，每条通知都需用户逐次授权，触达率显著低于预期</td><td>官方文档仅说明长期订阅面向特定行业（政务民生/医疗/交通/金融等），<strong>未明确列出教育培训</strong>——需向微信平台核实</td><td>V0.5 启动前</td></tr>
+      </tbody>
+    
+        <tr><td class="fr">Q8</td><td><strong>内置谱库的版权怎么解决？</strong>民歌/公有领域曲目可直接收录（如茉莉花、欢乐颂）；近现代创作曲目与教材配套曲谱需授权</td><td>首发只用<strong>公有领域曲目 + 自编练习曲</strong>，商用曲谱走授权；你手头教材里的曲目能否录入，需要你先确认授权范围</td><td class="num"><span class="b b-p0">P0</span></td></tr></table>
+    <div class="callout c-warn">
+      <b>Q1 与 Q6 是立项前提</b>
+      Q1 决定扩展路径是否成立（第五卷已指出：进古筝时"你的身份资产失效"是最大难题）。Q6 决定这件事该以工作室还是公司的形态做——第七卷结论很明确：<strong>撑得起高毛利工作室，撑不起公司或融资。</strong>
+    </div>
+  </section>
+
+  <section id="s14">
+    <h2><span class="num">14</span>验收标准与发布门禁</h2>
+
+    <h3>14.1 Definition of Done（单条需求完成的定义）</h3>
+    <table>
+      <thead><tr><th class="num">#</th><th>条件</th><th>验证人</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>该 FR 的所有 AC 逐条通过</td><td>产品（你）</td></tr>
+        <tr><td class="num">2</td><td>单元测试覆盖核心逻辑，行覆盖率 ≥ 70%</td><td>CI</td></tr>
+        <tr><td class="num">3</td><td>涉及未成年人数据的改动通过权限校验测试</td><td>CI + 人工</td></tr>
+        <tr><td class="num">4</td><td>涉及 AI 判定的改动通过评测集回归</td><td>算法 + 你</td></tr>
+        <tr><td class="num">5</td><td>埋点已上报且可在看板查询</td><td>产品</td></tr>
+        <tr><td class="num">6</td><td>代码通过 Review，无 P0 问题遗留</td><td>研发</td></tr>
+      </tbody>
+    </table>
+
+    <h3>14.2 版本发布门禁</h3>
+    <table>
+      <thead><tr><th>门禁</th><th>V0.5</th><th>V0.8</th><th>V1.0</th></tr></thead>
+      <tbody>
+        <tr><td>V0.1 手工验证通过</td><td><span class="b b-hi">必需</span></td><td>—</td><td>—</td></tr>
+        <tr><td>核心 AC 通过率</td><td>100%（P0）</td><td>100%（P0）</td><td>100%（P0）</td></tr>
+        <tr><td>AI 判定达 09.2 门槛</td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td></tr>
+        <tr><td>红线自动化测试通过（无排行榜/无实物奖励/无每日推送）</td><td>—</td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td></tr>
+        <tr><td>合规：监护人同意 + 审计日志</td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td></tr>
+        <tr><td>合规：备案号（ICP + 等保 + 教育 App 备案）</td><td>—</td><td><span class="b b-mid">进行中</span></td><td><span class="b b-hi">必需</span></td></tr>
+        <tr><td>种子老师实测 ≥ 5 人 × 2 周</td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td></tr>
+        <tr><td>灰度：种子用户先跑 1 周无 P0</td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td><td><span class="b b-hi">必需</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3>14.3 上线后必须跟踪的三件事</h3>
+    <table>
+      <thead><tr><th class="num">#</th><th>指标</th><th>频率</th><th>触发动作</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><code>judgement_overridden</code> 老师推翻率</td><td>实时</td><td>&gt; 10% 立即排查，必要时回滚模型</td></tr>
+        <tr><td class="num">2</td><td>未判定率</td><td>周</td><td>为 0 视为警告（系统可能在硬猜）</td></tr>
+        <tr><td class="num">3</td><td>老师周活跃留存</td><td>周</td><td>连续 2 周 &lt; 60% 触发用户访谈</td></tr>
+      </tbody>
+    </table>
+
+    <h3>14.4 与配套文档的关系</h3>
+    <table>
+      <thead><tr><th>文档</th><th>回答什么</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td><strong>本 PRD</strong></td><td>做什么、做到什么程度、怎么验收</td><td>v1.0 待评审</td></tr>
+        <tr><td><code>SPEC-研发规范.md</code></td><td>技术栈、代码规范、分支策略、测试、CI/CD</td><td>随本卷同步产出</td></tr>
+        <tr><td>第七卷《产品方案篇》</td><td>为什么做这个、商业论证</td><td>已交付</td></tr>
+        <tr><td>第八卷《孩子端动机与游戏化》</td><td>动机机制的心理学依据与红线</td><td>已交付</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section id="s15">
+    <h2><span class="num">15</span>MVP 原型 v0.2 与 PRD 需求对照</h2>
+
+    <p>本节说明：<strong>HTML 可运行原型（MVP v0.2）</strong>已实现到什么程度，以及哪些 PRD 需求<strong>故意未做</strong>。
+    原型定位是「给老师和学生真实跑 4 周」，因此只做能在浏览器中验证的链路，凡涉及微信小程序原生能力、支付、
+    AI 模型服务的需求一律不在原型范围内。</p>
+
+    <h3>15.1 原型形态</h3>
+    <table>
+      <thead><tr><th>项</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>交付形态</td><td>① 单文件离线 HTML（<code>扬琴AI助教-MVP原型.html</code>，双击即用，数据存本机）；
+        ② 在线双端（Node 服务 + 两个独立网址：老师端 <code>/t</code>、孩子端 <code>/s</code>，孩子端手机号登录，3 秒轮询实时同步）</td></tr>
+        <tr><td>技术</td><td>零依赖：原生 JS + SVG 自绘五线谱 + IndexedDB 存音频 + 服务端 JSON 文件存储</td></tr>
+        <tr><td>谱面</td><td><strong>五线谱</strong>（按用户要求，而非 PRD 原文的简谱）。音符含 {音高, 八度, 时值, 技法标记}，逐音符可点选批注</td></tr>
+        <tr><td>数据</td><td>老师端与孩子端共用一份状态；所有写操作走 <code>/api/patch</code> 增量同步</td></tr>
+      </tbody>
+    </table>
+
+    <h3>15.2 已实现 × PRD 需求对照</h3>
+    <table>
+      <thead><tr><th style="width:150px">PRD 需求</th><th>原型中的实现</th><th style="width:76px">状态</th></tr></thead>
+      <tbody>
+        <tr><td>FR-M7-01 内置谱库</td><td>10 首入门曲目与基本功（五声音阶、轮音长音、八度双音、琶音、小星星、两只老虎、欢乐颂等），含调性 / 默认 BPM / 技法标注</td><td>已实现</td></tr>
+        <tr><td>FR-M7-02 谱面数据结构</td><td>「行 + 音符」两级，音符 = {音高, 八度, 时值, 技法}</td><td>已实现</td></tr>
+        <tr><td>FR-M7-03 谱面渲染</td><td>SVG 五线谱，横向滚动、按行定位、只显示作业指定行</td><td>已实现</td></tr>
+        <tr><td>FR-M7-04 谱面批注</td><td>点选音符 → 选类型（重点/难点/慢练/轮音/竹法/分句）→ 写指令，2 次点击完成</td><td>已实现</td></tr>
+        <tr><td>FR-M7-05 批注带一句话指令</td><td>≤30 字，<strong>原样下发、系统不改写</strong></td><td>已实现</td></tr>
+        <tr><td>FR-M7-08 批注 → 作业继承</td><td>一键「从批注生成」微目标；批注可逐条勾选是否转为作业要点，未勾选的孩子端看不到</td><td>已实现</td></tr>
+        <tr><td>FR-M7-09 孩子端高亮</td><td>任务卡与练习面板按标记类型着色，点标记显示老师写的那句话</td><td>已实现</td></tr>
+        <tr><td>FR-M7-10 批注核对</td><td>回课时逐条「做到了 / 还没」；未做到的<strong>自动写入下一张卡的复练项</strong></td><td>已实现</td></tr>
+        <tr><td>FR-M7-11 自编谱录入</td><td>「粘贴成谱」：音名+八度、<code>/</code> 八分、<code>-</code> 延音、<code>0</code> 休止、<code>[技法]</code>，逐行解析并报错</td><td>已实现</td></tr>
+        <tr><td>FR-M7-12 A4 PDF 导出</td><td>🖨 A4 按钮：谱面 + 批注高亮 + 微目标清单 + 学生姓名水印，走浏览器打印</td><td>已实现</td></tr>
+        <tr><td>FR-M2-01 技法模板库</td><td>26 条扬琴技法词表（轮音、支手轮音、反竹、双音琴竹、琶音、花音、滑弹、拨弦、压音、泛音、颤竹、齐竹…），每条带预置成功标准与默认遍数</td><td>已实现</td></tr>
+        <tr><td>FR-M2-02 微目标四要素</td><td>{技法, 片段, 成功标准, 建议遍数}；编辑器强制四要素齐全</td><td>已实现</td></tr>
+        <tr><td>FR-M2-05 成功标准可配置</td><td>遍数 1–10、成功阈值 ≤ 遍数（越界前端拦截）、BPM 约束</td><td>已实现</td></tr>
+        <tr><td>FR-M2-10 任务卡状态机</td><td>未开始 → 进行中 → 已完成 / 已过期；默认发布后 6 天</td><td>已实现</td></tr>
+        <tr><td>FR-M2-13 历史查询</td><td>按学生 / 按周 / 按技法三维筛选，可回溯全部历史</td><td>已实现</td></tr>
+        <tr><td>FR-M2-15 批量操作</td><td>统一延长截止 +3 天（二次确认）；统一催交</td><td>已实现</td></tr>
+        <tr><td>FR-M3-01 逐遍录音</td><td>按微目标逐条练，显示「第 N 遍 / 共 M 遍」，最长 5 分钟截断</td><td>已实现</td></tr>
+        <tr><td>FR-M3-02 AI 只做事实判定</td><td><strong>只记录「是否演奏 / 时长 / 遍数 / 是否达标」</strong>；界面无任何「好 / 差 / 错音」字样，达标与否由孩子自己点</td><td>已实现</td></tr>
+        <tr><td>FR-M3-03 微目标自动结算</td><td>规则引擎按遍数对比结算，显示「3/3 遍完成」，不调用任何模型</td><td>已实现</td></tr>
+        <tr><td>FR-M3-04/05 驾驶舱矩阵</td><td>学生 × 本周状态矩阵（已练/目标、达成率、近 4 周趋势折线、未交天数）；按未交天数 / 达成率 / 待回课排序</td><td>已实现</td></tr>
+        <tr><td>FR-M3-06 逐条批改</td><td>按微目标逐条文字 + 语音（≤60 秒），支持上一条 / 下一条快速流转</td><td>已实现</td></tr>
+        <tr><td>FR-M3-07 不用 AI 生成评语</td><td>老师未点评的位置<strong>留空</strong>；代码中不存在任何自动生成评语逻辑</td><td>已实现</td></tr>
+        <tr><td>FR-M3-08 一键催交</td><td>生成可粘贴到微信群的提醒文案并复制；<strong>同一学生 7 天内最多 2 次</strong>，超限拦截</td><td>已实现</td></tr>
+        <tr><td>FR-M3-10/FR-M6-03 回放对比</td><td>「和上一次比一比」：只与该生自己上一遍录音对比，<strong>不提供任何跨用户比较</strong></td><td>已实现</td></tr>
+        <tr><td>FR-M3-11 稳定性趋势</td><td>近 4 周达成率折线，<strong>只给趋势不下结论</strong>（无「进步/退步」字样）</td><td>已实现</td></tr>
+        <tr><td>FR-M3-13 数据导出</td><td>CSV 导出（不含音频文件本身），含技法 / 片段 / 达标遍数 / 批注未做到数</td><td>已实现</td></tr>
+        <tr><td>FR-M3-15 录音中断保护</td><td>Web 端以 MediaRecorder 中断回调 + 提示兜底；<strong>小程序原生 onInterruptionBegin/End 待接入</strong></td><td>部分</td></tr>
+        <tr><td>FR-M5-01~04 85% 自适应</td><td>≥95% 提速 / 80–95% 保持 / 55–80% 降难度 / &lt;55% 退回上一级；每条建议<strong>强制显示触发它的数据</strong>；老师点「采纳」生成的是建议清单草稿，不自动改写任务卡</td><td>已实现</td></tr>
+        <tr><td>FR-M5-05 冷启动</td><td>练习数据 &lt; 6 条时显示「数据不足，暂不提供建议」，不猜测</td><td>已实现</td></tr>
+        <tr><td>FR-M5-07 掌握度档案</td><td>按技法维度累计达成次数与达成率，供备课查阅</td><td>已实现</td></tr>
+        <tr><td>FR-M5-08 计划偏离提醒</td><td>连续 2 周达成率 &lt; 55% → 中性提示「该生可能卡住了」，无评价性措辞</td><td>已实现</td></tr>
+        <tr><td>FR-M6-01/02 无分数无排名</td><td>界面无百分制、无星级、无「优秀/良好」；<strong>无排行榜接口</strong></td><td>已实现</td></tr>
+        <tr><td>FR-M6-05 禁止外部物质奖励</td><td>无积分商城、无实物兑换</td><td>已实现</td></tr>
+        <tr><td>FR-M6-06 连续记录</td><td>绑定「完成一次有效练习」（有一条微目标达标），不是打开页面；断连不归零而消耗<strong>每月 2 张冻结卡</strong></td><td>已实现</td></tr>
+        <tr><td>FR-M6-08 老师语音点评触达</td><td>孩子端以「老师说：&quot;…&quot;」引语形式展示，未点评留空</td><td>已实现</td></tr>
+        <tr><td>FR-M1-01 课堂录音</td><td>老师端录 ≤5 分钟课堂片段，孩子端可回放</td><td>已实现</td></tr>
+        <tr><td>FR-M4-04 家长代提交</td><td>提交时可勾选「由家长代提交」，写 <code>byParent=true</code> 以便区分真实独立性</td><td>已实现</td></tr>
+      </tbody>
+    </table>
+
+    <h3>15.3 原型<strong>故意不做</strong>的需求（及原因）</h3>
+    <table>
+      <thead><tr><th style="width:210px">需求</th><th>不做的原因 / 何时做</th></tr></thead>
+      <tbody>
+        <tr><td>FR-M0-01/02 微信登录与角色选择</td><td>需小程序原生能力。原型用手机号登录替代；小程序版接入 wx.login</td></tr>
+        <tr><td>FR-M0-03/04 绑定确认与家长同意</td><td>合规链路，需要真实主体与隐私协议；正式版上线前必须补（属发布门禁）</td></tr>
+        <tr><td>FR-M0-05~07 断点续传 / 私有对象存储 / 转码</td><td>原型用单文件存储；正式版接对象存储 + 临时签名 URL</td></tr>
+        <tr><td>FR-M0-08~12 迁移、环境隔离、监控、灰度、审计</td><td>工程基础设施，原型不涉及</td></tr>
+        <tr><td>FR-M1-02/03/04 ASR 转写与要点结构化</td><td>需接入语音识别服务 + <strong>民乐术语热词表（T0 待办，200–500 词）</strong>。此表只能由老师本人整理，是她唯一不可被替代的贡献</td></tr>
+        <tr><td>FR-M2-03 全班统一 / 分组差异化</td><td>原型按单人布置；差异化复用同一套 goals 结构，实现成本主要在批量 UI</td></tr>
+        <tr><td>FR-M2-04 复制上周并修改</td><td>结构已就绪（goals 可整体克隆），UI 待补</td></tr>
+        <tr><td>FR-M2-06 三方差异化文案</td><td>暂未分家长端视图；文案规则已定，前端分支即可</td></tr>
+        <tr><td>FR-M2-11 订阅消息</td><td>受 NFR-18 约束，原型用「复制文案 + 微信群」兜底通道验证触达有效性</td></tr>
+        <tr><td>FR-M2-16 任务卡分享图</td><td>需 canvas 合成与未成年人面部校验</td></tr>
+        <tr><td>FR-M3-12 低置信度静默</td><td>需真实音频信号分析；原型不做判定，因此不存在误判风险</td></tr>
+        <tr><td>FR-M3-14 音频留存 90 天</td><td>原型不自动删除；正式版需定时任务 + 硬删除 + 删除日志</td></tr>
+        <tr><td>FR-M4-01~03 家长端首屏 / 周报 / 退出进度条</td><td>家长端未单独出页面（优先级低于跑通师生闭环）</td></tr>
+        <tr><td>FR-M4-06/07 数据删除 / 付费</td><td>合规与支付链路，正式版接入</td></tr>
+        <tr><td>FR-M5-06 孩子自选挑战项</td><td>需求已定义（从老师预设可选池挑选），原型未实现 UI</td></tr>
+        <tr><td>FR-M5-09 自适应参数后台可配</td><td>85% 阈值目前写死在常量，易改</td></tr>
+        <tr><td>FR-M7-06 批注按谱面版本快照</td><td>原型谱库不版本化；正式版需 <code>score_version</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>15.4 原型自测结果（2026-09-09 实跑）</h3>
+    <p>用两个独立浏览器上下文（老师 + 学生）跑完整链路，21 项断言全部通过，页面 JS 错误 0：</p>
+    <table>
+      <thead><tr><th>环节</th><th>结果</th></tr></thead>
+      <tbody>
+        <tr><td>老师：新建课次 → 选曲 → 五线谱点选批注</td><td>42 个可批注音符，批注成功落位</td></tr>
+        <tr><td>老师：批注 → 微目标生成 → 布置</td><td>由批注自动生成微目标（技法/片段/成功标准/遍数四要素齐全）</td></tr>
+        <tr><td>孩子：手机号登录 → 收到任务</td><td>通过；演示号 13800000001 / 13800000002 / 13800000003</td></tr>
+        <tr><td>孩子：逐条练习 → 记遍数 → 批注核对 → 提交</td><td>通过；达标以「N/M 遍」结算，无分数</td></tr>
+        <tr><td>老师：驾驶舱矩阵 / 逐条批改 / 教学计划 / 历史导出</td><td>全部渲染正常，批改后孩子端立刻可见「老师说：…」</td></tr>
+      </tbody>
+    </table>
+
+    <h3>15.5 已知缺陷与修正记录</h3>
+    <table>
+      <thead><tr><th style="width:210px">缺陷</th><th>处理</th></tr></thead>
+      <tbody>
+        <tr><td>演示数据的学生 ID（<code>stu_demo1</code>）与客户端种子 ID（<code>stu_1</code>）不一致，导致新建课次把作业指派给不存在的学生</td><td>已统一为 <code>stu_1/2/3</code>，并在 <code>A.newLesson</code> 增加兜底：选中 ID 不存在时自动回退到第一个学生</td></tr>
+        <tr><td>演示学生未登记手机号，孩子端无法登录</td><td>已为 3 名演示学生预置手机号；老师端学生档案仍会红字提示「未登记手机号」</td></tr>
+        <tr><td>首次引导浮层会遮挡孩子端登录页</td><td>孩子端已禁用该浮层</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <p>《民乐老师的 AI 助教 · 产品需求文档 PRD v1.0》 · 乐器教育 AI 产品研究 · 第九卷</p>
+    <p>本卷功能需求 73 条（P0 48 / P1 20 / P2 5）、非功能需求 20 条，全部带可测试验收标准。所有数值由脚本实算，人天与成本为量级估算（假设已公开），需实际报价校验。<br>
+    未决问题 6 项已显式标注，不由本文档代为假设。</p>
+  </footer>
+</div>
+</body>
+</html>
