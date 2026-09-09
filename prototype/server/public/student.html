@@ -1430,16 +1430,24 @@ if(false){showIntro(true)}
 
 /* 30 秒引导：首启自动弹出，之后从页脚"看引导"随时进入 */
 function showIntro(first){
+  const isT=window.ROLE==='T';
+  const steps=isT
+    ?'<ol><li><b>新建一次课</b>：选学生 → 选曲目 → 点谱面音符加标记，写一句指令</li>'
+     +'<li>设定遍数、分钟、BPM → 保存，<b>自动生成孩子的任务卡</b></li>'
+     +'<li>孩子在<b>孩子端</b>输入手机号登录 → 照任务卡练习（计时 / 节拍器 / 录音 / 记遍数）→ 提交回课</li>'
+     +'<li>你来<b>回课驾驶舱</b>逐条批改，没做到的自动进下一张卡</li></ol>'
+    :'<ol><li><b>输入手机号登录</b>：用老师登记过的那个号，登录后自动记住</li>'
+     +'<li>看<b>今天的任务卡</b>：老师的谱面批注和这周的小目标都在卡上</li>'
+     +'<li>点「开始练习」：对照批注练，<b>计时 / 节拍器 / 记遍数</b>，可录一段最完整的</li>'
+     +'<li><b>提交回课</b>：老师批改后，到「我的回课」看评语</li></ol>';
+  const slogan=isT?'课堂的话变成任务卡，家里的练习回到你眼前。':'照着任务卡练，练完一键交回老师。';
   document.getElementById('layer').innerHTML='<div class="intro"><div class="intro-box">'
    +'<div style="text-align:center;margin-bottom:10px"><svg width="64" height="64" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".2"/><circle cx="80" cy="80" r="46" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="80" cy="80" r="26" fill="#B04A3A"/><circle cx="71.5" cy="71.5" r="6" fill="#D98A75" opacity=".45"/></svg></div>'
    +'<h2 style="text-align:center;font-family:\'Songti SC\',\'STSong\',SimSun,serif;letter-spacing:6px">余音 <span style="font-size:13px;letter-spacing:1px;color:var(--muted)">· 30 秒上手</span></h2>'
-   +'<div class="small muted" style="text-align:center">课堂的话变成任务卡，家里的练习回到你眼前。</div>'
-   +'<ol><li><b>新建一次课</b>：选学生 → 选曲目 → 点谱面音符加标记，写一句指令</li>'
-   +'<li>设定遍数、分钟、BPM → 保存，<b>自动生成孩子的任务卡</b></li>'
-   +'<li>孩子在<b>孩子端</b>输入手机号登录 → 照任务卡练习（计时 / 节拍器 / 录音 / 记遍数）→ 提交回课</li>'
-   +'<li>你来<b>回课驾驶舱</b>逐条批改，没做到的自动进下一张卡</li></ol>'
+   +'<div class="small muted" style="text-align:center">'+slogan+'</div>'
+   +steps
    +(ONLINE?'':'<div class="card tight small" style="margin-top:10px;background:var(--warn-soft)">当前是<b>单机模式</b>（本地文件打开）：数据只在这台设备，用「☰ → 导出 / 导入」传递。</div>')
-   +'<button class="btn pri block" style="margin-top:12px" onclick="closeIntro()">开始试试 →</button>'
+   +'<button class="btn pri block"'+(isT?'':' stu')+' style="margin-top:12px" onclick="closeIntro()">开始试试 →</button>'
    +'</div></div>';
   if(!first){S.settings.firstRun=false;save()}
 }
