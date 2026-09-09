@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="adX0EsYIFFXtRUWVUrAu2A">
+<head data-page-node-id="lGhNSWmbcAsqL4hg0XAhbs">
+<meta charset="UTF-8" data-page-node-id="WZPEor4ge3zWhqNiL6LiTJ">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="R1C4ms66vHDDZTqqXqc5po">
+<title>民乐老师的 AI 助教 · 产品方案篇</title>
+<style>
+:root{
+  --ink:#1a1f2b; --ink2:#3c4657; --ink3:#6b7688;
+  --line:#e3e7ee; --line2:#eef1f6;
+  --bg:#ffffff; --bg2:#f7f9fc; --bg3:#eef3fa;
+  --blue:#1f4e8c; --blue-l:#e8f0fa;
+  --red:#a83232; --red-l:#fbecec;
+  --green:#1e6b4f; --green-l:#e8f4ee;
+  --amber:#8a6212; --amber-l:#fdf5e3;
+  --purple:#5b3d8f; --purple-l:#f0eafa;
+  --teal:#146b6b; --teal-l:#e6f4f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--ink); background:var(--bg2); line-height:1.75; font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 100px}
+header{background:linear-gradient(160deg,#3a2a12 0%,#8a6212 100%);color:#fff;padding:52px 0 44px;margin-bottom:0}
+header .wrap{padding-bottom:0}
+.kicker{font-size:12px;letter-spacing:.22em;opacity:.72;margin-bottom:14px;font-weight:500}
+h1{font-size:32px;line-height:1.32;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+.sub{font-size:15px;opacity:.86;max-width:780px;line-height:1.8}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:5px 14px;font-size:12.5px;opacity:.95}
+.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin:32px 0 40px}
+.toc h4{font-size:13px;color:var(--ink3);letter-spacing:.1em;margin-bottom:14px;font-weight:600}
+.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:7px 22px}
+.toc a{color:var(--blue);text-decoration:none;font-size:13.5px;display:block;padding:3px 0}
+.toc a:hover{text-decoration:underline}
+.toc .n{color:var(--ink3);font-variant-numeric:tabular-nums;margin-right:8px;font-size:12px}
+section{background:#fff;border:1px solid var(--line);border-radius:12px;padding:34px 38px;margin-bottom:26px}
+section>p{margin-bottom:14px}
+h2{font-size:21px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.005em;
+   padding-bottom:12px;border-bottom:2px solid var(--bg3);display:flex;align-items:baseline;gap:12px}
+h2 .num{font-size:12px;color:#fff;background:var(--amber);border-radius:4px;padding:3px 8px;font-weight:600;
+   letter-spacing:.05em;flex:none;position:relative;top:-2px}
+h3{font-size:16.5px;font-weight:650;color:var(--ink);margin:30px 0 12px;padding-left:11px;
+   border-left:3px solid var(--amber)}
+h4{font-size:14.5px;font-weight:650;color:var(--ink2);margin:20px 0 9px}
+p{color:var(--ink2);margin-bottom:12px}
+ul,ol{margin:0 0 14px 20px;color:var(--ink2)}
+li{margin-bottom:7px}
+strong{color:var(--ink);font-weight:650}
+code{background:var(--bg3);padding:1px 6px;border-radius:4px;font-size:13px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--blue)}
+.lead{font-size:15.5px;color:var(--ink2);background:var(--bg2);border-left:3px solid var(--amber);
+  padding:14px 18px;border-radius:0 8px 8px 0;margin-bottom:22px}
+.callout{border-radius:10px;padding:16px 20px;margin:18px 0;font-size:14.5px;line-height:1.78}
+.callout b{display:block;margin-bottom:6px;font-size:14px}
+.c-key{background:var(--blue-l);border-left:4px solid var(--blue)}
+.c-key b{color:var(--blue)}
+.c-warn{background:var(--red-l);border-left:4px solid var(--red)}
+.c-warn b{color:var(--red)}
+.c-ok{background:var(--green-l);border-left:4px solid var(--green)}
+.c-ok b{color:var(--green)}
+.c-note{background:var(--amber-l);border-left:4px solid var(--amber)}
+.c-note b{color:var(--amber)}
+.c-idea{background:var(--purple-l);border-left:4px solid var(--purple)}
+.c-idea b{color:var(--purple)}
+table{width:100%;border-collapse:collapse;margin:16px 0 20px;font-size:13.5px}
+th{background:var(--bg3);color:var(--ink);font-weight:650;text-align:left;padding:10px 12px;
+   border-bottom:2px solid var(--line);font-size:13px;white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line2);color:var(--ink2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--bg2)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tnote{font-size:12.5px;color:var(--ink3);margin:-10px 0 22px;line-height:1.7}
+.b{display:inline-block;border-radius:4px;padding:1px 7px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-hi{background:var(--green-l);color:var(--green)}
+.b-mid{background:var(--amber-l);color:var(--amber)}
+.b-lo{background:var(--red-l);color:var(--red)}
+.b-na{background:var(--bg3);color:var(--ink3)}
+.ref{color:var(--blue);font-size:11.5px;vertical-align:super;font-weight:600;margin-left:1px}
+.srcs{font-size:13px}
+.srcs li{margin-bottom:9px;line-height:1.7}
+.src-lvl{display:inline-block;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;margin-right:7px}
+.src-lvl.A{background:var(--green-l);color:var(--green)}
+.src-lvl.B{background:var(--blue-l);color:var(--blue)}
+.src-lvl.C{background:var(--amber-l);color:var(--amber)}
+.src-lvl.D{background:var(--red-l);color:var(--red)}
+footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line-height:1.9}
+/* 流程链 */
+.chain{display:flex;align-items:stretch;gap:0;margin:22px 0 8px;flex-wrap:wrap}
+.chain .node{flex:1;min-width:150px;background:var(--bg2);border:1px solid var(--line);
+  border-radius:10px;padding:14px 14px;position:relative}
+.chain .node + .node{margin-left:26px}
+.chain .node + .node::before{content:"↓";position:absolute;left:-21px;top:50%;transform:translateY(-50%);
+  color:var(--red);font-size:17px;font-weight:700}
+.chain .node h5{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:7px}
+.chain .node p{font-size:12.5px;color:var(--ink2);margin:0;line-height:1.65}
+.chain .node.bad{background:var(--red-l);border-color:#f0d5d5}
+.chain .node.bad h5{color:var(--red)}
+/* 文案示例 */
+.mock{background:#fbfcfe;border:1px solid var(--line);border-radius:10px;padding:0;margin:16px 0 20px;overflow:hidden}
+.mock .bar{background:var(--bg3);padding:8px 14px;font-size:12.5px;color:var(--ink3);
+  border-bottom:1px solid var(--line);font-weight:600}
+.mock .body{padding:16px 18px}
+.mock .line{margin-bottom:11px;font-size:14px;line-height:1.7}
+.mock .line:last-child{margin-bottom:0}
+.mock .lbl{display:inline-block;font-size:11.5px;color:#fff;background:var(--ink3);
+  border-radius:4px;padding:1px 7px;margin-right:8px;font-weight:600;vertical-align:1px}
+.mock .lbl.t{background:var(--amber)}
+.mock .lbl.p{background:var(--blue)}
+.mock .lbl.s{background:var(--teal)}
+.mock .lbl.ai{background:var(--purple)}
+.mock .quote{background:#fff;border-left:3px solid var(--amber);padding:9px 13px;border-radius:0 6px 6px 0;
+  color:var(--ink);font-size:13.5px;margin-top:5px}
+.mock .quote.p{border-left-color:var(--blue)}
+.mock .quote.s{border-left-color:var(--teal)}
+.mock .quote.ai{border-left-color:var(--purple)}
+.mock .btn{display:inline-block;background:var(--amber);color:#fff;border-radius:6px;
+  padding:6px 16px;font-size:13px;font-weight:600;margin-top:4px}
+.mock .btn.ghost{background:transparent;color:var(--ink3);border:1px solid var(--line)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}
+  .chain .node + .node{margin-left:0;margin-top:26px}
+  .chain .node + .node::before{content:"↓";left:50%;top:-22px;transform:translateX(-50%)}}
+.kv{font-size:13.5px}
+.kv td:first-child{white-space:nowrap;color:var(--ink);font-weight:600;width:26%}
+</style>
+</head>
+<body data-page-node-id="Ti3ALkQbsRjAoervP3ZhLG">
+<header data-page-node-id="8doitl9EvFhOUlEEGurR5w">
+  <div class="wrap" data-page-node-id="cB0dHBNUBRuXXLDdERGhXF">
+    <div class="kicker" data-page-node-id="jIFBLF9gqQVFLZPZ71zCJG">乐器教育 AI 产品 · 第七卷</div>
+    <h1 data-page-node-id="E6pQ1IrAQTHrG3wPhc0HzX">民乐老师的 AI 助教<br data-page-node-id="YK5PbDJ3f57JSjhV1fMNXU">产品方案篇</h1>
+    <p class="sub" data-page-node-id="5vqykEtzk1Dk6nMuMSbmen">把目标用户从"学生家庭"收敛到"教民乐的老师"，针对课堂数据缺失、课后监督困难、家长陪练痛苦三个痛点，给出可落地的 AI 产品方案、能力边界、商业模式与 MVP 范围。</p>
+    <div class="meta-row" data-page-node-id="YITA6O1ubt44qmpUWoENZ8">
+      <span class="chip" data-page-node-id="Hir3VKoFleYqvx5Lyk301O">12 节 · 25 张表 · 6 个界面文案示例</span>
+      <span class="chip" data-page-node-id="POMATTfz4fMUffxrvNNIfr">用户收敛：民乐教师</span>
+      <span class="chip" data-page-node-id="1gCOko27gsvJZOiarA5huK">信源 A 2 / B 6 / C 13 / D 1 · 剔除 4 条</span>
+      <span class="chip" data-page-node-id="jwpgPxrTFL02Y3rsXFzifO">2026-09-08</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap" data-page-node-id="t4IK4Y9SQGQRq86GqqWT2V">
+  <nav class="toc" data-page-node-id="XUs7cGKrK4aFnj7FNviiJ1">
+    <h4 data-page-node-id="jT6XGwhNFIlbSxj920NX41">目录</h4>
+    <ol data-page-node-id="gBYf0No8YCZtVJSR654P3a">
+      <li data-page-node-id="FASQ0ZUxTrk6Dhs43UNs2Z"><a href="#s1" data-page-node-id="WDbXClPj47EVBBe06yWKQa"><span class="n" data-page-node-id="AD0ve14cdWR3xaDYFjYDop">01</span>三个痛点，其实是同一个问题</a></li>
+      <li data-page-node-id="lDwqKlcEHdztXbvrSBx5rK"><a href="#s2" data-page-node-id="bXMyOMZd92qEDxvaFPFqRJ"><span class="n" data-page-node-id="1KtMXIE4DUunTSco9KoMdI">02</span>现状基线：老师现在在做什么</a></li>
+      <li data-page-node-id="HgxOUYBJ2bV4NWtBcn3R7a"><a href="#s3" data-page-node-id="7ww2ILKvg883Gl89AH5vR1"><span class="n" data-page-node-id="XBwqn8nKsav6gST5Fg5oHn">03</span>产品定义与四模块架构</a></li>
+      <li data-page-node-id="HGfOpKJJPEMmwZ6ps5KC8I"><a href="#s4" data-page-node-id="Nwj0wfNLt9Ip9LG3VtU5l5"><span class="n" data-page-node-id="hY9mMQCes8gaWuw3ctC9A5">04</span>AI 能力边界：能做什么，不能做什么</a></li>
+      <li data-page-node-id="bL7GC7AYUdCYtrVIAUAm3c"><a href="#s5" data-page-node-id="Ok42dHAMw8GA0QjIPdAZVN"><span class="n" data-page-node-id="rPGN2UrAYKXUmJC09FCnes">05</span>模块设计详解（含界面文案）</a></li>
+      <li data-page-node-id="N3S1jJt112xCEP7rX0izUY"><a href="#s6" data-page-node-id="GrlOBKW9CC3Z0gmL90rYJJ"><span class="n" data-page-node-id="NFxkYdyoc4lfqn9mYilXcV">06</span>七个反直觉的设计决策</a></li>
+      <li data-page-node-id="4W9vjfEDNAaYCkyR71BgEw"><a href="#s7" data-page-node-id="8dHQHnAC2jMTDl5dpAkxxB"><span class="n" data-page-node-id="TSEW3BXq7hTRhg27LhPMA8">07</span>商业模式：老师买单成立吗</a></li>
+      <li data-page-node-id="cCJu6kVrFdkOnPr1Z37PjL"><a href="#s8" data-page-node-id="TzhRcqrtyUorJJfI0Sy44C"><span class="n" data-page-node-id="TC2khRTy7w3WyWqpyaET09">08</span>竞品对照：为什么它们不是答案</a></li>
+      <li data-page-node-id="fwV6HOl0SQ6N0VnTDKIlQA"><a href="#s9" data-page-node-id="AdEywx3V9bHoZNRuPzTTNd"><span class="n" data-page-node-id="Kn9ZowmRPQwli1GieqoQfE">09</span>MVP 范围与优先级</a></li>
+      <li data-page-node-id="LG5xNx3cUJFEXQu9sF1MnB"><a href="#s10" data-page-node-id="pWfsG1IP2BoTQyGCDNCzFX"><span class="n" data-page-node-id="QxOW5UjR5P6O5BCorxSrX0">10</span>冷启动：前 100 个老师怎么来</a></li>
+      <li data-page-node-id="UBaSnGMlQoWP9MFi6lCGm0"><a href="#s11" data-page-node-id="tZbphvfoO87bivJWcFBit0"><span class="n" data-page-node-id="PRSyJp1DKjvMRnTBG9PfNC">11</span>已知缺口与自检</a></li>
+      <li data-page-node-id="RXdQjhuJEgvN55cE9nZ9VA"><a href="#s12" data-page-node-id="ohKDhItOHAikbe7fEeqEzH"><span class="n" data-page-node-id="KlKVlw1naEgEi6Dlz4ygE6">12</span>信源清单</a></li>
+    </ol>
+  </nav>
+
+  <section id="s1" data-page-node-id="7kyBGSQvzVYyfPn2THqOa9">
+    <h2 data-page-node-id="01uRLBT3qJk7g71WsYemcN"><span class="num" data-page-node-id="pUXY12EHRYDaGoqNj55CPz">01</span>三个痛点，其实是同一个问题</h2>
+    <p class="lead" data-page-node-id="GrCllAzv7a5Qm646EB0HSR">你给出的三个痛点——课堂数据缺失、课后监督困难、家长陪练痛苦——表面上是三个环节的三个问题。但它们有一条共同的因果链，抓住链条的断点，一个产品能同时缓解三个症状；抓不住，做三个功能也解决不了任何一个。</p>
+
+    <h3 data-page-node-id="5wCleYo0HpU0Pu2EYPCqi7">1.1 把三个痛点摆到一条时间线上</h3>
+    <p data-page-node-id="lVTfMEsRvUJGs63D4GcK1v">一个学生的一周是这样的：上课 → 老师布置作业 → 回家练 → 交给老师看 → 下一堂课。你描述的三个痛点，正好落在这条线的三个截面：</p>
+
+    <div class="chain" data-page-node-id="4IQz4hiSdp29g6Fe8rA23m">
+      <div class="node" data-page-node-id="eCt0P9ZUDxLboRwAuguSWa">
+        <h5 data-page-node-id="ESLfmqGIpSL6BaSEgGDwuG">① 课堂（信息产生）</h5>
+        <p data-page-node-id="IpdpK8RZxoM20erg5z6Fam">孩子哪儿错了、老师要求什么，只存在于<strong data-page-node-id="Ul7PVdDhePEb3ZnjYBAv6P">老师的记忆和几张纸上</strong>，没有沉淀成可回溯的数据。</p>
+      </div>
+      <div class="node bad" data-page-node-id="dti2bUvXhcwbLLNKRKPnuh">
+        <h5 data-page-node-id="qIGOuRJbpZy85AzPBCQoyg">② 课后（指令传递）</h5>
+        <p data-page-node-id="xOLufDMkbCY1H3sNtx2zG2">作业从老师的脑子，变成微信群里一句模糊的话：<strong data-page-node-id="PN7VDG9NtUan3kqKvAWEDt">"回家练第 3–8 小节"</strong>。细节在这一步大量丢失。</p>
+      </div>
+      <div class="node bad" data-page-node-id="foqbrZnKXxnluMmr1vF1om">
+        <h5 data-page-node-id="B4qeCR3TeLBfDudC8ReyRc">③ 家庭（执行）</h5>
+        <p data-page-node-id="0oMdh8ojFuNbn6iVgFYLEI">家长不专业、没时间，只能让孩子<strong data-page-node-id="SPYlFkcBzccR4SHFlZ0wOW">"重头来一遍"</strong>。练没练、练得对不对，谁也不知道。</p>
+      </div>
+      <div class="node bad" data-page-node-id="CTbQyLRTpzeOuv4w1gFBRS">
+        <h5 data-page-node-id="ZZnfn0W3xGcUaaLe4ILz2u">④ 回课（验证）</h5>
+        <p data-page-node-id="iVSICgtla4UiTcOJv6uZnD">老师上课才发现没练、或练错了。<strong data-page-node-id="HGYYmiLlRwRKaCYWnmgQlq">宝贵的课堂时间被纠错占满</strong>，教学计划推不动。</p>
+      </div>
+    </div>
+    <p class="tnote" data-page-node-id="JzmRfIFFux4KuB7BvgzuD7">注：第 ④ 个断点你没提，但它是前三个断点的必然结果，而且它是老师痛感最直接的地方——第 02 节会给出它的证据。</p>
+
+    <h3 data-page-node-id="zjzXMN8pf7eG8HixFlxmBT">1.2 根因：老师的大脑是这条链上唯一的数据库</h3>
+    <p data-page-node-id="83MVkd7O95wnL6ZISTyYr1">四个断点有一个共同的根因——<strong data-page-node-id="umAuD8F06zG5Wx8F1oe5qu">教学信息在"产生"之后，没有被外化成可传递、可执行、可验证的结构</strong>。它只以三种形式存在：老师的记忆、群里的一句话、孩子的肌肉记忆。这三种载体都会衰减、会失真、无法被第三方（家长）执行。</p>
+
+    <p data-page-node-id="5aYKTtqKfaT2Px6YcywKVu">行业里的原话比任何分析都说明问题。一位教了 13 年钢琴的老师这样描述家长端的状态<span class="ref" data-page-node-id="loEcjLWI3gixvYImcUHkM2">[m07]</span>：</p>
+    <div class="callout c-warn" data-page-node-id="XC6Wbdvh2G6rKEFUdAusB2">
+      <b data-page-node-id="gFZYNxxWPSokBzAxzKH8To">"无效陪练"</b>
+      "妈妈为了让小帧好好学，每天晚上都在一旁督促她。可是小帧来上课，水平并没有提升……后来我听了她妈妈回家录制的练琴录音，恍然大悟。因为妈妈并不懂音乐，她根本<strong data-page-node-id="k1xDm6ynNEhtLPgdbeEkEG">听不出孩子哪儿弹错了</strong>，每天就是让孩子'重头来一遍！再来一遍！'她妈妈每天都在做无效陪练。"
+    </div>
+    <p data-page-node-id="iCszDJJyr3zPVfhNK8O0DM">同一篇文章里还有一句更狠的判断：<strong data-page-node-id="YwAphSOfLzY6L7FJZD8i8U">"在我看来能真正做到的家长不到 10%。"</strong><span class="ref" data-page-node-id="0EoGVP8HjLKlwUGBY9JnAE">[m07]</span> 而钢琴教育家周铭孙的著名吐槽说的则是第 ④ 个断点<span class="ref" data-page-node-id="Oh6wsivtEUaqi1Fw13F5Kh">[m08]</span>——"来跟我学做菜，结果菜都没有洗干净，上面全是泥，结果我陪你洗了一节课的菜就下课了，菜也没做。"<strong data-page-node-id="JgGvXEbZixfNbGE79GtE7L">老师在课堂上被迫做本该在家里完成的事。</strong></p>
+
+    <h3 data-page-node-id="eAMEoO6PtOCY5NiRCEZqMQ">1.3 一个产品，三个症状同时缓解</h3>
+    <p data-page-node-id="1Am9R1KLbcs2yWBXf8Ft21">如果产品只解决"课堂数据缺失"，做一个电子笔记本，那它只是把纸搬到了手机上——老师不会用，因为记了也没人看。如果只解决"家长陪练"，做一个 AI 纠错，那是红海且技术不成立（见第 04 节）。</p>
+    <p data-page-node-id="gZwJf2xmJLzrbSF4H5nLRl"><strong data-page-node-id="uRtlmerxDp5wzHtNKRbpD2">真正有效的切入点是"指令传递"这一步</strong>——因为它同时是三个痛点的交汇处：</p>
+    <table data-page-node-id="DkKvqAx2D30Jb0y7BRiFwE">
+      <thead data-page-node-id="aTMuTxwUFE7Ugu818C61Um"><tr data-page-node-id="XiY0e182JdiOIACgAsH49G"><th data-page-node-id="qr9paRGu4eSGMFgzVwmoCl">断点</th><th data-page-node-id="lbPaXt9TVDYxJ2oPxUsWWS">根因表现</th><th data-page-node-id="UicSEODqqvfHyat64XNLDQ">被"结构化作业"同时解决的方式</th></tr></thead>
+      <tbody data-page-node-id="9hSIlrdl7LToAKJkCDbYXI">
+        <tr data-page-node-id="dVf4aAcdYbVO3ajCAJTfMh"><td data-page-node-id="w6RoWyn5DbSkIbASVX12Fg">① 课堂数据缺失</td><td data-page-node-id="xUmFPTTrOh3AnGmiExoeT9">要点只存在老师记忆里</td><td data-page-node-id="ReyNhWyFbBDPqJizXNFxGQ">作业卡<strong data-page-node-id="CpcsXJHpvO9UvvA3JapM4h">强制</strong>把要点落成结构化字段（曲目/小节/问题/方法/量化目标），记作业即沉淀数据</td></tr>
+        <tr data-page-node-id="suaYZGGCIM4GNUrOe3Vyde"><td data-page-node-id="qQvKsPfXZNG4EIreznRvJs">② 课后监督困难</td><td data-page-node-id="pnNDIXrZrhklpFZtoGrAUR">指令模糊，无法验证</td><td data-page-node-id="ut7vXNydacFSxTCFNQ7iRY">每张卡有<strong data-page-node-id="gJtCm2VF5gsmKiz1FSQpD7">可验证的完成标准</strong>（"节拍器 60，连续 3 遍无停顿"），AI 自动核对</td></tr>
+        <tr data-page-node-id="hBA3DbzDGI9XxPIFV0YYGy"><td data-page-node-id="fmlMkmoDGr3GyVeg7W1dSx">③ 家长陪练痛苦</td><td data-page-node-id="6YX49D6L4hQ9V0zOKFAiOU">家长不知道该盯什么</td><td data-page-node-id="pRFx1R8qpxUQ3rVdExPp87">卡片直接给家长<strong data-page-node-id="AS7yE0laDXepN7Elvz8UIA">一句人话的动作指令</strong>＋老师示范音频，家长只需当"见证人"不需要当"教练"</td></tr>
+        <tr data-page-node-id="EnhBJkptDhOPyWbOA7PNqj"><td data-page-node-id="gCE6BmgeHyf7PLRmUQkT5e">④ 回课验证滞后</td><td data-page-node-id="HA9D5YKkMizPsAf7Xzm5d8">上课才发现没练</td><td data-page-node-id="5jdcx3E51XD7Rwvt8Xr426">老师上课前一屏看到全班完成矩阵，<strong data-page-node-id="f4uATrWMimzn55PImbDwE3">课堂时间不再被纠错占用</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-key" data-page-node-id="jywQ1l6yMTFtcfMuX4sxeo">
+      <b data-page-node-id="fdpmKFayjzTFkGkFBE5xnO">一句话产品定义</b>
+      把老师脑子里的东西，变成<strong data-page-node-id="7vJDUBASHt1MXhq9KXOiWz">家长能执行、孩子能对照、老师能验证</strong>的"练琴任务卡"，并自动回收执行证据。<br data-page-node-id="yUpYZ3jCFQCcCaneFzH4dF">
+      ——它不是陪练工具，是<strong data-page-node-id="dpn07AlCilA15zbOlqIvl6">"教学记忆的外化系统"</strong>。
+    </div>
+  </section>
+
+  <section id="s2" data-page-node-id="7A33umJ9zLWAPd4NV8ewpK">
+    <h2 data-page-node-id="zspUXQo9ji3eYCRRMcdDG3"><span class="num" data-page-node-id="i7CC09iyy6ikmNYwkhuJ0c">02</span>现状基线：老师现在在做什么</h2>
+    <p class="lead" data-page-node-id="4WrTX6dtfucbCXznc5GVKz">设计之前必须先量化现状——如果老师的真实流程已经是高效的，产品就没有立足点。这一节还原"微信群模式"的完整流程，并算出它的时间成本。</p>
+
+    <h3 data-page-node-id="ZCkH8V0rcqnb64ZhPkfyfo">2.1 当前的普遍流程（微信群模式）</h3>
+    <p data-page-node-id="wQVyT88IlCiNqZsIBdiCrc">检索到的多位一线老师的自述高度一致，可以还原出标准流程<span class="ref" data-page-node-id="kPeA49kWOegruj651x8X0y">[m05]</span><span class="ref" data-page-node-id="q3yahprsSIgDdlGzYHygDu">[m06]</span><span class="ref" data-page-node-id="0JlpJzC9YuwgcCnRC4DU8b">[m07]</span>：</p>
+    <ol data-page-node-id="M4jMY5uMuCG6MGBiKmXwUO">
+      <li data-page-node-id="SsJGUMbANejni8UtB8wGIm"><strong data-page-node-id="8VFZvB6DRS62Uxy9FhAsGr">建群</strong>：每个班建一个家长群（或个人老师与每位家长单聊）</li>
+      <li data-page-node-id="IG9WRUIywJ3fV0dPlE9u0r"><strong data-page-node-id="Y4L3GoluCVXyQPrBjAIK6b">课后发作业</strong>："每节课后老师把作业及要求发在群里，请家长督促孩子完成作业"</li>
+      <li data-page-node-id="4lVHfqw5C3uJu4CShRwmDd"><strong data-page-node-id="qNDhjiwy2pWN7v6dUE9AI2">家长发视频</strong>："可以把每天的练琴视频发送至群里，老师做以适当的点评"</li>
+      <li data-page-node-id="wvFyGdl9NjLfzUQcPKSlju"><strong data-page-node-id="0PncNr9nHnHQHH0EZ68Uxh">老师点评</strong>：逐个点开视频听，打字或语音回复</li>
+      <li data-page-node-id="tpuJTEleLGzNzEb1IRFKc4"><strong data-page-node-id="koGrvIgoJiVGXVRpFaj9Ql">下一堂课</strong>：凭印象检查，发现没练好就当堂纠错</li>
+    </ol>
+    <p data-page-node-id="BQAQwCHJt0Aq7g9f7L44yM">行业媒体的口径也佐证了这套流程的普遍性：<strong data-page-node-id="7LXHItNcfv443TVDgAHGpj">"90% 机构仍用纸质签到 + 微信群管理，AI 陪练、VR 沉浸教学等新技术渗透率不足 5%"</strong><span class="ref" data-page-node-id="qDKHDYeKpfnFmRFK59CpEt">[m10]</span>（C 级信源，仅作方向性佐证，不作为精确数据引用）。</p>
+
+    <h3 data-page-node-id="70iy7sS0Q6k7PjkljqclEo">2.2 时间账：一位带 20 名学生的老师，每周花在"课后监督"上多久</h3>
+    <p data-page-node-id="yGYjtnQbyrH9ljGZxRaFAv">按上述流程的保守估算（每个学生每周交 1 次回课）：</p>
+    <table data-page-node-id="PAKDfNBwZXSPYCQSAIPWaS">
+      <thead data-page-node-id="Uweq5tfCloGNUpyl2reLc5"><tr data-page-node-id="cgX7emH3YG6sNmwfeStYsZ"><th data-page-node-id="uthPHa1zMLgOQVnyOpHKDZ">环节</th><th class="num" data-page-node-id="xZqQD5RM4Fb04PHEuln5H5">单位耗时</th><th class="num" data-page-node-id="940Oa0Zd3Au5GeLv6l8HNy">20 人小计</th><th data-page-node-id="DqU5kdHzCHg91q1wmIxGXd">说明</th></tr></thead>
+      <tbody data-page-node-id="X9EZ5D0paBJ7hBAtAJgJAA">
+        <tr data-page-node-id="2QTZuGdhdosGb4OFc19GWp"><td data-page-node-id="EZPPNXR0LqFsDKmL60ztN0">课后写/发作业</td><td class="num" data-page-node-id="5N4RevuuRlCcxXpebBc9F3">30 秒/人</td><td class="num" data-page-node-id="MScfaR08A4ecvSMm9RFih3">10 分钟</td><td data-page-node-id="XyTqDiPixN9NdMqT6kIHi8">打字或发语音</td></tr>
+        <tr data-page-node-id="8nMpBJHrrGRJLBhR5sJn6Y"><td data-page-node-id="KiCIumEWGw0FF0tAdZRcxn">点开视频听回课</td><td class="num" data-page-node-id="MZiX16rzjkdDNja0u3ZHCn">2 分钟/人</td><td class="num" data-page-node-id="tonQLSuTaMA2Mp43ac7PD4">40 分钟</td><td data-page-node-id="tjmoEtKSIk3kVhhUMxpsRc">含加载、快进、重复听</td></tr>
+        <tr data-page-node-id="mTAwRECWBT82sv02Vxs0fd"><td data-page-node-id="jNkMjcwwlb9CAKlyLLRLDT">打字/语音点评</td><td class="num" data-page-node-id="92T4BwJdQWRxvLOVCnqTtx">1 分钟/人</td><td class="num" data-page-node-id="Q9yUfBtdytDjLQVbEsryql">20 分钟</td><td data-page-node-id="g3z7lMaxupUJ1GtCRBHP7O">—</td></tr>
+        <tr style="background:var(--bg2)" data-page-node-id="sLs9w6wlD9BoaSkDf17zvp"><td data-page-node-id="nWoDAexSpfjjHDTH1CbMEm"><strong data-page-node-id="UaApkew1fNBcbjQFZ9Kk8c">合计</strong></td><td class="num" data-page-node-id="0yYTvs0B8n3NIsCJ1kq2g0">—</td><td class="num" data-page-node-id="XhuIDam2fiylRk6rnDi4y9"><strong data-page-node-id="WnQvCz9DC8slXz4wo4FKxc">70 分钟/周</strong></td><td data-page-node-id="yHs6W1fbfmriItmJHO2qnW"><strong data-page-node-id="1sqOs1uB0Ec2g7HMwB6AGE">≈ 50 小时/年（43 周）</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="rHzQ0NIphHf2E0ZRGQhNGw">假设公开：每位学生每周交 1 次回课；老师逐个听完全部视频。若学生交得更频繁或老师听得更细，实际耗时更高。</p>
+
+    <h3 data-page-node-id="g8DryIQxCrRcA9Qp4Agq9t">2.3 引入任务卡机制后</h3>
+    <table data-page-node-id="9CMZegfXDbFTwQkztOST4r">
+      <thead data-page-node-id="N159hm31ny8S5O8voFEyGg"><tr data-page-node-id="BALPggU4jyHrHIwM1DhrDt"><th data-page-node-id="9AvJlX03dQAoHu4QIofaoN">环节</th><th class="num" data-page-node-id="KemmqABrMwEQ4vJuqwEoid">单位耗时</th><th class="num" data-page-node-id="0bHqAPB6PI0dTNlTQ4mlAq">20 人小计</th><th data-page-node-id="FCvAS6XtRitHviAiPPIBbQ">变化原因</th></tr></thead>
+      <tbody data-page-node-id="ZRuojS97xoJyZCiWxoTcFc">
+        <tr data-page-node-id="a1546uF5Jwv18A0QHESk8M"><td data-page-node-id="coEaPzMxWpyEm6pZ0wldct">发任务卡</td><td class="num" data-page-node-id="FhlI2JE9AG7U7B5oKqtEMH">30 秒/人</td><td class="num" data-page-node-id="UrdeZRFOQRLi2NCdP2VFZ5">10 分钟</td><td data-page-node-id="Gj7YYvWHWO2WSXNwlWVC11">与现状持平，但<strong data-page-node-id="UITS5JwjcEyqRLbCpwTrQ3">可复制上周再改</strong>，实际更低</td></tr>
+        <tr data-page-node-id="5pfnUVPldH0Sgusm9gBADo"><td data-page-node-id="dIUyWCxNQ0THJ8QG8svvNy">一屏扫全班</td><td class="num" data-page-node-id="goMzEpQCea9maoDkAzJ0KO">18 秒/人</td><td class="num" data-page-node-id="d7cGeIXa3Q3vnc1TFEeZOK">6 分钟</td><td data-page-node-id="GBVorjwzx9vJ8lpgeYITJV">AI 已预标注"交了/没交/练了几遍/多久"</td></tr>
+        <tr data-page-node-id="CND5WLkhmS45aFWYfFfjMx"><td data-page-node-id="Nb2uJUd1xuwYCD0AnTMDgy">重点听 5 人</td><td class="num" data-page-node-id="fDEQPE8M3JWWsOFbLPUFfT">2 分钟/人</td><td class="num" data-page-node-id="jmbKeBDnDhDSVZ29rjoviy">10 分钟</td><td data-page-node-id="KAzbUUOlOjzpON8Qssftwx">AI 分档后只重点听有问题的</td></tr>
+        <tr style="background:var(--green-l)" data-page-node-id="4FHC5Mr0L2AmuKpbASHfxD"><td data-page-node-id="4Adj9hFUvAMkInPBGA2fUX"><strong data-page-node-id="efxvbEeVnmQpJ4bptODK9A">合计</strong></td><td class="num" data-page-node-id="RCxfybnZxSNbGUcu6KBadm">—</td><td class="num" data-page-node-id="SCLgiP4j65PGCzM6YbvkVZ"><strong data-page-node-id="d8rnWUtaR63FpBq9lslZWr">26 分钟/周</strong></td><td data-page-node-id="FgkOSqrD2lJYGFZHBUKf9r"><strong data-page-node-id="Bi5OWKOvc8M7viYLKna13o">≈ 18.6 小时/年</strong>，<strong data-page-node-id="1Y6w6HP8fM7juQ1nSEMnAB">省 63%</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-ok" data-page-node-id="nGqBBABAKgLgFBUnXbbLSN">
+      <b data-page-node-id="CmTuvr58YO1rkTR7mErWve">净收益：每年省 32 小时（约 4 个工作日）</b>
+      按老师课时费 ¥150/节折算机会成本，相当于 <strong data-page-node-id="N2lKbBKjNjbYGDWeGV5JAC">¥4,730/年</strong>——已经远超产品定价（第 07 节）。<strong data-page-node-id="AZtavM1ZV3wLPiw2vBM7wp">这是"老师愿意试用"的第一理由，但不是最强的那个。</strong>
+    </div>
+
+    <h3 data-page-node-id="RdMH5VYwTLlkmNNoHkkRl8">2.4 最强的理由：留存率直接关系老师的收入</h3>
+    <p data-page-node-id="RFVfAacO0dL1POOl2ysJqJ">时间账说服的是"试试看"，真正让老师掏钱的是收入。检索到一组有对照关系的留存数据<span class="ref" data-page-node-id="LByDY2N9d1ivjIzd7rlCkF">[m09]</span>（C 级信源，来自某机构 2024–2025 年度 380 名在读琴童的内部分析，非公开学术数据，但结构合理、方向明确）：</p>
+    <table data-page-node-id="ftHzZOVofmCgzRrPu45DPq">
+      <thead data-page-node-id="wOF5WBXFDpjHyTzD1NoJ6T"><tr data-page-node-id="RXL0ERBc7Wp5E1yQRPtIEb"><th data-page-node-id="rjAVQUjlD9nggzxAf5PgD8">学生的练习状况</th><th class="num" data-page-node-id="R2hDdd10c6mWqjwLSWLIT1">留存率</th><th class="num" data-page-node-id="VMXaNSxQ6ZqLaoDSVU9xsB">相对基准</th></tr></thead>
+      <tbody data-page-node-id="uCQTMUWar9dx24BpK4a7U3">
+        <tr data-page-node-id="o3blq5IfAHjXA7OAQGQ5mW"><td data-page-node-id="Q4yIE8VD4Aztt69XglWEb6">每周 1 节课 + 几乎无家庭练习</td><td class="num" data-page-node-id="QenWX9TZxMXocsSyVbBIml">41%（1 年后）</td><td class="num" data-page-node-id="hFH4npEi4UI610I8VXlNp3">基准</td></tr>
+        <tr data-page-node-id="PnRQ4oJqoxg8eG7xpjMprO"><td data-page-node-id="GsEysUHFbTtFHk4dmlitRj">每周 1–2 节课 + 每周家庭练习 3 次以上</td><td class="num" data-page-node-id="BapYHsaHnvcFEaIgMvbyr0">68%（1 年后）</td><td class="num" data-page-node-id="9Z0UayWnQkUnFP7iw2Pqor"><span class="b b-hi" data-page-node-id="f04gBW9eSuaFn4t5YpIyfa">+27pp</span></td></tr>
+        <tr data-page-node-id="V7p9IXtBypmTeBMPNF1pjG"><td data-page-node-id="OOFIpjk1lGlQ2gVhD1b6hV">课时与练习都有保证 + 家长打卡陪练质量高</td><td class="num" data-page-node-id="I79dv0xiYNyYpSpK8iF4JS">≈80%（2 年后）</td><td class="num" data-page-node-id="cIeBJBRb85bO4MNV4Fg4k2"><span class="b b-hi" data-page-node-id="2WYmBe1w7KrEsE6dJSSQ7X">+39pp</span></td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-key" data-page-node-id="DeMvHn8izubfBAGXYKUV2t">
+      <b data-page-node-id="dO51vkHJv0mZPuHFOiBVeH">这组数据是本卷最重要的发现</b>
+      <strong data-page-node-id="fHrdHLYzqvVnkde4j3SJTd">"家庭练习有没有发生、质量如何"</strong>与留存率强相关（41% → 68% → 80%）。而这<strong data-page-node-id="qYJ2HHZpBCLCpwWs1b3JIC">恰好就是你列出的三个痛点共同指向的那个变量</strong>。<br data-page-node-id="uLjInIPABt4yzccg7Aa60A"><br data-page-node-id="4yQHb9GZTgORQxk1WSZZf3">
+      换句话说：<strong data-page-node-id="TGuGsiiiDcQNHpGcTrlqf4">你不是在帮老师省时间，你是在帮老师保住学生。</strong>省时间只是副产品，保住学生才是老师肯付钱的原因——因为一个学生就是一年的学费（第 07 节会算这笔账）。
+    </div>
+    <p class="tnote" data-page-node-id="OPussoa9FZg1QIdCG7dpuX">交叉参考：行业媒体报道"超过六成的乐器培训机构学生流失率超过 30%"<span class="ref" data-page-node-id="5GXA55d5xfonUrbmBX4rQ3">[m11]</span>，与上述基准方向的量级一致。</p>
+  </section>
+</div>
+</body>
+</html>
+  <section id="s3" data-page-node-id="qL3SOirCcQq0APJldgzsBe">
+    <h2 data-page-node-id="iJJ04PxG26gDNVnPLjEBk3"><span class="num" data-page-node-id="4LIGM67CA2TqDsi1ItqXaa">03</span>产品定义与四模块架构</h2>
+    <p class="lead" data-page-node-id="TFqYzYUJe0rCLGpTeRgSys">产品名建议叫「回课本」——"回课"是整个行业通用的动作词，老师一听就懂；它天然指向"老师↔学生"的循环，而不是"陪练"（陪练已被红海化和污名化）。形态：微信小程序，老师端 + 家长/学生端，不做独立 App。</p>
+
+    <h3 data-page-node-id="FUJ0JvsC0RcSFCuweDK0Y8">3.1 三个角色，三种界面</h3>
+    <table data-page-node-id="u0fCWopUxXbQd8jQVxK6Gw">
+      <thead data-page-node-id="itRiolhaFCKK95rUvr0gTF"><tr data-page-node-id="k3Q1Uwzxci5rgXDFofEJ1Q"><th data-page-node-id="qZjEzTS2BAH0iIRfpxgrl0">角色</th><th data-page-node-id="FgGGMDP5YLoUaYG44yAjy7">他要做的事</th><th data-page-node-id="dWh5lOmPiB06PgGEpXsK7t">界面必须回答的问题</th><th data-page-node-id="8JEpvzbrmQ405cmi38Lxdy">关键情绪</th></tr></thead>
+      <tbody data-page-node-id="plDJU9pSMXu7J5GCjrSZtT">
+        <tr data-page-node-id="N9XNjsEBBAHb8I8o6wcLwm"><td data-page-node-id="EZU8SEb1PvpHO7okVkeXjZ"><strong data-page-node-id="FBew5b8mHXuBhJGWyubyHN">老师</strong><br data-page-node-id="uwfoG21fkecIUOQTj4X2dA">（主用户·决策者·付费方）</td><td data-page-node-id="UzY3sN5jcXEn5OtxUNFmke">记录要点 → 发作业 → 批量批改</td><td data-page-node-id="kcEd5miNL6SNiaXR7wdrfn">"我班上周谁没练？我这节课该重点讲什么？"</td><td data-page-node-id="Ng8CFXzRJduEz2kuDNl1vM">掌控感、不添麻烦</td></tr>
+        <tr data-page-node-id="w7dMPqzqz0k1lJ764ezkDj"><td data-page-node-id="2lpO0ymvOjS2je41LSsJdC"><strong data-page-node-id="gIC6j8sW3gHzujM9hzV5Z5">家长</strong><br data-page-node-id="Ny2vN4dFqlqCNFKFgxCom7">（执行协助者）</td><td data-page-node-id="sCJ9Fx3fGBTdUoGDiqkMUm">知道该盯什么 → 确认完成</td><td data-page-node-id="epSZU0P9nKBlWHF4LFe6Gj">"我今天具体要做什么？"（<strong data-page-node-id="XFYze7GrK2V8Z6H0AWYZ96">不是</strong>"孩子练得怎么样"）</td><td data-page-node-id="qzjW15lLAylZscdsamSdaC">别让我当教练、别让我内疚</td></tr>
+        <tr data-page-node-id="MEpy4eES5wgr9qLKN5tVM6"><td data-page-node-id="tmJtoIXPk0C0LxMhoRAWVE"><strong data-page-node-id="UH8LInvQ0RshPoTuUHSd95">学生</strong><br data-page-node-id="nO8OxgAUeeTEvrjX6mPBgZ">（实际执行者）</td><td data-page-node-id="VmBNn0Sb7XQJH3FCF6lEh9">听示范 → 练 → 录一段交回去</td><td data-page-node-id="0px1U25G7imxYctTRKkCyd">"我要练哪一段？练成什么样算过？"</td><td data-page-node-id="AWJI48bMwTbMB8qm1QGeJN">目标清晰、别太长</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-note" data-page-node-id="VkqGYB7UrIhkUxalBviJlw">
+      <b data-page-node-id="qSe9SK1kWXHxArshmFWTK3">一个容易做错的地方</b>
+      很多产品把家长界面做成"学情看板"（曲线图、正确率、排名）。<strong data-page-node-id="uzmDJpobCxZPGGUG9msCWh">那是在给家长增加焦虑，而不是减少。</strong>家长界面应该只回答一个问题：<strong data-page-node-id="ghOSY9MnHgqg4XXtFzW3cN">今天要做什么</strong>。学情数据给老师看，不给家长看——除非是正向的（第 05 节 M4 会展开）。
+    </div>
+
+    <h3 data-page-node-id="F59DzjPCgbpEJYrh9f6SKW">3.2 四模块架构</h3>
+    <table data-page-node-id="8k4OsiUu2CSvkn9aqhZJFq">
+      <thead data-page-node-id="YCQekN9IBmKkXoy9u885Pv"><tr data-page-node-id="lh8Oz0s9qqwNCJOvMGuE4t"><th style="width:16%" data-page-node-id="sXKoNMdl6PNV6ivp6nMWWw">模块</th><th style="width:22%" data-page-node-id="hOps32Og4k8QV9GunyUSma">解决的痛点</th><th data-page-node-id="WdKuvpnVoGJM1LHxy9gAaQ">核心机制</th><th style="width:11%" data-page-node-id="AHavnC5zgIYo90dXvIm8F8">MVP？</th></tr></thead>
+      <tbody data-page-node-id="jtDQOxRmKEUgbe9ACGB0Cr">
+        <tr data-page-node-id="DDPRQDVX8EUQJZzuT9Y1KO">
+          <td data-page-node-id="Ysf6OYbUELoh055vzggTw0"><strong data-page-node-id="ayBlBXZjGVnJDeCJKWmbEp">M1 课堂速记</strong></td>
+          <td data-page-node-id="QZJGSoCAMWtl9bFNf6xqer">课堂数据缺失</td>
+          <td data-page-node-id="LGefgRUC5Od08r8hz8ZAbR">课后 30 秒口述 → AI 转结构化要点 → 老师一键确认 → 沉淀为可回溯档案</td>
+          <td data-page-node-id="VDzHaroS0rU3cJ3Uz0O6vI"><span class="b b-mid" data-page-node-id="ihO1Xh2YgXolY6PjpohgrA">V2</span></td>
+        </tr>
+        <tr data-page-node-id="T1s6ODUWcqz6aX4nXIKE3E">
+          <td data-page-node-id="1E2SsBC3hf6NwsansAvN5j"><strong data-page-node-id="meMcvnmyXYP4QPkkJ6Cxm7">M2 练琴任务卡</strong></td>
+          <td data-page-node-id="qH8YsmvoyKLhRLEJxSNyRF">课后监督 + 家长陪练</td>
+          <td data-page-node-id="wDEUVUak7a3eMiQt3PD9ip">每张卡 = 老师示范音频 + 一句动作指令 + 可验证标准；学生录音交回</td>
+          <td data-page-node-id="4ICLRi614a5sbguFWvHdQA"><span class="b b-hi" data-page-node-id="JOIHpAjpkznSP71Q86Fupo">V1 必做</span></td>
+        </tr>
+        <tr data-page-node-id="0O7M2d39RzMxDyelxXf9uT">
+          <td data-page-node-id="ca0dkePnGykHwxXFArEDbH"><strong data-page-node-id="Xigqiw2C00dY4ogtA63xEG">M3 回课驾驶舱</strong></td>
+          <td data-page-node-id="g1CAudecK7oecWcYyhfJHc">课后监督 + 回课验证</td>
+          <td data-page-node-id="O0STUri878rkKOvabIRV53">一屏看全班完成矩阵；AI 自动统计并分三档；老师只重点听有问题的</td>
+          <td data-page-node-id="Bm4wyrlhO71JW5qOGrsyDk"><span class="b b-hi" data-page-node-id="ZqsYjcEvnkC5ODHGN0KoHx">V1 必做</span></td>
+        </tr>
+        <tr data-page-node-id="FNSbni2fT2tTY2YPs5yr4c">
+          <td data-page-node-id="94WCvBP9kZc6yD2KWeBbJW"><strong data-page-node-id="3BFuGHc2cy8JDmUmiAssPW">M4 家长退出机制</strong></td>
+          <td data-page-node-id="2e5H8UptoIuWUXQZzvE2Sj">家长陪练痛苦</td>
+          <td data-page-node-id="fdl9YOhN5fsGkKtPZfFmhi">每周给家长一张"独立完成任务"的正向报告，把陪伴时长下降做成成就</td>
+          <td data-page-node-id="9F6Yc0q25oEv2FdcbTFYQg"><span class="b b-na" data-page-node-id="ppKXFVueoyIFAVbhWHMnaA">V3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="ds0Olz1p2jG3DW4c99Xgfk">3.3 为什么 MVP 只做 M2+M3，而不做 M1</h3>
+    <p data-page-node-id="amILCwtZkEIBKXq3GWR8ud">这是本卷最重要的一个顺序判断。<strong data-page-node-id="epDo9RFl263CZNpRM3FQ0j">M1（课堂速记）看起来最"AI"、最性感，但它不该先做</strong>，原因有三：</p>
+    <ol data-page-node-id="wvOQCzyFDw3Vyx9c7yC2Zc">
+      <li data-page-node-id="moFSaAaSpSUZZ7xYKfjRYE"><strong data-page-node-id="Bwshcz7LrwgU9eAJqFw3m7">M1 是"先付出、后收益"</strong>：老师要先花时间录音和确认，收益（档案回溯）要到几周后才显现。<strong data-page-node-id="8muT7XhPZUEeLwXq98HIBb">第一周感受不到价值 = 立刻流失。</strong></li>
+      <li data-page-node-id="kHTN1UJ2xsEu69Co4UeJwi"><strong data-page-node-id="CAaDv88dqayKFe83InH3Ai">M1 不是闭环必需的</strong>：M2+M3 已经能跑通"发作业→交作业→批改"的完整闭环。M1 只是让"发作业"这一步更快。</li>
+      <li data-page-node-id="cHEvrCFuOX545iqQXGtyAN"><strong data-page-node-id="CEflltGa54jCo4VVE1ni1q">M1 存在合规成本</strong>：课堂录音涉及未成年人声音，若做声纹识别会触发敏感个人信息"单独同意"要求（第二卷已论证）。延后做，可以先观察监管口径。</li>
+    </ol>
+    <div class="callout c-ok" data-page-node-id="H8X4QBxVgifOv8AQsVbERy">
+      <b data-page-node-id="rIVwja594IIvMHyS5YjUKf">MVP 的排序原则：第一周就要让老师感到"省了时间"</b>
+      M2+M3 的老师付出是 10 分钟/周（和现在在群里打字一样），收益是批改从 50 分钟降到 16 分钟。<strong data-page-node-id="lCMPF2ilHpCUMYxzvmQ4Aa">净收益在第一周就是正的，且立即可感知。</strong>M1 放到老师已经形成使用习惯之后再加，接受度会高得多。
+    </div>
+  </section>
+
+  <section id="s4" data-page-node-id="znwy4uQV6iAZ4FZvdvFnNp">
+    <h2 data-page-node-id="NNRWa6JF8JcAA4RQ75t3sF"><span class="num" data-page-node-id="MGTf5xwsJb4XCC0j3DORUB">04</span>AI 能力边界：能做什么，不能做什么</h2>
+    <p class="lead" data-page-node-id="4R34iOoo32yqknFYwmQGXP">这一节是整套方案的硬约束。误报在练琴场景是致命的——一次把"练对了"判成"练错了"，老师就不会再信这个系统，而信任一旦失去无法重建。所以下面的分级表，比功能清单更重要。</p>
+
+    <table data-page-node-id="hT0HZgCo6v8fMjUNBFEw8e">
+      <thead data-page-node-id="VxF2dCKQdZGTfADtgQQAeT"><tr data-page-node-id="KY1fw5I7ftGplFL5hSGhdQ"><th style="width:26%" data-page-node-id="wSnoxr9bHlxsAtvzsXRYgy">AI 能力</th><th style="width:12%" data-page-node-id="7VI6bBA6s1FxBvIjdAbhmj">成熟度</th><th style="width:12%" data-page-node-id="TKw2RB088NzR3CSqX6ZEYS">做不做</th><th data-page-node-id="ycYK7HH7DEEH6JW68zVf82">理由与边界</th></tr></thead>
+      <tbody data-page-node-id="wcugA8LLTNdO01ntOMmFUb">
+        <tr data-page-node-id="eGLzOoYd7xfEAcn7WZ9DSp">
+          <td data-page-node-id="lmr2PeCmcl9fakDFcxRTOU">语音 → 结构化课堂记录</td>
+          <td data-page-node-id="schSMKu1yJ9RbFUDhGjqpQ"><span class="b b-hi" data-page-node-id="YiHIUlxPCWrE3hnY5Br46i">高</span></td>
+          <td data-page-node-id="d0pX4ofRKhgB80QxfigVzg"><span class="b b-hi" data-page-node-id="1soOo79PILyb4luRmu1fHA">做</span></td>
+          <td data-page-node-id="acaRM1hbLgqhgQ4k7b3iYA">ASR + LLM 抽取。<strong data-page-node-id="vHQFr2WmLLhXwXV2PtxNe7">但必须"AI 出草稿 + 老师 30 秒确认"</strong>，不做全自动——民乐术语（轮音、反竹、支手轮音、滑弹、花音）ASR 错率高，全自动必然出错</td>
+        </tr>
+        <tr data-page-node-id="RxCnO6mMfp9nZYCL7d0u3R">
+          <td data-page-node-id="895sPzK0yrGljKmIeFHzMd">音频 → 有没有练 / 练了几遍 / 多久</td>
+          <td data-page-node-id="fx6AGG9fKD17BOkMahbas9"><span class="b b-hi" data-page-node-id="LZGIJDNZhUx3eCSwHxYs9Z">极高</span></td>
+          <td data-page-node-id="25PIJ1cNSNKIQP2y23GZ0o"><span class="b b-hi" data-page-node-id="l0pHPBPP5ynI4yWD3JqLVI">做</span></td>
+          <td data-page-node-id="P3gedMfk3gGX6d5SSBHGgS">能量检测 + 分段，准确率接近 100%。<strong data-page-node-id="TIPrQVbUXqMTTph5dERov4">这是最稳、也最有价值的能力</strong>——它回答的正是老师最想知道的"到底练了没"</td>
+        </tr>
+        <tr data-page-node-id="pJEBTnDHezHo3Ypm124wbB">
+          <td data-page-node-id="O5G1bMuUlthdOkYmvL0pfO">音频 → 是否弹完整（起止检测）</td>
+          <td data-page-node-id="qtH82c0hBoaRmakjOJdtgj"><span class="b b-hi" data-page-node-id="bPBkSVo6iNQH7vnIzgEY9f">高</span></td>
+          <td data-page-node-id="D1wBy4wquhfx92ecvEbBjj"><span class="b b-hi" data-page-node-id="n25AHEeoteCsbP6YhoaW0g">做</span></td>
+          <td data-page-node-id="kZBFbaUWz0Dxvyg4MmLIj1">onset/offset 检测在固定音高弦鸣乐器上成熟（古筝单音识别已达 98.15%）</td>
+        </tr>
+        <tr data-page-node-id="whHjVpOyyLBLAl04riEfyO">
+          <td data-page-node-id="1oE2Bt4vhiHtDmUpEkDAzq">音频 → 速度稳定性 / 节拍偏差</td>
+          <td data-page-node-id="CcUTD28ABrB8fzGQFS7tf9"><span class="b b-mid" data-page-node-id="d6f4mWhpyhmrGUpeklybNT">中高</span></td>
+          <td data-page-node-id="Qg7DZGapgvLqzUYSd1Mygj"><span class="b b-mid" data-page-node-id="Jn5fKGniQH3wbaDCObcl84">做（只给趋势）</span></td>
+          <td data-page-node-id="DaVX6pHDHSD1gNBnrQul89">onset + 节拍跟踪可行。<strong data-page-node-id="eZe4SYG2SY59HRzY0DalJb">只给"比上周稳/不稳"的趋势，不给具体分数</strong>——分数会引发家长攀比和老师质疑</td>
+        </tr>
+        <tr data-page-node-id="u8lg11xZjyDQR7STywQhgL">
+          <td data-page-node-id="F34iMuoyhqkcUt4UvfiKkq">音频 → 与老师示范的整体相似度</td>
+          <td data-page-node-id="HOj3bRiR1A6xyid3zwsHP5"><span class="b b-mid" data-page-node-id="h2ehj5YYGAH1AOlKYVFZvh">中</span></td>
+          <td data-page-node-id="pnmLFBaeBGtCKHWceWMiuB"><span class="b b-mid" data-page-node-id="DSn34sclRDA4MADtGEvHHz">做（只分两档）</span></td>
+          <td data-page-node-id="hgICXmtv7XYDTCAZJWKoWr">DTW 对齐可行（Tonara 的 Compare Recording 即此路线）。<strong data-page-node-id="XeAsd9iNPaSo07bBA8iMnZ">只输出"接近 / 明显偏离"两档，不输出百分制</strong></td>
+        </tr>
+        <tr data-page-node-id="DMu4bwCsns4Tfa7uN0MUVh">
+          <td data-page-node-id="pkYwXObyAeYOJAGYHRybrD">音频 → <strong data-page-node-id="AHTSakAmwDmFJOwLQEZxgF">单音音准诊断</strong></td>
+          <td data-page-node-id="3kXbK7ugfpBw6pfvEf62fY"><span class="b b-hi" data-page-node-id="wRzfP83NJOBXThPngHiZN7">高</span></td>
+          <td data-page-node-id="eyaNNcL07F1yZ4zPN3BDJk"><span class="b b-mid" data-page-node-id="Xz0b2TbZAEwr4mhM5NYnmC">仅限调律模块</span></td>
+          <td data-page-node-id="wueHIX5XcSlv2z8kjdjL8v">技术成熟（古筝 98.15%、智能调音模型 R²=0.972、推理 8ms）。<strong data-page-node-id="zAuzG43Al88WPXtAJKfOCh">但只用于"调音"这个独立场景，不用于回课评分</strong>——回课是连续演奏，场景不同</td>
+        </tr>
+        <tr style="background:var(--red-l)" data-page-node-id="Wnhol7jr87gfhQ7HTulxHM">
+          <td data-page-node-id="PbZcP7MnMBrabShBgBisqM">音频 → <strong data-page-node-id="Kd0WeFm0hKDIybzHEkGrOw">连续演奏的错音纠错</strong></td>
+          <td data-page-node-id="tIzcZHArDCDxl29za4FcyY"><span class="b b-lo" data-page-node-id="cFATWtP6rIQJ16fncct8xc">低</span></td>
+          <td data-page-node-id="RB53sCl4DjgGkXsBC9jUgp"><span class="b b-lo" data-page-node-id="Lcy7osjAD51Lkz6OhEDi0D">不做</span></td>
+          <td data-page-node-id="u6iHebwwc472jSUxkGc1lM"><strong data-page-node-id="WzkEuwFc4oeZH42VvspG6h">扬琴连续演奏无公开数据集</strong>，迁移到多声部叠加必然大量误报。第三卷已论证：MT3 钢琴 Onset F1 95.95%、木吉他仅 57%，三乐器场景掉到 0.4367</td>
+        </tr>
+        <tr style="background:var(--red-l)" data-page-node-id="AqTPJMcheju1Z1Xr63X23R">
+          <td data-page-node-id="dRU7SR8L9B0a5r6LDXL7OG">视频 → 手型 / 持竹姿态评估</td>
+          <td data-page-node-id="p6F8TM6tkDSSpLI7hcROTW"><span class="b b-lo" data-page-node-id="Ql1xA42RFzbRR7zSOFeKsT">低</span></td>
+          <td data-page-node-id="He2xWtxpcKhH7PBlbG1x4T"><span class="b b-lo" data-page-node-id="ADW1BNz9JiOsR9iDTArDvu">不做</span></td>
+          <td data-page-node-id="rmwbJyB3VQRgiEKYSMM1Nb">民乐无标注数据集；姿态评估的误报后果比音准更严重（会导致错误肌肉记忆）</td>
+        </tr>
+        <tr style="background:var(--red-l)" data-page-node-id="ctfsIz6axqCq23VxvpHX2T">
+          <td data-page-node-id="dR5POaUESTCpjKPEmd9CX7">AI → 自动生成教学建议 / 评语</td>
+          <td data-page-node-id="9YWdILZGRNDaGkUbLr8doe"><span class="b b-mid" data-page-node-id="gsnOr6xnL6aCZ6ux44LqDo">中</span></td>
+          <td data-page-node-id="Vze9z5DS1JmNwwGuCJT15g"><span class="b b-lo" data-page-node-id="VMwPGoMUOqBX8rVPk6P4pG">不做</span></td>
+          <td data-page-node-id="kbxI1i5VhwlgVr9ts6DBDd">可以做，但<strong data-page-node-id="J2yCjmb8zWgXJJywUOvGqm">不做</strong>。原因：① 责任问题（AI 给错教学建议，出了问题是老师的责任）② 老师不会信任一个替自己发言的系统 ③ 它把产品从"老师的工具"变成"老师的替代品"，立场错了</td>
+        </tr>
+        <tr style="background:var(--red-l)" data-page-node-id="wuglOG437oqhzv2dQVVzUM">
+          <td data-page-node-id="YOTlb0uRRPNDas30bGA7vk">实时打断式纠错</td>
+          <td data-page-node-id="6DuzO6SmehtAZPFG6NraNR"><span class="b b-mid" data-page-node-id="zwyHndw4A1VPR7BpRlhk0J">中</span></td>
+          <td data-page-node-id="2SLpeTGKiYOANBDPbrBUUi"><span class="b b-lo" data-page-node-id="YdVfdpldFlJLKhYDBQ4Pju">不做</span></td>
+          <td data-page-node-id="UGLDNVHporTjCi5p8Ffw8q">技术上 380ms 可行，但会把 AI 变成"每秒都在说错的电子家长"，只是把亲子冲突的施加方从人换成机器（第二卷已论证）</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-warn" data-page-node-id="nWG5CQfzfLZDB3WpgvCdSV">
+      <b data-page-node-id="u8hBqF5XpxrnEEIY2IE1ry">一句话总结能力边界</b>
+      这个产品的 AI 只回答<strong data-page-node-id="03MC8BD9iOnUhOs6aml5MU">"有没有做、做没做完、稳不稳"</strong>，绝不回答<strong data-page-node-id="U2P1VDY0ajT5cS7yC5roNN">"弹得对不对、好不好"</strong>。<br data-page-node-id="KX8xbFxsoJDCswA4kvFyK3">
+      前者是<strong data-page-node-id="wz5feL1JDBL5lErPzr68On">事实判断</strong>（AI 可靠，老师信任）；后者是<strong data-page-node-id="pT4ZNfsQDnDHvlzaMMUAOs">价值判断</strong>（AI 不可靠，且越权）。<strong data-page-node-id="e7gnj67dHaZedHvxg9mujN">守住这条线，产品就立得住；越过这条线，就会变成又一个"识别不准"的陪练 App。</strong>
+    </div>
+  </section>
+  <section id="s5" data-page-node-id="mD7ilkouxrNkqFuDl9FWF4">
+    <h2 data-page-node-id="PZR6gp4dmNcTAHLX7WyqRo"><span class="num" data-page-node-id="YHpw0XdONeGcbJ0Kswb5kB">05</span>模块设计详解（含界面文案）</h2>
+    <p class="lead" data-page-node-id="ufo9gHAjJ5e9c14glHXygt">这一节写到界面文案级别，示例可直接用于原型。所有文案都按"扬琴/民乐"真实场景写，不是通用模板。</p>
+
+    <h3 data-page-node-id="zlq1vplfwD9ZMNq7I1Vogf">5.1 M2 练琴任务卡：把"作业"变成"任务"</h3>
+    <p data-page-node-id="P2tpSX7ZrIdV5l6egsUZGq">传统作业是一句话，任务卡是一个<strong data-page-node-id="fubjKlj8ElbUrL6IoRlBaJ">五要素结构</strong>。缺任何一个要素，卡片就退化成又一条群消息：</p>
+    <table data-page-node-id="p8uyW0FY6Yp4sOGAHVmLLD">
+      <thead data-page-node-id="VGbnh4Yl6jBYEwpPw3wVAp"><tr data-page-node-id="DPVM8QJJIne3TzjHymxhq0"><th style="width:15%" data-page-node-id="TnaFa01qbpx4vsDePEQxqe">要素</th><th style="width:35%" data-page-node-id="pqtEq21yA7uo8kMYINiQEf">内容</th><th data-page-node-id="myNzDWh2sZ7duxCLuDESyq">为什么必须有</th></tr></thead>
+      <tbody data-page-node-id="3ANbdrh1dRnXGh3qeLAQTL">
+        <tr data-page-node-id="B9637s3Stn8OWP2D3bb8H8"><td data-page-node-id="eoGN0klhp5qwuSQtwG0332"><strong data-page-node-id="AXprwwU4LSfPwFBdlFKTXP">① 范围</strong></td><td data-page-node-id="lLRjDQPMVxaFv5ZvdZ8eFq">曲目 + 具体小节/乐句（简谱定位）</td><td data-page-node-id="UHSBlA82GDowHdYaI69p5S">"练第 3–8 小节"没有范围就是"练琴"，无法验证</td></tr>
+        <tr data-page-node-id="eWUpx0mMuvFV23ETPrB6rR"><td data-page-node-id="v94jgTXGsAofXHVs7hxwfi"><strong data-page-node-id="9QO1GKV1uG6V9YGfHEWF2W">② 问题</strong></td><td data-page-node-id="jFTO1t8d0ijRuVeqHJAfIg">本周要解决的<strong data-page-node-id="F3h672ijiiJlFfE6WSPi5R">一个</strong>问题</td><td data-page-node-id="iGhuOZb87v503RaAbW0YPI">一张卡只解决一个问题。多问题 = 都解决不了</td></tr>
+        <tr data-page-node-id="Ls1lB6yyXgXUusXe899DwB"><td data-page-node-id="Wvb8lss7RwYwwl55U74QBK"><strong data-page-node-id="bcbia4pBxaSsYXSAC0fEww">③ 示范</strong></td><td data-page-node-id="fk19jJWugsC7UFDaVDCOg6">老师随手弹 15 秒的音频</td><td data-page-node-id="vLu0FAf1tvt7clA3HDkURZ"><strong data-page-node-id="n47gPtnELlJsghb0lVl11K">比文字有效十倍</strong>。家长和孩子都是靠"照着做"学习的，不是靠读文字</td></tr>
+        <tr data-page-node-id="13vVWhhcUVwlBRHsU0lDSj"><td data-page-node-id="9iFLoOc9pGszm4fGPdo05T"><strong data-page-node-id="7jFxAmxjDXwGtLc2o7GG7F">④ 动作</strong></td><td data-page-node-id="gyiNAgwwA2rViYz7tL6XIH">一句人话的操作指令</td><td data-page-node-id="V2mVhfuRi9NTiQDBBz0ZlG">必须是不懂音乐也能执行的动作</td></tr>
+        <tr data-page-node-id="k9h1Swv9qaDsPUkIPgqj9C"><td data-page-node-id="Vhi26XwwMvsu51y7sm4MPX"><strong data-page-node-id="dIBUhjjBNukqSwotCJVqGZ">⑤ 标准</strong></td><td data-page-node-id="c6YP3HbOh6XNPf586i89g3">可客观验证的完成条件</td><td data-page-node-id="QN3kEbkpf0AaaDNP0Op3T1"><strong data-page-node-id="dHOHgD56Txf25TWBX5bR8I">这是 AI 能自动核对的前提</strong>，也是"监督"从主观变客观的关键</td></tr>
+      </tbody>
+    </table>
+
+    <h4 data-page-node-id="Fo9DPJIRzIlvYY4flIDksG">界面 · 老师发卡（30 秒完成）</h4>
+    <div class="mock" data-page-node-id="P1BZ1RjWmpupyiol4PlCSK">
+      <div class="bar" data-page-node-id="i9FZy1WZSf7UU67gHFQdbu">老师端 · 新建任务卡 · 学生：小雨（扬琴 三级）</div>
+      <div class="body" data-page-node-id="DUMwWzZPNXpDXHh06WdFDG">
+        <div class="line" data-page-node-id="0SMRmBxvVyXzW70vOUGR8D"><span class="lbl t" data-page-node-id="fSUEUdfU7lPHqmzfx5D2F1">本周范围</span>《春到湘江》第 12–15 小节　<span style="color:var(--ink3)" data-page-node-id="shYf843sB4NfKkbWKMcmy3">（可复制上周）</span></div>
+        <div class="line" data-page-node-id="rfAAe2r5AFDXhSTwBI6CbZ"><span class="lbl t" data-page-node-id="47oT2VkTHAp9rp5fXPBBnT">要解决的问题</span>轮音不均匀，右手偏快</div>
+        <div class="line" data-page-node-id="XqtHRpqqmCUEGyxHgmRguy"><span class="lbl t" data-page-node-id="7VBEpe9l7npHJPb9S5j4SO">我的示范</span>🎙 <span class="btn ghost" data-page-node-id="WGWzop13q79CnImJzXvAqA">按住录 15 秒</span>　<span style="color:var(--ink3)" data-page-node-id="ezsbmAlsPDDLWHqxjl2ehY">或 从素材库选一段</span></div>
+        <div class="line" data-page-node-id="Pn7vTjLPfGY0k5gxthl5FC"><span class="lbl t" data-page-node-id="5ZKMPAxAf14kObtFSxFvHw">完成标准</span>节拍器 <strong data-page-node-id="RAtnQbeu687Al7ULSoJ8H8">60</strong>，右手 <strong data-page-node-id="CUNUEcrQJU6WB3WDEHLQav">3 遍</strong> ＋ 双手 <strong data-page-node-id="1VRH5XCWadQekhNQx2ZbtO">3 遍</strong>；<br data-page-node-id="yBKbQ82T1xhdY9ybll4k3P">　　　　　　　判定：连续 <strong data-page-node-id="1gH9UxhAwbWxOEvotdGOGm">3 遍中间不停顿</strong></div>
+        <div class="line" data-page-node-id="RDNM3Ht8Zln3MM4I3dUv9T"><span class="lbl ai" data-page-node-id="AlLPKw4gJmi59CDxt4Npeo">AI 生成</span><span style="color:var(--ink3)" data-page-node-id="gP9pbRbwzRl4eFcnJJdpyn">（以下由系统自动生成，可编辑）</span></div>
+        <div class="line" data-page-node-id="jSHDa71YkGMss7SMjiN3WG">
+          <div class="quote" data-page-node-id="r0ugXZyaJ1ks9lKYUAbo8m">给家长：这周只需要盯这一件事——孩子弹这 4 小节时，中间没有停下来重来，就算过。<strong data-page-node-id="cSU7YLHbzDev11q25DLtLa">听不懂没关系，不用您判断对错。</strong></div>
+          <div class="quote s" data-page-node-id="q1DOH2X8SpJXfbmmMoFYAV">给学生：先听老师的示范 → 节拍器调到 60 → 右手 3 遍 → 双手 3 遍 → 录一遍最好的交回来。</div>
+        </div>
+        <div class="line" data-page-node-id="U0CNsSNc6tJP0ZdBvuTeDi"><span class="btn" data-page-node-id="gv6vrjbGeWLBZI2fK8DcVL">发给小雨和家长</span></div>
+      </div>
+    </div>
+
+    <div class="callout c-idea" data-page-node-id="Dkk2tLRpTcArEwnweD9FSf">
+      <b data-page-node-id="jU0lnevasUDbB2U3fZX5dW">这张卡最关键的一行字</b>
+      "听不懂没关系，不用您判断对错。"<br data-page-node-id="qqBEZYHHReXZUnWs3xBtwz">
+      这句话直接拆解了家长的<strong data-page-node-id="BQdMLeZDQ0oaxbubdmGHPY">能力焦虑</strong>和<strong data-page-node-id="7ARnLpr1TiUgtXQNXrgjzj">责任焦虑</strong>——他们最怕的不是陪练累，是"我不懂，我在帮倒忙"。把判断权明确收回到系统这边，家长只剩下一个动作：点"完成"。
+    </div>
+
+    <h4 data-page-node-id="epnMUQXwHHUuLgJvNbC0D4">界面 · 家长端（唯一的问题：今天做什么）</h4>
+    <div class="mock" data-page-node-id="cqyfCqnON7yjk20upr0w0p">
+      <div class="bar" data-page-node-id="AGSczQGvQHUCO83O9jvY2M">家长端 · 本周练琴</div>
+      <div class="body" data-page-node-id="2ySHVLxDs5hoLsvGsXFitl">
+        <div class="line" style="font-size:15.5px" data-page-node-id="hT6DOy1oLgH6nd0EF8XB3Q"><strong data-page-node-id="Y4j9ZjBDHY0wnJHui5SsgY">这周只有 2 件事</strong><span style="color:var(--ink3);font-size:13px" data-page-node-id="bs9J9C2qHEZ9M6GdGp1rpc">（周三前完成第 1 件就行）</span></div>
+        <div class="line" data-page-node-id="nGDzdhodD2qujDP3oHJmGY">
+          <div class="quote p" style="background:#fff;border-left-color:var(--amber)" data-page-node-id="G21Fy5B5yKHWls3AG9SMPz">
+            <strong data-page-node-id="UKt0FReQmFyS31ADcEHpdy">① 《春到湘江》12–15 小节</strong><br data-page-node-id="Zs2PLQgThNCz50Hgt54muz">
+            节拍器 60，右手 3 遍 + 双手 3 遍，中间不停顿。<br data-page-node-id="gONC8lLwDHcQUACUkIZ04V">
+            <span style="color:var(--ink3)" data-page-node-id="P1hmGgr5NtYjGDDDduUfba">▶ 听老师的示范（15 秒）　📅 周三前</span>
+          </div>
+        </div>
+        <div class="line" data-page-node-id="NWpTAQAXzYaBC0lZrL4oTi">
+          <div class="quote p" style="background:#fff;border-left-color:var(--amber);opacity:.6" data-page-node-id="9Fs4QW3baX6lEsyNucnO9J">
+            <strong data-page-node-id="UAGAvbMxAdc4JyMp5TiLNw">② 调音检查</strong><br data-page-node-id="JaOXB37Ci9douS6Su5mTDH">
+            练之前花 1 分钟过一遍，系统会把不准的音位标出来。<br data-page-node-id="1BMbR2cmjp0i4YpZoHdNjl">
+            <span style="color:var(--ink3)" data-page-node-id="WNlsJWODz30AwzHgaWBGaN">📅 周六前</span>
+          </div>
+        </div>
+        <div class="line" style="margin-top:14px;color:var(--ink3);font-size:13px" data-page-node-id="1gRArAefrwzeHFw9xWOIqY">
+          孩子练完会自己录一段交给老师。<strong data-page-node-id="FoLEH1csz9G3r6cUmXOOYE">您不需要听，也不需要判断。</strong>
+        </div>
+      </div>
+    </div>
+
+    <h4 data-page-node-id="WraKoWmmp2HkjgQNRvntL7">界面 · 学生交回课 + AI 自动核对</h4>
+    <div class="mock" data-page-node-id="Bj1V0HMmr6OcqS6c7oClxS">
+      <div class="bar" data-page-node-id="JwOuEJgDj57A9yNJAeCcfv">学生端 · 提交练习</div>
+      <div class="body" data-page-node-id="42RnETPI1SqDVCYlxM95sE">
+        <div class="line" data-page-node-id="l1YPSCEXoqhHYOBxQ3Zcvi"><span class="lbl s" data-page-node-id="WhqgzQ5TNbY9qf0ahlGclg">任务</span>《春到湘江》12–15 小节 · 节拍器 60</div>
+        <div class="line" data-page-node-id="wFlKZQvQl1bGIjffBfF0uW"><span class="lbl s" data-page-node-id="0NWiWO6YHDk4i0Z3zrBiNz">提交</span>🎙 <span class="btn ghost" data-page-node-id="a8emmIqPgeHT32q6a40YaA">录音（约 50 秒）</span></div>
+        <div class="line" data-page-node-id="iwldRNXA6yaCBtDAON46y3"><span class="lbl ai" data-page-node-id="oSbmXBvqByDbIajRpKpyNi">系统核对结果</span><span style="color:var(--ink3)" data-page-node-id="F42QanVkhkMjLx3wy2Ni86">（即时，2 秒内）</span></div>
+        <div class="line" data-page-node-id="iUUasFUncQcWejBUZwaByt">
+          <div class="quote ai" data-page-node-id="Ex51fI53ecUd9DHeIRI2DK">
+            检测到 <strong data-page-node-id="95tM2PVD0oTIDBXNvkBp1h">5 段</strong>演奏，总时长 <strong data-page-node-id="f6BHLdeU9OCRj9ZWbXmCZo">4 分 12 秒</strong><br data-page-node-id="KIwRyxTXqgm4EkeRPRMoCI">
+            其中完整演奏 <strong data-page-node-id="1Ae0sz2JRebkQzCo3h0TUx">3 遍</strong>（12–15 小节无中断）<br data-page-node-id="7dvW9JACNUb6jQddX5iR8s">
+            速度波动 <strong data-page-node-id="kpLbSB4ZDqhoEz73Pwu7ZN">±6%</strong>（上周 ±11% → <strong data-page-node-id="PF7VhLxDle2r1JldKNjomV">更稳了</strong>）<br data-page-node-id="cZtHazAELzY0JGCCCcxI6k">
+            <strong style="color:var(--green)" data-page-node-id="2TCTtEEKzkprolnAnGCpnY">✅ 达标：连续 3 遍无停顿</strong>
+          </div>
+        </div>
+        <div class="line" style="color:var(--ink3);font-size:13px" data-page-node-id="HoGWZQZObdnGdBDP67dBYo">
+          注意：系统只核对"有没有做完、稳不稳"，<strong data-page-node-id="gvYpcilmwBcgmQt33zVlrJ">不评判弹得好不好</strong>。老师会听。
+        </div>
+      </div>
+    </div>
+    <div class="callout c-note" data-page-node-id="MyVp8itMOHLcD2agRjN3Zb">
+      <b data-page-node-id="kJQzm0VpWryYSmFxD7lEI0">为什么这段提示必须写</b>
+      "系统不评判弹得好不好"——这句话不是免责声明，是<strong data-page-node-id="tFC7NNJv2qxzBuCIKJ50tS">产品立场的表达</strong>。它同时保护了三件事：① AI 不会因误判失去老师信任；② 孩子不会觉得被机器审判；③ 老师的专业权威没有被削弱（最终判断权仍在他手里）。
+    </div>
+
+    <h3 data-page-node-id="WwFqQYK7IFuZbbjCyIeir3">5.2 M3 回课驾驶舱：老师 6 分钟扫完全班</h3>
+    <p data-page-node-id="YFzNkeaKYy51kefO8mcOmp">M3 是老师<strong data-page-node-id="QmnXqiUd75IWi8tDiI8EbH">每周真正打开产品的理由</strong>。设计目标只有一个：让老师在上课前，用最短时间知道"这节课该重点讲什么"。</p>
+    <div class="mock" data-page-node-id="bxdv7aWjpTMCookzg4hYvz">
+      <div class="bar" data-page-node-id="chk9CrRbkCFiCZ6DFEOyEL">老师端 · 本周回课（20 人）· 周三 15:40 更新</div>
+      <div class="body" data-page-node-id="j2jPsYfuFhdXJgG72F1JZ9">
+        <div class="line" data-page-node-id="MLAWrPSIGAKph1pVu2q3mv"><span class="lbl ai" data-page-node-id="6umkxWihmLcQFYidWEiUQ9">已交 17 / 20</span>　<span style="color:var(--red)" data-page-node-id="aa9VNmG1R0KUQXA6zJl0TC">未交 3 人：小宇、朵朵、子涵（已自动提醒家长）</span></div>
+        <table style="margin:10px 0 4px;font-size:13px" data-page-node-id="yYf1nu9RmUGMv3D0RytHeu">
+          <thead data-page-node-id="Q3YjaAnpfC748zYfHyn9lI"><tr data-page-node-id="ObmlrgepQeKESXHKsrBgMW"><th data-page-node-id="w7ADPcuytDfuSuMyM7tkgl">学生</th><th class="num" data-page-node-id="Ag4P2ZiM88xoHtGn92ilgW">完成</th><th class="num" data-page-node-id="4iZANM8rlWGtgehv5aaUsm">遍数</th><th class="num" data-page-node-id="KeTZD2nfl4QfsYTCNh9dWr">总时长</th><th class="num" data-page-node-id="2YuWZCyz3YrP0pWIaGxisC">速度波动</th><th data-page-node-id="wobrTk0eiehFyghc0n22rx">AI 分档</th></tr></thead>
+          <tbody data-page-node-id="UfI9GdARurgcDLQpDJcEn3">
+            <tr data-page-node-id="Gp9FR2PXP8O7146A3vlyUq"><td data-page-node-id="CqSFldfVOVZu0CSNxCo7FX">小雨</td><td class="num" data-page-node-id="CZ3yWfAjP7JLgxZoKAfhmj">✅</td><td class="num" data-page-node-id="UoZk2mYNiCGA3EMd6cCadA">3</td><td class="num" data-page-node-id="gO7aAwuzBixIce1yGx7YcN">4′12″</td><td class="num" data-page-node-id="b7MmcB0gPDVEaDx4K38cq6">±6% ↑</td><td data-page-node-id="4eK4wMq0wcmLiOTB2t8ww4"><span class="b b-hi" data-page-node-id="JwjMWGN23FiP98dDE7cTZ2">明显合格</span></td></tr>
+            <tr data-page-node-id="8uCgl6g5JGcFvks3ZwbDwc"><td data-page-node-id="X9CDQyBQXmEAxvexieCLF8">乐乐</td><td class="num" data-page-node-id="VMtFtq2PeRqab5J3ASpFca">✅</td><td class="num" data-page-node-id="8G2rr73PFNduqGYj3BEoYw">5</td><td class="num" data-page-node-id="JEtVcWcaCwIdur4TmU573L">7′03″</td><td class="num" data-page-node-id="T0Ptd6EIjIiGyUPw0eEtDq">±5%</td><td data-page-node-id="SeA6JDgfVfK2MFoRt8ekFD"><span class="b b-hi" data-page-node-id="11f6pwrALJPefGmXMn4iPt">明显合格</span></td></tr>
+            <tr data-page-node-id="F4Gmwy0t6RrRFoijh7pJfR"><td data-page-node-id="LREfXRZ03wCQZuqO0RhILa">子涵</td><td class="num" data-page-node-id="NMjLDTJsGyRIx8Xa9pJGRn">—</td><td class="num" data-page-node-id="wwVy9jistG14QLqzccJ301">0</td><td class="num" data-page-node-id="Tp3EY05sH70wDDWC6YBk5W">—</td><td class="num" data-page-node-id="QcJaMPJVWyHeBtqOsCEhRg">—</td><td data-page-node-id="ht4Sc76eMV5aFRxstw81zX"><span class="b b-lo" data-page-node-id="chtAukszhah4Zivv8U9QNF">未提交</span></td></tr>
+            <tr data-page-node-id="TFkXWQ2vITXZHhMaVQb85o"><td data-page-node-id="Qf4WAnh5EGqu5TbZ2MTEcp">小宇</td><td class="num" data-page-node-id="ws9Ke3i8PcNhYoy1pi04ZT">⚠️</td><td class="num" data-page-node-id="gCqnZVmqRiaewchkW1eNAH">2</td><td class="num" data-page-node-id="MiHmKR1RQkxyDU1ibb1t2Z">1′48″</td><td class="num" data-page-node-id="DI6qedVyKOBvei9EoDjYNl">±19% ↓</td><td data-page-node-id="xdfJDGC3P5h2nQTIaW8hIG"><span class="b b-mid" data-page-node-id="8Dwjhw4bUcBtauLnXgBCgN">需要重点听</span></td></tr>
+            <tr data-page-node-id="XFbpBBmzFICYXNtDGR8abq"><td data-page-node-id="vnyPTTU76AAalPIrE656yO">朵朵</td><td class="num" data-page-node-id="elX3dztNWUBlLT1ZVxjFUr">⚠️</td><td class="num" data-page-node-id="BuHRLvRvb92a5jaspWwqDp">1</td><td class="num" data-page-node-id="v1LByIxBmrkJ0G5e5H9QBf">0′52″</td><td class="num" data-page-node-id="6QFHdbQOFfDS1A09kBYOcG">±24% ↓</td><td data-page-node-id="VTmxq8a50onB95x4ADUTeJ"><span class="b b-mid" data-page-node-id="UMlnDETGr7QHCXddsjZjIc">需要重点听</span></td></tr>
+            <tr data-page-node-id="xzTxuIB8IISCO6qfI0qb2w"><td colspan="6" style="color:var(--ink3)" data-page-node-id="bxpgzBuy9MMgBbWpxZMyBM">… 其余 15 人</td></tr>
+          </tbody>
+        </table>
+        <div class="line" data-page-node-id="77AGtUlx9w2TY1LKVPey9E"><span class="btn" data-page-node-id="kl2Ut4B4JZeTg2v8UvSf34">只听这 5 个（约 10 分钟）</span>　<span class="btn ghost" data-page-node-id="JCckGs5KwJw2jcFJ7fjopT">批量发送点评</span></div>
+      </div>
+    </div>
+    <p data-page-node-id="GIjpflxRvAeGTXFDcL1jlC"><strong data-page-node-id="hmAJgsMNemyfiYXBaQ7OnB">AI 分档规则（必须简单可解释）</strong>：</p>
+    <ul data-page-node-id="wBQG0Y2uNTOtkiQH2PvwYk">
+      <li data-page-node-id="5KiPPQ51CIUm1sjgTmS1K4"><span class="b b-hi" data-page-node-id="20RlhKfSgAIDe7o1miCSyy">明显合格</span>：达标遍数 ≥ 要求 且 速度波动 &lt; ±12%　→ 老师扫一眼即可</li>
+      <li data-page-node-id="EmYpiAzxyxahXvQXvBjanL"><span class="b b-mid" data-page-node-id="Nqu0UXF112gPsMAEmxSSt8">需要重点听</span>：达标但波动大，或遍数不足　→ 进老师的"本周重点听"队列</li>
+      <li data-page-node-id="QAMMxqOnpNBvVBaGIFZsC8"><span class="b b-lo" data-page-node-id="uWDp1IMJPAiBDK2lhIvKKE">明显有问题</span>：未提交，或时长严重不足　→ 触发家长提醒（系统发，不是老师发）</li>
+    </ul>
+    <div class="callout c-key" data-page-node-id="QA5FFEIKUB8vObIgKnJzEx">
+      <b data-page-node-id="0pcsIEBM3RcT6IMUFiONTD">一个刻意的设计：未提交的提醒由"系统"发，不由"老师"发</b>
+      老师最不願意做的事情之一，就是催作业——它把自己放在家长的对立面。系统自动提醒把这件事<strong data-page-node-id="wmCyzMyRuRFzEfKyE56jUU">去人格化</strong>："家长收到的不是老师的催促，是系统的通知"。家长对系统的抵触远低于对人的抵触，这对老师的师生关系是保护。
+    </div>
+
+    <h3 data-page-node-id="xPPSfJHXCs2CUbZVgZvBS9">5.3 M1 课堂速记（V2）：AI 出草稿，老师确认</h3>
+    <p data-page-node-id="xB7vWYCCw9ppbaZMd7D7M9">课堂结束后，老师对着手机说 30 秒，系统把它变成卡片草稿。<strong data-page-node-id="eAVmHYX3bM7KBqpvYFrWlK">老师必须过一遍才能发出去</strong>——这一步不能省，因为它是信任的来源。</p>
+    <div class="mock" data-page-node-id="Cmo0R3jaXmcTv2HL88aNZe">
+      <div class="bar" data-page-node-id="6AfRlBxoAMzm1HBDXe4XXG">老师端 · 课堂速记 · 课后 30 秒</div>
+      <div class="body" data-page-node-id="YY39cVZGnQxQiG6JbcTjF6">
+        <div class="line" data-page-node-id="bJyjlWigGkXlPcfLhOg1tQ"><span class="lbl t" data-page-node-id="LbnuCc3P3GdvG3DC7l7L4D">原始口述</span><span style="color:var(--ink3)" data-page-node-id="FABjExGq6llULpy2HXNafE">"今天小宇春到湘江十二到十五小节轮音还是不稳，右手偏快，回家节拍器六十右手三遍双手三遍，另外花音区 g 和 d 要重新调一下"</span></div>
+        <div class="line" data-page-node-id="UgZpSw9Y5b787ObMOK8Lnv"><span class="lbl ai" data-page-node-id="n3RI13xBXj9X2Sfd8VsQxS">AI 结构化</span></div>
+        <div class="line" data-page-node-id="gR2Dtbepi1xR8quDqOZD4K">
+          <div class="quote ai" data-page-node-id="MdehnBoxBicFNd6W30FPgv">
+            ① 范围：《春到湘江》第 12–15 小节<br data-page-node-id="7qoPl2d7L03xMdmFBI6bok">
+            ② 问题：轮音不均匀，右手偏快<br data-page-node-id="XkIiAK1H2275klW5zLAwxm">
+            ③ 标准：节拍器 60，右手 3 遍 + 双手 3 遍，连续 3 遍无停顿<br data-page-node-id="bROnvjeAz52JPkmGzk9w6r">
+            ④ 附加任务：调音检查（花音区 g、d）
+          </div>
+        </div>
+        <div class="line" data-page-node-id="fEjukesUV7jGarXbcf95Xj"><span class="btn" data-page-node-id="hM0M4WAfWNdM57prOI937n">确认并发送</span>　<span class="btn ghost" data-page-node-id="hM1Kl5d3S1IDLXLACEAw7N">修改</span>　<span style="color:var(--ink3);font-size:13px" data-page-node-id="kysAxyYERmN3jCW7MJwR1a">（预计 15 秒）</span></div>
+      </div>
+    </div>
+    <div class="callout c-idea" data-page-node-id="P2sDCb4WdNW8pGcmwclmdP">
+      <b data-page-node-id="irHK1SvmGFijOWu1fXKcPR">这里藏着只有你能建的东西：民乐术语词表</b>
+      通用 ASR 遇到"轮音、反竹、支手轮音、滑弹、花音、琶音、双音琴竹"会大面积出错。要让这段结构化真正可用，必须有一份<strong data-page-node-id="ONPLyc3KabEly1nZffrpq8">民乐术语 + 常见曲目名的定制词表</strong>。<br data-page-node-id="oBDUwkmv9e6Cl3ZUxrvjuM"><br data-page-node-id="PYzgMhS6JISEngNoUYbQBP">
+      这份词表不存在于任何公开数据集里，<strong data-page-node-id="DZnTQg2XNaVZrgQoUFqqDR">但它是你的日常语言</strong>。这是你在这个产品里唯一无法被技术团队替代的贡献，也是最容易被低估的资产。建议现在就开始整理（第 10 节的 T0 动作）。
+    </div>
+
+    <h3 data-page-node-id="12vYopHzAqsDjkUCRIs26W">5.4 M4 家长退出机制（V3）：把"少陪"做成成就</h3>
+    <p data-page-node-id="MhZoxCmEV8tQrnjlNL3egv">家长陪练痛苦的解法，不是帮家长更好地陪，而是<strong data-page-node-id="FaKJLTYKbq8TcoBrbE8KHc">让家长体面地退出</strong>。关键在于：退出不能让家长产生愧疚（"我是不是不负责任"），必须让它变成一种进步。</p>
+    <div class="mock" data-page-node-id="VtNo2YyOCsNyKTLgfmfrEy">
+      <div class="bar" data-page-node-id="N6B8Iy3YGmffdowHbHX5GV">家长端 · 本周小结（每周日推送）</div>
+      <div class="body" data-page-node-id="8ChChCp9kY5khxh9pmHECF">
+        <div class="line" style="font-size:15.5px" data-page-node-id="SyAGnYVC98CTdSXNqw4k1M"><strong data-page-node-id="xoObdskaw0j2y3L8rEOIDy">小雨这一周</strong></div>
+        <div class="line" data-page-node-id="WUvJptgMJGDEFRa5SRYx4E">
+          <div class="quote p" data-page-node-id="LFBBqG8Oi3Lj5EqGILQjpI">
+            独立完成 <strong data-page-node-id="pzueJ7NCLtcvFCPzYiAitI">5 次</strong>练习，其中 <strong data-page-node-id="Ps2TtjbEvg4IbbKh0fD7vX">3 次</strong>是您没在旁边的时候。<br data-page-node-id="jIoFIalMM9ndH9Nz3VD5Hx">
+            上周这个数字是 1 次。
+          </div>
+        </div>
+        <div class="line" style="color:var(--ink3);font-size:13.5px" data-page-node-id="qI5ABP2RRdURh1Zni3Qo7F">
+          老师的话：轮音比上周稳了，速度的起伏从 11% 降到 6%。<strong data-page-node-id="4ICIkXgMDsg85eg9AKHE2c">下一周可以把重点放在第 20–24 小节。</strong>
+        </div>
+      </div>
+    </div>
+    <div class="callout c-ok" data-page-node-id="CApLRXy6VYKeOpbjIz39Sd">
+      <b data-page-node-id="pyMEo2QxjtpUhMhBmex5Gl">报告里刻意不出现的东西</b>
+      不出现：正确率、分数、排名、与他人的对比、"您陪伴了 X 小时"。<br data-page-node-id="xMCEvIxDyHsujISypSP4FH">
+      只出现：<strong data-page-node-id="R79XnUvoUXsxKvqP12ONke">孩子独立完成了几次</strong>，和<strong data-page-node-id="zveukblhr2I5RaYNdD9KNY">一个具体的进步</strong>。<br data-page-node-id="w59pWtt7Q0f303XN5EiSoq"><br data-page-node-id="WFuQFOJFvMR3q8Y8cdi4Kd">
+      理由：前一类指标会把家长重新拉回"监工"角色；后一类才真正支持"退出"。<strong data-page-node-id="HLp9dIZ1iCdIkBgp0n1hku">这个报告的受众不是焦虑的家长，是想要无愧疚地放手却不好意思的家长。</strong>
+    </div>
+  </section>
+  <section id="s6" data-page-node-id="Hf7kmRc9QqPtCbyNqyfbUn">
+    <h2 data-page-node-id="5Hor2FQw65oNHiDwb57pl5"><span class="num" data-page-node-id="qzmU5XXafu7uNwTIGTu9Hc">06</span>七个反直觉的设计决策</h2>
+    <p class="lead" data-page-node-id="IEgCiNK3yImxaLpjRzDCnQ">这些决策大多与"AI 产品应该更智能"的直觉相反。每一条都附理由——如果你要在实现时砍掉它们，请先看理由是否还成立。</p>
+
+    <table data-page-node-id="InfZO1LJBKxYAvDLRdeOHZ">
+      <thead data-page-node-id="syp8IQcpfPKQXCA4ID2TpR"><tr data-page-node-id="Pfhm1zTgTv1swyEK2q6Ya8"><th style="width:26%" data-page-node-id="1YKv4TGeRL2cDE39orFpas">决策</th><th style="width:22%" data-page-node-id="0ws8P2NdvppMaHWCDpavbT">直觉做法</th><th data-page-node-id="cxtZZ8OKLAde74BwDPDP8N">为什么反过来</th></tr></thead>
+      <tbody data-page-node-id="oEMNZLUS9FVmEGPQAIZ3qv">
+        <tr data-page-node-id="PTugBq8rEPfqLWlpFtYDxp">
+          <td data-page-node-id="FbFULt1JQv3yuOzDdz7kBF"><strong data-page-node-id="UjW3VUVGz074IGKtykG2R6">① AI 只出草稿，老师必须确认</strong></td>
+          <td data-page-node-id="Clb569LqeriXoC3euUEzbP">全自动才叫 AI</td>
+          <td data-page-node-id="BxFarRxLBAGZLrAoDKhxQd">民乐术语 ASR 必然出错，一次错就摧毁信任。<strong data-page-node-id="5SJBeeVwcIgdvdx3LaNip1">老师改 15 秒 > 老师不再用。</strong>而且"可改"本身就是控制感来源</td>
+        </tr>
+        <tr data-page-node-id="3KcoBD4q2c75inF6yTppbI">
+          <td data-page-node-id="MMvgfBZ8tKieysuYXaTt6r"><strong data-page-node-id="SowGu2NFGGJljWwDsMRdii">② 只核对"做没做"，不评判"好不好"</strong></td>
+          <td data-page-node-id="SDrjuEtY6zFOSYJQnJSNve">评分才显得智能</td>
+          <td data-page-node-id="LEjWD7jfn0Ncv8Mcb6UOc9">扬琴连续演奏无数据集，评分=误报。<strong data-page-node-id="Ms2Ub0K2gu90ljxOaDM9ya">误报在练琴场景是致命的</strong>——把"练对了"判成"练错了"，老师终身不再信任</td>
+        </tr>
+        <tr data-page-node-id="XAC6Ze4fLcyYCKZWTqfLGb">
+          <td data-page-node-id="dbTuFjThvothL8uolrBCZE"><strong data-page-node-id="asCF7CuyTEA5MpodtGH2qH">③ 每周只发 2–3 张卡</strong></td>
+          <td data-page-node-id="GzlBXFREqiVV2orAkwDqAx">内容越多价值越高</td>
+          <td data-page-node-id="eKoCf1mW7P6iD3GgkDDHzA">家长时间有限、孩子注意力有限。<strong data-page-node-id="eV8E8KhipaIYs85Vn45cj0">发 6 张 = 一张都不做。</strong>三张做完的说服力，远大于六张做一张</td>
+        </tr>
+        <tr data-page-node-id="rbEeHTPMXkXFSPbLTrCzVC">
+          <td data-page-node-id="PEfZ9CogBNsdCSbha7Hn4l"><strong data-page-node-id="NmzLxkud8eEHbRH7x9ymyt">④ 未交提醒由"系统"发，不由老师发</strong></td>
+          <td data-page-node-id="yY5yloWi56jl8mE4eZ6N3D">老师催更直接</td>
+          <td data-page-node-id="4ksxvd5DkUH9DoELpkzrNE">催作业会把老师放到家长对立面。<strong data-page-node-id="yfibwPGDRZ0Ie7X6qXn5OH">去人格化后，家长对系统的抵触远低于对人的抵触</strong>，保护师生关系</td>
+        </tr>
+        <tr data-page-node-id="dHxEHJkh6l0G0YwrvLLfga">
+          <td data-page-node-id="HB1Qc51kFu9tgWWj8jqETc"><strong data-page-node-id="4RtmWhoLDpk66AZJHBr8wa">⑤ 家长端不给分数、排名、正确率</strong></td>
+          <td data-page-node-id="9CEpdHEdPKezqXi8dAgcSo">数据越多家长越满意</td>
+          <td data-page-node-id="JMjeMm293bvL0p8vXteCuJ">这些指标会把家长重新拉回"监工"角色，与"让家长退出"的目标直接冲突。<strong data-page-node-id="eTg81nrsgcIAMV4BAQX4X2">只给"独立完成了几次"和一个具体进步</strong></td>
+        </tr>
+        <tr data-page-node-id="gkzE52uVIMKN5hxxQz3T9q">
+          <td data-page-node-id="Y8ENNhmRUHgMrUWBlQp6ei"><strong data-page-node-id="oe4VdvakqHtdDO8hS8CncV">⑥ 不做实时打断纠错</strong></td>
+          <td data-page-node-id="ui4NCOMu6trppJEjxITT9H">实时反馈才先进</td>
+          <td data-page-node-id="iWxuAnpxl7iUNFojkl26wy">技术上 380ms 可行，但会把 AI 变成"每秒都在说错的电子家长"，<strong data-page-node-id="WCNxCQ0RtZGkENPxQ6oxUZ">只是把亲子冲突的施加方从人换成机器</strong></td>
+        </tr>
+        <tr data-page-node-id="8CKNTHDYkCSa5C29DoD3RZ">
+          <td data-page-node-id="qo19dLOG2zg6EJmihDW3L9"><strong data-page-node-id="xzLVGXlO6wae7UFDYYCjWa">⑦ MVP 不做课堂速记（M1）</strong></td>
+          <td data-page-node-id="AvRiwgMs1Dy1d0gCZM4eKs">从数据沉淀开始最合理</td>
+          <td data-page-node-id="4r3KefeVA0Mx8dy4vWhNcv">M1 是"先付出后收益"，第一周感受不到价值就流失。<strong data-page-node-id="e2e1VDVEHi50jzcH5M9PVx">M2+M3 的净收益在第一周就是正的</strong>。顺序错了，再好的功能也推不动</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="s7" data-page-node-id="toAJgWcWSWJRclk9bx5dB8">
+    <h2 data-page-node-id="W6UvlLhD4kSsJvyzKtVsLI"><span class="num" data-page-node-id="3n4HpDNUZ50tD6ov2Evm8X">07</span>商业模式：老师买单成立吗</h2>
+    <p class="lead" data-page-node-id="IdoJEfzsXK50AlIOCDg1X0">前六卷的结论是"家庭付费 ¥199、老师免费 + 分成 30%"。你现在提出聚焦老师，这需要将付费方从家庭换成老师。本节验算这个转换是否成立。</p>
+
+    <h3 data-page-node-id="wGTW6GmR2bL7aJqgRRUtfM">7.1 结论先行：成立，而且比向家庭收费更成立</h3>
+    <div class="callout c-ok" data-page-node-id="nWs6XfyFrHJLNQqMdy3wxZ">
+      <b data-page-node-id="ot72yKp8N3Z4scyaocVNmU">教师端 vs 家庭端：TAM 更小，但可达性高一个数量级</b>
+      <table style="margin:10px 0 0;font-size:13.5px;background:transparent" data-page-node-id="AcbMqO7KRt9v6LsDubjFaa">
+        <thead data-page-node-id="Bkjx7IW4rupn4GYp4oGZPP"><tr data-page-node-id="kwjjmqQquExiSAAxSPOAHd"><th data-page-node-id="09CyBDQdo7GeRMFIaNYWCS">维度</th><th data-page-node-id="4ZrxsXqomqiRfH18Lqjbf7">家庭端（前六卷方案）</th><th data-page-node-id="fqd4z5gXvnEX6BGpWbd2P2">教师端（本卷方案）</th></tr></thead>
+        <tbody data-page-node-id="7wD76ZlP3bHENy8mC38fov">
+          <tr data-page-node-id="wD7747Itz4Bu9jSOrXnHLa"><td data-page-node-id="60WmV1AkGuTYqwz0cBnAzp">理论 TAM</td><td data-page-node-id="OiyPKZQAJHMdaQBrTmNUwE">民乐在学 1,500 万<span class="ref" data-page-node-id="eGQgl0zvVYaE7DV4W9T58C">[m19]</span> × 2% × ¥199 ≈ <strong data-page-node-id="OCCjYGDjwb0G2kwdoYy1Ss">¥5,970 万</strong></td><td data-page-node-id="gYffWgHBYoOmkn8Hd4L144">民乐教师 ~14 万<span class="ref" data-page-node-id="47rXx6uIHlMsRo5Yhb9Pi3">[m22]</span> × 3% × ¥598 ≈ <strong data-page-node-id="10GUywyASGZE9dCaeFlB1K">¥305 万</strong></td></tr>
+          <tr data-page-node-id="LT2a9uIxG1QBQaFi02dLXr"><td data-page-node-id="3DkP6VTGRbDDJHjSbQhiLg">客户分布</td><td data-page-node-id="SGxJFGLfkQ78EDwM2jyip1">高度分散于全国</td><td data-page-node-id="4YW5fqaZAwM4PiLBc5yBzq"><strong data-page-node-id="fC8UfSKZHP8YPmzUF9U9qG">高度集中</strong>（扬琴从业者仅约 5,000 人）</td></tr>
+          <tr data-page-node-id="hasazZWXNOU0AUcCdtEY5W"><td data-page-node-id="Ndwi1aYNrzpeWCJXqZnAOc">获客方式</td><td data-page-node-id="NOjmfbgoOsikKn85Pw89Nj">投放 CAC ¥150–400 → <strong data-page-node-id="cnmr6v6Ok6oJBcT0ypGuoF">首年毛利为负</strong></td><td data-page-node-id="Q5XIV9Irsjp7Ic3HPU5kt2">圈子口碑 + 学会渠道，CAC 极低</td></tr>
+          <tr data-page-node-id="Brxq0VadPEneWmyHqUFZm3"><td data-page-node-id="TkCwY8ISWGVoe8XCbKePmE">一次说服的对象</td><td data-page-node-id="7VfyhI2deJb0QYoTM7dH6H">1 个家庭</td><td data-page-node-id="9uO8ObX6VgwExog951LfDa"><strong data-page-node-id="O4wyqEPkZktlBL17hoGdld">1 个老师 = 20–40 个家庭</strong></td></tr>
+          <tr data-page-node-id="IbfBUiI2wDx1c6c6tdNJVl"><td data-page-node-id="pENBhVG81KeUJSFRjOASv8">可达成度</td><td data-page-node-id="9qfWMT3ZRYsy9idE3G71GA"><span class="b b-lo" data-page-node-id="6vNXKEHrS1afFD91npFhOc">低</span> 已论证投放不可行</td><td data-page-node-id="hwUCIiPuDLgWqxs6CRQ0cF"><span class="b b-hi" data-page-node-id="Lc0O2sA8sTqATaSE5Wkgj9">高</span> 你本就在圈内</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p data-page-node-id="ECBkVhO38BnZI7GhUY3BZO">更关键的是：<strong data-page-node-id="B0RmU8iCNKtEhM0UHLZY9C">教师端不只是客户，同时是渠道。</strong>占领 1,000 个老师 ≈ 获得向 2–4 万个家庭的触达权。等到想向家庭收费的那一天，路径已经铺好了。<strong data-page-node-id="1JePG9Mc9Lu5vDONFgbMqu">先做老师，是为了以后能碰到家庭。</strong></p>
+
+    <h3 data-page-node-id="GSqFIAATE7wtpb13Onhkgf">7.2 老师为什么掏钱：ROI 论证</h3>
+    <p data-page-node-id="TGa2zqeL67CogJAA7EVuoo">省时间（第 02 节：每年 32 小时）是试用理由，不是付费理由。付费理由是<strong data-page-node-id="aviNpm8x24eWE9kv52ifO5">保住学生</strong>：</p>
+    <table data-page-node-id="18ZNLdDkWGVE65nbpO1UQP">
+      <thead data-page-node-id="AGC3bjy5iK3Ybtrzrt3fNo"><tr data-page-node-id="g8Coee5cdGBAesYtKu936R"><th class="num" data-page-node-id="mYvvKkJ2hocvxFqlH5aXAC">老师带的学生</th><th class="num" data-page-node-id="FGQD2fH5IKKBX2GrAjzuFM">年学费收入<br data-page-node-id="roECFDDEjRMeOQ0HfxFWvL">（¥150/节 × 40 周）</th><th class="num" data-page-node-id="76nJu4h4WCUBZvVrmbq2Lp">流失率 60%→70%<br data-page-node-id="HW5s5pEAdVK3YFqBon3lDn">少流失人数</th><th class="num" data-page-node-id="iToNUipreK8bHTzCNIL4Wg">增收</th><th class="num" data-page-node-id="5YmzxJbbfjTFsBooVHe9Z9">相对 ¥698 定价</th></tr></thead>
+      <tbody data-page-node-id="T0pTR6AMNM1gDJB8YxLww0">
+        <tr data-page-node-id="ObxJ0zNhWQa63fprU8kpdX"><td class="num" data-page-node-id="d3X9GU3HDrtn22CuDV3Jlo">10 人</td><td class="num" data-page-node-id="5Q9wYu0TM9ZoainkJuGc6u">¥60,000</td><td class="num" data-page-node-id="ED6cXrURWQfDhGwmJjyw4b">1.0 人</td><td class="num" data-page-node-id="lTHYHCiHnwANCzHbSz3JlO">¥6,000</td><td class="num" data-page-node-id="a4OHlXu7Roe8fLNLY8UEdA"><strong data-page-node-id="AvtmugWmS8VFv9qHfOTRbT">8.6×</strong></td></tr>
+        <tr data-page-node-id="rBBWJhyATMHXHwTULVRShS"><td class="num" data-page-node-id="rwq9o8CAeBEQzt7gA4liHw">20 人</td><td class="num" data-page-node-id="dKGQllHxZNIFiuZUDTg69T">¥120,000</td><td class="num" data-page-node-id="nUIuJGC9BMEVK5oUn89Ec3">2.0 人</td><td class="num" data-page-node-id="FAKqZRpqn9agUGNO9ApRYx">¥12,000</td><td class="num" data-page-node-id="Ho9knZOdCcyippU0RGM0FA"><strong data-page-node-id="LOnAcNFbz3NuiRDnCrMYiB">17.2×</strong></td></tr>
+        <tr data-page-node-id="L9UpS0DGGD9izHNgT1lvV9"><td class="num" data-page-node-id="FEdoPBcmEazyxPxFi0QD6N">30 人</td><td class="num" data-page-node-id="nPvJ8PQHcHVgseDCu6zIfX">¥180,000</td><td class="num" data-page-node-id="zP4C4lItRIhExBREa5h5rp">3.0 人</td><td class="num" data-page-node-id="Eun0vazWhOV3hR5qSmdNul">¥18,000</td><td class="num" data-page-node-id="WcKcsA4weEDURZNvr4ZDJn"><strong data-page-node-id="Ds3hIe9Ocrp5OjkHH0uIuF">25.8×</strong></td></tr>
+        <tr data-page-node-id="GZICjZZzd9UGgbRoxHk4Ay"><td class="num" data-page-node-id="5nxYAn3vWFgXMMaDDX0EV8">40 人</td><td class="num" data-page-node-id="xWFbXI7e5rBDhM5Ez7SpjC">¥240,000</td><td class="num" data-page-node-id="aTplF2KuXEL2e0crppr03d">4.0 人</td><td class="num" data-page-node-id="JPX09OOAFDG5uSlWEulnTS">¥24,000</td><td class="num" data-page-node-id="DP1MGDw0MfcgvUM2BKVsVC"><strong data-page-node-id="Qwsn6z05F35uSCqfK0doPQ">34.4×</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="u0NQBMCArrzzqmEEDPqj0B">假设：课时费 ¥150/节、每周 1 节、一年 40 周；产品价格 ¥698/年；留存率从 60% 提升到 70%（对照第 02 节 41%/68%/80% 的区间，10pp 属保守假设）。</p>
+    <div class="callout c-key" data-page-node-id="FKOxTg4dSZDY6H9SodgntY">
+      <b data-page-node-id="oRYB2rqykAVBVJjhDH2bCc">最强的一句销售话术</b>
+      "一年只要<strong data-page-node-id="kVX4uBr6Y4d3TcqAL2fosq">少流失一个学生</strong>，这个钱就回来了。"<br data-page-node-id="Dl4PTnwEXChz29wXkN3UJ7">
+      按课时费 ¥150 算，1 个学生 = ¥6,000/年，产品 ¥698 → <strong data-page-node-id="bsCkinEl2GxLtVdNeBHlNv">留住 0.12 个学生即回本</strong>。即使课时费只有 ¥95（初级），也只需留住 0.18 个。这个论证对任何一位正在为续课发愁的老师都成立。
+    </div>
+
+    <h3 data-page-node-id="qUxyZWDFXUSeVzfEyombUC">7.3 定价：三方锚点对照</h3>
+    <table data-page-node-id="9YYEhWTuaCft7W3QiLVr5x">
+      <thead data-page-node-id="rA7p4i3nBH6a9YEKqs9R2c"><tr data-page-node-id="TBwFxxmCWal1UT5OWHTqi8"><th data-page-node-id="v7nXQP8zgSRdGWUyEpGtJf">参照对象</th><th data-page-node-id="0hjL3BHcOP28EFazATBEaU">定价</th><th class="num" data-page-node-id="ZyRibKQiR2zdMwGIiCL9B2">折人民币/年</th><th data-page-node-id="xrEbPbOoknaIkoIemBk2hj">说明</th></tr></thead>
+      <tbody data-page-node-id="hro8KMGnoqixQ5Z1kzuKr3">
+        <tr data-page-node-id="MNGa7az06H6yWyDjwVekU6"><td data-page-node-id="FpCRFDNS6GxZAoSJ2DGUDd">Tonara（以色列·教师端）<span class="ref" data-page-node-id="8VxxqJrLskCp076JFzGQUN">[m01]</span><span class="ref" data-page-node-id="isAviFv7fVlPSeCH1gnPZ5">[m02]</span></td><td data-page-node-id="ByRe2Y92HAvr6geTplvLCU">免费 ≤10 学生；$9.99–12/月/教师，无限学生</td><td class="num" data-page-node-id="eQL1CmwW70IE7p7MIMPE7L">¥850–1,030</td><td data-page-node-id="MJFHJS4nAAwtLAK2WAEg3r"><strong data-page-node-id="3HbZNIvU5sXNXxYaY6DvrP">最贴近的对标</strong>，且是"老师付费、学生免费"模式</td></tr>
+        <tr data-page-node-id="P2FNN8pO84iQ6Elf5HyCe3"><td data-page-node-id="iwGJX0YHdXQrD5RrEb4pap">Practice Space（美）<span class="ref" data-page-node-id="Ijomdwe7ta4NBUbfOyeoxc">[m03]</span></td><td data-page-node-id="Oc9PXvAHn8JlDnQg4wEBO8">$15.99/月起，学生免费</td><td class="num" data-page-node-id="XluxhQZbI1XRkujpyGEZfC">≈¥1,360</td><td data-page-node-id="k8vIaaHtSAVNrA7zNpgtXV">同样老师付费学生免费</td></tr>
+        <tr data-page-node-id="vODYYITAvzbetEJNdAQuCm"><td data-page-node-id="HCcCGegLQAm1QMee4bra4a">My Music Staff（加）<span class="ref" data-page-node-id="N9uqsqxc5XTNhiYj61v6ZK">[m04]</span></td><td data-page-node-id="gRs6Q1QNfd9t2Ds9GJ5yqL">$16.95/月 + 按学生计费</td><td class="num" data-page-node-id="388GnKKCwnwd51dtbFyBFL">≈¥1,450+</td><td data-page-node-id="YAgKvyDoJ1evra5XfqMVA9">偏机构管理</td></tr>
+        <tr data-page-node-id="jHQm0kdq8kOv1U0AFWbIJU"><td data-page-node-id="0DLcO7bYNNdDUXZToSyNYs">小禾帮（国内·机构）<span class="ref" data-page-node-id="XmTRrjKsYOdeG4LTh7NNPf">[m16]</span></td><td data-page-node-id="wzr0uEj5CL3D8gYZoieh2o">¥499/年</td><td class="num" data-page-node-id="qHrNic5NX33Bhn43d6Nszb">¥499</td><td data-page-node-id="n9oALQQHCgUc4WPC2lv85w">教务管理，非教学工具</td></tr>
+        <tr data-page-node-id="DwRSFpvnXiJtS2ocwl0pEn"><td data-page-node-id="WGSuHfrvzKstLyYVXLHeGR">小麦助教旗舰（国内）<span class="ref" data-page-node-id="q2BYfNu6KfABQtGgWIMTMV">[m16]</span></td><td data-page-node-id="zfdNApRSNMpu1uaQRNUpAj">¥7,480/年</td><td class="num" data-page-node-id="GKcFLHGhVLn599Df9F0kGg">¥7,480</td><td data-page-node-id="DIdlygZIRYtK2umX7Uljsc">面向连锁机构</td></tr>
+        <tr data-page-node-id="GgzSELfxEFaE7mc85FVHde"><td data-page-node-id="bkvr33DD4BaLPyCUZ0zffg">某教育小程序（国内·个人讲师）<span class="ref" data-page-node-id="ZmIgEhUyYO44JRiJLxe3Pl">[m17]</span></td><td data-page-node-id="ue7IZ2lzlZPwgwUdBjFDBB">¥899.5/年起</td><td class="num" data-page-node-id="Pnlh7nHEnmjA8avE1UYfi6">≈¥900</td><td data-page-node-id="eoYp8f7AhQf0gCeHWeinVw">同类定位参考</td></tr>
+      </tbody>
+    </table>
+    <p data-page-node-id="9vkn1XK1CO66CDUtQVZ3Es"><strong data-page-node-id="c1Ji3mx25Z5Galm5RqERDG">建议定价</strong>（老师按学生数分档，<strong data-page-node-id="2PpF4ojYgEEnoux06fDOJU">学生端完全免费</strong>）：</p>
+    <table data-page-node-id="1Snx61HqX8qJ7E4MRwI9yc">
+      <thead data-page-node-id="gA4LhpOUPoQh165GFBF5Az"><tr data-page-node-id="UNAcDf7FtQVFMl3vPCh2ZT"><th data-page-node-id="iX0R9GmDmXHqbB01AilmAB">档位</th><th class="num" data-page-node-id="XFx3HZfeFE8MsDZ6PKr4tf">学生数</th><th class="num" data-page-node-id="2I0tbLGZuGdY67GUN6fnNx">年费</th><th class="num" data-page-node-id="GtA2YjgDybEGFoI0p8otok">摊到每生/年</th><th class="num" data-page-node-id="KyiDGIC2zMSMhr1nKFKpWr">摊到每生/月</th></tr></thead>
+      <tbody data-page-node-id="4rwMhopuF09yda6hqQysYv">
+        <tr data-page-node-id="qFQR96bAUl8iT1sAsF8wwT"><td data-page-node-id="0SVLg25W2pdvjb6FQ4OSH1">入门版</td><td class="num" data-page-node-id="7VdJeue8DD4o3HBmPelyur">≤15</td><td class="num" data-page-node-id="BPz31Bgmq8h961CkeLEr4q">¥398</td><td class="num" data-page-node-id="kvSIPu35EHjJkYsAwPQECa">¥27</td><td class="num" data-page-node-id="ZAFnxfqLswDjM2uDILh4R5">¥2.2</td></tr>
+        <tr data-page-node-id="G0rcliuCU9YrSvwAJdpIfa"><td data-page-node-id="RLzqqLFsS1nSIdkWsqRBAh">标准版</td><td class="num" data-page-node-id="nQGv7bZfepeAB8dJ9yImiB">≤40</td><td class="num" data-page-node-id="7QGkXXwXo36p5BR1EAGs6R">¥698</td><td class="num" data-page-node-id="w0EkdjTgFkppfBZgxSAKI9">¥17</td><td class="num" data-page-node-id="KxjGqxXiZ2sHu2cNZAcmvB">¥1.5</td></tr>
+        <tr data-page-node-id="N1ZbcpikFLQYWbWhtrGH6I"><td data-page-node-id="BOPS6F0ibdOPdeOe9vblvz">专业版</td><td class="num" data-page-node-id="xvfz4ApbHcPMKW0EDFQo6G">不限</td><td class="num" data-page-node-id="IzcWfJWBr9mE1U1AmUH1q4">¥998</td><td class="num" data-page-node-id="SEs9LU3gt3Y7wJ9Wvo3B0B">¥25（按 40 人）</td><td class="num" data-page-node-id="uaA9EbWktVYnMKY5xwU9bx">¥2.1</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="EwiZgiYn1thCkQRYjE5pVb">定价落在 Tonara（¥850–1,030）之下、国内机构 SaaS（¥499）之上，符合"个人老师支付能力 + 教学工具价值"的定位。<strong data-page-node-id="gBvqkVJA4gFag4uDIlIwZL">建议设 10 学生以下永久免费</strong>——参照 Tonara 的做法，它是获客的主要入口。</p>
+
+    <h3 data-page-node-id="IhpxxOUmQSxKbCpQUEznC7">7.4 成本侧：一个必须修正的乐观结论</h3>
+    <p data-page-node-id="8cGhQ1N5s2WOWLsSprCDEd">前六卷一直沿用"毛利率 90%+"的结论，那是基于"音频检测 + LLM"的成本结构。<strong data-page-node-id="dmX3UjAChBfBKd1MEektAA">本卷引入课堂速记后，语音识别（ASR）成为主要成本项，必须重算</strong>：</p>
+    <table data-page-node-id="T2LBBOgvBGEwHQABjAGZ13">
+      <thead data-page-node-id="WJlKCIXaiCRnH4KK54TGML"><tr data-page-node-id="1G00E4WZjme14y5MSBrAlX"><th data-page-node-id="9GfDKGG33USORjSuiV0VxP">技术路线</th><th class="num" data-page-node-id="AbMumPhNafvVEsOJjYhp77">单价</th><th class="num" data-page-node-id="hpJSVvygHT3BrJ9IORHNB7">30 秒速记</th><th class="num" data-page-node-id="u0emyWtYMZqOD2CZcN4NFb">每生/年（43 周）</th><th class="num" data-page-node-id="kLQFIyqoF9dJqXO6am9zEv">标准档毛利率</th></tr></thead>
+      <tbody data-page-node-id="476TCFEG11U1pkSBGcFiNL">
+        <tr data-page-node-id="XmDd9YuNHwOt6P2zl7h7av"><td data-page-node-id="sEQSP1h76vpXOie1z644bZ">A · 云端 ASR API（主流厂商）</td><td class="num" data-page-node-id="gneGCdaxScXTfni2GSBeTq">≈¥0.30/分钟</td><td class="num" data-page-node-id="BoryOGHLQxXFrRE7MCyFi9">¥0.156</td><td class="num" data-page-node-id="dDhF7URorUYj5yqeA7E6pR">¥6.91</td><td class="num" data-page-node-id="o61zfPSWOKEuznj0oZKbAF"><strong data-page-node-id="N0G5BeNQoluJKwMMksExl5">60.4%</strong></td></tr>
+        <tr data-page-node-id="D5hOjOm6QB2gSYFnTSkWtz"><td data-page-node-id="pldWgw8ojFPl6AkcItTw4F">B · 自部署 Whisper（GPU 摊薄）</td><td class="num" data-page-node-id="Vus5kGQSHOTeoEeZJHNHP4">≈¥0.02/分钟</td><td class="num" data-page-node-id="L6lUBOWJxVKRuwle7A7IEX">¥0.016</td><td class="num" data-page-node-id="XJ2TFA6BH7yHyGj2xJmlHS">¥0.89</td><td class="num" data-page-node-id="MDJaBkFTZlRFSVBpoLZ7du"><strong data-page-node-id="zJTYVMGPQILGv8DA1gRerK">94.9%</strong></td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="WG5NcFiUTmCemJN4I86YIl">回课音频分析成本（每周 3 段 × 40 秒：检测 + 存储 + 评语草稿）仅 ¥0.22/生/年，可忽略。差异几乎全部来自 ASR。</p>
+    <div class="callout c-warn" data-page-node-id="elEv7Gn5WmmitHrijpNpDL">
+      <b data-page-node-id="yWsGQV7J8PgHydFPgs1QsG">修正前六卷的结论</b>
+      本场景毛利率不是 90%+，而是<strong data-page-node-id="OHwghvfG39XLOFNMWWx4YA">路线 A 约 60%、路线 B 约 95%</strong>。<strong data-page-node-id="xjtoz26200ESte5MPvViaT">ASR 技术路线的选择，直接影响近一半毛利。</strong><br data-page-node-id="aBHeZbGTASp1IkeM1DLNiR"><br data-page-node-id="CAAr5x8bSOMxNeK6PYKMYv">
+      建议：MVP 用云端 API 起步（零运维、上线快），活跃学生过 5,000 后切自部署。另一个立即可用的降本杠杆——<strong data-page-node-id="AgNdit9y4YSOIscw5SZOJO">不是每个学生每周都需要录音速记</strong>：若只有 40% 的学生使用速记，标准档毛利率可回到 84%。
+    </div>
+
+    <h3 data-page-node-id="vyoOq6EXPILK0kYJCxPElI">7.5 最大的风险，必须现在就说</h3>
+    <div class="callout c-warn" data-page-node-id="ivgqHT2Bz9fFEH0o3pciEN">
+      <b data-page-node-id="6r3PJPHS5SOaFiuIEot7oT">国内个人老师的 SaaS 付费习惯，远弱于欧美</b>
+      Tonara 在欧美能收 $9.99–12/月，是因为独立音乐教师本就有为教学工具付费的习惯。<strong data-page-node-id="6cW2jCxh0FNQsVPFsYCWSf">国内民乐个体老师没有这个习惯</strong>——他们连微信群都在免费用，凭什么为一个新工具付 ¥698？<br data-page-node-id="pnCe0hrPRapE31JULDEGQA"><br data-page-node-id="K9QadsOvlwKHuzhxy2FS0I">
+      这不是靠"功能做得好"能解决的，只能靠验证。因此建议<strong data-page-node-id="KXujWjB0AYJ0G9VcrhnJOO">分三阶段推进，而不是直接定价开卖</strong>：
+      <table style="margin:10px 0 0;font-size:13.5px;background:transparent" data-page-node-id="uH3CnXsMg9PPNnLP6lEfHM">
+        <thead data-page-node-id="Wl2eS0BgYfryXA0QKQrBHp"><tr data-page-node-id="yNgaR6Ac2UBAonqv0oGpIS"><th data-page-node-id="MFQ2J1ygS37BvgybnDWTWj">阶段</th><th data-page-node-id="iCl48OuEIO8vRbqm15k6Dz">规模</th><th data-page-node-id="SD7nS5Y5a4yNOufzKU6ojr">收费策略</th><th data-page-node-id="fYXFOM6pqcSXMDzhI5tHZX">目标</th></tr></thead>
+        <tbody data-page-node-id="Kff3XP2A46nUtza6WCZ59D">
+          <tr data-page-node-id="NNH9GLAfvnmnJ2HwKFPNHF"><td data-page-node-id="AIBPhATkgMa6pLDR80DS9b">阶段 1</td><td data-page-node-id="lzfIAoko4nFSuhzuv8wrEk">0 → 100 老师</td><td data-page-node-id="QcDzIPqAHD7OtXElH5eYA7"><strong data-page-node-id="1VsS8GMO9TWOAqVwBH6L1N">完全免费</strong></td><td data-page-node-id="s5DYBAYdIx4Oj7i2Te4RP9">换数据、换案例、换口碑。不追求收入</td></tr>
+          <tr data-page-node-id="V32v3yOums6AaVPeJnJLpK"><td data-page-node-id="fkH18BTYAVFsDVwuPTU05J">阶段 2</td><td data-page-node-id="gXiG1sAqiBBewEpnOXfO3M">100 → 1,000 老师</td><td data-page-node-id="BcrHIsxd9rOmq6eRUkrPYS">老师免费，家长增值付费（¥199/年，老师分成 30%）</td><td data-page-node-id="S00D1hJpPlYBa5jv4hSAYO"><strong data-page-node-id="oy8UNJsJRCyWxSKyC6aemi">回避"向老师收钱"的习惯阻力</strong>，同时验证家庭端付费意愿</td></tr>
+          <tr data-page-node-id="CuXNfXFLzxvLlZ8T70FOTB"><td data-page-node-id="rYaWjL36Bv4tc9Pa4oyITA">阶段 3</td><td data-page-node-id="hSWZwniBhV25NCXiRUGddk">1,000+ 老师</td><td data-page-node-id="ezq42vF2lu6GFgKi6nFetD">老师按席位付费（¥398–998/年）</td><td data-page-node-id="CNFGtu1EurDlAE2VMZp0Mx">价值已被验证后才收得动</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p data-page-node-id="It72FT4xCrgqAQCjZ3G8zC">注意阶段 2 与阶段 3 的关系：<strong data-page-node-id="1tSu6casRa0bW6VXA2Vu1R">不要试图跳过阶段 2 直接向老师收费。</strong>前六卷已经论证过家庭端 CAC 结构性不可行——但那是在"没有老师渠道"的前提下。一旦有了 100 个老师，情况就变了。<strong data-page-node-id="8uTKI52XgCqNcxuCYbJ8ST">老师渠道的真正价值，是让家庭端付费从"不可能"变成"可能"。</strong></p>
+  </section>
+
+  <section id="s8" data-page-node-id="iz3P7yJHq5dr65hyVjkYVu">
+    <h2 data-page-node-id="4SJhdD3MLtx533GB3O39d6"><span class="num" data-page-node-id="1jkJXwuGYo51VgZG11xo2h">08</span>竞品对照：为什么它们不是答案</h2>
+    <p class="lead" data-page-node-id="XOEXcV2JNdXeMQW89w0cC5">最接近的竞品 Tonara 已经把这个模式跑通了。所以真正的问题不是"有没有人做"，而是"为什么在中国、在民乐、在你手里它值得再做一次"。</p>
+
+    <table data-page-node-id="nClTx0gZkip5LnGx0XDLWc">
+      <thead data-page-node-id="x7B09XETOkGMyB6bUFpqIO"><tr data-page-node-id="kSOPJ7QDpSB83GwolsWRDh"><th style="width:17%" data-page-node-id="9zFe1ofb451eWGbND88Cvq">竞品</th><th style="width:26%" data-page-node-id="jdj1kZ1tvLkZdRDjp07zFp">它做什么</th><th style="width:16%" data-page-node-id="VdqFobQwtoP3gILYkdcWUF">为什么不适用于你的场景</th><th data-page-node-id="IydFdgOHFZLLzAqQjZigUo">可借鉴之处</th></tr></thead>
+      <tbody data-page-node-id="ORanGwwSJq4NYHEko3HdBv">
+        <tr data-page-node-id="pGAE4uICh6NygpZtTnVusA">
+          <td data-page-node-id="Igi2tfJRDgN2C48xK2iwBz"><strong data-page-node-id="EY9MZRI89jr5P7ez3vUGma">Tonara</strong><br data-page-node-id="tkdvyRjfryPNZgLYfE2GcI">（以色列）<span class="ref" data-page-node-id="0aI9juBstywYCuFomBY6Uf">[m01]</span><span class="ref" data-page-node-id="GFfTh9mRVwSNPkAoq5bCe8">[m02]</span></td>
+          <td data-page-node-id="vh43URo7DJKsXoSuIAiOiJ">教师端一体化平台：智能作业、进度追踪、Compare Recording（老师录示范，AI 对比学生演奏给出流利度/音高/节奏/速度反馈）、积分排行榜、群聊</td>
+          <td data-page-node-id="OtkJsYmYanCwNJUMORDzRu">① <strong data-page-node-id="8EBRQZXNJOdxa7lJwl9bgX">不支持民乐乐器</strong>（核心 AI 针对钢琴/弦乐训练）<br data-page-node-id="AhgFi9LZRBrN8RQEU5CQB7">② 无中文、无微信生态<br data-page-node-id="tp7Ll1gWmTQj6mmLE2Eky9">③ 中国老师无法付费（无人民币定价/支付）<br data-page-node-id="WK00ZA3tk1oX1Hlv32sN0b">④  gamification 过重，与"让家长退出"的立场冲突</td>
+          <td data-page-node-id="r97HKnK9gZNItaY219ReYK"><strong data-page-node-id="tfJo6f4kAGJEwubqFyR3BE">整个产品架构都值得抄</strong>：老师付费学生免费的定价、"示范录音 + AI 对比"的作业形态、10 学生免费获客</td>
+        </tr>
+        <tr data-page-node-id="8zNBhgM0AzbaCBq3Ckv19S">
+          <td data-page-node-id="CCG7RGhlvJ5Z9457sNpACE"><strong data-page-node-id="cZczGNwJFY73Nn97brwojt">音乐笔记</strong><br data-page-node-id="X2PRqIZ6K87TWYFpz8b0Lg">（北京银河润泰）<span class="ref" data-page-node-id="yjo9z2oQJJ9Ib7hHrLUd8y">[m12]</span><span class="ref" data-page-node-id="oVLNrXJVa3wSEUQ5JxlAzA">[m13]</span></td>
+          <td data-page-node-id="Jv9Wk9uBGvPSb4fKrLMWZD">智能腕带（肌肉电采集）+ APP，8 维度评测，纠错准确率自称 &gt;99.5%；2020 年推"大眼睛钢琴陪练"，与 PICC 推"考级保险"</td>
+          <td data-page-node-id="eBgCKFiNN2LFq1vOt1ydpP"><strong data-page-node-id="wKbCTLYHFRZaoRRcEDLRIP">这是一个必须正视的失败案例</strong>：2015 天使轮 1,000 万、2017 A 轮千万级，<strong data-page-node-id="kdN5IBgOFx7vEHSfzrN68d">此后无新融资</strong>。硬件路线 + 重度 AI 纠错，最终没跑出来</td>
+          <td data-page-node-id="3PFpDAsMU4bW6s36y1yWPM">"考级保险"的思路值得记——它把教学效果金融化。但硬件 + 全自动纠错已被证伪，<strong data-page-node-id="HOjG8oFGnyl5V4Hz3HoiY6">不要重蹈覆辙</strong></td>
+        </tr>
+        <tr data-page-node-id="K02AI6NbeVjeFjgAiVPIMS">
+          <td data-page-node-id="xE5CN7mvwsqJnNcAEGUZpB"><strong data-page-node-id="C4OHDIEysPKGpo2LP1lSTG">帮你教 / 校盈易 / 校宝在线</strong><span class="ref" data-page-node-id="Ag71tTcCnShu073EI4uavC">[m14]</span><span class="ref" data-page-node-id="yFE8QyS7BW3pWHf8xV7fvb">[m15]</span></td>
+          <td data-page-node-id="GBFDYVaIlgmKDWcB9eBM4E">培训机构教务 SaaS：排课、考勤、作业布置（文字/图片/语音/视频）、师生互评、家校互通</td>
+          <td data-page-node-id="9uEfNnES0Gxoj6liUyiB3e">① 面向<strong data-page-node-id="zNa4PmU1V1DwmC0D0m5OzG">机构</strong>而非个人老师（需销售团队，与你的渠道优势不匹配）<br data-page-node-id="EmjjGbd2sQiGHXYrYdzW9Q">② 有"作业"功能但<strong data-page-node-id="WwHDQPMfgMLsaAs9qHciLT">无结构化</strong>——只是把群消息搬进系统<br data-page-node-id="qmXUHXeQTEkIZgHmOw0OCS">③ 没有 AI 核对，老师依然要逐个听</td>
+          <td data-page-node-id="OTfb29VB4LWJFFU4x952HC">证明"作业布置"是刚需功能；<strong data-page-node-id="XQEbLTr0qZguhHDIPt7TgB">但也证明它已被满足得很浅</strong>，正是你的机会</td>
+        </tr>
+        <tr data-page-node-id="02eGobIUYsBTXtqXFufMpg">
+          <td data-page-node-id="2bFmYjGuGFgEOQcrbUhjr4"><strong data-page-node-id="miA0d2eONxNPaqNZ9763z0">一起练琴</strong><br data-page-node-id="UzQykuc3AHoVhpZacPQPZz">（寻声科技）<span class="ref" data-page-node-id="rf01tdrabQ50yLpyGqkcBD">[m18]</span></td>
+          <td data-page-node-id="IdrLKGzVNbiHoM99cWaxVW">已覆盖古筝/二胡/琵琶，有识别软著，AI 纠错免费引流</td>
+          <td data-page-node-id="kTLjSLp8NgWcBWRF8UJSLj">它解决的是"练琴时纠错"，<strong data-page-node-id="GVhSfhxkyerClxtmQMZaWC">不解决"课堂—课后—家庭"的闭环</strong>。它不服务老师的教学流程，老师不会因为它而更了解自己的班</td>
+          <td data-page-node-id="xGo8a66S5YRCHmBnz7jRnz">它是<strong data-page-node-id="N8uKFuDBdhiHjUl5PTLVGT">能力层的对手</strong>不是产品层的对手。若未来要做纠错，绕不开它——所以本方案刻意不做纠错</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout c-key" data-page-node-id="GZZaKmwFAdijPB8v12TyAN">
+      <b data-page-node-id="ypbKCpDDMWgqmKxoH40Qrt">你的四个不可替代项（合起来才构成壁垒，拆开都不成立）</b>
+      <ol style="margin:8px 0 0 18px" data-page-node-id="tSJX256FuLyXdidsDi44yC">
+        <li data-page-node-id="Fxl1bn38YVpphq4oXKMAD4"><strong data-page-node-id="NLQj3WD6naYWw4jjlKeYji">民乐术语与曲目库</strong>——通用 ASR 与通用 AI 都处理不了，而这是你的日常语言</li>
+        <li data-page-node-id="cHWFqQnRIrQfUVQr8nvmqS"><strong data-page-node-id="mZJqJCN2bgE712zcuN5xMG">扬琴圈的身份与渠道</strong>——从业者仅约 5,000 人<span class="ref" data-page-node-id="srxpYTTsQPKTPTasqoXyKm">[m20]</span>，学会核心层 40–50 人名单公开，你本就在网内</li>
+        <li data-page-node-id="8jNVovBALFTYi9zrCrakr7"><strong data-page-node-id="FWDLZeICNUOzPiCnllKpkX">能判断 AI 输出对不对</strong>——花音诊断这类需要专业耳朵的标注，外部团队花钱也买不到</li>
+        <li data-page-node-id="tHM82HVHnHBrAjWUFFBGLO"><strong data-page-node-id="f8O3AWmuo5uEKQ2OqVyRaI">微信生态 + 中文 + 人民币</strong>——Tonara 三项全部不具备，且短期不会具备</li>
+      </ol>
+    </div>
+  </section>
+  <section id="s9" data-page-node-id="yLAKUA99E6nT1k05UWx4xc">
+    <h2 data-page-node-id="FJXFD0QCkwcUqPCwRE1kWy"><span class="num" data-page-node-id="NWth3jP6K7T8mbAsMZaQhu">09</span>MVP 范围与优先级</h2>
+    <p class="lead" data-page-node-id="YDe2SmjJkMlGflKctr03ck">MVP 的唯一目标是验证"老师愿意每周打开它"，不是验证功能完整性。任何不能服务这个目标的功能，全部后置。</p>
+
+    <h3 data-page-node-id="AUMnOVhzvJiJel17R4dJ4H">9.1 做与不做</h3>
+    <div class="grid2" data-page-node-id="SuKndVq0Amy8FYBubNySQw">
+      <div data-page-node-id="Ph5hMIXmHDgDT0LZtPmlTl">
+        <h4 style="color:var(--green)" data-page-node-id="Ym2sH6cVgaf1OSCQ3Fqa3C">✅ MVP 必做（V1）</h4>
+        <ul style="font-size:13.5px" data-page-node-id="8ZxwSSGbLvNF2YlooupDOn">
+          <li data-page-node-id="pBUggCrMnDfLHNBSv0v268"><strong data-page-node-id="g8DkQiXjHjqeIpTmtxGHuF">老师端</strong>：建班 / 加学生（微信邀请）、建任务卡（范围+问题+示范录音+标准）、复制上周卡片</li>
+          <li data-page-node-id="k4Cd4DZifWmp1uH7ZYMefJ"><strong data-page-node-id="LSlZawmNbq99jGLCjlOVJ0">学生/家长端</strong>：查看本周卡片、听示范、录音提交</li>
+          <li data-page-node-id="dPxzcTqy8jKdUMY4UzgLXj"><strong data-page-node-id="HLf860BMuYjWxPrJVF6BFH">AI 核对</strong>：有无演奏 / 遍数 / 总时长 / 完整性 / 速度波动</li>
+          <li data-page-node-id="Kclc9pkr78DCvW8iFGXNIz"><strong data-page-node-id="oAAxTzg3MhLeM1m6HOP6Te">驾驶舱</strong>：全班完成矩阵 + 三档分档 + 只听队列</li>
+          <li data-page-node-id="Hig8Qi5o0NEx8dHf2xvZDY"><strong data-page-node-id="cBtOtWu9CGQ3OT4dt8Pzb2">系统提醒</strong>：未提交自动提醒家长（去人格化）</li>
+          <li data-page-node-id="BdVfAOXMOACpmhZSg3oT9H"><strong data-page-node-id="MOO0E41go8A3HBFZAhhdFA">基础点评</strong>：语音 / 文字 / 表情快捷回复</li>
+        </ul>
+      </div>
+      <div data-page-node-id="62eXJjcoj1bCHyTBLFtC3n">
+        <h4 style="color:var(--red)" data-page-node-id="CQcmECC7DotnfuZqEQYKhu">❌ 明确不做（至少 V1/V2 不做）</h4>
+        <ul style="font-size:13.5px" data-page-node-id="Cab8AtFAQwL66WaEgUHwEz">
+          <li data-page-node-id="us2SnbElJfBDM9LADOUk9i">错音纠错 / 音准评分（技术不成立）</li>
+          <li data-page-node-id="vKgKXVbxdN2BPzf9XsupGc">手型 / 姿态视频评估（无数据集）</li>
+          <li data-page-node-id="PQzhBW8gDrynLE4vqHaPYz">实时打断式反馈（制造电子家长）</li>
+          <li data-page-node-id="2kD3nu5uwEXokCvQhvkQgm">AI 自动生成评语 / 教学建议（越权 + 责任）</li>
+          <li data-page-node-id="OEWLQdojTWi3UNrkHlV5ke">课堂速记 M1（V2，先让老师尝到甜头）</li>
+          <li data-page-node-id="dheZxRgDsMY8wD7iR5Hsrq">家长退出报告 M4（V3）</li>
+          <li data-page-node-id="2yMQC712rHvnQ4exrgoO6J">积分 / 排行榜 / 社交（与立场冲突）</li>
+          <li data-page-node-id="OxXpIXX77EF5ixBbxRejF8">排课 / 收费 / 考勤（教务 SaaS 红海）</li>
+          <li data-page-node-id="qBAMSkCgVItirxX952RptO">考级模拟（低频 + 需资质背书）</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 data-page-node-id="oy40ojZ67u7uXdfK1pAe62">9.2 技术指标（必须达到，否则体验不成立）</h3>
+    <table data-page-node-id="DJiAv8PdjcFLxeFCiGgoZw">
+      <thead data-page-node-id="T9ZhDgfnyEmUpyRRTR8L2j"><tr data-page-node-id="ZntgyHrDwqF23r3KsJYF8v"><th style="width:34%" data-page-node-id="WHziKiqujSnP9Qnqjgq9YZ">指标</th><th class="num" style="width:16%" data-page-node-id="zxoGcTI8khmHz45seW5MzH">目标值</th><th data-page-node-id="t7MJoJAojuuoFnxGDIeREG">为什么是这个值</th></tr></thead>
+      <tbody data-page-node-id="nfjXu07WTCjvWearAC5XOt">
+        <tr data-page-node-id="2mQUEdvHclvs6AmJfSQFvO"><td data-page-node-id="Puv22JxeGIbsf2kKEMl8B8">录音提交到出核对结果</td><td class="num" data-page-node-id="OWhX4BtiyxYzlkNQVqCoAp">&lt; 5 秒</td><td data-page-node-id="6eCSnJOCK8HcyJ2TZJUE6E">超过 5 秒学生会反复重录；这是纯能量/onset 检测，技术上 2 秒内可达</td></tr>
+        <tr data-page-node-id="1PPihugGLZ2kbxQeEvjOGn"><td data-page-node-id="BgGJ8d3sTxvFb87zCVpp6P">"有没有练"判定准确率</td><td class="num" data-page-node-id="FIp6olGQywyP87kS5ap2ip">≥ 98%</td><td data-page-node-id="v1669nQ3gI2SzN4nWNGuEi"><strong data-page-node-id="JPv3UNnyXI3BDEmPWbALW5">这是产品的信誉底线</strong>。低于此值老师会发现"系统说练了其实没练"，立刻弃用</td></tr>
+        <tr data-page-node-id="wtc6NQ2iAqmxqrMuAKK42d"><td data-page-node-id="Xtt43UPIGlzLaNW3I4EYt2">"完整性"判定准确率</td><td class="num" data-page-node-id="pvRm5tCEMgnKzSJcAQKCBc">≥ 90%</td><td data-page-node-id="G9JlMSujAHJaxOQwc9Lsvs">允许偶发误差，但明显误判需在老师端一键纠正</td></tr>
+        <tr data-page-node-id="GtwGhtnEqZ7CytHFJ9xnlK"><td data-page-node-id="PpXFRWX6EZECarWOy7iVwp">速度波动趋势可靠性</td><td class="num" data-page-node-id="QMQpFAlIbsWokA3bp1LTur">方向正确即可</td><td data-page-node-id="wBCc7ThhiE47k7960uMz56">只用于"比上周稳/不稳"，不用于评分，容错空间大</td></tr>
+        <tr data-page-node-id="W2OMG2FxXsBncNPOnFgikl"><td data-page-node-id="8ty9U47b4DvZ2apu17xhQZ">老师发一张卡的耗时</td><td class="num" data-page-node-id="i54QL75KKRqtdEndg9U7Sn">≤ 30 秒</td><td data-page-node-id="NqlIVjNci493WEbrDK5sb5">超过 40 秒老师会退回微信群</td></tr>
+        <tr data-page-node-id="WuerA0PdCdEmAQmetzU1uM"><td data-page-node-id="ZrSTg2EzZ28Kvf0If1bizi">老师批改 20 人耗时</td><td class="num" data-page-node-id="nhCuMBudE7YWSUKdVLpklg">≤ 20 分钟</td><td data-page-node-id="GpPHSrp2AYTN0FAVfkRKnU">对照现状 70 分钟，必须省 70% 以上才有替换动力</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="Ts4wny1jpv1P1SjE5Fx9Sy">9.3 成功标准（先定好，否则无法判断成败）</h3>
+    <table data-page-node-id="59JcxZoY7YT7hH2uciGWd4">
+      <thead data-page-node-id="5nI1LcgR8IDFDSMUuslz6n"><tr data-page-node-id="nGdamNOEUs5H5oDQdcMwhF"><th style="width:26%" data-page-node-id="asyajfrsbAF68IqxzGeNmO">层级</th><th data-page-node-id="EL0I1WmFMryqntK5m0dg7D">指标</th><th class="num" style="width:16%" data-page-node-id="1lFGxXKw7aaBEeohEGsBjI">通过线</th></tr></thead>
+      <tbody data-page-node-id="Ri1ZtqI3sFrYfHGxu8p4W6">
+        <tr data-page-node-id="0Ez0srVTWaaDAkZgpTbQXH"><td data-page-node-id="ZqomcGfxomUAYHBmhRsDhG">老师活跃</td><td data-page-node-id="84jldIr6AmSk0VO09jjinG">周活跃率（每周至少发过 1 张卡的老师占比）</td><td class="num" data-page-node-id="TIHtms2uJssU3yFvxVlcEN">≥ 60%</td></tr>
+        <tr data-page-node-id="zXXJT7LifyqAu0W7tGjnsc"><td data-page-node-id="qcfG58xNXTOEgPITm00G2D">学生提交</td><td data-page-node-id="YaKgFNShhAovMJB5WFIqXs">卡片提交率（发出的卡中被提交的比例）</td><td class="num" data-page-node-id="AafAt2ph56srP7eNYws6Ki">≥ 70%</td></tr>
+        <tr data-page-node-id="RUb9SzBUCsd31M0Az2vyXB"><td data-page-node-id="gAF4dq1Or5hh5oNEDf7Alr">闭环形成</td><td data-page-node-id="xWsmu6wuwogTJFnwVs2tVc">老师在驾驶舱里点击"听"的比例</td><td class="num" data-page-node-id="Apf3E2Y4gPDPK4HkZiAwmZ">≥ 50%</td></tr>
+        <tr style="background:var(--green-l)" data-page-node-id="zIsPgEsoG8wCqJvUHzwQlR"><td data-page-node-id="P9OdGZasEsbBN5s4VLhYN2"><strong data-page-node-id="R91LIQGGkebebgBKTwKlZQ">真正的北极星</strong></td><td data-page-node-id="ri8nc1MjFNIpRxFiP7FHyH"><strong data-page-node-id="NHvE9kRwve6YIQ5EAJ9JmL">周有效练琴回课次数 / 学生（WER）</strong></td><td class="num" data-page-node-id="Qf2JVryNwtVXPGUxLmJcPu"><strong data-page-node-id="5DirR3gINREx4WqXOsCLxv">≥ 2.5 次</strong></td></tr>
+        <tr data-page-node-id="rV4o8HMghTSBCUF0OLdmv9"><td data-page-node-id="0DpXzDEokbYHQdxztKoPZM">推荐意愿</td><td data-page-node-id="aTGDavPOOoxnejGFAHQ6Ai">老师主动把产品推荐给同行的比例（NPS 式提问）</td><td class="num" data-page-node-id="TMjIyGC8ztoYZZOJ5RaNxE">≥ 30%</td></tr>
+      </tbody>
+    </table>
+    <div class="callout c-note" data-page-node-id="7RRSgq1DBjmrHgRmhx4Lag">
+      <b data-page-node-id="JyoGqhHQYw99zF6mG6J2bU">为什么北极星是 WER 而不是 DAU</b>
+      DAU 可以用推送刷出来，而且它衡量的是"打开"，不是"发生了学习"。<strong data-page-node-id="8EoApFJqjCSstvHozy35bF">WER（Weekly Effective Returns，周有效回课次数）同时包含了老师发卡、学生练习、提交闭环三个环节</strong>——它涨，说明整个链路真的在跑。这与前几卷确定的北极星口径一致。
+    </div>
+  </section>
+
+  <section id="s10" data-page-node-id="CI5rLWmBcJNwvPicrHszIS">
+    <h2 data-page-node-id="PbSeXOPHRTDYUnktZpbU28"><span class="num" data-page-node-id="2OYEpOskc6KdxwyZWbm1gZ">10</span>冷启动：前 100 个老师怎么来</h2>
+    <p class="lead" data-page-node-id="OaXkEkt0Gp6rLjvXcv248I">这是你相对任何外部团队的最大优势所在。前六卷已经论证投放获客在 ARPU ¥199 下结构性不可行；但教师端不一样——扬琴从业者约 5,000 人，圈子极小且高度组织化。</p>
+
+    <h3 data-page-node-id="RWWMXnNCejcDqDA4b6bc7k">10.1 扬琴圈是有正式组织的（这是可执行的路径）</h3>
+    <table data-page-node-id="harKzBqgchoxgupZVPyZtt">
+      <thead data-page-node-id="BPlcGPqUSedFLppsNwhS6G"><tr data-page-node-id="fb4G3S7Vlo5988uaHkohtA"><th style="width:28%" data-page-node-id="5AZvtcB1CA8MgJYtqOekCs">渠道</th><th data-page-node-id="dzL5HpdIq8EBljzJ0AYU6E">打法</th><th style="width:15%" data-page-node-id="KDdIrIF2IHl6BUOgmNB8tc">预期</th></tr></thead>
+      <tbody data-page-node-id="gJ7kNBF8k06Bt1ZkCfmIEG">
+        <tr data-page-node-id="6SlYqU1l91DS5BkPVNcN4f"><td data-page-node-id="TgQVg1Zz59q8hXcEEE34cU"><strong data-page-node-id="HPs7Clfrj70Flmf9i7KnjW">中国民族管弦乐学会<br data-page-node-id="lc6fdToWbVDYYVvJn4QBZs">扬琴专业委员会</strong><span class="ref" data-page-node-id="oH0HpDpKPhdeEVCfke09N2">[m21]</span></td><td data-page-node-id="UH26GByPLrZ6UPTmpmatK1">核心层（会长/副会长/常务理事/理事）仅 40–50 人，<strong data-page-node-id="WT5B84kRIMRyoPwSmq3dBn">名单完全公开</strong>。逐个接触，先争取 3–5 位核心老师做种子用户</td><td data-page-node-id="spyuv4Ub3ascD7cKXYwqFZ">背书价值 &gt; 用户价值</td></tr>
+        <tr data-page-node-id="AOvqTmolchbTAuKz1kIBHC"><td data-page-node-id="7k9rKQyYga9HHehJNvUmrQ"><strong data-page-node-id="osl69mYek9ZIVsHppsHHw3">全国扬琴教学研讨会</strong><span class="ref" data-page-node-id="unD0PvqfaNc1YEr1gfDOzs">[m21]</span></td><td data-page-node-id="B8O3PPV3mvfmCyvaCBtIy0">已办八届，是最集中的同行聚集场景。争取一次 15 分钟的产品演示或工作坊</td><td data-page-node-id="Ua0dA1Vc0f31iu0Af4yImH">一次触达数十人</td></tr>
+        <tr data-page-node-id="JN7lJ0BhjHpoYPOeAdhib4"><td data-page-node-id="6QuGADIfu7vWdAqIIDwrO5"><strong data-page-node-id="FmDk7CExrDae3nb9QtUwgR">省市级分会</strong><span class="ref" data-page-node-id="IGqBjdCl2WpYywoHVdCFXT">[m21]</span></td><td data-page-node-id="2FKggoUrQy2Ly53mzRPcz6">已确认有湖南、常德等省市级分会。从本地分会切入，转化率最高</td><td data-page-node-id="KOxE8SEQ18IXKuyFADohUM">本地口碑起点</td></tr>
+        <tr data-page-node-id="2QoRUOZa68YkcINkCat6Ou"><td data-page-node-id="7L5W1TNwLaqdgmvPCFLFkY"><strong data-page-node-id="NQO894axoVbfrbAdePDsPI">中国扬琴网 / 扬琴圈</strong><span class="ref" data-page-node-id="qMeYrH7TS88LwrKzgC1S36">[m21]</span></td><td data-page-node-id="DmIVAdpdPYBNlTTrxe6o5h">现成的线上社区。以"同行在做工具"而非"推广产品"的姿态进入，先贡献内容</td><td data-page-node-id="Trm43NdZg5CB5W00hvXXbJ">避免硬广，先建立身份</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="WREZMh9PgkKF3cytvYhYV8">10.2 四个阶段（T0 现在就能开始）</h3>
+    <table data-page-node-id="dAp5HCO2mRYSJDKqFuAHE3">
+      <thead data-page-node-id="BUNdAHdxwkNJOlOElu6pD9"><tr data-page-node-id="Blgk1hnbx2VvMETNh6jwYb"><th style="width:12%" data-page-node-id="B8DvxESMvvgzeERfATTZPU">阶段</th><th style="width:26%" data-page-node-id="ysIQhE1sPIMqSF1PKD1d0R">动作</th><th data-page-node-id="6kL6hC9KXfcJbh6hKwH8Ah">目标与通过标准</th><th style="width:13%" data-page-node-id="mqRo4W2XOomGcLOkBAk4ml">成本</th></tr></thead>
+      <tbody data-page-node-id="GBy2bu23acf0drWBLFqyZE">
+        <tr data-page-node-id="R95vsAqgJtVmBTEYTKGWUO">
+          <td data-page-node-id="j0SF0vy5AsFKMwKsvgt996"><strong data-page-node-id="RFzF2bLPUz1PlIA8FYryzh">T0</strong><br data-page-node-id="Fh2szuSAmHowpi01gbseTh">现在</td>
+          <td data-page-node-id="OcyzFyyiTH370ou0QhgyF6"><strong data-page-node-id="zWSx9mJGnKiyGkIf0R8r26">整理民乐术语 + 曲目词表</strong>：轮音、反竹、支手轮音、滑弹、花音、琶音、双音琴竹…加上常见曲目名</td>
+          <td data-page-node-id="r1SeR6cEstfaOKQhANDadI">这是 AI 能用起来的前提，也是<strong data-page-node-id="iCrGy90grrocWcGFuthfqS">只有你能做、技术团队买不到</strong>的东西。产出一份 200–500 词的词表</td>
+          <td data-page-node-id="GkjnH11VpnbbQ5ZQshlHVu">0 元<br data-page-node-id="4ERyMbH3sWvdKh5VqkQtt1">2–3 天</td>
+        </tr>
+        <tr data-page-node-id="j3gobRgODv1fLlSZdUI2AT">
+          <td data-page-node-id="cjzWsN1i0UVGcUERm1T69O"><strong data-page-node-id="pf2bjBJnlndmJ2x72JhuAF">T1</strong><br data-page-node-id="d0hFrsRC33kz2iO4Plg8La">第 1–4 周</td>
+          <td data-page-node-id="iAqTp8DXg3HIwCviWwGIIe"><strong data-page-node-id="nOkZuMn2xmNHp2ogKxVmVD">用真人跑一遍 MVP</strong>：不发产品，用微信群 + 你自己手动统计，给 5–10 个自己的学生发"结构化任务卡"</td>
+          <td data-page-node-id="e9diG9856rYC49Eo0M8B10">验证：结构化作业是否真的让学生练得更准？家长是否真的更轻松？<strong data-page-node-id="HLXSiq0RZQhHgJdcIfFGTm">通过标准：家长反馈"知道该盯什么了"的比例 ≥ 70%</strong></td>
+          <td data-page-node-id="GBHCW0PY4c3uHDHEFbIG7C">0 元</td>
+        </tr>
+        <tr data-page-node-id="ibwWEtZoGvxlbMehaxusDt">
+          <td data-page-node-id="1819uaTZfA5rlj3DSBgQeF"><strong data-page-node-id="hYAlMuweXdpSZTO3FUYb92">T2</strong><br data-page-node-id="43HnpXAlycnBjdavv1pjW7">第 5–12 周</td>
+          <td data-page-node-id="HnOHhFDD7XP40GfdjqQvOp"><strong data-page-node-id="yIwIeAW2yzkd02eyWlE9AW">找 10 位同行老师内测</strong>（从扬琴圈开始）。每周回访，记录"卡在哪一步"</td>
+          <td data-page-node-id="synnkHHXx8deLYQ6b3UccZ">通过标准：<strong data-page-node-id="zZx92KqDwAAkrkOouLi3F1">第 4 周仍有 ≥ 6 位老师在持续使用</strong>。低于 6 位，说明发卡环节太重，需要减负</td>
+          <td data-page-node-id="z5FDO90GZoNutoDKo7O5aK">0 元</td>
+        </tr>
+        <tr data-page-node-id="pL7dWaJ6IcXqoUjijxfOvW">
+          <td data-page-node-id="JObHxAEH5yphqONiG9jepg"><strong data-page-node-id="Y2uS4h4Qb3tVtA72HhKqhz">T3</strong><br data-page-node-id="CmcZnRY0i9jZszEJd6O6HG">第 3–6 月</td>
+          <td data-page-node-id="DxDxlJLccHLOZzqO0B3FIC">扩到 100 位老师。<strong data-page-node-id="0zLcqrT7ZuCo3lvVLUKT3O">优先进入古筝圈</strong>（古筝老师约 8 万，是规模来源）</td>
+          <td data-page-node-id="d7519B8wabqWlhf1GmGvwR">通过标准：≥ 30 位老师周活跃。<strong data-page-node-id="fhfaX9adWDhil3qDy5RXmA">注意：进古筝时你的身份资产失效</strong>，需找到"古筝版的你"（第 11 节列为关键未知项）</td>
+          <td data-page-node-id="UR9ZQ4Stzxm64XOFD8bjPk">低</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout c-warn" data-page-node-id="JFE6dzdHK4z5qxFcPBrlJd">
+      <b data-page-node-id="gm1N25x7H55Zkf7ePdYNQt">最关键的一条纪律：T1 之前不要写代码</b>
+      T1 用微信群 + 手动统计就能完成，成本 0 元、耗时 4 周。它验证的是<strong data-page-node-id="wv3yowhjKAuFyBGcX4vD3E">"结构化作业这个形式本身有没有价值"</strong>——如果这一步不成立，做得再好的产品也没用。<br data-page-node-id="biJYVNcYNhW89XnKqHunP3"><br data-page-node-id="510zc449yk2K9aoMdeyJ33">
+      这与前几卷的 E1–E5 实验是同一套逻辑：<strong data-page-node-id="Xl3aj1xZ30Ve9AfKnVHmdF">先用最便宜的方式证伪，再投入开发。</strong>
+    </div>
+  </section>
+
+  <section id="s11" data-page-node-id="Fe6f2mPt9PFLMUY8DidKzd">
+    <h2 data-page-node-id="cyC6uSNXaaUbyU5DXWtvTD"><span class="num" data-page-node-id="9gjHd5W21nRE1M0FSefkah">11</span>已知缺口与自检</h2>
+    <p class="lead" data-page-node-id="LDzEHtxb7CLF9J0C1q7MwJ">本节披露本卷中不确定的部分。凡是没有证据支撑的，都标注为假设，不用看似合理的推测填补。</p>
+
+    <h3 data-page-node-id="x9nqdwyRz5atAB0ZB1XK5c">11.1 一个必须提醒的数据矛盾（影响前六卷的 TAM）</h3>
+    <div class="callout c-warn" data-page-node-id="zMA1wu7daKGY7PgAIiO6f7">
+      <b data-page-node-id="UKBbbF8uuZmSSxwH5jElLJ">古筝老师数量 vs 古筝在学人数：师生比对不上</b>
+      检索到的古筝教师数量互相矛盾（4.72万 / 6万 / 9.6万 / 9.8万 / 12万，相差 2.5 倍，且全部来自文档农场，已剔除）。取中位 8 万。<br data-page-node-id="3c6Cp4eHxnetFeptnMewI5"><br data-page-node-id="t5DWdJLjRzwf1MGsoBxHai">
+      但中国乐器协会的 A 级数据是"古筝学习人数近 1,000 万"<span class="ref" data-page-node-id="g8nOD93e1NLByKGHdPGHSN">[m19]</span>。两者相除 = <strong data-page-node-id="8G40if7jjRdg8RiLf7BZyB">师生比 125:1</strong>——在一对一为主的教学模式下，这个比例不可能成立。<br data-page-node-id="OH3UCBpCLoY8zLJ4UhB2XC"><br data-page-node-id="Y5addGb297t6xfk0dtOtHr">
+      <strong data-page-node-id="dwrYONKu0iTKfRkmnd9UUS">推论：至少有一个数字是错的，或者"在学 1,000 万"的口径包含了大量非一对一学生</strong>（短期体验、学校社团、大班课、线上录播课）。这意味着：<strong data-page-node-id="Up6uqR6ZEw7alMHBf3YiYA">前六卷用"民乐在学 1,500 万"做 TAM 底数，可能高估了可服务市场。</strong>
+    </div>
+    <p data-page-node-id="C0rRGjiExgpVdo3P2JM0tR">用师资反推的更保守口径：</p>
+    <table data-page-node-id="dT6vll2kvQibyxd6dP71Oi">
+      <thead data-page-node-id="u2bdFq5EZok2Q3ovV3NBp8"><tr data-page-node-id="B2gJY5zkk6rn7P9uKam0xT"><th data-page-node-id="KlgKVc6UobytMEQFceqi88">口径</th><th class="num" data-page-node-id="4HrNrsPZqygVlDIgFuxAs0">活跃学生数</th><th data-page-node-id="2KTYzZ9sQ1Vb7SHk4Qm0Ef">说明</th></tr></thead>
+      <tbody data-page-node-id="deInagjJHC8Y5GakG7jnJw">
+        <tr data-page-node-id="oMRvFEp2NfMp5UbQSpzSVB"><td data-page-node-id="hp58AbHsuY9ssQlGX2EBL6">前六卷：民乐在学（协会口径）</td><td class="num" data-page-node-id="WBuqA9UrjfOl8tOf668bMz">1,500 万</td><td data-page-node-id="WFRw9i4YtYHhKFny07k9Js">含大量非一对一、非活跃学生</td></tr>
+        <tr data-page-node-id="JKFLqohH4rTnGY0oS4Fxlo"><td data-page-node-id="v62G87C9adPf5vX3NXMHHA">本卷反推：14 万教师 × 20 人</td><td class="num" data-page-node-id="gi4BnsVR9GYUTeTOE1XkXf">280 万</td><td rowspan="3" data-page-node-id="Er8qEfKMNcyFAFIzFnW09z">更接近"可被一名老师持续服务"的真实活跃学生<br data-page-node-id="Kzd7WCZRNAGhMo4rb1etdy"><strong data-page-node-id="rmWCr6RPjPLCBVOs5374Cw">与 1,500 万相差 3–5 倍</strong></td></tr>
+        <tr data-page-node-id="ZTFlijsUF82SESIYx2ohy2"><td data-page-node-id="0Bpbts9ktrJtMyy0xULZnt">本卷反推：14 万教师 × 25 人</td><td class="num" data-page-node-id="j28BpzAbkEArIXYCDzY5OW">350 万</td></tr>
+        <tr data-page-node-id="hljgQsqbazgepDk1CQwKXe"><td data-page-node-id="zcNSnqIokb1ZO1j7A6jpSz">本卷反推：14 万教师 × 35 人</td><td class="num" data-page-node-id="LvmrTBS9JzbYliwT0TnZMP">490 万</td></tr>
+      </tbody>
+    </table>
+    <p class="tnote" data-page-node-id="VXBqrl3xByoEGUnvkF0Onb">这个差异对结论的影响：<strong data-page-node-id="KFyRFVk8VUiVSCCRnE7wzR">它进一步强化了"教师端优先"的判断</strong>——如果真实可服务的活跃家庭只有 300 万量级而非 1,500 万，那么"逐个触达家庭"的不可行性就更彻底了。</p>
+
+    <h3 data-page-node-id="FcKGDGj1VSUgtJP6AOv0sR">11.2 未验证假设清单</h3>
+    <table data-page-node-id="dHm6KWHGupu0imAhytVEVF">
+      <thead data-page-node-id="01rZujH1FdkPXt6OrYImfA"><tr data-page-node-id="CfigXzwLZIam6z0Froj0Vv"><th style="width:34%" data-page-node-id="uGXgGhIPYlfXDjGaYXBPJw">假设</th><th style="width:14%" data-page-node-id="3vPoMSadYXPIERaHaHDXk7">依据</th><th data-page-node-id="1Sh6cnbE5h1hgOMG55Ahly">如何验证</th><th style="width:13%" data-page-node-id="zKzZ3JT71H4E4iSb2ZoR3U">不成立则</th></tr></thead>
+      <tbody data-page-node-id="C9Me9KvjFpBVIHjgmQPpbA">
+        <tr data-page-node-id="cnS6nM240DpJdLEcZiI84Q"><td data-page-node-id="ODDmm3WNjHJF0ZwtuIct8V">结构化作业能提升留存率</td><td data-page-node-id="bJwVYPfAOASlDlpvuF3jXD"><span class="b b-lo" data-page-node-id="v0u5He0uQTrBbqlt5NIC6z">间接</span></td><td data-page-node-id="Pjpm7pqGExlq5BwD7izJDc">41%/68%/80% 是<strong data-page-node-id="OHfEpiLAokDBSQPBbk0EAI">相关</strong>不是因果——可能是"认真的家庭本来就会坚持"。需 A/B 对照</td><td data-page-node-id="kMc80XTGxbXIy2FhvWvvQE">产品价值主张需重估</td></tr>
+        <tr data-page-node-id="wgpjtibOg7Ds00dbxJV6mn"><td data-page-node-id="z0zHzdi6jTyE8MkzRyTJS8">老师愿意为教学工具付 ¥398–998/年</td><td data-page-node-id="fB8gN1BAharTXbHgYGC1Qp"><span class="b b-lo" data-page-node-id="SJpqA9OTr2r1e4IG3fyBoZ">无直接证据</span></td><td data-page-node-id="ydpTEADByTtAOJWWH1a3hP">T3 阶段做付费测试（假门 + 真实收款）</td><td data-page-node-id="XhPKN94hgNhqXtMPgLLDco">转阶段 2（家庭付费）</td></tr>
+        <tr data-page-node-id="YmOqYpHBM7p4QKtUE1NNfS"><td data-page-node-id="5er3zRTgByDElZMOCNJBny">老师能坚持每周发卡（不嫌麻烦）</td><td data-page-node-id="5Kl6DzLkvvAbbMP8NCjM9v"><span class="b b-lo" data-page-node-id="dBBp8655D6KFTgN8btK2hG">无</span></td><td data-page-node-id="Jx9LCW2GPzNd4lT2twIdF0">T2 内测的第 4 周留存率</td><td data-page-node-id="1O5ou8C03HP1th9gto4EDc">需进一步减负（模板库 / 批量）</td></tr>
+        <tr data-page-node-id="brPgVU9BLmwvYmyHjRYgEY"><td data-page-node-id="40bqZCK53XrO9rFmtEzpbn">民乐术语 ASR 词表能把准确率提到可用</td><td data-page-node-id="8M7eey7RlsEXnFkpobXi75"><span class="b b-mid" data-page-node-id="PKkqcAHAVGFaREz40Cdzwd">技术判断</span></td><td data-page-node-id="nKAyWNi5msQEb7pbos4AoC">T0 出词表后实测 50 条真实口述</td><td data-page-node-id="nWphxDREZpii76wDI7GMth">M1 延后，MVP 只用打字输入</td></tr>
+        <tr data-page-node-id="xt7NZLOhkdMi02jcM8Wz7Y"><td data-page-node-id="IjsiCQAjfqFCo3Bb3NXBz5">能进入古筝圈（找到"古筝版的你"）</td><td data-page-node-id="RZqjK7b2OVFwUFFJrTdnFl"><span class="b b-lo" data-page-node-id="X5cXSMWpaE3nOtXC76rKew">无</span></td><td data-page-node-id="akrO8jA8qiy2GQUMKR15uq">T3 阶段直接接触 10 位古筝老师</td><td data-page-node-id="zhngXyt3WQWBVdDgUOvS77">规模天花板回到扬琴（约 5,000 老师）</td></tr>
+        <tr data-page-node-id="ttQ9Y2x12IX9ZVhJWQ3yms"><td data-page-node-id="E7bm4bd1jt0XQaJNBmDk7Z">民乐教师合计约 14 万</td><td data-page-node-id="oJ4gzAfMQiC2JHV2MlGD0u"><span class="b b-lo" data-page-node-id="vE7KtRtVMHYZ4bCV8EUd5r">本卷推算</span></td><td data-page-node-id="Cg183CBSqlwuRilU6tSqne">其中 5 万–8 万无任何信源支撑</td><td data-page-node-id="mmyPgc7iJNZzV4hWhQmCPg">天花板测算需下修</td></tr>
+      </tbody>
+    </table>
+
+    <h3 data-page-node-id="IFlbbFOvDSIciYal548cY4">11.3 自检表</h3>
+    <table data-page-node-id="klhbmkJLPCtpb6zC36UDDG">
+      <thead data-page-node-id="0XEsgvmDVez6qu3apNxySu"><tr data-page-node-id="Rv6BDKBed7HgtCO5vx4sGL"><th style="width:40%" data-page-node-id="aeav2ywzSPErqKHx6F666H">检查项</th><th style="width:14%" data-page-node-id="0zMbawzlnq6jfVGPLFli21">结果</th><th data-page-node-id="Az7ETsvmg5khmDTWhOvNDV">说明</th></tr></thead>
+      <tbody data-page-node-id="JF5zRhDfOtR8Xvg3BztwM2">
+        <tr data-page-node-id="1CHMk8wv9gqTzPt6JSdVXC"><td data-page-node-id="qX58Uh0TnGPZYW4IWcrEQV">三个痛点是否都给出了对应方案</td><td data-page-node-id="D4GJVbWjyez8JFevukY7gA"><span class="b b-hi" data-page-node-id="iSfKmG22XnmBg4ooTOKvM4">是</span></td><td data-page-node-id="kJmLcDG5qmwHswhlVI47yp">M2 覆盖监督+陪练，M1 覆盖数据缺失，M3 覆盖回课验证</td></tr>
+        <tr data-page-node-id="iftXUWXdB9L9hG6mPObKgX"><td data-page-node-id="sHw2BQZSQmGhU18BhhBloV">是否所有 AI 能力都标注了成熟度</td><td data-page-node-id="bCdDOEZ1QEqVj6oqRnHvKP"><span class="b b-hi" data-page-node-id="QeKaVafR4ttcjO08bCZYPU">是</span></td><td data-page-node-id="hO42qAUjPpNZy2adB2ifsY">第 04 节 10 项能力分级，5 做 5 不做</td></tr>
+        <tr data-page-node-id="X0a4votgbwCyEFXL4LwYGT"><td data-page-node-id="bGu6qKaS6oh18MwxQVlirZ">是否区分了事实判断与价值判断</td><td data-page-node-id="GEuDHhmJcp2iXjniyjP0YI"><span class="b b-hi" data-page-node-id="k3LV71NVgv1pLXsE1qOw1C">是</span></td><td data-page-node-id="v422MI4cki87i3jU6vhTnU">核心边界：只答"做没做"，不答"好不好"</td></tr>
+        <tr data-page-node-id="rXHPMtddYPkEZB5kLqiTVL"><td data-page-node-id="3CptOuuaGzfGMLquqrGi1f">数值结论是否可复算</td><td data-page-node-id="uOANrkY2Ap70XVcFMdW7vF"><span class="b b-hi" data-page-node-id="bK76iUD0Z4PdJFATCJhOpC">是</span></td><td data-page-node-id="qsLCYJYQrX8xsvstF6ipfe">时间账、ROI、定价、成本、天花板全部公开假设</td></tr>
+        <tr data-page-node-id="H7mONZEHGBYkPK5R5DCyXs"><td data-page-node-id="EvDgG7JB5DrECWYpYlTtxJ">是否修正了前六卷的错误</td><td data-page-node-id="p8thj61qy6Bo9XqiKC4PE2"><span class="b b-hi" data-page-node-id="bT75TEjR3uqPE9WKoy9uei">是</span></td><td data-page-node-id="Cm0YuXFNha2wwQcLP1idEu">修正①毛利率从 90%+ 改为 60%–95%（ASR 成本）；修正②1,500 万在学可能高估可服务市场</td></tr>
+        <tr data-page-node-id="J8r2iZxltLnCbpxUn7fmiV"><td data-page-node-id="za3ZYxLRXet8b80COCk4se">是否披露了无信源的推算</td><td data-page-node-id="l4Pw8OXViSrihDHFZhkgVg"><span class="b b-hi" data-page-node-id="Rel7fO2zVvkrQ6yMxjynaI">是</span></td><td data-page-node-id="NBtaLzkXZQMK1v0Yaz5Z2i">11.1 与 11.2 明确标注"本卷推算 / 无信源"</td></tr>
+        <tr data-page-node-id="g9AcHdSBh219i7KfcQWs9C"><td data-page-node-id="ldCldl4HMLPgOFDeWm7EzJ">是否给出了可执行的下一步</td><td data-page-node-id="EL5Mp9FPn65kUJLQvZ6zCL"><span class="b b-hi" data-page-node-id="JbFUgNjGMMYqgDLFY3H208">是</span></td><td data-page-node-id="xBjE9whyDcdTawbIBiEtRG">T0 术语词表，0 元，2–3 天</td></tr>
+        <tr data-page-node-id="ZimruesFeXYXkni76K0axv"><td data-page-node-id="9hhNpKDpzy8I1ghwMZXMgJ">付费意愿是否有实证</td><td data-page-node-id="ZGa0y1WhVK00d7WGG3YGug"><span class="b b-lo" data-page-node-id="BQXzksCSq2p2qNt9Svq4jM">无</span></td><td data-page-node-id="9RRI68jw14oWZ6jfLJEqsK"><strong data-page-node-id="PKvqCCoM1Za3hjbMLmqZMe">本卷最大缺口</strong>。Tonara 的定价只证明欧美成立，不证明国内成立</td></tr>
+        <tr data-page-node-id="pcZ04IldGyl9XlZrTYcWnb"><td data-page-node-id="nbimfDomsSDJWyjTkhKTCO">竞品是否覆盖到最贴近的对标</td><td data-page-node-id="HeWPqyuCVQ5DQRm4rcyV6I"><span class="b b-mid" data-page-node-id="sY5LJYoHGjRbIPNHJBNtRV">部分</span></td><td data-page-node-id="tDMeVoz7E5rhU00yKDG4H9">Tonara 已覆盖；但其在中国市场的实际可用性未做实测验证</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="s12" data-page-node-id="4ayj013WMTkDSfQqIBWW9w">
+    <h2 data-page-node-id="3EaR3fzYPfN6CSj0DCgUbo"><span class="num" data-page-node-id="E5i3A2lzQvSEfEJOEZ6pA7">12</span>信源清单</h2>
+    <p class="tnote" style="margin-bottom:16px" data-page-node-id="zLC0Hlx2JiT6CBeDEhhJAY">分级：A＝政府文件/权威协会/上市公司财报；B＝正规媒体报道/企业官方披露；C＝行业媒体/从业者自述/第三方测评（方向性参考）；D＝文档农场/自媒体（仅记录，不作为结论依据）。</p>
+    <ol class="srcs" data-page-node-id="IzTp6ZZBpSYbw5HTY78GRr">
+      <li data-page-node-id="CAMBl9VVjGMMLMhtnGtniq"><span class="src-lvl A" data-page-node-id="DKlCapI4aF73FdYpBG5l5c">A</span>中国乐器协会：古筝学习人数近 1,000 万、古琴约 50 万（第四卷引用，本卷用于师生比矛盾分析）</li>
+      <li data-page-node-id="DxChZu6KBSCSmOgCOgN8sb"><span class="src-lvl A" data-page-node-id="Svwipfyn7DRALa3AlbzcJR">A</span>中国民族管弦乐学会扬琴专业委员会组织与公开名单（第五卷引用）</li>
+      <li data-page-node-id="jRUzaMKZRZG0cdCwNjJjA4"><span class="src-lvl B" data-page-node-id="MCmRAjN2ZyFfFc5BnjAPjH">B</span>Tonara 官方产品页：Tonara Studio 功能（智能作业 / 进度追踪 / Compare Recording / 消息 / 激励）<a href="https://www.tonara.com/?p=2896" data-page-node-id="rQit6YfAtvP38I1B71WbqB">tonara.com</a></li>
+      <li data-page-node-id="A59mTfPRLCcYJCXCY86UFH"><span class="src-lvl B" data-page-node-id="t2eSAOWiHUviH0ZqoFQCQa">B</span>音乐笔记融资与产品：2015 天使轮 1,000 万（蓝象资本）、2017 A 轮千万级（云启资本领投）、8 维度采集、与 PICC 推"考级保险"<a href="https://www.pencilnews.cn/d/15476.html" data-page-node-id="fRZ2ojSYIKf3sR2tG00nM5">铅笔道</a>、<a href="https://pitchhub.36kr.com/project/1679815490851590" data-page-node-id="cUQf33lHfwzh2zDns2fg95">36 氪</a></li>
+      <li data-page-node-id="DwMepGawRkHrqiGmwi8HON"><span class="src-lvl B" data-page-node-id="MbLFEpAEvZJuREtPx26kxh">B</span>音乐笔记发展时间线：2020 年推"大眼睛钢琴陪练"，公开融资记录止于 2017 年 A 轮（百度百科，交叉核对用）</li>
+      <li data-page-node-id="7hWjNEZmlAFeYWPWGk7CMj"><span class="src-lvl B" data-page-node-id="UuZJzdjZzGI5jTV61rVVBk">B</span>小禾帮 ¥499/年、小麦助教旗舰 ¥7,480/年（第四卷引用第三方测评）</li>
+      <li data-page-node-id="Dg5hYJ9IYYQf9HWg8C7UaG"><span class="src-lvl B" data-page-node-id="3YdrCvj5XcAqbUEH17nATg">B</span>一起练琴（寻声科技）已覆盖古筝/二胡/琵琶并有识别软著（第四卷引用）</li>
+      <li data-page-node-id="FoCInOdbhyy2IuySjAhBRJ"><span class="src-lvl B" data-page-node-id="vglBKPbZykPIJHXe9WWEy3">B</span>扬琴从业者约 5,000 人（第五卷两种交叉推算：在学÷师生比、学会核心层×100）</li>
+      <li data-page-node-id="wg9TOc4gUWuP4qHRe6xFrz"><span class="src-lvl C" data-page-node-id="gjOgsg8CGC68RLuOVjtpQ8">C</span>Tonara 定价：免费 ≤10 学生、$9.99/月/教师无限学生（2026 音乐学校 AI 工具指南，第三方汇编）<a href="https://zarifautomates.com/blog/best-ai-tools-for-music-schools" data-page-node-id="0DFddcOq82tYNeHBFFGBkw">来源</a></li>
+      <li data-page-node-id="1QVcNGK7v1bwUS9bLhJbHG"><span class="src-lvl C" data-page-node-id="76smFTp3Bt2pEiChzmhOJm">C</span>Practice Space / Better Practice / My Music Staff 定价与"老师付费学生免费"模式（第三方汇编）<a href="https://pract.is/blog/best-practice-apps-for-music-teachers-in-2026" data-page-node-id="lPoVvlkgXT0K9Gkvzi7BlH">来源</a></li>
+      <li data-page-node-id="xoJBEAALjUP8XdkdjBJ3K7"><span class="src-lvl C" data-page-node-id="gQhKmAueZIupl4iTQEBvmW">C</span>微信群布置作业的标准流程（环球钢琴网《与学生家长的沟通，是一门艺术》）<a href="http://i.huanqiugangqin.com/wzzl/17071.html" data-page-node-id="swnGa035tYnFBMk8V1Cksc">来源</a></li>
+      <li data-page-node-id="l40903xR83BhJwoi3cdoGb"><span class="src-lvl C" data-page-node-id="YVFsIw6NCwXEE7oXFL0PZZ">C</span>"无效陪练"与 13 年钢琴老师自述开发打卡小程序（搜狐）<a href="https://www.sohu.com/a/330217400_658910" data-page-node-id="JKhJoGFRFqwIreYwidRaxt">来源</a></li>
+      <li data-page-node-id="blOocn0JUbFwIe42g1Baso"><span class="src-lvl C" data-page-node-id="9D6csuHp2ucM8KY54CpR1m">C</span>"能真正做到陪练的家长不到 10%"、三类家长画像（搜狐，12 年钢琴老师自述）<a href="https://www.sohu.com/a/168761456_148885" data-page-node-id="mJzWKhDzKiv7AVDgk3iEWb">来源</a></li>
+      <li data-page-node-id="Piisq0mn99Fz0fJwFiwXmd"><span class="src-lvl C" data-page-node-id="P8e4xXbxtvqQY6wgHmvdWP">C</span>周铭孙"洗菜"比喻（上课时间在纠错上被浪费，转述于上条）</li>
+      <li data-page-node-id="CRGmhDRO0vP8w1a4pT7inD"><span class="src-lvl C" data-page-node-id="ZIHt8CrwVfu8MO2Cz3BUQm">C</span>380 名在读琴童留存率对照：41% / 68% / ≈80%（1 年后 / 1 年后 / 2 年后）</li>
+      <li data-page-node-id="rFpCb7DnYy2stDrfn2HDJ0"><span class="src-lvl C" data-page-node-id="4l4DmDluUGKRRR8GLbpVG1">C</span>"90% 机构仍用纸质签到 + 微信群管理，AI 陪练渗透率不足 5%"（行业自媒体，方向性佐证）</li>
+      <li data-page-node-id="JyH4RvFHOwzaEkuZOTIABo"><span class="src-lvl C" data-page-node-id="YMBnBkjE3Gd9UanCFczIzn">C</span>"超过六成的乐器培训机构学生流失率超过 30%"（琴行经营报）</li>
+      <li data-page-node-id="0Owd4Mkwp2tOYS2OEPE0Hl"><span class="src-lvl C" data-page-node-id="NZcGiDWmKxMvjaSLRVfKkx">C</span>帮你教教师端功能（校宇宙，小米应用商店页）：排课 / 考勤 / 作业 / 评价，数千家机构</li>
+      <li data-page-node-id="LUSdPyzHLRv7n6FNEiU7Dl"><span class="src-lvl C" data-page-node-id="bXd5OCT3TglN3KmnxqoN4Y">C</span>校盈易：10,000+ 素质培训机构，音视频作业 + 家校互通</li>
+      <li data-page-node-id="ThbcVKLIOTMb8mVxI3KAel"><span class="src-lvl C" data-page-node-id="Ftua8GMnYmHi6mhxIGBhBh">C</span>某教育小程序：年费 ¥899.5 起，面向个人全职讲师（第三方汇编）</li>
+      <li data-page-node-id="825x57bkEpewpRJZ4HrpwR"><span class="src-lvl C" data-page-node-id="pBia6JCuj7GZoG4rVEJeKZ">C</span>华韵琴行《家长的自我修养》：四类家长画像（过度焦虑 / 互撕 / 不知所措 / 放任自由）</li>
+      <li data-page-node-id="7l5G52ymtMnfBdrUBerlPT"><span class="src-lvl D" data-page-node-id="KiIViGNxRgkmpUkO0Fv1SG">D</span>古筝教师数量（4.72万 / 6万 / 9.6万 / 9.8万 / 12万，多份文档农场互相矛盾）——<strong data-page-node-id="QQ5hFyJkn8y8v5pWA9NH49">仅记录，本卷取中位 8 万并标注不确定性</strong></li>
+    </ol>
+
+    <h3 data-page-node-id="KtLfnEM5Aud0YnbL3Y7NMQ">已主动剔除的信源（4 条）</h3>
+    <table data-page-node-id="YB0bF9tbdNRJDeHcBup295">
+      <thead data-page-node-id="PEaO44jyH3OJrOTtgnuSpl"><tr data-page-node-id="JJBWa3OLZuV5wIbgyM9io7"><th style="width:44%" data-page-node-id="opLKOVGB6oworcF2eDMs0I">被剔除的表述</th><th data-page-node-id="SufxTAcStMznsBVx8QxRZJ">剔除理由</th></tr></thead>
+      <tbody data-page-node-id="2BPF3RA2bM7FlXVDLKIemb">
+        <tr data-page-node-id="o7Q5SidGkQWYBMFGSWE1tH"><td data-page-node-id="3M3DRybHAb5NMGs3AebgH7">"全国持证古筝教师仅 4.72 万人，师生比 1:18.3"<br data-page-node-id="lXS3nLOiD52YbFCk0HWy9z">（中研普华）</td><td data-page-node-id="0xtjoCEuF3Pv1Gl1BHH4yN">与同批其他来源的 6万/9.6万/12万 相差 2.5 倍；且师生比 1:18.3 与"在学 1,000 万"矛盾（1,000万÷4.72万 = 212:1）</td></tr>
+        <tr data-page-node-id="g5vhsHt5KfMZIzWRi4wZhw"><td data-page-node-id="HWisKT4qgzTwYxvF2iILKn">"全国古筝教师约 12 万人，一线城市师生比 1:80，二三线 1:150"<br data-page-node-id="v8ryPMaVy4YwABMcuZHTDi">（人人文库）</td><td data-page-node-id="STGRpP0DDf5GHb9nDqSyr2">无信源标注；1:150 的师生比与一对一教学模式不可能并存</td></tr>
+        <tr data-page-node-id="Sn7uIn63PyxUEOW5RftxxF"><td data-page-node-id="x7vaZJBHQejn11HCpAHST1">"全国持证音乐教师超 300 万，适龄学习者仅 800 万"<br data-page-node-id="1ZkHHXWUOUoeu1pjF88oOG">（搜狐引"中国音协 2024 报告"）</td><td data-page-node-id="Txo8eQrA9AeSmDmGvlGweX">查无此报告；300 万音乐教师与任何其他权威口径都冲突，且师生比倒挂</td></tr>
+        <tr data-page-node-id="bpgieYeSVdm9JBhCYc4ar0"><td data-page-node-id="GxibELu3WCEkjaTTenEtAf">"传统琴行续费率 28%，新型音乐空间续费率 71%"<br data-page-node-id="gVD6gJE35zPL3rqhVNZw8Z">（搜狐自媒体）</td><td data-page-node-id="k06LBI5rBcv9XXEZ5L3elj">无法溯源；同一篇含"每日练琴流失率 68%（相比 2020 上升 40%）"等多个不可信数字</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer data-page-node-id="D7t2ZgzbQE6wUxXFaEiG8C">
+    乐器教育 AI 产品研究 · 第七卷《民乐老师的 AI 助教 · 产品方案篇》<br data-page-node-id="mw1HxuQQ7z6F7yrFWHaUAD">
+    生成于 2026-09-08　·　信源 A 2 / B 6 / C 13 / D 1，剔除 4 条<br data-page-node-id="0E24FPMvncNz9CMVpkmor8">
+    <span style="opacity:.75" data-page-node-id="6kxvGsNGChrbcJZxsHk8d8">本卷修正了前六卷的两处结论：毛利率（ASR 成本）与可服务市场口径（师生比矛盾）。所有数值结论假设已公开，可自行复算。</span>
+  </footer>
