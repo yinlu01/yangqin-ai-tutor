@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>扬琴 AI 助教 · 老师端</title>
+<title>余音 · 老师端</title>
 <style>
 :root{
-  --bg:#f5f6f8; --card:#ffffff; --line:#e5e7eb; --line2:#eef0f3;
-  --text:#1f2328; --muted:#6b7280; --muted2:#9ca3af;
-  --brand:#c2410c; --brand-soft:#fff2e8; --brand-line:#f3c9a8;
-  --stu:#0d9488; --stu-soft:#e6fffb; --stu-line:#a7e8e0;
-  --ok:#15803d; --ok-soft:#eafbf0; --warn:#b45309; --warn-soft:#fff7e6;
-  --bad:#dc2626; --bad-soft:#fdecec; --info:#2563eb; --info-soft:#eaf1ff;
-  --pur:#7c3aed; --pur-soft:#f4efff;
-  --r:14px; --r-sm:9px;
-  --sh:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06);
+  /* 余音 · 设计 token（规范 v1）：宣纸底 / 墨阶 / 黛青·竹青 / 朱砂唯一强调 */
+  --bg:#FAF8F4; --bg2:#F3EFE7; --card:#FFFFFF; --line:#EAE4D9; --line2:#F0EBE1;
+  --text:#1C1A17; --muted:#6B655C; --muted2:#A19A8F;
+  --brand:#B04A3A; --brand-soft:rgba(176,74,58,.08); --brand-line:#DDBBB1;
+  --stu:#5C8B7B; --stu-soft:rgba(92,139,123,.10); --stu-line:#BCD4CB;
+  --ok:#5C8B7B; --ok-soft:rgba(92,139,123,.12); --warn:#A6752C; --warn-soft:#F7EFE0;
+  --bad:#B04A3A; --bad-soft:rgba(176,74,58,.08); --info:#2F5D62; --info-soft:rgba(47,93,98,.08);
+  --pur:#B04A3A; --pur-soft:rgba(176,74,58,.08);
+  --r:14px; --r-sm:10px;
+  --sh:0 1px 2px rgba(28,26,23,.04),0 2px 6px rgba(28,26,23,.05);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
@@ -29,18 +30,20 @@ button{cursor:pointer;border:none;background:none}
 .hide{display:none !important}
 
 /* ---------- 顶栏 ---------- */
-.topbar{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar{position:sticky;top:0;z-index:60;background:rgba(250,248,244,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .topbar-in{max-width:820px;margin:0 auto;padding:9px 12px;display:flex;align-items:center;gap:10px}
-.logo{font-weight:700;font-size:16px;letter-spacing:.3px;display:flex;align-items:center;gap:7px}
+.logo{font-weight:700;font-size:16px;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.logo .wm{font-family:"Songti SC","STSong",SimSun,serif;font-size:17px;letter-spacing:4px;font-weight:600}
+.logo .role-tag{font-size:12px;color:var(--muted2);letter-spacing:1px;font-weight:500;margin-top:2px}
 .logo .dot{width:9px;height:9px;border-radius:50%;background:var(--brand)}
-.role-sw{display:flex;margin-left:auto;background:#eef0f3;border-radius:11px;padding:3px}
+.role-sw{display:flex;background:var(--bg2);border-radius:11px;padding:3px}
 .role-sw button{padding:6px 14px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--muted)}
 .role-sw button.on{background:#fff;color:var(--brand);box-shadow:var(--sh)}
 .role-sw button.on.stu{color:var(--stu)}
 .iconbtn{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:17px;border:1px solid var(--line);background:#fff}
 
 /* ---------- 子导航 ---------- */
-.subnav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:52px;z-index:55}
+.subnav{background:var(--bg);border-bottom:1px solid var(--line);position:sticky;top:52px;z-index:55}
 .subnav-in{max-width:820px;margin:0 auto;display:flex;overflow-x:auto;padding:0 6px}
 .subnav-in::-webkit-scrollbar{display:none}
 .subnav button{padding:11px 14px;font-size:14px;font-weight:600;color:var(--muted);border-bottom:2.5px solid transparent;white-space:nowrap}
@@ -111,18 +114,18 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .note .dur{display:block;height:3px;border-bottom:1.5px solid #9aa0a6;margin:2px auto 0;width:70%}
 .note .tech{display:block;font-size:9.5px;color:var(--pur);font-family:sans-serif;font-weight:700;line-height:1;height:11px}
 .note.clickable{cursor:pointer}
-.note.clickable:hover{background:#f3f4f6}
+.note.clickable:hover{background:var(--bg2)}
 .note.sel{outline:2px solid var(--brand);outline-offset:-2px}
 .note.dim{opacity:.35}
-.note.m-重点{background:#fee2e2;box-shadow:inset 0 0 0 1.5px #f87171}
-.note.m-难点{background:#ffedd5;box-shadow:inset 0 0 0 1.5px #fb923c}
-.note.m-慢练{background:#dbeafe;box-shadow:inset 0 0 0 1.5px #60a5fa}
-.note.m-轮音{background:#ede9fe;box-shadow:inset 0 0 0 1.5px #a78bfa}
-.note.m-竹法{background:#d1fae5;box-shadow:inset 0 0 0 1.5px #34d399}
-.note.m-分句{background:#fce7f3;box-shadow:inset 0 0 0 1.5px #f472b6}
+/* 批注：单色朱砂（不隐含严重度排序），类型由文字标签承载 */
+.note[class*="m-"]{background:rgba(176,74,58,.07);box-shadow:inset 0 0 0 1.5px rgba(176,74,58,.45)}
 .note .mbadge{position:absolute;top:-6px;right:-4px;min-width:14px;height:14px;border-radius:50%;background:var(--brand);color:#fff;font-size:9px;line-height:14px;font-family:sans-serif;font-weight:700}
 .legend{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.legend span{font-size:11px;padding:2px 7px;border-radius:6px;font-weight:600}
+.legend span{font-size:11px;padding:2px 7px;border-radius:6px;font-weight:600;background:rgba(176,74,58,.08);color:var(--brand)}
+.tag.mk{background:transparent;border:1px solid var(--brand);color:var(--brand)}
+.gdots{display:inline-flex;gap:5px;align-items:center}
+.gdot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--brand);display:inline-block}
+.gdot.on{background:var(--brand)}
 
 /* ---------- 作业卡 ---------- */
 .hw{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:13px;margin-top:10px;box-shadow:var(--sh)}
@@ -146,7 +149,7 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .sheet{background:#fff;width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));max-height:86vh;overflow:auto}
 .sheet h3{margin:0 0 10px}
 .sheet-actions{display:flex;gap:8px;margin-top:14px}
-.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:rgba(31,35,40,.93);color:#fff;padding:9px 16px;border-radius:10px;font-size:13.5px;z-index:200;opacity:0;transition:.25s;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:rgba(28,26,23,.94);color:#F5F1E8;padding:10px 18px;border-radius:13px;font-size:13.5px;z-index:200;opacity:0;transition:.25s;pointer-events:none;max-width:80vw;text-align:center}
 .toast.show{opacity:1;bottom:96px}
 
 /* ---------- 引导 ---------- */
@@ -155,9 +158,9 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .intro-box ol{padding-left:20px;margin:10px 0}
 .intro-box li{margin:6px 0;font-size:13.5px}
 
-.sdot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.sdot{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:4px;vertical-align:middle}
 #syncDot{white-space:nowrap}
-.foot{max-width:820px;margin:22px auto 0;padding:0 12px;color:var(--muted2);font-size:11.5px;line-height:1.7}
+.foot{max-width:820px;margin:22px auto 0;padding:0 12px;color:var(--muted2);font-size:11.5px;line-height:1.7;text-align:center}
 kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 5px;font-size:11px}
 
 /* ---- PRD 扩展包 v0.2 ---- */
@@ -178,12 +181,13 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
 <body>
 
 <header class="topbar"><div class="topbar-in">
-  <div class="logo"><span class="dot" id="logoDot"></span><span>扬琴 AI 助教 · <b>老师端</b></span></div>
-  <span id="syncDot" class="tiny muted"></span><div class="role-sw" style="display:none">
+  <div class="logo"><svg width="23" height="23" viewBox="0 0 56 56" aria-hidden="true" style="flex:none"><circle cx="28" cy="28" r="21" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="28" cy="28" r="11.5" fill="#B04A3A"/><circle cx="24" cy="24" r="3" fill="#D98A75" opacity=".5"/></svg><span class="wm">余音</span><span class="role-tag" id="roleTag"></span></div>
+  <div class="role-sw" style="display:none">
     <button id="btnTeacher" class="on">老师端</button>
     <button id="btnStudent">孩子端</button>
   </div>
-  <button class="iconbtn" id="btnMenu" title="数据与设置">⚙</button>
+  <span id="syncDot" class="tiny muted" style="margin-left:auto"></span>
+  <button class="iconbtn" id="btnMenu" title="数据与设置" style="font-size:15px">☰</button>
 </div></header>
 
 <nav class="subnav" id="navT"><div class="subnav-in">
@@ -233,9 +237,9 @@ async function pull(silent){
 }
 function syncBadge(err){
   const el=document.getElementById('syncDot'); if(!el)return;
-  if(!ONLINE){el.innerHTML='<span title="单机模式：数据只存在这台设备"><i class="sdot" style="background:#9ca3af"></i>单机</span>';return}
-  el.innerHTML=err?'<span title="连不上服务器，稍后会自动重试"><i class="sdot" style="background:#dc2626"></i>重连中</span>'
-    :'<span title="已与服务器同步"><i class="sdot" style="background:#15803d"></i>已同步 '+new Date(LASTSYNC).toTimeString().slice(0,5)+'</span>';
+  if(!ONLINE){el.innerHTML='<i class="sdot" style="background:#C9C2B4" title="单机模式：数据只存在这台设备"></i>';return}
+  el.innerHTML=err?'<i class="sdot" style="background:#B04A3A" title="连不上服务器，稍后会自动重试"></i>'
+    :'<i class="sdot" style="background:#C9C2B4" title="已与服务器同步"></i>';
 }
 function blobToDataURL(blob){return new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})}
 
@@ -329,12 +333,12 @@ const SCORE_LIB=[
 
 /* ---------------- 2. 常量字典 ---------------- */
 const MARK_TYPES=[
- {k:'重点',c:'#dc2626',bg:'#fee2e2',d:'这周必须拿下'},
- {k:'难点',c:'#ea580c',bg:'#ffedd5',d:'容易错，慢练'},
- {k:'慢练',c:'#2563eb',bg:'#dbeafe',d:'先慢速再提速'},
- {k:'轮音',c:'#7c3aed',bg:'#ede9fe',d:'轮音均匀度'},
- {k:'竹法',c:'#059669',bg:'#d1fae5',d:'左右竹顺序'},
- {k:'分句',c:'#db2777',bg:'#fce7f3',d:'换气与句读'}
+ {k:'重点',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'这周必须拿下'},
+ {k:'难点',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'容易错，慢练'},
+ {k:'慢练',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'先慢速再提速'},
+ {k:'轮音',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'轮音均匀度'},
+ {k:'竹法',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'左右竹顺序'},
+ {k:'分句',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'换气与句读'}
 ];
 const CRITERIA=['连贯不断','节奏稳','轮音均匀','音色干净','双音整齐','力度有变化','能背谱'];
 const QUICK_POINTS=['手型/手腕','竹法顺序','节奏稳定','轮音密度','换弦位置','音色','力度','分句呼吸','背谱'];
@@ -653,11 +657,11 @@ function viewClass(){
       +(recent.length?recent.map(l=>{
         const st=byId(S.students,l.studentId)||{name:'—'};
         const hws=S.homework.filter(h=>h.lessonId===l.id);
+        const pending=hws.filter(x=>x.status==='assigned').length;
         return '<div class="card tight"><div class="spread"><div><b>'+esc(st.name)+'</b>'
-          +'<span class="small muted"> · '+esc(l.date)+'</span></div>'
-          +'<span class="tag">'+hws.length+' 张任务卡</span></div>'
-          +'<div class="small muted" style="margin-top:6px">'+esc(l.pieces.map(p=>(byId(S.scores,p.scoreId)||{title:'?'}).title).join('、'))+'</div>'
-          +(l.points&&l.points[0]&&l.points[0].x?'<div class="small" style="margin-top:6px">📝 '+esc(l.points[0].x)+'</div>':'')
+          +'<span class="small muted"> · '+esc(l.date.slice(5))+' · '+esc(l.pieces.map(p=>(byId(S.scores,p.scoreId)||{title:'?'}).title).join('、'))+'</span></div>'
+          +(pending?'<span class="tag warn">'+pending+' 张练习中</span>':'<span class="tag">'+hws.length+' 张任务卡</span>')+'</div>'
+          +(l.points&&l.points[0]&&l.points[0].x?'<div class="small muted" style="margin-top:5px">'+esc(l.points[0].x)+'</div>':'')
           +'</div>';
       }).join(''):'<div class="empty">还没有课次记录</div>');
   }
@@ -904,7 +908,6 @@ A.addStudent=function(){
   openSheet('<h3>添加学生</h3>'
    +'<label class="fld"><span>姓名</span><input type="text" id="nsName" placeholder="学生姓名"></label>'
    +'<label class="fld"><span>程度</span><input type="text" id="nsLevel" placeholder="例：入门 3 个月 / 3 级备考"></label>'
-   +'<label class="fld"><span>手机号（孩子端登录用）</span><input type="tel" id="nsPhone" inputmode="numeric" placeholder="孩子或家长的手机号"></label>'
    +'<label class="fld"><span>登录手机号</span><input type="tel" id="nsPhone" inputmode="numeric" maxlength="11" placeholder="孩子登录用的手机号"></label>'
    +'<div class="tiny muted" style="margin:-4px 0 8px">填了手机号，孩子才能在「孩子端」用自己的手机登录看到作业。</div>'
    +'<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
@@ -938,21 +941,6 @@ A.savePhone=function(id){
   if(v&&S.students.some(x=>x.phone===v&&x.id!==id))return toast('这个手机号已经登记过了');
   st.phone=v; save();closeSheet();render();toast(v?'已设置 '+st.name+' 的登录手机号':'已清空');
   if(ONLINE)api('/api/student/update',{id:id,phone:v}).then(r=>{if(r&&r.ok===false)toast(r.msg||'同步失败');else pull(true)}).catch(()=>{});
-};
-A.editPhone=function(id){
-  const st=byId(S.students,id);
-  openSheet('<h3>'+esc(st.name)+' 的登录手机号</h3>'
-   +'<div class="small muted">孩子端用这个手机号登录。改了以后，孩子要用新号码进。</div>'
-   +'<label class="fld" style="margin-top:10px"><span>手机号</span><input type="tel" id="phVal" inputmode="numeric" value="'+esc(st.phone||'')+'"></label>'
-   +'<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
-   +'<button class="btn pri" onclick="A.savePhone(\''+st.id+'\')">保存</button></div>');
-};
-A.savePhone=function(id){
-  const v=(document.getElementById('phVal').value||'').trim();
-  const st=byId(S.students,id); if(st)st.phone=v; save(); closeSheet(); render();
-  if(ONLINE)api('/api/student/update',{id:id,phone:v}).then(r=>{
-    if(!r.ok)toast(r.msg||'未同步到服务器'); else {toast('手机号已更新');pull(true);}
-  }).catch(()=>toast('未同步到服务器'));
 };
 A.delStudent=function(id){
   const st=byId(S.students,id);
@@ -1069,16 +1057,18 @@ function viewLibStu(){
    }).join('');
 }
 function viewTask(){
-  const me=byId(S.students,ST.id)||S.students[0];
   const list=S.homework.filter(h=>h.studentId===ST.id).sort((a,b)=>(a.status==='reviewed'?1:0)-(b.status==='reviewed'?1:0)||a.due.localeCompare(b.due));
-  let h='<div class="card"><div class="spread"><div><h2>'+esc(me.name)+' 的今日任务</h2>'
-   +'<div class="small muted">'+today()+' · 先慢后快，卡住的地方单独多练 3 遍</div></div>'
-   +'<div style="font-size:26px">🎼</div></div>';
   const open=list.filter(x=>x.status!=='reviewed');
-  const rate=list.length?Math.round(list.filter(x=>x.sub).length/list.length*100):0;
-  h+='<div class="pbar"><i style="width:'+rate+'%"></i></div>'
-   +'<div class="tiny muted" style="margin-top:5px">本周完成度 '+rate+'%（共 '+list.length+' 张卡）</div></div>';
-  h+=open.length?open.map(hw=>cardHwStudent(hw)).join(''):'<div class="empty">今天没有新任务 🎉<br>可以复习一下学过的曲子</div>';
+  /* 这周的小目标：未回课作业的微目标合计，数字+进度条，不用百分比 */
+  let tot=0,dn=0;
+  open.forEach(x=>{ensureGoals(x).forEach(g=>{tot++;if(gPass(g))dn++})});
+  const due=open.length?open.map(x=>x.due).sort()[0]:null;
+  let h='<div class="spread" style="margin:18px 4px 0"><div style="font-size:21px;font-weight:700">今天的任务</div>'
+   +(due?'<span class="small" style="color:var(--brand)">最早截止 '+esc(due)+'</span>':'')+'</div>';
+  if(tot)h+='<div class="card tight" style="margin-top:10px"><div class="spread"><span class="small muted">这周的小目标</span>'
+    +'<span style="font-weight:700">'+dn+' <span class="muted" style="font-weight:400">/ '+tot+'</span></span></div>'
+    +'<div class="pbar"><i style="width:'+Math.round(dn/tot*100)+'%"></i></div></div>';
+  h+=open.length?open.map(hw=>cardHwStudent(hw)).join(''):'<div class="empty">今天没有新任务，可以复习学过的曲子</div>';
   const done=list.filter(x=>x.status==='reviewed');
   if(done.length)h+='<div class="sec-title">已经回课的</div>'+done.map(hw=>cardHwStudent(hw)).join('');
   return h;
@@ -1089,10 +1079,10 @@ function cardHwStudent(hw){
     ?'<span class="tag '+(hw.review&&hw.review.judge==='达标'?'ok':hw.review&&hw.review.judge==='需改进'?'warn':'info')+'">'+esc(hw.review?hw.review.judge:'')+'</span>'
     :hw.status==='submitted'?'<span class="tag info">已提交 · 等老师</span>':'<span class="tag warn">待完成</span>';
   return '<div class="hw"><div class="spread"><div><div class="title">'+esc(hw.title)+'</div>'
-   +'<div class="meta">'+esc(sc.key)+' · '+hw.target.repeats+' 遍 / '+hw.target.minutes+' 分钟 / '+hw.target.bpm+' BPM · 截止 '+esc(hw.due)+'</div></div>'+badge+'</div>'
+   +'<div class="meta"><span style="color:var(--brand);font-weight:600">截止 '+esc(hw.due)+'</span> · '+esc(sc.key)+' · '+hw.target.bpm+' BPM</div></div>'+badge+'</div>'
    +((hw.demoVideoId||hw.classAudioId)?'<div class="row wrap" style="margin-top:8px;gap:5px">'
-      +(hw.demoVideoId?'<span class="tag pur">🎬 老师示范</span>':'')
-      +(hw.classAudioId?'<span class="tag info">🎧 课堂录音</span>':'')+'</div>':'')
+      +(hw.demoVideoId?'<span class="tag info">老师示范视频</span>':'')
+      +(hw.classAudioId?'<span class="tag info">课堂录音</span>':'')+'</div>':'')
    +(hw.marks.length?'<div class="row wrap" style="margin-top:8px;gap:5px">'
       +COUNT_MARKS(hw.marks).map(m=>'<span class="tag" style="background:'+m.bg+';color:'+m.c+'">'+m.k+' ×'+m.n+'</span>').join('')+'</div>':'')
    +'<div class="row" style="margin-top:10px;gap:8px">'
@@ -1111,7 +1101,6 @@ B.openCard=function(id){
    +mediaBlock(hw,false)
    +(hw.criteria.length?'<div class="row wrap" style="margin:8px 0;gap:5px"><span class="tiny muted">老师要求：</span>'+hw.criteria.map(c=>'<span class="tag">'+c+'</span>').join('')+'</div>':'')
    +renderScore(sc,{lines:hw.lines,marks:hw.marks})
-   +'<div class="divider"></div><h3>老师划的重点</h3>'+markList(hw.marks)
    +(hw.status==='assigned'?'<button class="btn pri block" style="margin-top:12px" onclick="closeSheet();B.practice(\''+hw.id+'\')">开始练习 ▶</button>':'')
    +'<div class="sheet-actions"><button class="btn block" onclick="closeSheet()">关闭</button></div>');
 };
@@ -1159,13 +1148,12 @@ B.practice=function(id){
   const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId);
   ST.px={id,sec:0,repeats:0,audioId:null,audioBlob:null};paused=true;
   let h='<h3>'+esc(hw.title)+'</h3>'
-   +'<div class="small muted">目标 '+hw.target.repeats+' 遍 / '+hw.target.minutes+' 分钟 / '+hw.target.bpm+' BPM</div>'
+   +'<div class="small muted">'+hw.target.bpm+' BPM · 建议 '+hw.target.minutes+' 分钟内练完</div>'
    +mediaBlock(hw,false)
    +renderScore(sc,{lines:hw.lines,marks:hw.marks})
-   +'<div class="card tight" style="margin-top:10px"><h3>老师划的重点</h3>'+markList(hw.marks)+'</div>'
    +'<div class="card tight" style="margin-top:10px"><div class="spread">'
-     +'<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:24px;font-weight:800">00:00</div></div>'
-     +'<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:24px;font-weight:800">0</div></div>'
+     +'<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:34px;font-weight:800;font-variant-numeric:tabular-nums">00:00</div></div>'
+     +'<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:34px;font-weight:800;font-variant-numeric:tabular-nums">0</div></div>'
      +'<button class="btn pri" onclick="B.addRep()">＋ 记一遍</button></div></div>'
    +'<div class="card tight" style="margin-top:10px"><div class="row" style="gap:8px">'
      +'<button class="btn sm pri" id="tBtn" onclick="timerToggle()">▶ 开始计时</button>'
@@ -1252,7 +1240,7 @@ function viewFeedback(){
      +(hw.review.comment?'<div class="card tight" style="margin-top:8px;background:var(--stu-soft);border-color:var(--stu-line)">🎵 老师说：'+esc(hw.review.comment)+'</div>':'')
      +(miss.length?'<div class="card tight" style="margin-top:8px;background:var(--warn-soft);border-color:#f5d9a8"><b class="small">还要改的地方</b>'
         +miss.map(m=>'<div class="small">· 第'+(m.li+1)+'行第'+(m.i+1)+'音 · '+esc(m.type)+(m.note?'：'+esc(m.note):'')+'</div>').join('')+'</div>'
-       :(hw.marks.length?'<div class="small" style="margin-top:8px;color:var(--ok)">✓ 老师划的重点都做到了</div>':''))
+       :(hw.marks.length?'<div class="small" style="margin-top:8px;color:var(--ok)">✓ 谱面标记都做到了</div>':''))
      +'</div>';
   }).join('');
 }
@@ -1331,7 +1319,7 @@ A.clearAll=function(){
 function openSettings(){
   const isT=window.ROLE==='T';
   openSheet('<h3>数据与设置</h3>'
-   +'<div class="small muted">这个原型的数据只存在这台设备的浏览器里，换设备请用导出 / 导入。</div>'
+   +'<button class="btn block" onclick="closeSheet();showIntro()">看 30 秒引导</button>'
    +'<div class="divider"></div>'
    +(isT
      ?'<button class="btn block" onclick="A.exportAll()">⬇ 导出全部数据（备份）</button>'
@@ -1340,7 +1328,7 @@ function openSettings(){
    +'<div class="divider"></div>'
    +'<button class="btn block danger" onclick="A.resetDemo()">恢复演示数据</button>'
    +'<button class="btn block danger" style="margin-top:8px" onclick="A.clearAll()">清空全部数据</button>'
-   +'<div class="tiny muted" style="margin-top:12px">版本 v'+VER+' · MVP 原型，不替代正式小程序<br>'
+   +'<div class="tiny muted" style="margin-top:12px">余音 v'+VER+' · MVP 原型，不替代正式小程序<br>'
    +'隐私：所有数据保存在本机浏览器，不上传任何服务器。</div>'
    +'<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
 }
@@ -1355,7 +1343,7 @@ function render(){
   document.getElementById('btnStudent').className=isT?'':'on stu';
   document.getElementById('navT').classList.toggle('hide',!isT);
   document.getElementById('navS').classList.toggle('hide',isT);
-  document.getElementById('logoDot').style.background=isT?'var(--brand)':'var(--stu)';
+  const rt=document.getElementById('roleTag');if(rt)rt.textContent=isT?'老师端':'孩子端';
   let h='';
   if(isT){h=renderT()}
   else{
@@ -1368,11 +1356,8 @@ function render(){
   document.querySelectorAll('.subnav button').forEach(b=>{
     const t=isT?T.tab:ST.tab;b.classList.toggle('on',b.dataset.tab===t);
   });
-  document.getElementById('foot').innerHTML='<b>怎么用：</b>'
-   +(isT?'老师端 → 上课记录（选学生 → 选曲 → 点谱面加标记 → 保存生成任务卡，学生端立刻可见）→ 回课驾驶舱（孩子一提交，这里就会出现待回课）。'
-        :'孩子端 → 选自己的名字 → 今日任务 → 开始练习（计时 / 节拍器 / 录音 / 记遍数）→ 提交回课，老师那边立刻收到。')
-   +'<br>'+(ONLINE?'<b style="color:var(--ok)">多端实时模式</b>：老师端和孩子端打开同一个网址即可，数据 5 秒自动同步，录音会上传到服务器。'
-     :'<b style="color:var(--warn)">单机模式</b>（当前是本地文件打开）：数据只在这台设备，用「⚙ → 导出 / 导入」传递。想多人实时用，请用服务端方式启动。');
+  document.getElementById('foot').innerHTML='<span style="cursor:pointer" onclick="showIntro()">第一次用？看 30 秒引导</span>'
+   +(ONLINE?'':'<span style="margin-left:14px">单机模式：数据只在这台设备</span>');
 }
 function switchRole(r){
   window.ROLE=r;
@@ -1399,21 +1384,27 @@ async function boot(){
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
   }
 
-
-if(S.settings&&S.settings.firstRun){
-  document.getElementById('layer').innerHTML='<div class="intro"><div class="intro-box">'
-   +'<h2>扬琴 AI 助教 · MVP 原型 v'+VER+'</h2>'
-   +'<div class="small muted">先把核心链路跑通：上课记录 → 谱面批注 → 布置作业 → 孩子练习 → 回课。</div>'
-   +'<ol><li><b>老师端</b>：上课记录 → 新建一次课 → 选学生 → 选曲目</li>'
-   +'<li>点谱面上的<b>音符</b>，加「重点 / 难点 / 慢练 / 轮音 / 竹法 / 分句」标记，写一句指令</li>'
-   +'<li>设定范围、遍数、分钟、BPM → 保存，自动生成孩子的任务卡</li>'
-   +'<li>右上角切到<b>孩子端</b>，选学生 → 今日任务 → 开始练习（计时 / 节拍器 / 录音 / 记遍数）</li>'
-   +'<li>提交回课后回到<b>老师端 · 回课驾驶舱</b>，逐条勾选要点 → 判定 → 写评语</li></ol>'
-   +'<div class="card tight small" style="margin-top:10px;background:#fff7e6">这是<b>流程原型</b>，不是正式产品：数据存在本机浏览器。<br>'
-   +'给孩子用时：孩子用自己的设备打开本文件 → 练习 → ⚙ 导出作业 → 发给你 → 你在老师端 ⚙ 导入。</div>'
-   +'<button class="btn pri block" style="margin-top:12px" onclick="document.getElementById(\'layer\').innerHTML=\'\';S.settings.firstRun=false;save()">开始试试 →</button>'
-   +'</div></div>';
+if(S.settings&&S.settings.firstRun){showIntro(true)}
 }
+
+/* 30 秒引导：首启自动弹出，之后从页脚"看引导"随时进入 */
+function showIntro(first){
+  document.getElementById('layer').innerHTML='<div class="intro"><div class="intro-box">'
+   +'<div style="text-align:center;margin-bottom:10px"><svg width="64" height="64" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".2"/><circle cx="80" cy="80" r="46" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="80" cy="80" r="26" fill="#B04A3A"/><circle cx="71.5" cy="71.5" r="6" fill="#D98A75" opacity=".45"/></svg></div>'
+   +'<h2 style="text-align:center;font-family:\'Songti SC\',\'STSong\',SimSun,serif;letter-spacing:6px">余音 <span style="font-size:13px;letter-spacing:1px;color:var(--muted)">· 30 秒上手</span></h2>'
+   +'<div class="small muted" style="text-align:center">课堂的话变成任务卡，家里的练习回到你眼前。</div>'
+   +'<ol><li><b>新建一次课</b>：选学生 → 选曲目 → 点谱面音符加标记，写一句指令</li>'
+   +'<li>设定遍数、分钟、BPM → 保存，<b>自动生成孩子的任务卡</b></li>'
+   +'<li>孩子在<b>孩子端</b>输入手机号登录 → 照任务卡练习（计时 / 节拍器 / 录音 / 记遍数）→ 提交回课</li>'
+   +'<li>你来<b>回课驾驶舱</b>逐条批改，没做到的自动进下一张卡</li></ol>'
+   +(ONLINE?'':'<div class="card tight small" style="margin-top:10px;background:var(--warn-soft)">当前是<b>单机模式</b>（本地文件打开）：数据只在这台设备，用「☰ → 导出 / 导入」传递。</div>')
+   +'<button class="btn pri block" style="margin-top:12px" onclick="closeIntro()">开始试试 →</button>'
+   +'</div></div>';
+  if(!first){S.settings.firstRun=false;save()}
+}
+function closeIntro(){
+  document.getElementById('layer').innerHTML='';
+  if(S.settings&&S.settings.firstRun){S.settings.firstRun=false;save()}
 }
 
 
@@ -1499,18 +1490,18 @@ function draftGoals(p, sc){
   return out;
 }
 function goalBar(g){
-  var d = gDone(g), r = g.reps || 1, pct = Math.round(Math.min(d, r) / r * 100);
-  return '<div class="pbar"><i style="width:' + pct + '%"></i></div>'
-    + '<div class="tiny muted" style="margin-top:3px">' + d + '/' + r + ' 遍'
-    + (gPass(g) ? ' · <b style="color:var(--ok)">✓ 达标（' + (g.pass || 1) + '/' + (g.reps || 1) + '）</b>'
-                : ' · 还需 ' + Math.max(0, (g.pass || 1) - d) + ' 遍达标') + '</div>';
+  var d = gDone(g), r = g.reps || 1;
+  var dots = '';
+  for (var i = 0; i < r; i++) dots += '<i class="gdot' + (i < d ? ' on' : '') + '"></i>';
+  return '<div class="spread" style="margin-top:5px"><span class="gdots">' + dots + '</span>'
+    + (gPass(g) ? '<span class="tag ok">✓ 达标</span>'
+                : '<span class="tiny muted">' + d + '/' + r + ' 遍</span>') + '</div>';
 }
 function goalLine(g){
-  var gs = g.pass + '/' + g.reps + ' 遍';
   return '<div class="row" style="gap:6px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line2)">'
-    + '<span class="tag info" style="margin-top:2px">' + esc(g.tech) + '</span>'
-    + '<div class="grow"><div class="small"><b>' + esc(g.seg) + '</b> · ' + esc(gs) + (g.bpm ? ' · ' + esc(g.bpm) + ' BPM' : '') + '</div>'
-    + '<div class="tiny muted">' + esc(g.std) + (g.note ? ' · ' + esc(g.note) : '') + '</div></div></div>';
+    + '<span class="tag mk" style="margin-top:2px">' + esc(g.tech) + '</span>'
+    + '<div class="grow"><div class="small"><b>' + esc(g.seg) + '</b>' + (g.bpm ? ' · ' + esc(g.bpm) + ' BPM' : '') + '</div>'
+    + '<div class="tiny muted">' + esc(String(g.std).replace(/\d+ 遍中成功 \d+ 遍[·：]?\s*/, '').replace(/^[·，,\s]+/,'')) + (g.note && g.note !== g.std ? ' · ' + esc(g.note) : '') + '</div></div></div>';
 }
 
 /* ---------- 通用持久化 ---------- */
@@ -2077,22 +2068,21 @@ B.practice = function(id){
   var draw = function(){
     var g = hw.goals[ST.px.gi] || hw.goals[0];
     var h = '<h3>' + esc(hw.title) + '</h3>'
-      + '<div class="small muted">目标 ' + hw.target.repeats + ' 遍 / ' + hw.target.minutes + ' 分钟 / ' + hw.target.bpm + ' BPM</div>'
+      + '<div class="small muted">' + hw.target.bpm + ' BPM · 建议 ' + hw.target.minutes + ' 分钟内练完</div>'
       + mediaBlock(hw, false)
       + renderScore(sc, { lines:hw.lines, marks:hw.marks })
-      + '<div class="card tight" style="margin-top:10px"><h3>老师划的重点</h3>' + markList(hw.marks) + '</div>'
       + '<div class="card tight" style="margin-top:10px"><div class="spread">'
-        + '<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:24px;font-weight:800">00:00</div></div>'
-        + '<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:24px;font-weight:800">0</div></div>'
+        + '<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:34px;font-weight:800;font-variant-numeric:tabular-nums">00:00</div></div>'
+        + '<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:34px;font-weight:800;font-variant-numeric:tabular-nums">0</div></div>'
         + '<button class="btn pri" onclick="B.addRep()">＋ 记一遍</button></div>'
         + '<div class="row" style="margin-top:8px;gap:8px">'
         + '<button class="btn sm pri" id="tBtn" onclick="timerToggle()">▶ 开始计时</button>'
         + '<div class="row" style="gap:4px"><input type="number" id="pBpm" value="' + hw.target.bpm + '" style="width:74px" onchange="metroStop()"><span class="tiny muted">BPM</span></div>'
         + '<button class="btn sm" id="mBtn" onclick="metroToggle()">▶ 节拍器</button></div></div>'
       + '<div class="card" style="margin-top:10px"><div class="spread"><h3>微目标 ' + (ST.px.gi + 1) + '/' + hw.goals.length + '</h3>'
-        + '<span class="tiny muted">' + esc(hw.goals.map(function(x, i){
+        + '<div class="row" style="gap:4px;flex-wrap:wrap;margin-top:2px">' + hw.goals.map(function(x, i){
             return '<button class="chip ' + (i === ST.px.gi ? 'sel' : '') + '" onclick="B.goGoal(' + i + ')">' + (i + 1) + '</button>';
-          }).join('')) + '</span></div>'
+          }).join('') + '</div></div>'
         + goalLine(g) + '<div style="margin-top:6px">' + goalBar(g) + '</div>'
         + '<div class="row" style="margin-top:8px;gap:8px">'
         + '<button class="btn sm pri" id="rBtn" onclick="B.rec()">🎙 录这一遍</button>'
@@ -2102,7 +2092,7 @@ B.practice = function(id){
         + '<button class="btn grow" onclick="B.take(false)">↻ 再来一遍</button>'
         + '<button class="btn pri grow" onclick="B.take(true)">✓ 这遍做到了</button></div>'
         + '<div class="tiny muted" style="margin-top:6px">系统只记录"练了/练了多久/稳不稳"，不评价弹得好不好。</div></div>'
-      + '<div class="card tight" style="margin-top:10px"><h3>老师划的重点，这次做到了吗</h3>'
+      + '<div class="card tight" style="margin-top:10px"><h3>谱面标记 · 这次做到了吗</h3>'
         + ((hw.marks && hw.marks.length) ? hw.marks.map(function(m, i){
             var ok = (hw.checks || [])[i];
             return '<div class="row" style="gap:8px;padding:6px 0;border-bottom:1px solid var(--line2)">'
@@ -2241,16 +2231,22 @@ function viewGrow(){
    ========================================================= */
 function extNav(){
   var nt = document.querySelector('#navT .subnav-in'), ns = document.querySelector('#navS .subnav-in');
-  if (nt && !document.getElementById('navPlanBtn')){
+  if (nt && !document.getElementById('navMoreBtn')){
     nt.insertAdjacentHTML('beforeend',
-      '<button id="navPlanBtn" data-tab="t-cockpit" onclick="A.go(\'t-cockpit\')">驾驶舱</button>'
-      + '<button id="navPlanBtn2" data-tab="t-plan" onclick="A.go(\'t-plan\')">教学计划</button>'
-      + '<button id="navHistBtn" data-tab="t-hist" onclick="A.go(\'t-hist\')">历史/导出</button>');
+      '<button id="navMoreBtn" onclick="A.more()">更多</button>');
   }
   if (ns && !document.getElementById('navGrowBtn')){
     ns.insertAdjacentHTML('beforeend', '<button id="navGrowBtn" data-tab="s-grow" onclick="B.go(\'s-grow\')">我的成长</button>');
   }
 }
+/* "更多"收纳低频入口，主栏只留高频四项 */
+A.more = function(){
+  openSheet('<h3>更多</h3>'
+    + '<button class="btn block" onclick="closeSheet();A.go(\'t-plan\')">教学计划</button>'
+    + '<button class="btn block" style="margin-top:8px" onclick="closeSheet();A.go(\'t-cockpit\')">周报驾驶舱</button>'
+    + '<button class="btn block" style="margin-top:8px" onclick="closeSheet();A.go(\'t-hist\')">历史 / 导出</button>'
+    + '<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
+};
 var _renderT = renderT, _viewS = viewS, _render = render;
 window.renderT = function(){
   if (T.tab === 't-cockpit') return viewCockpit();
@@ -2283,10 +2279,10 @@ window.cardHwTeacher = function(hw){
   return _cardHwTeacher(hw) + extra;
 };
 window.cardHwStudent = function(hw){
-  var gs = ensureGoals(hw), done = gs.filter(gPass).length;
+  if (hw.status === 'reviewed') return _cardHwStudent(hw);
+  var gs = ensureGoals(hw);
   var extra = '<div class="card tight" style="margin-top:-6px;background:var(--bg2)">'
-    + '<div class="spread"><div class="tiny muted">这一周要拿下 ' + gs.length + ' 条（已达标 ' + done + '）</div></div>'
-    + '<div style="margin-top:6px">' + gs.map(function(g){
+    + '<div style="margin-top:2px">' + gs.map(function(g){
         return '<div style="margin-bottom:6px">' + goalLine(g) + goalBar(g) + '</div>'; }).join('') + '</div></div>';
   return _cardHwStudent(hw) + extra;
 };

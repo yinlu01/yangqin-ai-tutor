@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="nnVggnGLSy2riCc5IKD7IM">
+<head data-page-node-id="UyHZGyOgqJh3c2eCaKI3Ft">
+<meta charset="UTF-8" data-page-node-id="ygr2L94i9mOVMXjGJh4y7y">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="IDf8O68v4RzANheukw9kiK">
+<title>余音 · UI 优化方案 v1（待确认）</title>
+<style>
+  :root{
+    --paper:#FAF8F4; --card:#FFFFFF; --line:#EAE4D9;
+    --ink1:#1C1A17; --ink2:#4A443C; --ink3:#6B655C; --ink4:#A19A8F;
+    --dai:#2F5D62; --zhu:#5C8B7B; --sha:#B04A3A;
+    --sha-bg:#B04A3A14; --ok:#5C8B7B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink1);
+    font-family:PingFang SC,-apple-system,"Helvetica Neue",sans-serif;
+    font-size:15px;line-height:1.75;padding-bottom:120px}
+  .serif{font-family:"Songti SC","STSong","STZhongsong",SimSun,serif}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  header{padding:56px 0 8px}
+  h1{font-size:34px;font-weight:600;letter-spacing:6px}
+  .sub{color:var(--ink3);font-size:14px;margin-top:10px;letter-spacing:1px}
+  .lead{font-size:16.5px;color:var(--ink2);margin:26px 0 8px;max-width:46em}
+  h2{font-size:23px;font-weight:600;margin:64px 0 6px;letter-spacing:2px;
+    padding-left:14px;border-left:3px solid var(--sha)}
+  h2 .no{color:var(--sha);font-size:14px;letter-spacing:1px;margin-right:10px;font-family:PingFang SC,sans-serif;font-weight:500}
+  h3{font-size:17px;font-weight:600;margin:30px 0 8px}
+  p{margin:8px 0}
+  .muted{color:var(--ink3)} .tiny{font-size:13px} .sha{color:var(--sha)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:14px 0}
+  .note{background:var(--sha-bg);border-left:3px solid var(--sha);border-radius:0 10px 10px 0;
+    padding:14px 18px;margin:16px 0;font-size:14.5px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--card)}
+  th{background:#F3EFE7;font-weight:600;text-align:left;padding:9px 12px;border:1px solid var(--line)}
+  td{padding:9px 12px;border:1px solid var(--line);vertical-align:top}
+  code{background:#F3EFE7;border-radius:4px;padding:1px 6px;font-size:13px}
+  .toc{position:sticky;top:0;z-index:9;background:var(--paper);border-bottom:1px solid var(--line);
+    padding:10px 0;margin-top:30px}
+  .toc a{color:var(--ink3);text-decoration:none;font-size:13.5px;margin-right:16px}
+  .toc a:hover{color:var(--sha)}
+  /* 诊断截图卡 */
+  .audit{display:flex;gap:20px;align-items:flex-start;margin:18px 0;flex-wrap:wrap}
+  .audit img{width:250px;border:1px solid var(--line);border-radius:14px}
+  .audit .pts{flex:1;min-width:300px}
+  .pt{display:flex;gap:10px;margin:9px 0;font-size:14.5px}
+  .pt b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--sha);color:#fff;
+    font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+  .pt.bad b{background:#8E3025}
+  /* before / after 手机示意 */
+  .ba{display:flex;gap:28px;flex-wrap:wrap;margin:16px 0}
+  .phone{width:280px;border-radius:22px;border:1px solid var(--line);overflow:hidden;background:#F5F6F8}
+  .phone .cap{font-size:12.5px;text-align:center;padding:7px;background:var(--ink1);color:#EDE6D8;letter-spacing:2px}
+  .phone .cap.after{background:var(--sha)}
+  .screen{padding:14px 12px 20px;min-height:430px;font-size:12px;position:relative}
+  /* after 屏用余音 token */
+  .screen.p2{background:var(--paper)}
+  .p2 .topbar{display:flex;align-items:center;gap:8px;padding:2px 4px 10px}
+  .p2 .wordmark{font-size:16px;letter-spacing:4px}
+  .p2 .syncdot{width:5px;height:5px;border-radius:50%;background:#C9C2B4;margin-left:auto}
+  .chipdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:2px}
+  .dots{display:flex;gap:5px;align-items:center}
+  .dot{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--sha)}
+  .dot.on{background:var(--sha)}
+  .btn-sha{background:var(--sha);color:#fff;border-radius:10px;text-align:center;padding:10px 0;font-size:14px}
+  .footer-fix{position:fixed;bottom:0;left:0;right:0;background:var(--ink1);color:#EDE6D8;padding:14px 0}
+  .footer-fix .wrap{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .btn-fix{background:var(--sha);color:#fff;border:none;border-radius:9px;padding:10px 22px;font-size:15px;cursor:pointer;letter-spacing:1px}
+  .qz{font-size:14px}
+  .del{color:var(--ink4);text-decoration:line-through}
+  ul{padding-left:1.4em} li{margin:4px 0}
+</style>
+</head>
+<body data-page-node-id="mOUCkkKH1EA3qjOovpcJbJ">
+<div class="wrap" data-page-node-id="5uAbGSdhjAqZWGEg13UX80">
+
+<header data-page-node-id="K4OEw6sIuIfgrtMV3VL5BA">
+  <h1 class="serif" data-page-node-id="JtRkFBGLTiOmdNrP5uBT5P">余音 · UI 优化方案</h1>
+  <div class="sub" data-page-node-id="tjm8vxSlohK38zbyhFLE62">v1.0 待确认稿 · 基于「余音-视觉设计规范 v1」的落地执行方案 · 2026-09-09</div>
+</header>
+
+<div class="toc" data-page-node-id="KokK7AOfdB5Qy2QrmNGZbs">
+  <a href="#s1" data-page-node-id="X76u2cWDEDIs2PT7wjsqxm">① 一句话结论</a>
+  <a href="#s2" data-page-node-id="RMZwpCDSTBd71aPn1pIwt1">② 逐屏诊断</a>
+  <a href="#s3" data-page-node-id="6lycRx67nPJQaWp0OAqHBI">③ 减字三原则</a>
+  <a href="#s4" data-page-node-id="lQEHFvuzsSLy8WD8BDHAY0">④ 改造示范</a>
+  <a href="#s5" data-page-node-id="GbV6dstzS3AVQBGdAr4aVz">⑤ 改什么 / 不改什么</a>
+  <a href="#s6" data-page-node-id="r9m5qmljEnlXwpvu9pWRS4">⑥ 落地步骤</a>
+  <a href="#s7" data-page-node-id="4GCwDYLfB5Ne9EZM3xSZXg">⑦ 请你确认的 4 个决策</a>
+</div>
+
+<p class="lead" data-page-node-id="AwB4ft8aSHZH3Aw1tWWHMh">这次不动设计系统——「余音」的 token（宣纸底、墨阶、朱砂、宋体门面）在规范 v1 里已经定了。这份方案解决的是<b data-page-node-id="m2zqfbRvi86C9qooUoxaH3">另一层问题：信息排布</b>。你说"文字说明太多"，我把每一屏的字逐条数了一遍，结论是：界面在替产品说话，而它应该让产品直接做事。</p>
+
+<!-- ================= ① 结论 ================= -->
+<h2 id="s1" data-page-node-id="BUlfGvlHAefFWClTjIOCzE"><span class="no" data-page-node-id="rRLGdEqXFS0NeEM4hBgBf2">①</span>一句话结论</h2>
+<div class="card" data-page-node-id="N8BE40XWJHegLw6hMkN9IO">
+  <p style="font-size:16.5px" data-page-node-id="UmHELfKPlrOkMJPSpfxbYn">现在的 UI 是<b data-page-node-id="bTTJjeCnpWELfEGgzbJ7Hc">「说明书式」的</b>：每屏底部常驻两段教程、同一事实在一屏里说两三遍、进度用文字念出来。改造方向一句话——</p>
+  <p class="serif" style="font-size:20px;letter-spacing:2px;margin:14px 0 4px" data-page-node-id="v0Ye93jI2Rl07QbcqQfx4D">「解释的归引导，动作的归界面，数字的归图形。」</p>
+  <p class="muted tiny" data-page-node-id="SXWyDy0MkzFK1AHFdGroKj">预期效果：常驻文字量减约 <b class="sha" data-page-node-id="dS2k4J7iBsZAMPUCnTedIW">60%</b>；每一屏扫一眼就知道"现在该干嘛"；视觉整体换入余音 token。</p>
+</div>
+
+<!-- ================= ② 诊断 ================= -->
+<h2 id="s2" data-page-node-id="G8wDolKtXnGdDXI0oJGzvO"><span class="no" data-page-node-id="4LAemQuSMhvd3GltpvFy0x">②</span>逐屏诊断（8 处）</h2>
+<p class="muted" data-page-node-id="907jGz4AHneehjBJezDBGX">以下截图全部是当前线上原型的实拍（2026-09-09）。红点 = 文字冗余，深红点 = 结构性问题。</p>
+
+<h3 data-page-node-id="14yQkCwbQdQiZmYByesEae">老师端 · 上课记录（默认首屏）</h3>
+<div class="audit" data-page-node-id="sSFpc8yneqwEH14DSMUhPO">
+  <img src="shots/ui_t_lessons.png" alt="老师端上课记录" data-page-node-id="MoSFDlwaQCyR1I9zubfbu1">
+  <div class="pts" data-page-node-id="LAdcDYoPHo6h1gN2ouA9EX">
+    <div class="pt bad" data-page-node-id="rN0Yg8jvEQgooyPFL3EDAc"><b data-page-node-id="ZR7z30tyuzcGUno5GOgmL4">1</b><div data-page-node-id="Q0CK5aHzcdt9dYVQpxs3Jx"><b data-page-node-id="jHlx6Ru41YIVIYLkG3hadE">顶部品牌还是旧名</b>："扬琴 AI 助教 · 老师端"——产品已定名「余音」，且顶栏没有品牌视觉（圆点 + ⚙ emoji）。</div></div>
+    <div class="pt bad" data-page-node-id="RH4LHhx6WGHDMIKsWkMf2X"><b data-page-node-id="KiHmosAJfADTs3EjEZltuD">2</b><div data-page-node-id="fllvEqfSufXusPaXDsYvf6"><b data-page-node-id="AcHiNJFF6BzGAeuYS6qzaK">Tab 栏重复且溢出</b>：源码里同时存在"回课驾驶舱"（基础版）和"驾驶舱"（v0.2 扩展包注入），还有"教学计划""历史/导出"把栏位挤到屏幕外（截图右侧被截断的"教…"）。</div></div>
+    <div class="pt" data-page-node-id="jhj2CGxA4qSa4iBu0P1a3s"><b data-page-node-id="YYIEqr1zwBtNYbCGs3FDU3">3</b><div data-page-node-id="U8GWCtNyYJM9z0p35e2RNB"><b data-page-node-id="DKI853LyP8bCaRXmbhfvkv">页脚常驻教程</b>："怎么用：老师端 → 上课记录（选学生 → 选曲 → 点谱面加标记 → 保存生成任务卡）…"+ "多端实时模式：…数据 5 秒自动同步…录会音上传到服务器"——两段 80+ 字的操作说明<b data-page-node-id="4pPUHTwUu1Ns2iTgCY4arA">常驻每一屏</b>。这是手册内容，不是界面内容。</div></div>
+    <div class="pt" data-page-node-id="3ak6WDKNmWKbbM4d11xD7K"><b data-page-node-id="Fo9CNO3lbOFgJYD0wDhMXC">4</b><div data-page-node-id="t3wJctHXttsBVGpSM8OFNl"><b data-page-node-id="aFTHB1QcSxAEYEnEROh3Uu">课次卡片信息重复</b>：学生名下"五声音阶练习"（谱库名）和"入门第一次课，五声音阶"（课次摘要）两行说的是同一节课。</div></div>
+    <div class="pt" data-page-node-id="Wahi0sxgHylva31i4lPg3R"><b data-page-node-id="duAwll3bZZOZg2BhYI6OvI">5</b><div data-page-node-id="MeHn6CjmSnsYlWoiJ4xjcF"><b data-page-node-id="rCRxUeCHglE8pmmYUM5CoG">主按钮橙棕 #c2410c</b>：教务后台配色，与朱砂主色未统一。</div></div>
+  </div>
+</div>
+
+<h3 data-page-node-id="rXMH5fbhngdhGueW0bwn0t">孩子端 · 登录页</h3>
+<div class="audit" data-page-node-id="HwC9XpRT9LzjRyw15GW7AC">
+  <img src="shots/ui_s_login.png" alt="孩子端登录" data-page-node-id="cn0VyuMdpMk7lheOOmX9o1">
+  <div class="pts" data-page-node-id="8uZhUkdzQBXnFGqTikr40W">
+    <div class="pt bad" data-page-node-id="dcFm51L0wJ6HrssFeb4Yl5"><b data-page-node-id="ra1S3CM2bHB2s6azslGMJn">6</b><div data-page-node-id="0IpnNct3OcvcOPfcjC1Kjs"><b data-page-node-id="MGRoICIFKsskmthILMECBa">品牌空窗</b>：孩子（和家长）对产品的<b data-page-node-id="YyjrtjGRMEvp6NCOpscAPZ">第一眼</b>是一个灰底白卡，没有落墨 logo、没有「余音」字样——品牌主视觉缺席了最重要的位置。</div></div>
+    <div class="pt" data-page-node-id="C0GisPudrFion0OulSDr35"><b data-page-node-id="iG27vB6aV4kMA2x4CtOqrz">7</b><div data-page-node-id="eP2xcZSclAinFz5onnYlFn"><b data-page-node-id="GGZPGJUdEgqrN3nK9PQpgV">说明文字两句半</b>："用老师登记过的手机号进入，进入后自动记住。""看不到自己的任务？问问老师有没有把你的手机号加进学生档案。"第一句可砍半，第二句是异常兜底、不该常驻。</div></div>
+  </div>
+</div>
+
+<h3 data-page-node-id="lLJc4jJb8FiLv20lPN4A77">孩子端 · 今日任务</h3>
+<div class="audit" data-page-node-id="KXEpPVcNmBR5MQN072fFWu">
+  <img src="shots/ui_s_tasks.png" alt="孩子端今日任务" data-page-node-id="ZzL7spQgqnVkeAP63GWQen">
+  <div class="pts" data-page-node-id="uWExK6ZPpDE5eQYM3SwYdp">
+    <div class="pt" data-page-node-id="fQrwbs7diaVN9JoKXzwuZC"><b data-page-node-id="qPS6mSKKEGxEVFePztmEGC">8</b><div data-page-node-id="07NGc5JzQvBaZuoAADwHnD"><b data-page-node-id="OSu7OKDWrPVwstbe6LEyWC">元数据一行塞五项</b>："D 调 · 3 遍 / 15 分钟 / 60 BPM · 截止 2026-09-15"——无层级、无主次，孩子扫一眼抓不住重点（对 8-12 岁用户，"截止日期"才是最该跳出来的）。</div></div>
+    <div class="pt" data-page-node-id="5hiVxWNaWteSNMmAJjV8gO"><b data-page-node-id="YMWNKUfVrLnDcdTete7Yk0">9</b><div data-page-node-id="m88F2Lmr4rfIuWnsBbwG2T"><b data-page-node-id="zRncBeXMMDWs0s0kMHEt0k">进度用文字念三遍</b>：微目标区每条目标 = 标题行"3/4 遍" + 正文"3 遍中成功 3 遍 · 先单手慢练 4 遍" + 进度行"0/4 遍 · 还需 3 遍达标"。同一个数字出现三次，纯文字、无图形。头部还有"这一周要拿下 3 条（已达标 0）"——继续用字数进度。</div></div>
+    <div class="pt" data-page-node-id="aCeMjgDeY15IDag2lyozVo"><b data-page-node-id="sww8McF9gBui1CvL4tFfaX">10</b><div data-page-node-id="6AQVIrlLvCI1W5y6lYch1i"><b data-page-node-id="ghqzHjOhk4Tjhw82XlD3rO">完成度 0% 有考核感</b>："本周完成度 0%（共 1 张卡）"——百分比数字放大了"零"的挫败感，与红线"不做价值判断"有隐性张力（它是事实判断，但<b data-page-node-id="2u5xSD03fcqcbkNcSI7etX">表达方式</b>像 KPI）。</div></div>
+    <div class="pt" data-page-node-id="A8gKuYlqiEeEDVRryUa38c"><b data-page-node-id="ohtEstvtTRDDdewYCcLUNC">11</b><div data-page-node-id="TZpd2xnj00w6Oi20kkPnyn"><b data-page-node-id="6IPtSzeZsLoweAWcpEkwB7">批注 chips 彩色马卡龙</b>："重点"红底、"轮音"紫底、"全曲连贯"蓝底——回到规范 v1 批过的老问题：多色隐含严重度排序，应统一朱砂单色。</div></div>
+    <div class="pt" data-page-node-id="I9zmdC7NfgFvYhpPbhPss5"><b data-page-node-id="nH09fiUN7AMRvaYct6msOC">12</b><div data-page-node-id="uhwmeJX9tGLSCHVIeWU6Kt"><b data-page-node-id="6bhX5dRaQyEVhbDr15mh86">欢迎 toast 黑底突兀</b>："欢迎回来，尹小璐！"黑底白字压在页面底部，像系统报错弹窗，不像问候。</div></div>
+  </div>
+</div>
+
+<h3 data-page-node-id="r2p2GisPXUk5EV4S7eKLQ8">孩子端 · 练习页</h3>
+<div class="audit" data-page-node-id="Ta3r5u9K0IRpQreaHuibB5">
+  <img src="shots/ui_s_practice.png" alt="孩子端练习页" data-page-node-id="prLsOIWz3qOCqcvRqYrF3k">
+  <div class="pts" data-page-node-id="LzHEoE722CF4yYOUsLhrr8">
+    <div class="pt" data-page-node-id="uF1uD7DKodKE8ifWGnU8ZG"><b data-page-node-id="GWxwOTmS47f3pnEDeTAwoZ">13</b><div data-page-node-id="3eJcXHIjF3jZudmtGxXiGD"><b data-page-node-id="BSgZlth3zsYAfQ8aalJFUA">"重点"说了三处</b>：谱面上的批注框（看得见）+ 谱面下方 chips"重点 ×1 轮音 ×1" + 整块"老师划的重点"卡片（把同样的批注再用文字列一遍）。谱面本身就是重点的载体，文字块是纯冗余，占了半屏。</div></div>
+    <div class="pt" data-page-node-id="jj2RjGCtpUEboAJHJludiw"><b data-page-node-id="8M2kNa5SaNfMnwYVp1Va12">14</b><div data-page-node-id="LjDjqwnnSuEiEcpuyPVHQk"><b data-page-node-id="mSDXfJFo1qlXQXDr5XJQUi">计时区不够主角</b>：计时器是这个页面的使用核心，但"已练时间 00:00 / 遍数 0"和开始计时、BPM、节拍器挤在一起，视觉权重反而低于上面的说明文字。</div></div>
+  </div>
+</div>
+
+<!-- ================= ③ 原则 ================= -->
+<h2 id="s3" data-page-node-id="2FzbwqA1h6ZCgyzvvFfue5"><span class="no" data-page-node-id="2AHv7R4YdwO79V6ye94u6q">③</span>减字三原则（本次改造的判据）</h2>
+<table data-page-node-id="PrLbHwIb2tp0ZVT3c0mxMq">
+  <tr data-page-node-id="yqfGtpR61Qc0EYh1nCCTA3"><th style="width:5em" data-page-node-id="n6iEywwNmIQq7LUdXxj9sc">原则</th><th data-page-node-id="AxpAlRFGozspDQw4bKqU6M">内容</th><th style="width:17em" data-page-node-id="CTOKIyQivcZPDf8aOn3Zb0">典型应用</th></tr>
+  <tr data-page-node-id="177oIBTWKPfl6Ys75D0BFy"><td data-page-node-id="ti5ynvk0YaudUucLTwhd7D"><b data-page-node-id="UDFzkUjoWrZhrH2eg0YgDu">P1 一事实一遍</b></td><td data-page-node-id="gKjtA1oWsTVv2HPePI4qnA">同一信息在一屏内只允许出现一次；重复的候选处理方式是删除或图形化，不是换个说法。</td><td data-page-node-id="OIEga51EeUF5kWH94xT2ZB">微目标"3/4 遍"三连；练习页"重点"三处；课次卡双行曲名</td></tr>
+  <tr data-page-node-id="VDX9cQxRFuX911nv6WhuIc"><td data-page-node-id="Q6jFxE10X6XxFmT5CgV1Fz"><b data-page-node-id="FxZ3aXSTzZYZeZhJBk7Nz0">P2 说明离场</b></td><td data-page-node-id="iAk0XN7zAEPN2RcX3GDFVE">教用户怎么用的文字全部移进首次引导（浮层）与帮助入口，界面只保留"此刻的动作"。</td><td data-page-node-id="p8ZrStXgitkhT70bk0Czs2">页脚"怎么用/多端实时模式"两段 → 首次引导浮层</td></tr>
+  <tr data-page-node-id="u6mRhECvF2v1jjUBGTdSc8"><td data-page-node-id="EyubAB4JSqkBBZKegRLWlE"><b data-page-node-id="xhstNAijsFXpGb4IH3Ekcn">P3 数字成图形</b></td><td data-page-node-id="G61EGm9VT40HNB8KNQV92Y">遍数、进度、条数一律用点阵/进度条表达，文字只保留必要数值。</td><td data-page-node-id="yRe08O1YTDHPLL8MyiCBrs">"0/4 遍 · 还需 3 遍达标" → ○○○○ 圆点阵；"这一周要拿下 3 条" → 三个格子</td></tr>
+</table>
+
+<!-- ================= ④ 改造示范 ================= -->
+<h2 id="s4" data-page-node-id="0YwUDqCrCE7sgwqU7UpQOr"><span class="no" data-page-node-id="E6sZhoCFl4BBIB8glN10HR">④</span>逐屏改造示范（before → after）</h2>
+<p class="muted" data-page-node-id="g0QWOwjnHggJ1wm2xWHAqm">after 一律按余音 token 绘制：宣纸底、朱砂主按钮、宋体字标、圆点阵进度。以下三组是改动最大的屏。</p>
+
+<h3 data-page-node-id="bMfPI2MyZcfE9a6yM3I70Y">4.1 老师端 · 上课记录</h3>
+<div class="ba" data-page-node-id="LIiRnUCUJn3eJdDkceOy2A">
+  <div class="phone" data-page-node-id="RMq1QUFAjyj5kj5CNHuzwN"><div class="cap" data-page-node-id="NDSWLNEfHbFNXVTlbyuyOI">BEFORE（现状）</div>
+    <div class="screen" data-page-node-id="N62riBLm1KMswXCRXVWRlf">
+      <div style="font-size:11px;padding:2px 4px 8px" data-page-node-id="MdG5nsM8mWRA6oQ754Rqi1">● 扬琴 AI 助教 · 老师端 &nbsp;<span style="color:#2e7d32" data-page-node-id="unvukp5ENcCPLW3X2j3OVf">● 已同步 21:19</span> ⚙</div>
+      <div style="font-size:9px;color:#888;margin-bottom:4px" data-page-node-id="CoH8a4njsndPtlSP4CU7Wu">上课记录 | 回课驾驶舱 | 学生档案 | 谱库 | 驾驶舱 | 教…</div>
+      <div style="background:#fff;border-radius:10px;padding:12px;margin-bottom:8px" data-page-node-id="GLKQKPJHqXI4tttLsBKpUb">
+        <b style="font-size:14px" data-page-node-id="DKig9Zjd7P5UDNqWkvuarM">上课记录</b>
+        <div style="color:#777;font-size:11px;margin:3px 0" data-page-node-id="aVrN2Gk2foT35qEoLjwaBk">一次课：选曲 → 谱面批注 → 布置作业，约 3 分钟</div>
+        <div style="background:#c2410c;color:#fff;border-radius:14px;text-align:center;padding:9px;font-size:13px" data-page-node-id="iqdjfSSStaYJRlrWOVswFd">＋ 新建一次课</div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:10px;margin-bottom:7px" data-page-node-id="3G6yeDrDuLjveyFDMUQ5rJ">
+        <b data-page-node-id="ATQwqpiH0AHcGM1Syd4Stc">尹小璐 · 2026-09-09</b><span style="float:right;color:#999;font-size:10px" data-page-node-id="vTs0eRb9pEMvCnLglIvkIQ">2 张任务卡</span>
+        <div style="color:#888;font-size:11px" data-page-node-id="3RDkewkAzu44AZXrCmCWHI">五声音阶练习</div>
+        <div style="font-size:11px" data-page-node-id="6s4EG8sKi4EeLNSruclyxT">📎 入门第一次课，五声音阶</div>
+      </div>
+      <div style="color:#999;font-size:10.5px;line-height:1.6;margin-top:10px" data-page-node-id="oEmCyUGUhEIvnaXGonk1Nk">怎么用：老师端 → 上课记录（选学生 → 选曲 → 点谱面加标记 → 保存生成任务卡，学生端立刻可见）→ 回课驾驶舱（孩子一提交，这里就出现待回课）。<br data-page-node-id="LMg8xqdCKSkrwxkE7CNPtS">多端实时模式：老师端和孩子端打开同一个网址即可，数据 5 秒自动同步，录音会上传到服务器。</div>
+    </div>
+  </div>
+  <div class="phone" data-page-node-id="1HopgIEwqhulMpuAlffQid"><div class="cap after" data-page-node-id="NQw6xuhHkBF3eyt7o2DeCO">AFTER（余音版）</div>
+    <div class="screen p2" data-page-node-id="nUsgfT3RtWKcRh7GinZDGv">
+      <div class="topbar" data-page-node-id="RztCo2lo3ej2L9un7EmTzs">
+        <svg width="26" height="26" viewBox="0 0 56 56" data-page-node-id="EBFCA3qwsfe9FDjNaoriLi"><circle cx="28" cy="28" r="20" fill="none" stroke="#B04A3A" stroke-width="1.6" opacity=".35" data-page-node-id="KJzhIuqBppQ3e8nQWx0TjI"/><circle cx="28" cy="28" r="11" fill="#B04A3A" data-page-node-id="y7ihUMSMKaRiuZBlDCnwO6"/><circle cx="24.5" cy="24.5" r="2.6" fill="#D98A75" opacity=".5" data-page-node-id="Cs5oewQqeP9ZH0k2j244OU"/></svg>
+        <span class="wordmark serif" data-page-node-id="XFL682FWgGc2zVTFMx6N6M">余音</span><span style="color:#A19A8F;font-size:11px" data-page-node-id="xTvA1WeWwADRqWtCk6BMCt">老师端</span>
+        <span class="syncdot" title="同步正常不打扰" data-page-node-id="WeCXLO0EBj4mBeXFPpt5gy"></span>
+      </div>
+      <div style="font-size:11px;color:#6B655C;border-bottom:1px solid #EAE4D9;padding-bottom:6px;margin-bottom:10px" data-page-node-id="JHWunQWIOdZVVc4sAFmgKJ">上课记录 · 回课 · 学生 · 谱库 <span style="float:right" data-page-node-id="g3RnNEFyrmNMFxvWmCCz5R">更多</span></div>
+      <div style="font-size:16px;margin:6px 2px 8px" data-page-node-id="50iw3tbziVFYsFkllHqkXH">最近课次</div>
+      <div style="background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;border:1px solid #EAE4D9" data-page-node-id="M8dms9GjlqZd7JM5dGMkyB">
+        <b data-page-node-id="rNXE1M7JZBvEDoIf9SAcsL">尹小璐</b> <span style="color:#A19A8F;font-size:10.5px" data-page-node-id="lg90VT9EhKKCxEPWnCShcW">09-09 · 五声音阶</span>
+        <span style="float:right;color:#6B655C;font-size:10.5px" data-page-node-id="O0wCrstwhKpfLFHx8XxTMr">2 张任务卡</span>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;border:1px solid #EAE4D9" data-page-node-id="1kCniYmMs0ybXajMkrTnQq">
+        <b data-page-node-id="LbFsAyPLZUsX1sIvqn8C9R">林小雨</b> <span style="color:#A19A8F;font-size:10.5px" data-page-node-id="4FTF2K5IpAGCdWtBVb0ff4">09-09 · 小星星</span>
+        <span style="float:right;color:#B04A3A;font-size:10.5px" data-page-node-id="kFieCxxoDHoR1Gz8TK7SuK">1 份待回课</span>
+      </div>
+      <div class="btn-sha" data-page-node-id="9yljLErKImwq6xlt4ZmthR">＋ 新建一次课</div>
+      <div style="text-align:center;color:#A19A8F;font-size:10.5px;margin-top:14px" data-page-node-id="UXefnbWmwtvf29DWWieoP3">第一次用？<span style="border-bottom:1px solid #B04A3A;color:#B04A3A" data-page-node-id="Sc2vzvdvEjETao7Cx1ieVE">看 30 秒引导</span></div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:260px;font-size:14.5px" data-page-node-id="bsfSUmPAOW3UGt8VXji2US">
+    <ul data-page-node-id="DBG6l65AErk7A3AvBIBA75">
+      <li data-page-node-id="MCaXRAsUodG9RbVUhFtHhJ"><b data-page-node-id="ir7YLpXWBjc9uWNCT8CnJU">品牌入场</b>：落墨音点标 + 宋体「余音」，⚙ 换成设置入口；同步状态降为 4px 灰点（异常才变朱砂）</li>
+      <li data-page-node-id="BHnMBRSMPdNaLt5MlReXMq"><b data-page-node-id="mYFbDQl5QJud2c2eEbQCwk">Tab 收敛</b>：四项 + "更多"收纳"教学计划 / 历史/导出"，删掉重复的"驾驶舱"</li>
+      <li data-page-node-id="LVICaGHsQNJXNSujTDGFSC"><b data-page-node-id="KoJAWEg1YoG9Alzgvb4GHN">课次卡并双行为一行</b>：学生名 + 日期 + 曲目一行解决；有新回课的卡直接给朱砂信号"1 份待回课"（行动点前置）</li>
+      <li data-page-node-id="rSMoQGV8PpIA6HUXRyzzvQ"><b data-page-node-id="YD0HWbpFp02xths4dJzzT8">教程两段全删</b> → 变成页脚一行"第一次用？看 30 秒引导"（点开浮层）</li>
+      <li data-page-node-id="zvkTJ5lBsPg3DUHID05adP"><b data-page-node-id="balkuH9VhrsSfv5wcroNoq">"新建一次课"降位</b>：记录列表是回访高频内容，放上面；新建放列表尾（也可反着排，见决策④）</li>
+    </ul>
+  </div>
+</div>
+
+<h3 data-page-node-id="uwUECdGhja5tDJrdCrvaz6">4.2 孩子端 · 登录页</h3>
+<div class="ba" data-page-node-id="n4anFJdznqzBAuTanLf0ST">
+  <div class="phone" data-page-node-id="IwzfUkG2mkExmh8M7X38er"><div class="cap" data-page-node-id="CGD1RoJdRE6XgVEJN7f0wa">BEFORE（现状）</div>
+    <div class="screen" data-page-node-id="UW54PSHBbuhJwioLiylYna">
+      <div style="font-size:11px;padding:2px 4px 8px" data-page-node-id="AmY2Ano20EKnh16dDB5nRG">● 我的练琴 · 孩子端 &nbsp;<span style="color:#2e7d32" data-page-node-id="ogWbeNUNSIz2tgqwuOPFqh">● 已同步 21:19</span> ⚙</div>
+      <div style="background:#fff;border-radius:10px;padding:14px;margin-top:20px" data-page-node-id="KYpnXtglUUzMaHZkz8XZnA">
+        <b style="font-size:14px" data-page-node-id="b1k6H6I0YBHVEjjpuatP3S">登录 · 我的练琴</b>
+        <div style="color:#777;font-size:11px;margin:4px 0" data-page-node-id="oSn2vt5S7BA5kIwEgD8ukR">用老师登记过的手机号进入，进入后自动记住。</div>
+        <div style="border:1px solid #ccc;border-radius:6px;padding:7px;margin:8px 0;color:#999" data-page-node-id="QUb5uSTehgPBKroU1tet3F">手机号</div>
+        <div style="background:#5C8B7B;color:#fff;border-radius:12px;text-align:center;padding:9px;font-size:13px" data-page-node-id="ENtcfGQlRFqQaWoS6puyxv">进入我的练习 →</div>
+        <div style="color:#999;font-size:10.5px;margin-top:8px" data-page-node-id="WE3lIqEDJYJWik6IXv6x3X">看不到自己的任务？问问老师有没有把你的手机号加进学生档案。</div>
+      </div>
+      <div style="color:#999;font-size:10.5px;line-height:1.6;margin-top:60px" data-page-node-id="voavsAKvZhZuhO7S8Y8cZF">怎么用：孩子端 → 选自己的名字 → 今日任务 → 开始练习（计时 / 节拍器 / 录音 / 记遍数）→ 提交回课，老师那边立刻收到。<br data-page-node-id="dd3k0sPI5BhwHFH6cG7SDB">多端实时模式：老师端和孩子端打开同一个网址即可，数据 5 秒自动同步，录音会上传到服务器。</div>
+    </div>
+  </div>
+  <div class="phone" data-page-node-id="gODGyclzBl4KcBEffvUFbS"><div class="cap after" data-page-node-id="TsNhuDiOuBsBoY8JNftjy5">AFTER（余音版）</div>
+    <div class="screen p2" style="text-align:center" data-page-node-id="Dw7KwxNJEOQft1SaJc1M9t">
+      <div style="margin-top:36px" data-page-node-id="NLHW3uv1Bvvwpyq3FqTBv6">
+        <svg width="120" height="120" viewBox="0 0 160 160" data-page-node-id="5E6lrQmvVtQABby95e9M7s">
+          <circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="1.2" opacity=".18" data-page-node-id="bpcZ3pd7r4XAUbmHMWe7le"/>
+          <circle cx="80" cy="80" r="48" fill="none" stroke="#B04A3A" stroke-width="1.4" opacity=".32" data-page-node-id="i9YUhLD65FHU0bp73JmtaP"/>
+          <circle cx="80" cy="80" r="27" fill="#B04A3A" data-page-node-id="DXo4ycx4gv9Em1MMV0GGOJ"/><circle cx="72" cy="72" r="6" fill="#D98A75" opacity=".45" data-page-node-id="rvE8ZjXQGhoc31C9RJDoem"/>
+        </svg>
+        <div class="serif" style="font-size:30px;letter-spacing:14px;margin-top:8px" data-page-node-id="VOuFg9PARtoCBtydwuFFOl">余音</div>
+        <div style="color:#A19A8F;font-size:11.5px;margin:6px 0 30px;letter-spacing:2px" data-page-node-id="ffG6F8IIZg2padK8V7dbSE">课结束了，声音还在</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EAE4D9;border-radius:14px;padding:16px;text-align:left" data-page-node-id="JeWQw7hMtrUJEiuk6vdtop">
+        <div style="background:#FAF8F4;border:1px solid #EAE4D9;border-radius:9px;padding:10px;color:#A19A8F;text-align:center;letter-spacing:2px" data-page-node-id="I0F1v4VDiH8XRDpZkGiDPa">手机号</div>
+        <div class="btn-sha" style="margin-top:10px" data-page-node-id="lsx5yfmddjUNYQbm2rpnZo">进入我的练习</div>
+      </div>
+      <div style="color:#A19A8F;font-size:10.5px;margin-top:18px" data-page-node-id="K5q6Qg59vloJN1ElHKZtHG">收不到任务？请老师确认档案里有你的手机号</div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:260px;font-size:14.5px" data-page-node-id="GxQuyZRiSHxcbwbj0NqrFT">
+    <ul data-page-node-id="O3xE4JFgIeF362r8i5aa3o">
+      <li data-page-node-id="Yvhww7lNfywdTmF5ZI1PER"><b data-page-node-id="JrbFNTFVKe1zhL6kolG0oN">品牌主视觉入场</b>：涟漪音点 + 宋体字标 + slogan——孩子和家长的第一眼就是「余音」</li>
+      <li data-page-node-id="eMcesKKEweaVGgU44zR8oU"><b data-page-node-id="PO0gKGRbr57jjO9weQIzBe">文案三句 → 一句半</b>：删"进入后自动记住"（自动记住是默认行为，不用announce）；异常兜底句收进小字</li>
+      <li data-page-node-id="IvJXXBhEtf7DB6ryacHwMD"><b data-page-node-id="geOLRfHB9jBdBhweNs9Niq">教程两段全删</b>（同 P2，移入引导浮层）</li>
+      <li data-page-node-id="9r277GpWzixKywYGTzfNC7"><b data-page-node-id="4NGxHYNyCbOyzZqXeQoNCX">顶栏登录前隐藏</b>：没登录就没有"我的练琴"顶栏，页面更干净</li>
+    </ul>
+  </div>
+</div>
+
+<h3 data-page-node-id="523CpZwhkKdyW4Ndq0GyEA">4.3 孩子端 · 今日任务（微目标圆点阵是核心改动）</h3>
+<div class="ba" data-page-node-id="deF2JgblUmASSH0MVrzVnv">
+  <div class="phone" data-page-node-id="GNIiM6ZoUE3QRLqQUyaw0L"><div class="cap" data-page-node-id="dmQCZDZEWNysqsEOkJy8hR">BEFORE（现状）</div>
+    <div class="screen" data-page-node-id="GGE0DbJz0Ntsyf5WUUoyn8">
+      <b style="font-size:13px" data-page-node-id="DbSxo8sEQiWQFPBQtxkJG4">尹小璐 的今日任务</b>
+      <div style="color:#888;font-size:10.5px;margin:2px 0" data-page-node-id="S0Vgngz4Y1MAxhVD1dHwPD">2026-09-09 · 先慢后快，卡住的地方单独多练 3 遍</div>
+      <div style="color:#888;font-size:10.5px;border-bottom:1px solid #eee;padding-bottom:6px" data-page-node-id="5sLEAxjrkSesx3wOdZJSNM">本周完成度 0%（共 1 张卡）</div>
+      <div style="background:#fff;border-radius:10px;padding:10px;margin:8px 0" data-page-node-id="F6xDZKihLM1RpayXHvfUG7">
+        <div style="font-size:11px" data-page-node-id="Hm8UA2u1GaNkbXmd8svBG1">D 调 · 3 遍 / 15 分钟 / 60 BPM · 截止 09-15 <span style="float:right;color:#c2410c" data-page-node-id="mRNV2vDfr04KQXGee6sWUa">待完成</span></div>
+        <div style="margin:5px 0" data-page-node-id="e8blFpucmnxG49LXxFBVEv"><span style="background:#fce8e6;color:#c2410c;border-radius:8px;padding:1px 7px;font-size:10px" data-page-node-id="euJpL4UdBculWwy4q2z449">重点 ×1</span> <span style="background:#f3e8fd;color:#7c3aed;border-radius:8px;padding:1px 7px;font-size:10px" data-page-node-id="pRC6w41V0dGwMWbt5YaFbz">轮音 ×1</span></div>
+        <div style="display:flex;gap:6px;margin-top:34px" data-page-node-id="mfEbswLiNO3Lm7TDX1z1QL"><div style="flex:1;border:1px solid #ddd;border-radius:8px;text-align:center;padding:7px;font-size:11px" data-page-node-id="fmG5eiO15fn6EBRZneFN5s">看谱与要点</div><div style="flex:1;background:#c2410c;color:#fff;border-radius:8px;text-align:center;padding:7px;font-size:11px" data-page-node-id="kFITvIIlGbKQgaKaUu1Hrp">开始练习 ▶</div></div>
+      </div>
+      <div style="background:#fff;border-radius:10px;padding:10px" data-page-node-id="JD6qvDUHZUIaFteO4WZGWp">
+        <div style="color:#888;font-size:10.5px" data-page-node-id="cAqo5HKAP3fGAaEmyBq07Y">这一周要拿下 3 条（已达标 0）</div>
+        <div style="margin:7px 0 2px" data-page-node-id="TsK29xH8MKYt1HwuzNuIh2"><span style="background:#f3e8fd;color:#7c3aed;border-radius:6px;padding:0 6px;font-size:10px" data-page-node-id="gMpUE3Fv8okjem05k4zw79">轮音</span> <b style="font-size:11px" data-page-node-id="up0hcsd8Zv3SCOHM2ijRhC">第1行第1音·先慢 · 3/4 遍 · 60 BPM</b></div>
+        <div style="color:#999;font-size:10px" data-page-node-id="ucv2HCZJYPBX9BCDBEU924">4 遍中成功 3 遍 · 先单手慢练 4 遍</div>
+        <div style="color:#bbb;font-size:10px;border-bottom:1px solid #eee;padding:2px 0 5px" data-page-node-id="MMEngrYAY2TSf3LfEaQvPA">0/4 遍 · 还需 3 遍达标</div>
+        <div style="margin:7px 0 2px" data-page-node-id="v5wGieGabodQ6E2NL0HH5M"><span style="background:#fce8e6;color:#c2410c;border-radius:6px;padding:0 6px;font-size:10px" data-page-node-id="CYgtM3fdkejzOlANFtIMHD">重点</span> <b style="font-size:11px" data-page-node-id="K7PZyZ8NdmJ5V11kTCByK8">第2行第4音 · 2/3 遍 · 60 BPM</b></div>
+        <div style="color:#999;font-size:10px" data-page-node-id="JhZqW3WIR1zLWD7I5VrRWB">3 遍中成功 2 遍 · 落点清楚，不抢拍</div>
+        <div style="color:#bbb;font-size:10px;border-bottom:1px solid #eee;padding:2px 0 5px" data-page-node-id="jY88s76gX19SFGR6UIZ2zg">0/3 遍 · 还需 2 遍达标</div>
+      </div>
+    </div>
+  </div>
+  <div class="phone" data-page-node-id="crE4SNAe7p42tiN23F0Ur3"><div class="cap after" data-page-node-id="RGeTyDmkTaEM2tGddFFd2h">AFTER（余音版）</div>
+    <div class="screen p2" data-page-node-id="Ln1gbrguddDkjGr0VX5VTU">
+      <div style="display:flex;align-items:baseline;gap:8px;margin:2px 2px 8px" data-page-node-id="OgqK6fKEWHTB7rTlQyy8e0">
+        <b style="font-size:16px" data-page-node-id="WECVS6WgmCAI7943DCveWS">今天的任务</b>
+        <span style="color:#B04A3A;font-size:11.5px" data-page-node-id="YVeuTokgMoBHVJaqVpW9Gv">09-15 前完成</span>
+      </div>
+      <div style="background:#fff;border:1px solid #EAE4D9;border-radius:14px;padding:13px;margin-bottom:10px" data-page-node-id="x835Qkd7KuG6LZ7UPQIY1i">
+        <div style="display:flex;justify-content:space-between;align-items:center" data-page-node-id="MZ9hbuhCRtZFb9W8CBlPAF">
+          <b style="font-size:13px" data-page-node-id="5VygUaMpOzGIPY1ixbxeTt">五声音阶练习</b>
+          <span style="color:#A19A8F;font-size:10.5px" data-page-node-id="noMnxA9q2zmia7rkuTyxHX">D 调 · 60 BPM</span>
+        </div>
+        <div style="color:#6B655C;font-size:11px;margin:3px 0 8px" data-page-node-id="lcFuABA0VrHBhWnuiKUMog">先慢后快，卡住的地方单独多练 3 遍</div>
+        <div style="color:#A19A8F;font-size:10px" data-page-node-id="a8uVlM4OMmpYF538qM81B0">老师的话</div>
+        <div style="display:flex;gap:6px;margin-top:26px" data-page-node-id="09WRI6ayXGKExqchn9b5TT"><div style="flex:1;border:1px solid #EAE4D9;border-radius:9px;text-align:center;padding:8px;font-size:11.5px;color:#4A443C" data-page-node-id="zgOn8kZeWgSVXkboRutx19">看谱</div><div style="flex:1.4" class="btn-sha" data-page-node-id="oMH1Sd1bMTaCUk7lcfYCAB">开始练习 ▶</div></div>
+      </div>
+      <div style="font-size:12px;color:#6B655C;margin:2px 2px 6px" data-page-node-id="9IQpH5dBBuA5ZpWllq4tXe">这周的小目标 <b style="color:#B04A3A" data-page-node-id="s1pZd9bPYcH8rnvRMJnE0b">0 / 3</b></div>
+      <div style="background:#fff;border:1px solid #EAE4D9;border-radius:14px;padding:12px;margin-bottom:8px" data-page-node-id="JRw4eZHQ09SzC5z381uZpm">
+        <div style="display:flex;justify-content:space-between;align-items:center" data-page-node-id="GgzsU1HjcTDodTgHlWhFta">
+          <div data-page-node-id="ODyg6FR9HZarA1pDuq3Wfb"><span style="border:1px solid #B04A3A;color:#B04A3A;border-radius:6px;padding:0 6px;font-size:10px" data-page-node-id="szbGKN5tcYUiFrVqX1Fdrn">轮音</span> <b style="font-size:12px" data-page-node-id="8dzceupz9dCkYeNNneKANg">第1行第1音 · 先慢</b></div>
+          <span class="dots" data-page-node-id="wcZC6qUk6sLIrd0BUijdV5"><span class="dot" data-page-node-id="M0MfFgiepQoUBw6URBfOg3"></span><span class="dot" data-page-node-id="LW25fzUzit4gFUDSnXlzPp"></span><span class="dot" data-page-node-id="aLl4Drw21VWLTqnD6JgY5n"></span><span class="dot" data-page-node-id="QBhmPamtMBFDvkzHr2uTSO"></span></span>
+        </div>
+        <div style="color:#A19A8F;font-size:10.5px;margin-top:3px" data-page-node-id="OqWcgQLNeJBtFD5RcBvat3">先单手慢练，再加快</div>
+      </div>
+      <div style="background:#fff;border:1px solid #EAE4D9;border-radius:14px;padding:12px;margin-bottom:8px" data-page-node-id="BWpUCw88ZKVbUC8VE8pfZ2">
+        <div style="display:flex;justify-content:space-between;align-items:center" data-page-node-id="E2idXmm12r7qGKKkHsMddk">
+          <div data-page-node-id="gBmkYMAeKccqIDSX3frKEF"><span style="border:1px solid #B04A3A;color:#B04A3A;border-radius:6px;padding:0 6px;font-size:10px" data-page-node-id="iersFDotOgBtnOPWN9A5xO">重点</span> <b style="font-size:12px" data-page-node-id="EeylzGWzrTDoxP1Slc3oaU">第2行第4音 · 落点清楚</b></div>
+          <span class="dots" data-page-node-id="yJdFeKB425SjCixHynsqvI"><span class="dot" data-page-node-id="YMD05CWSHM4CRHvPvxsBsD"></span><span class="dot" data-page-node-id="2O8YNlh8rNnlbroLBTkrG5"></span><span class="dot" data-page-node-id="EJUIgkz2K3VpFJ67G5gBWq"></span></span>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #EAE4D9;border-radius:14px;padding:12px" data-page-node-id="Vk65iBXO6rYAA1CnA5SzQv">
+        <div style="display:flex;justify-content:space-between;align-items:center" data-page-node-id="gAof6lMndsrH0DujPull3p">
+          <div data-page-node-id="NLUca0Aui0y8WqUQQGWTLs"><span style="border:1px solid #B04A3A;color:#B04A3A;border-radius:6px;padding:0 6px;font-size:10px" data-page-node-id="tOAxnUUBHx0mvCBC1aTblH">连贯</span> <b style="font-size:12px" data-page-node-id="mE6kRbLqmEniAocfLI76UN">整曲 · 60 BPM</b></div>
+          <span class="dots" data-page-node-id="dviZt9r37d9zUWRHMGMyZl"><span class="dot" data-page-node-id="0up99zop0XnvVP20fDJzoK"></span><span class="dot" data-page-node-id="aXRvFVKgd3LtJdGQekanhP"></span><span class="dot" data-page-node-id="Q2cjHVkS6iDe95E39NOX6a"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:260px;font-size:14.5px" data-page-node-id="KI4iYKfF1KZ2CX5RCFmobU">
+    <ul data-page-node-id="roir0WbQhgzLJqAXmYcebn">
+      <li data-page-node-id="3ycbGQuvetHVYc49BvD88p"><b data-page-node-id="4KACKoUpgs8xlfzvzmSPen">微目标从 3 行 → 2 行</b>：标题行（技法标签 + 片段）+ 圆点阵（练几遍画几个圈，达成涂实朱砂）+ 一句方法提示。"0/4 遍 · 还需 3 遍达标"这类复述全部删除——圆点阵自己会说话</li>
+      <li data-page-node-id="B0QM8LqqKCTpyybBaKczjP"><b data-page-node-id="TMwZPggW4ev69OWAKKPy9y">技法标签统一朱砂描边单色</b>（红/紫/蓝马卡龙退场，规范 v1 的批注单色原则延伸到 chips）</li>
+      <li data-page-node-id="CXBC6WFmudA4Xa5yHymeJD"><b data-page-node-id="vlrGgDc8f4w9sFUhVchzEe">"本周完成度 0%" → "这周的小目标 0/3"</b>：数字缩小、不做百分比，消除 KPI 感</li>
+      <li data-page-node-id="voLFvlJs7wEXpRYDRcVw41"><b data-page-node-id="R2IGHv75F1R1Qr6ci78YRZ">截止日期升为标题副位</b>（孩子唯一需要记住的元数据）；调号/BPM 降为角标</li>
+      <li data-page-node-id="qBuha9YQW8XZvY4UWVcC2c"><b data-page-node-id="yCld7D3wVnXuOQQRybORkQ">标题改"今天的任务"</b>：对孩子说话，不用报户口式"尹小璐的今日任务"</li>
+    </ul>
+  </div>
+</div>
+
+<h3 data-page-node-id="Bg7Qr9avRBvapRQYu4HG8V">4.4 孩子端 · 练习页（删"老师划的重点"块）</h3>
+<div class="card" data-page-node-id="PMeul543PKCmKv1DAXdsQr">
+  <ul data-page-node-id="7lC3q34UfTPw88DQX7rHky">
+    <li data-page-node-id="BHbU3sS8B0FvxVcj8CfEIP"><b data-page-node-id="h6Sj51GTe5uVWoagpwLbtg">删除整块"老师划的重点"</b>：谱面批注已经是重点的载体，下方 chips + 文字卡是同一信息的第二、第三次复述。删除后练习页一屏能同时看到谱面和计时器。</li>
+    <li data-page-node-id="zO6AyFHxvNSfgDDlVEJ5qD"><b data-page-node-id="S9TVHfvel16cqBfqX2fYC0">计时区升为主角</b>：时间字号放大（24px→40px 级），"记一遍"按钮与计时器并排成主操作对；BPM/节拍器收进一行次级控件。</li>
+    <li data-page-node-id="qBMiDKTLbZOGFLf4TD71jv"><b data-page-node-id="CiUYRmTJvGxdOOdEcE8GzV">欢迎 toast 改墨色</b>：深墨底 #1C1A17 已是黑——问题其实在出现时机与时长，改为顶部浮现 2.5s 自动消散，圆角加大、不带系统弹窗感。</li>
+  </ul>
+</div>
+
+<!-- ================= ⑤ 边界 ================= -->
+<h2 id="s5" data-page-node-id="lbo3ZSqpBXol58hZ5bdjpF"><span class="no" data-page-node-id="MT7tTWiByZFwUfLlG4jUpe">⑤</span>改什么 / 明确不改什么</h2>
+<table data-page-node-id="nrrBBCWcm2zGa3FN9ngqSr">
+  <tr data-page-node-id="rTqzpxA0P9qO8obVKyE49g"><th style="width:50%" data-page-node-id="Bb3AsA7TRUCcX9XRyQOFKn">✅ 这次改</th><th data-page-node-id="uNoh022tU4BxyLdUC5ArYb">🔒 不动</th></tr>
+  <tr data-page-node-id="nxRgF3IZc09IWnztHyyziR"><td data-page-node-id="EvGUM1QTYwhyKJ8BMpEjLU">
+    · 全部颜色/字体/圆角换入余音 token（宣纸底、墨阶、朱砂、宋体门面）<br data-page-node-id="M3nlHW9eN5h9oGYB9us8HS">
+    · 顶栏品牌化（双端），同步徽章降级<br data-page-node-id="sAoYqRmbIIU1QInaMlTSlm">
+    · 页脚教程删除 → 首次引导浮层 + 帮助入口<br data-page-node-id="uwLt5Q9epRNWWM4Ttmgt17">
+    · 微目标圆点阵、chips 单色化、元数据分层<br data-page-node-id="VDkTI94xHeaTdz7EQGN6l7">
+    · 删"老师划的重点"块、tab 收敛、课次卡并行<br data-page-node-id="l39SjCAj1MgObeqVzz1xJK">
+    · 登录页品牌主视觉 + 文案精简
+  </td><td data-page-node-id="C4JFUsl0GmW5eZrzi0fhvH">
+    · <b data-page-node-id="k7hKsfbSZm6BfyVuPaUHdk">功能一个不减</b>：计时、节拍器、录音、记遍数、批注、回课、驾驶舱全保留<br data-page-node-id="dWLCzcU1tAWgyOsEfGbnzu">
+    · <b data-page-node-id="0qg2yjmVRM2u4XW1FGaUjG">三条红线</b>：不打断练习、不排名打分、无积分商城（本次改造反而更贴红线）<br data-page-node-id="78yUBMo2QFC3dcQJwH1UbV">
+    · <b data-page-node-id="OTapYpDriq3livF5WnFMHJ">信息架构</b>：M2 任务卡 + M3 回课驾驶舱的双端结构不变<br data-page-node-id="nfgDSzogOsxzwPk7PvmRDm">
+    · <b data-page-node-id="LHOHEF7yKEjiNPjcMc4OIi">技术架构</b>：仍只改 <code data-page-node-id="0oiYo66ROJf365dj7ve2d3">index.html</code> 源文件再派生，零新依赖
+  </td></tr>
+</table>
+
+<!-- ================= ⑥ 落地 ================= -->
+<h2 id="s6" data-page-node-id="aFnvYPe4y3T1dUsy2fbcog"><span class="no" data-page-node-id="ZQVdLVoJpyxwRJ28gbITpj">⑥</span>落地步骤（确认后执行）</h2>
+<table data-page-node-id="A5tuFZJGul4kFDcdVXcV9G">
+  <tr data-page-node-id="bis6c7UBVqpMJz0NDAvy53"><th data-page-node-id="5KzUMxTe0BU2bTJccbVKMf">步</th><th data-page-node-id="q95vu627RxjDlzwWPJUMvL">内容</th><th style="width:8em" data-page-node-id="t0AZ3EdZ5cUmp30obBCivd">估时</th><th style="width:11em" data-page-node-id="sC49xIDXTn4A8x3ffozEBa">效果占比</th></tr>
+  <tr data-page-node-id="Z6mTAQChCO6DseVHBoEW2n"><td data-page-node-id="jXGgnzMY8V36nhVqZPw5v3">1</td><td data-page-node-id="c3d0GBjjN3wiMy4NyMBwoH">换 <code data-page-node-id="cxCv30fJd8MMLrRSR1MbtE">:root</code> token + 顶栏品牌化 + 同步点降级 + toast 修正（双端）</td><td data-page-node-id="Pw3V1ylj2s5CzNalDqXRjn">~50 分钟</td><td data-page-node-id="0X7mC5mGGUWGInrRH4qq5k">观感 50%</td></tr>
+  <tr data-page-node-id="ugCDWu2mBcAniRvQsvEjBK"><td data-page-node-id="SCPiWE2zK87phNAjHOQfQ9">2</td><td data-page-node-id="Z3OKRvx3oSvxPpYVPLmCw6">删页脚教程、建首次引导浮层（双端各一版，3 步图文）</td><td data-page-node-id="rUm81S2Ci5SEQSDgWdqcZ4">~40 分钟</td><td data-page-node-id="ERHeX641zMzBZ9IBCrlfD9">减字 40%</td></tr>
+  <tr data-page-node-id="amb2KQVQLuiV2X5MNpL1Bp"><td data-page-node-id="fMPD5WbxglzmvHE6XGMWsM">3</td><td data-page-node-id="m5VPmXbLFe6Bw3QOD1Jyxx">孩子端任务卡/练习页重构（圆点阵、chips 单色、删重点块、计时区放大）</td><td data-page-node-id="V6u1XKbHpewq0vkEjFG3Y2">~90 分钟</td><td data-page-node-id="oysQ2ovHTmAb3CjuL0Z8KJ">体验核心</td></tr>
+  <tr data-page-node-id="VM9JNm1ZbTH8wNM99AjQnY"><td data-page-node-id="00f6e9J1HWuAHMZqK2NdsZ">4</td><td data-page-node-id="G6NP8xXpMWSOFjWZHGRCoT">老师端课次卡/tab 收敛/驾驶舱配色统一 + 登录页品牌视觉</td><td data-page-node-id="NpD6O8cAyCiRVGZM2rYSZ7">~60 分钟</td><td data-page-node-id="DaqhcZy4yW4GJr5GcAPrje">收尾</td></tr>
+</table>
+<p class="muted tiny" data-page-node-id="pUa6r2fX3kZ3sC7ctiL0bV">每步独立可验证，Playwright 全链路回归后再部署公开链接；只改 <code data-page-node-id="92YLJfuEa5w8iYACxBoEml">index.html</code> 源文件，teacher/student 由脚本派生。</p>
+
+<!-- ================= ⑦ 决策 ================= -->
+<h2 id="s7" data-page-node-id="p5YzWN0lAbLWq6gDUGTbPj"><span class="no" data-page-node-id="wt7RcDD3hkyUgFXELkfp6o">⑦</span>请你确认的 4 个决策点</h2>
+<div class="card qz" data-page-node-id="XxTdCyE6PuQNiYMQ85KFRw">
+  <p data-page-node-id="lOS2teE9nCpD5JOJztxW3E"><b data-page-node-id="7h223potOfYmzuTkE8EWiU">决策 ① 页脚教程</b>：两段"怎么用 / 多端实时模式"——<b class="sha" data-page-node-id="XBmx8ebAFTUlHs2nyBCsHO">建议全删</b>，移入首次引导浮层（每个用户只看一次）。另一选项：保留一行折叠式"？使用帮助"在页脚。</p>
+  <p data-page-node-id="d5swm2CLCI5i53mAggJoXA"><b data-page-node-id="1HN2sLGEZBIh1aGqwwWb5x">决策 ② 完成度表达</b>："本周完成度 0%（共 1 张卡）"——<b class="sha" data-page-node-id="HmjUPPh0Ot3b2Ac5CE9NZJ">建议改为"这周的小目标 0/3"</b>，不用百分比（消除 KPI 感、更贴红线）。另一选项：保留百分比但只在 ≥1 时显示。</p>
+  <p data-page-node-id="m6q4BONVChxnTJEnpHStSG"><b data-page-node-id="nvsqRtPoXTgBO37bmebGyw">决策 ③ 冗余 tab</b>：扩展包注入的"驾驶舱 / 教学计划 / 历史/导出"与基础 tab 并存——<b class="sha" data-page-node-id="zGwUE4MLdLCiSQHC371F1m">建议删"驾驶舱"（与回课驾驶舱重复）</b>，"教学计划、历史/导出"收进"更多"。</p>
+  <p data-page-node-id="S81kN9WdSKxloyL20DD4Ta"><b data-page-node-id="CJjY6NDzZSu0RPTZDfdPeA">决策 ④ 首屏动作</b>：上课记录页"新建一次课"大按钮——<b class="sha" data-page-node-id="zbSgTNaFD2DykHiI4NkpSK">建议降为列表尾</b>（老师回访时最常看的是"谁交了作业"，不是新建）。另一选项：保持置顶（课密集日体验更好）。</p>
+</div>
+
+</div>
+<div class="footer-fix" data-page-node-id="AMjpuuSklkHCZ8ON0iZjOh">
+  <div class="wrap" data-page-node-id="p7hmpOQxylkGjTyCOhMvlg">
+    <span style="font-size:14.5px" data-page-node-id="aom87y1REURtcv3S9Qt6oW">方案就绪。4 个决策点定了，我就按第⑥节四步开始改代码。</span>
+    <span style="margin-left:auto;color:#A19A8F;font-size:13px" data-page-node-id="8D9F0tT2FUHjCY8SMrbKRB">余音 · UI 优化方案 v1 · 2026-09-09</span>
+  </div>
+</div>
+</body>
+</html>

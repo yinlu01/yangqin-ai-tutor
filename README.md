@@ -143,8 +143,8 @@
 
 | 端 | 地址 |
 |---|---|
-| 老师端 | <https://8787-36b79044b1854b828c41ca903625ca6c.e2b.bj4.sandbox.cloudstudio.club/t> |
-| 孩子端 | <https://8787-36b79044b1854b828c41ca903625ca6c.e2b.bj4.sandbox.cloudstudio.club/s> |
+| 老师端 | <https://36b79044b1854b828c41ca903625ca6c.app.workbuddy.link/t> |
+| 孩子端 | <https://36b79044b1854b828c41ca903625ca6c.app.workbuddy.link/s> |
 
 内置演示账号：
 
