@@ -194,7 +194,8 @@ footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line
         <tr><td class="num">v1.0</td><td>2026-09-08</td><td>首版发布</td><td>由第七、八卷方案转译为可交付需求</td></tr>
         <tr><td class="num">v1.1</td><td>2026-09-08</td><td>新增 <strong>M7 谱库与谱面批注</strong>（12 条）；V0.5 范围加入 M7；WBS 与数据模型同步；修正 v1.0 优先级分布表 P0 计数漏 1 条（47 → 48）</td><td>用户补充需求：老师端/孩子端双端 + 内置入门谱库 + 老师对课上谱面做批注与重点标记，作为作业依据</td></tr>
       
-        <tr><td>v1.1</td><td>2026-09-09</td><td>新增第 15 节；MVP 原型升级 v0.2，补齐 M2 微目标四要素、M3 逐条批改与驾驶舱矩阵、M5 85% 自适应建议、M6 成长体系、M7 批注继承与 A4 导出；同步修正「学生 ID 在演示数据与客户端种子间不一致」的缺陷</td><td>产品</td></tr></tbody>
+        <tr><td>v1.1</td><td>2026-09-09</td><td>新增第 15 节；MVP 原型升级 v0.2，补齐 M2 微目标四要素、M3 逐条批改与驾驶舱矩阵、M5 85% 自适应建议、M6 成长体系、M7 批注继承与 A4 导出；同步修正「学生 ID 在演示数据与客户端种子间不一致」的缺陷</td><td>产品</td></tr>
+        <tr><td class="num">v1.2</td><td>2026-09-10</td><td><strong>M7 谱库与谱面批注重大变更</strong>：①谱库由「10 首入门曲」换血为《中央音乐学院海内外考级曲目·扬琴 1–6 级》全量 78 首 + 公有领域补充 6 首 = 84 条，按 1–6 级分类排序；②谱面渲染由五线谱<strong>回归数字简谱</strong>（PRD 原文即简谱，此前实现偏航）；③新增 FR-M7-13 全屏看谱、FR-M7-14 考级分级与按级过滤、FR-M7-15 谱面校验（M7 12 → 15 条，P0 57 → 60，人天 207 → 213，成本 ¥248,400 → ¥255,600）；④数据模型 Score 表新增 <code>grade / piece_type / is_required / arranger / book_page / transcribed</code>；⑤Q8 版权处置明确为「只收元数据索引、谱面由老师对照原书自行录入、不存扫描件」；⑥同步修正第 15 节原型对照中「五线谱 / 10 首」的过时描述</td><td>用户提供央音考级教材，确认曲目库与简谱方案（第 09 卷需求变更设计）</td></tr></tbody>
     </table>
 
     <h3>1.3 术语表</h3>
@@ -456,7 +457,7 @@ Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V
 
   <section id="s6">
     <h2><span class="num">06</span>功能需求总表与优先级</h2>
-    <p class="lead">85 条功能需求分布在 8 个模块。优先级定义：<strong>P0 = 不做则版本不成立</strong>；P1 = 影响核心体验但可延后；P2 = 增强项。</p>
+    <p class="lead">88 条功能需求分布在 8 个模块。优先级定义：<strong>P0 = 不做则版本不成立</strong>；P1 = 影响核心体验但可延后；P2 = 增强项。</p>
 
     <h3>6.1 模块总览</h3>
     <table>
@@ -471,9 +472,9 @@ Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V
         <tr><td><strong>M6 游戏化</strong></td><td>动机维护</td><td class="num">8</td><td>V0.8</td><td class="num">13</td><td class="num">¥15,600</td></tr>
         <tr><td><strong>M1 课堂速记</strong></td><td>课堂数据缺失（源头）</td><td class="num">6</td><td>V1.0</td><td class="num">18</td><td class="num">¥21,600</td></tr>
         <tr><td><strong>M4 家长端</strong></td><td>家长陪练痛苦</td><td class="num">7</td><td>V1.0</td><td class="num">7</td><td class="num">¥8,400</td></tr>
-        <tr><td><strong>M7 谱库与谱面批注</strong></td><td>作业要点的<strong>来源</strong>：老师批注什么，孩子练什么</td><td class="num">12</td><td>V0.5</td><td class="num">20</td><td class="num">¥24,000</td></tr>
+        <tr><td><strong>M7 谱库与谱面批注</strong></td><td>作业要点的<strong>来源</strong>：老师批注什么，孩子练什么</td><td class="num">15</td><td>V0.5</td><td class="num">26</td><td class="num">¥31,200</td></tr>
         <tr><td><strong>NFR 合规 + QA</strong></td><td>未成年人保护、备案、评测集</td><td class="num">—</td><td>全程</td><td class="num">33</td><td class="num">¥39,600</td></tr>
-        <tr><th>合计</th><th></th><th class="num">85</th><th></th><th class="num">207</th><th class="num">¥248,400</th></tr>
+        <tr><th>合计</th><th></th><th class="num">88</th><th></th><th class="num">213</th><th class="num">¥255,600</th></tr>
       </tbody>
     </table>
     <p class="tnote">人天拆分见第 12 节；单价按 ¥1,200/人天（外包中位）估算，全部假设公开可复算。合规与 QA 人天按模块分摊计入各版本。</p>
@@ -498,7 +499,7 @@ Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V
     <table>
       <thead><tr><th>优先级</th><th class="num">条数</th><th>定义</th><th>评审要求</th></tr></thead>
       <tbody>
-        <tr><td><span class="b b-p0">P0</span></td><td class="num">57</td><td>不做则版本不成立</td><td>逐条确认验收标准</td></tr>
+        <tr><td><span class="b b-p0">P0</span></td><td class="num">60</td><td>不做则版本不成立</td><td>逐条确认验收标准</td></tr>
         <tr><td><span class="b b-p1">P1</span></td><td class="num">22</td><td>影响核心体验，可延后一个版本</td><td>确认延后不破坏旅程</td></tr>
         <tr><td><span class="b b-p2">P2</span></td><td class="num">6</td><td>增强项</td><td>可整体砍掉</td></tr>
       </tbody>
@@ -1032,16 +1033,23 @@ Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V
       </tbody>
     </table>
   
-    <h3>7.8 M7 谱库与谱面批注（12 条，V0.5）—— M2 的上游</h3>
+    <h3>7.8 M7 谱库与谱面批注（15 条，V0.5）—— M2 的上游</h3>
     <p class="lead">老师在课上改的是什么？是<strong>谱面</strong>。没有这一层，任务卡里的"要点"只能靠老师手打，10 分钟布置作业的目标必然失守。</p>
+    <div class="callout c-key">
+      <b>v1.2 变更（2026-09-10）：谱库换血为央音考级曲目，谱面回归数字简谱</b>
+      原型曾一度实现为五线谱，属于<strong>实现偏航</strong>——PRD 原文 FR-M7-02/03 写的本就是简谱。本次为需求回归 + 原型补课：<br>
+      ① 谱库由「10 首入门曲」改为 <strong>《中央音乐学院海内外考级曲目·扬琴 1–6 级》全量 78 首 + 公有领域补充 6 首 = 84 条</strong>；<br>
+      ② 渲染改为<strong>数字简谱</strong>（老师对照原书无需翻译）；③ 新增全屏看谱、按考级级别过滤、谱面校验三条。<br>
+      扬琴教材与考级体系本身就是简谱体系，用五线谱会给老师和家长增加一道无谓的翻译成本。
+    </div>
     <table>
       <thead>
         <tr><th class="fr">FR-ID</th><th>需求描述</th><th>验收标准（AC）</th><th class="num">P</th></tr>
       </thead>
       <tbody>
-        <tr><td class="fr">FR-M7-01</td><td><strong>内置谱库</strong>：内置扬琴入门曲目与基本功练习（五声音阶、轮音长音、八度双音、琶音 + 小星星/两只老虎/欢乐颂等），含调性、默认 BPM、技法标注</td><td>首发 ≥ 30 首（扬琴）；每首含 {调性, 默认 BPM, 难度, 技法标注}；可在不发版前提下补充</td><td class="num"><span class="b b-p0">P0</span></td></tr>
-        <tr><td class="fr">FR-M7-02</td><td><strong>谱面数据结构</strong>：以「行 + 音符」两级结构存储，音符含 {音高, 八度, 时值, 技法标记}，与乐器无关</td><td>同一结构可承载简谱与扬琴技法标记；改为古筝/二胡时<strong>不需改表结构</strong></td><td class="num"><span class="b b-p0">P0</span></td></tr>
-        <tr><td class="fr">FR-M7-03</td><td>谱面渲染：小程序内渲染可横向滚动的简谱，支持放大、按行定位、只显示作业指定行</td><td>手机端单行不折行；10 行以内首屏渲染 ≤ 1 秒；作业范围外的行默认折叠</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-01</td><td><strong>内置谱库</strong>：内置《中央音乐学院海内外考级曲目·扬琴 1–6 级》全量曲目，按考级级别分类排序；另收公有领域补充曲（小星星、两只老虎、欢乐颂等）</td><td>谱库共 <strong>84 条</strong>（考级 78 + 补充 6）；每首含 {级别 1–6, 类型 练习曲/乐曲, 必弹标记※, 曲名, 改编者, 原书页码, 调性, 默认 BPM}；<strong>未录谱面的曲目显示「待录入」灰态，系统不得生成占位谱面充数</strong>；曲名/级别/页码与原书目录逐条核对，存疑项标 ⚠ 待确认</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-02</td><td><strong>谱面数据结构</strong>：以「行 + 音符」两级结构存储，音符为 <code>N(n, o, d, t)</code>——n = 简谱数字（1–7；<code>0</code> 休止；<code>-</code> 增时/延音），o = 八度偏移（正为高、负为低），d = 时值（1 = 四分音符），t = 技法标记</td><td>与乐器无关，改为古筝/二胡时<strong>不需改表结构</strong>；<strong><code>0</code> 休止符必须占拍</strong>（不计拍将导致拍数校验误报）；批注锚点 {行号, 行内音符序号} 不因渲染方式变化而失效</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-03</td><td>谱面渲染：渲染<strong>数字简谱</strong>（非五线谱）——数字 + 高低八度点 + 减时线 + 增时线 + 附点 + 休止 <code>0</code> + 小节线 + 技法小字；可横向滚动、按行定位、只显示作业指定行</td><td>手机端单行不折行；10 行以内首屏渲染 ≤ 1 秒；作业范围外的行默认折叠；<strong>符号体系与原书一致，老师可直接对照原书校对，无需在简谱与五线谱之间翻译</strong></td><td class="num"><span class="b b-p0">P0</span></td></tr>
         <tr><td class="fr">FR-M7-04</td><td><strong>谱面批注</strong>：老师可在谱面上点选任意音符加标记，类型为 {重点, 难点, 慢练, 轮音, 竹法, 分句}，词表可配置</td><td>点选 → 加标记 ≤ 2 次点击；单曲批注全程 ≤ 90 秒；标记类型可由运营后台扩展<strong>而无需发版</strong></td><td class="num"><span class="b b-p0">P0</span></td></tr>
         <tr><td class="fr">FR-M7-05</td><td>批注必须能带<strong>一句话指令</strong>（≤ 30 字），该指令原样下发给孩子，不做 AI 改写</td><td>指令为空时允许只留标记类型；<strong>系统不得自动生成或润色该文案</strong>（FR-M3-07 一致性）</td><td class="num"><span class="b b-p0">P0</span></td></tr>
         <tr><td class="fr">FR-M7-06</td><td>批注锚定：批注挂在 {课次, 学生, 曲目, 谱面版本, 行号, 音符序号} 上，<strong>不修改公共谱库</strong></td><td>两位老师对同一首曲子的批注互不可见；系统谱库更新后旧批注不错位（按 score_version 快照）</td><td class="num"><span class="b b-p0">P0</span></td></tr>
@@ -1051,6 +1059,9 @@ Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V
         <tr><td class="fr">FR-M7-10</td><td>回课时可<strong>逐条确认批注是否做到</strong>，勾选结果进入学生成长记录</td><td>回课界面按批注逐条列出；允许"未做到"并生成下一张卡的复练项</td><td class="num"><span class="b b-p0">P0</span></td></tr>
         <tr><td class="fr">FR-M7-11</td><td>自编谱快速录入：支持文本简谱批量粘贴（八度、八分音符、延音、休止记号），自动成谱</td><td>10 行以内录入 ≤ 60 秒；解析失败时逐行报错并保留原文本</td><td class="num"><span class="b b-p1">P1</span></td></tr>
         <tr><td class="fr">FR-M7-12</td><td>任务卡导出 A4 PDF（含批注高亮），供无手机/要纸质谱的场景使用</td><td>导出 ≤ 5 秒；标注与谱面在同一页；带学生姓名水印</td><td class="num"><span class="b b-p2">P2</span></td></tr>
+        <tr><td class="fr">FR-M7-13</td><td><strong>全屏看谱</strong>：老师端与孩子端均可一键全屏查看谱面，支持 A± 缩放，全屏层内可直接读批注与技法标注</td><td>双端入口一致；打开 ≤ 0.5 秒；缩放范围 0.8–2.5 倍（默认 1.35）；退出全屏回到原滚动位置；全屏层级高于页面内所有浮层</td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-14</td><td><strong>考级分级与按级过滤</strong>：谱库按 1–6 级分组展示；选曲时默认定位到该学生的当前级别（学生档案可设置级别 1–6），可切换到全部级别</td><td>每首显示级别徽章与必弹※标记；默认展示学生所在级别分组，切换 ≤ 1 次点击；<strong>学生级别变更不影响已布置的历史作业</strong></td><td class="num"><span class="b b-p0">P0</span></td></tr>
+        <tr><td class="fr">FR-M7-15</td><td><strong>谱面校验</strong>：录入或导入谱面时自动校验——音符合法性（n ∈ 1–7 / <code>0</code> / <code>-</code>）、拍数完整（<strong>休止符占拍</strong>）、小节时值可整除</td><td>校验结果分两级：<code>issues</code> 硬伤禁止保存、<code>warns</code> 提示允许保存；报错定位到行号与音符序号；<strong>谱库列表对每首曲目显示 ✓/⚠ 徽章</strong>，⚠ 曲目可正常布置但需显式提示老师复核</td><td class="num"><span class="b b-p0">P0</span></td></tr>
       </tbody>
     </table>
     <div class="callout c-warn">
@@ -1316,13 +1327,22 @@ Student  (1) ──&lt; has &gt;── (N) WeeklyPlan         # 定制计划（V
   instrument     VARCHAR(20) NOT NULL,      -- yangqin / guzheng / erhu ...
   title          VARCHAR(120) NOT NULL,
   category       ENUM('basic','repertoire','exam','custom') NOT NULL,
+  grade          TINYINT,                   -- 考级级别 1-6（央音扬琴）；非考级曲为 NULL
+  piece_type     ENUM('etude','piece'),     -- 练习曲 / 乐曲
+  is_required    TINYINT DEFAULT 0,         -- 必弹※，对应考级目录标记
+  arranger       VARCHAR(40),               -- 改编者
+  book_page      VARCHAR(20),               -- 原书页码，供老师对照录入与校对
+  transcribed    TINYINT NOT NULL DEFAULT 0,-- 0 = 仅元数据（「待录入」灰态）；1 = 已有谱面
   key_name       VARCHAR(10),               -- 调性，如 'D'
   bpm            INT,                       -- 默认速度
-  level          TINYINT,                   -- 1-10 难度
-  source         VARCHAR(60),               -- 来源与版权标记
+  level          TINYINT,                   -- 1-10 难度，与 grade 是两个维度
+  source         VARCHAR(60),               -- 来源与版权标记；考级曲目只存索引，不存扫描件
   owner_teacher_id BIGINT,                  -- 自编谱归属；系统谱为 NULL
   version        INT NOT NULL DEFAULT 1,    -- 谱面版本，批注按版本锚定
-  content        JSON NOT NULL,             -- {lines:[{name, notes:[{n,o,d,t}]}]}
+  content        JSON NOT NULL,             -- 数字简谱：{lines:[{name, notes:[{n,o,d,t}]}]}
+                                            -- n: 1-7 唱名 | 0 休止（占拍）| '-' 增时
+                                            -- o: 八度偏移（正高负低） d: 时值（1=四分） t: 技法
+  INDEX idx_instr_grade (instrument, grade),
   INDEX idx_instr_level (instrument, level)
 );
 
@@ -1498,10 +1518,10 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
         <tr><td>M6 游戏化</td><td class="num">8</td><td class="num">5</td><td class="num">0</td><td class="num">13</td><td class="num">¥15,600</td></tr>
         <tr><td>M1 课堂速记</td><td class="num">5</td><td class="num">7</td><td class="num">6</td><td class="num">18</td><td class="num">¥21,600</td></tr>
         <tr><td>M4 家长端</td><td class="num">4</td><td class="num">3</td><td class="num">0</td><td class="num">7</td><td class="num">¥8,400</td></tr>
-        <tr><td>M7 谱库与谱面批注</td><td class="num">12</td><td class="num">8</td><td class="num">0</td><td class="num">20</td><td class="num">¥24,000</td></tr>
+        <tr><td>M7 谱库与谱面批注</td><td class="num">17</td><td class="num">9</td><td class="num">0</td><td class="num">26</td><td class="num">¥31,200</td></tr>
         <tr><td>合规（NFR）</td><td class="num">1</td><td class="num">11</td><td class="num">0</td><td class="num">12</td><td class="num">¥14,400</td></tr>
         <tr><td>QA 与评测集</td><td class="num">6</td><td class="num">7</td><td class="num">8</td><td class="num">21</td><td class="num">¥25,200</td></tr>
-        <tr><th>合计</th><th class="num">85</th><th class="num">93</th><th class="num">29</th><th class="num">207</th><th class="num">¥248,400</th></tr>
+        <tr><th>合计</th><th class="num">90</th><th class="num">94</th><th class="num">29</th><th class="num">213</th><th class="num">¥255,600</th></tr>
       </tbody>
     </table>
     <p class="tnote"><strong>假设全部公开，请务必复算</strong>：人天单价 ¥1,200（外包中位，需实际报价校验）；3 人团队（1 前端 / 1 后端 / 1 兼职算法）；有效产能系数 0.7（扣除沟通、返工、等待）；缓冲 15%。<strong>这是量级估算，不是报价。</strong></p>
@@ -1628,7 +1648,7 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
         <tr><td class="num">Q7</td><td><strong>教育培训类小程序能否申请长期订阅消息？</strong>若不能，每条通知都需用户逐次授权，触达率显著低于预期</td><td>官方文档仅说明长期订阅面向特定行业（政务民生/医疗/交通/金融等），<strong>未明确列出教育培训</strong>——需向微信平台核实</td><td>V0.5 启动前</td></tr>
       </tbody>
     
-        <tr><td class="fr">Q8</td><td><strong>内置谱库的版权怎么解决？</strong>民歌/公有领域曲目可直接收录（如茉莉花、欢乐颂）；近现代创作曲目与教材配套曲谱需授权</td><td>首发只用<strong>公有领域曲目 + 自编练习曲</strong>，商用曲谱走授权；你手头教材里的曲目能否录入，需要你先确认授权范围</td><td class="num"><span class="b b-p0">P0</span></td></tr></table>
+        <tr><td class="fr">Q8</td><td><strong>内置谱库的版权怎么解决？</strong>民歌/公有领域曲目可直接收录（如茉莉花、欢乐颂）；近现代创作曲目与教材配套曲谱需授权</td><td>处置原则：<strong>考级曲目只收「元数据索引」——曲名 / 级别 / 类型 / 必弹※ / 改编者 / 原书页码，谱面由老师对照原书自行录入</strong>；系统<strong>不复制、不存储、不分发</strong>原书扫描件与排版图像，已录谱面一律存为结构化数据（<code>N(n,o,d,t)</code>）而非图片。公有领域曲目（小星星、欢乐颂等 6 首）可直接收录完整谱面。若将来要整批导入某本教材的现成谱面，须另行取得授权</td><td class="num"><span class="b b-p0">P0</span></td></tr></table>
     <div class="callout c-warn">
       <b>Q1 与 Q6 是立项前提</b>
       Q1 决定扩展路径是否成立（第五卷已指出：进古筝时"你的身份资产失效"是最大难题）。Q6 决定这件事该以工作室还是公司的形态做——第七卷结论很明确：<strong>撑得起高毛利工作室，撑不起公司或融资。</strong>
@@ -1702,8 +1722,8 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
       <tbody>
         <tr><td>交付形态</td><td>① 单文件离线 HTML（<code>扬琴AI助教-MVP原型.html</code>，双击即用，数据存本机）；
         ② 在线双端（Node 服务 + 两个独立网址：老师端 <code>/t</code>、孩子端 <code>/s</code>，孩子端手机号登录，3 秒轮询实时同步）</td></tr>
-        <tr><td>技术</td><td>零依赖：原生 JS + SVG 自绘五线谱 + IndexedDB 存音频 + 服务端 JSON 文件存储</td></tr>
-        <tr><td>谱面</td><td><strong>五线谱</strong>（按用户要求，而非 PRD 原文的简谱）。音符含 {音高, 八度, 时值, 技法标记}，逐音符可点选批注</td></tr>
+        <tr><td>技术</td><td>零依赖：原生 JS + SVG 自绘<strong>数字简谱</strong> + IndexedDB 存音频 + 服务端 JSON 文件存储</td></tr>
+        <tr><td>谱面</td><td><strong>数字简谱</strong>（v1.2 起与 PRD 原文 FR-M7-03 一致；此前的五线谱属实现偏航，已废弃）。音符 <code>N(n,o,d,t)</code> = {简谱数字, 八度偏移, 时值, 技法}，逐音符可点选批注；谱库 84 条（央音考级 78 + 公有领域补充 6），<strong>已录谱面 1 首，其余 83 条为「待录入」灰态</strong></td></tr>
         <tr><td>数据</td><td>老师端与孩子端共用一份状态；所有写操作走 <code>/api/patch</code> 增量同步</td></tr>
       </tbody>
     </table>
@@ -1712,9 +1732,9 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
     <table>
       <thead><tr><th style="width:150px">PRD 需求</th><th>原型中的实现</th><th style="width:76px">状态</th></tr></thead>
       <tbody>
-        <tr><td>FR-M7-01 内置谱库</td><td>10 首入门曲目与基本功（五声音阶、轮音长音、八度双音、琶音、小星星、两只老虎、欢乐颂等），含调性 / 默认 BPM / 技法标注</td><td>已实现</td></tr>
-        <tr><td>FR-M7-02 谱面数据结构</td><td>「行 + 音符」两级，音符 = {音高, 八度, 时值, 技法}</td><td>已实现</td></tr>
-        <tr><td>FR-M7-03 谱面渲染</td><td>SVG 五线谱，横向滚动、按行定位、只显示作业指定行</td><td>已实现</td></tr>
+        <tr><td>FR-M7-01 内置谱库</td><td><strong>84 条</strong>：央音考级 1–6 级 78 首（练习曲 30 + 乐曲 48，必弹※ 25 首，含改编者与原书页码）+ 公有领域补充 6 首；<strong>已录谱面 1 首（g1T2 两手平衡练习），其余 83 条「待录入」灰态</strong></td><td>元数据已实现<br>谱面待录入</td></tr>
+        <tr><td>FR-M7-02 谱面数据结构</td><td>「行 + 音符」两级，音符 <code>N(n,o,d,t)</code> = {简谱数字, 八度偏移, 时值, 技法}；<strong>休止 <code>0</code> 占拍</strong></td><td>已实现</td></tr>
+        <tr><td>FR-M7-03 谱面渲染</td><td>SVG <strong>数字简谱</strong>：数字 + 高低八度点 + 减时线 + 增时线 + 附点 + 休止 + 小节线 + 技法朱砂小字；横向滚动、按行定位、只显示作业指定行</td><td>已实现</td></tr>
         <tr><td>FR-M7-04 谱面批注</td><td>点选音符 → 选类型（重点/难点/慢练/轮音/竹法/分句）→ 写指令，2 次点击完成</td><td>已实现</td></tr>
         <tr><td>FR-M7-05 批注带一句话指令</td><td>≤30 字，<strong>原样下发、系统不改写</strong></td><td>已实现</td></tr>
         <tr><td>FR-M7-08 批注 → 作业继承</td><td>一键「从批注生成」微目标；批注可逐条勾选是否转为作业要点，未勾选的孩子端看不到</td><td>已实现</td></tr>
@@ -1722,6 +1742,9 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
         <tr><td>FR-M7-10 批注核对</td><td>回课时逐条「做到了 / 还没」；未做到的<strong>自动写入下一张卡的复练项</strong></td><td>已实现</td></tr>
         <tr><td>FR-M7-11 自编谱录入</td><td>「粘贴成谱」：音名+八度、<code>/</code> 八分、<code>-</code> 延音、<code>0</code> 休止、<code>[技法]</code>，逐行解析并报错</td><td>已实现</td></tr>
         <tr><td>FR-M7-12 A4 PDF 导出</td><td>🖨 A4 按钮：谱面 + 批注高亮 + 微目标清单 + 学生姓名水印，走浏览器打印</td><td>已实现</td></tr>
+        <tr><td>FR-M7-13 全屏看谱</td><td>⛶ 全屏按钮（双端）：独立全屏层 + A± 缩放（默认 1.35）+ 徽标行；退出回到原滚动位置</td><td>已实现</td></tr>
+        <tr><td>FR-M7-14 考级分级与按级过滤</td><td>选曲步按级别 chips 分组，<strong>默认 = 学生当前级别</strong>（学生档案可点选 1–6 级）；每首显示级别徽章与必弹※</td><td>已实现</td></tr>
+        <tr><td>FR-M7-15 谱面校验</td><td><code>validateScore()</code>：音符合法性 / 拍数完整（休止占拍）/ 小节整除；谱库列表显示 ✓ / ⚠ 徽章</td><td>已实现</td></tr>
         <tr><td>FR-M2-01 技法模板库</td><td>26 条扬琴技法词表（轮音、支手轮音、反竹、双音琴竹、琶音、花音、滑弹、拨弦、压音、泛音、颤竹、齐竹…），每条带预置成功标准与默认遍数</td><td>已实现</td></tr>
         <tr><td>FR-M2-02 微目标四要素</td><td>{技法, 片段, 成功标准, 建议遍数}；编辑器强制四要素齐全</td><td>已实现</td></tr>
         <tr><td>FR-M2-05 成功标准可配置</td><td>遍数 1–10、成功阈值 ≤ 遍数（越界前端拦截）、BPM 约束</td><td>已实现</td></tr>
@@ -1781,7 +1804,7 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
     <table>
       <thead><tr><th>环节</th><th>结果</th></tr></thead>
       <tbody>
-        <tr><td>老师：新建课次 → 选曲 → 五线谱点选批注</td><td>42 个可批注音符，批注成功落位</td></tr>
+        <tr><td>老师：新建课次 → 按考级级别选曲 → <strong>简谱</strong>点选批注</td><td>批注成功落位到 {行号, 行内音符序号}；谱库按级别分组，未录谱面的曲目不可选</td></tr>
         <tr><td>老师：批注 → 微目标生成 → 布置</td><td>由批注自动生成微目标（技法/片段/成功标准/遍数四要素齐全）</td></tr>
         <tr><td>孩子：手机号登录 → 收到任务</td><td>通过；演示号 13800000001 / 13800000002 / 13800000003</td></tr>
         <tr><td>孩子：逐条练习 → 记遍数 → 批注核对 → 提交</td><td>通过；达标以「N/M 遍」结算，无分数</td></tr>
