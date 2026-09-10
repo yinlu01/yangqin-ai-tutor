@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="zh-CN" data-page-node-id="2hbQILjKCi7ckxkHoAuDKb">
+<head data-page-node-id="suBvisv0czdDHGX3v7Ytab">
+<meta charset="utf-8" data-page-node-id="wH4LVPospoRhHVEVNf4Sbq">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" data-page-node-id="XBy2fzUfXIg1lxsjSg1aj1">
 <title>余音 · 老师端</title>
 <style>
 :root{
@@ -101,7 +101,9 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .staff-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
 .staff-svg{display:block;max-width:none}
 .note-g.clickable{cursor:pointer}
-.note-g.clickable:hover ellipse{stroke:var(--brand);stroke-width:2.4}
+.note-g.clickable:hover .jn{fill:var(--brand)}
+.note-g.clickable{transition:transform .12s}
+.note-g.clickable:active{transform:scale(.92)}
 .line-lbl{font-size:11.5px;color:var(--muted);margin:8px 0 3px;font-weight:700}
 .line-lbl:first-child{margin-top:0}
 .nline{display:flex;flex-wrap:wrap;gap:2px;align-items:flex-end;padding:2px 0;border-bottom:1px dashed #eee}
@@ -152,6 +154,21 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:rgba(28,26,23,.94);color:#F5F1E8;padding:10px 18px;border-radius:13px;font-size:13.5px;z-index:200;opacity:0;transition:.25s;pointer-events:none;max-width:80vw;text-align:center}
 .toast.show{opacity:1;bottom:96px}
 
+/* ---------- 全屏看谱 ---------- */
+.fscore { position:fixed;inset:0;background:#FBF9F4;z-index:400;display:flex;flex-direction:column;animation:fsIn .18s ease-out }
+@keyframes fsIn { from{opacity:0;transform:scale(.985)} to{opacity:1;transform:scale(1)} }
+.fs-bar { display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;background:#fff;border-bottom:1px solid #EFEAE0;flex-wrap:wrap }
+.fs-title { display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:15px }
+.fs-tip { padding:7px 14px;font-size:12px;color:var(--muted);background:#fff;border-bottom:1px dashed #EFEAE0 }
+.fs-body { flex:1;overflow:auto;padding:12px 14px 48px;-webkit-overflow-scrolling:touch }
+.fs-body .score-box { background:#fff;border-radius:14px }
+.card.dim { opacity:.55 }
+/* ---------- 卡通头像 ---------- */
+.avsvg { display:inline-flex;border-radius:50%;overflow:hidden;background:#FFF9F0;border:2.5px solid #fff;box-shadow:0 2px 10px rgba(28,26,23,.13);flex-shrink:0;transition:transform .16s ease }
+.avsvg:hover { transform:scale(1.09) rotate(-5deg) }
+.avsvg svg { width:100%;height:100%;display:block }
+.stu-av .avsvg { margin:0 auto 4px }
+.stu-av.on .avsvg { border-color:var(--stu);box-shadow:0 3px 12px rgba(46,125,80,.25) }
 /* ---------- 引导 ---------- */
 .intro{position:fixed;inset:0;background:rgba(17,24,39,.5);z-index:300;display:flex;align-items:center;justify-content:center;padding:18px}
 .intro-box{background:#fff;border-radius:16px;padding:20px;max-width:460px;max-height:86vh;overflow:auto}
@@ -178,36 +195,36 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
 }
 </style>
 </head>
-<body>
+<body data-page-node-id="UBAsEQwkWzxpA8uJzObSjW">
 
-<header class="topbar"><div class="topbar-in">
-  <div class="logo"><svg width="23" height="23" viewBox="0 0 56 56" aria-hidden="true" style="flex:none"><circle cx="28" cy="28" r="21" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="28" cy="28" r="11.5" fill="#B04A3A"/><circle cx="24" cy="24" r="3" fill="#D98A75" opacity=".5"/></svg><span class="wm">余音</span><span class="role-tag" id="roleTag"></span></div>
-  <div class="role-sw" style="display:none">
-    <button id="btnTeacher" class="on">老师端</button>
-    <button id="btnStudent">孩子端</button>
+<header class="topbar" data-page-node-id="HXEgc4nQ5OltrrpuQaGYXz"><div class="topbar-in" data-page-node-id="E8yUNWsxa6PmHaP8a6zDSH">
+  <div class="logo" data-page-node-id="hesSr9GiUsJnBNENipSjKs"><svg width="23" height="23" viewBox="0 0 56 56" aria-hidden="true" style="flex:none" data-page-node-id="3JPHjpCgqElRk4DN8tru8t"><circle cx="28" cy="28" r="21" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35" data-page-node-id="23BBRbLWtzVbtAZMN1FReT"/><circle cx="28" cy="28" r="11.5" fill="#B04A3A" data-page-node-id="fCcfCCLfZ1OMH1njp74WQc"/><circle cx="24" cy="24" r="3" fill="#D98A75" opacity=".5" data-page-node-id="YeSJ853sy152SCAqlw4VP0"/></svg><span class="wm" data-page-node-id="CTyd01BMIgRLATZoSkE9Xb">余音</span><span class="role-tag" id="roleTag" data-page-node-id="TiDvaA24nz0FMX7PJY4uR1"></span></div>
+  <div class="role-sw" style="display:none" data-page-node-id="n01128FphuCAfaXqpplDcr">
+    <button id="btnTeacher" class="on" data-page-node-id="d6YXcAubg4dCTZB7p0LCDh">老师端</button>
+    <button id="btnStudent" data-page-node-id="nbnTx1LcMTDeefNxPISwYc">孩子端</button>
   </div>
-  <span id="syncDot" class="tiny muted" style="margin-left:auto"></span>
-  <button class="iconbtn" id="btnMenu" title="数据与设置" style="font-size:15px">☰</button>
+  <span id="syncDot" class="tiny muted" style="margin-left:auto" data-page-node-id="EELpBODT1CwXSCC5ISvR1V"></span>
+  <button class="iconbtn" id="btnMenu" title="数据与设置" style="font-size:15px" data-page-node-id="JrSDSymOh2DMJo6pyRXC36">☰</button>
 </div></header>
 
-<nav class="subnav" id="navT"><div class="subnav-in">
-  <button data-tab="t-class" class="on">上课记录</button>
-  <button data-tab="t-review">回课驾驶舱</button>
-  <button data-tab="t-stu">学生档案</button>
-  <button data-tab="t-lib">谱库</button>
+<nav class="subnav" id="navT" data-page-node-id="K2AaMMlXTpaqJn52BDgJYj"><div class="subnav-in" data-page-node-id="nLuHKtWFII1JI0GKFWzhDG">
+  <button data-tab="t-class" class="on" data-page-node-id="uMHZytU0vpXlAkwWg6hYeG">上课记录</button>
+  <button data-tab="t-review" data-page-node-id="Vh76BCrXzgXpzotzQU1l3d">回课驾驶舱</button>
+  <button data-tab="t-stu" data-page-node-id="GTcEzoNCMnS6AOhTuygerl">学生档案</button>
+  <button data-tab="t-lib" data-page-node-id="lBdrXyR9gXV6XRfMQ2OYxp">谱库</button>
 </div></nav>
 
-<nav class="subnav stu hide" id="navS"><div class="subnav-in">
-  <button data-tab="s-task" class="on">今日任务</button>
-  <button data-tab="s-fb">我的回课</button>
-  <button data-tab="s-lib">谱库</button>
+<nav class="subnav stu hide" id="navS" data-page-node-id="HODxYmPk8n4EVzFyK6k79A"><div class="subnav-in" data-page-node-id="i3NHfJ7pVd0hZbLPEehnuu">
+  <button data-tab="s-task" class="on" data-page-node-id="UdcTc4l9EKQl6aaXimo9nx">今日任务</button>
+  <button data-tab="s-fb" data-page-node-id="qPAYkeQqXzsslHaMex0KjT">我的回课</button>
+  <button data-tab="s-lib" data-page-node-id="a45CQiFwMvlO293CnPpeIf">谱库</button>
 </div></nav>
 
-<main class="pagewrap" id="app"></main>
-<div class="foot" id="foot"></div>
+<main class="pagewrap" id="app" data-page-node-id="hHHhoV8ooaCqof7yOH9qOW"></main>
+<div class="foot" id="foot" data-page-node-id="dnG2fb2MojB0zbHEE9HKQi"></div>
 
-<div class="toast" id="toast"></div>
-<div id="layer"></div>
+<div class="toast" id="toast" data-page-node-id="7cn5J1iunZOlxgYozA2fRA"></div>
+<div id="layer" data-page-node-id="RLUDwnIquoDA1iGbcI8GtA"></div>
 
 <script>
 /* =========================================================
@@ -246,33 +263,107 @@ function blobToDataURL(blob){return new Promise(r=>{const f=new FileReader();f.o
 /* ---------------- 1. 内置谱库（入门级） ---------------- */
 /* note: {n:'1'-'7' | '-'延音 | '0'休止, o:-1/0/1 八度, d:时值(1=四分), t:技法} */
 const N=(n,o=0,d=1,t='')=>({n,o,d,t});
+/* ===== 央音扬琴考级曲目库（1–6 级，78 首）=====
+   grade:1-6  type:练习曲|乐曲  required:1=必弹※  page:原书页码  lines:null=简谱待录入
+   来源：《中央音乐学院海内外考级曲目·扬琴 1-6 级》目录页（p I–IV），转录件 */
+function M(id,title,grade,type,required,arranger,page){return{id,title,grade,type,required,arranger,page,lines:null,cat:'考级'}}
 const SCORE_LIB=[
- {id:'sc01',title:'五声音阶练习',cat:'基本功',key:'D 调',bpm:60,level:1,src:'自编练习曲',
-  tip:'手腕放松，每个音落点清楚，先单手再双手。',
+ /* —— 第一级 —— */
+ M('g1T1','两手交替练习',1,'练习曲',0,'桂习礼编曲',1),
+ M('g1T3','五声音阶练习',1,'练习曲',1,'桂习礼编曲',2),
+ M('g1T4','七声音阶进阶练习',1,'练习曲',1,'黄河编曲',2),
+ M('g1T5','左竹法练习',1,'练习曲',0,'黄河编曲',3),
+ M('g1S1','月牙五更',1,'乐曲',0,'东北民歌 · 桂习礼改编',4),
+ M('g1S2','小白船',1,'乐曲',0,'朝鲜童谣 · 桂习礼改编',4),
+ M('g1S3','紫竹调',1,'乐曲',0,'民间乐曲 · 刘月宁改编',5),
+ M('g1S4','金蛇狂舞',1,'乐曲',1,'民间乐曲 · 桂习礼改编',5),
+ M('g1S5','小猫钓鱼',1,'乐曲',0,'黄淮曲 · 胡宝恒改编',6),
+ M('g1S6','小竹排沿江中游',1,'乐曲',0,'傅庚辰曲 · 张晓峰改编',7),
+ M('g1S7','拖拉机来了',1,'乐曲',1,'张晓峰编曲',8),
+ M('g1S8','风车',1,'乐曲',0,'宿英曲',9),
+ /* —— 第二级 —— */
+ M('g2T1','分奏练习',2,'练习曲',0,'桂习礼编曲',11),
+ M('g2T2','小跳练习',2,'练习曲',1,'桂习礼编曲',11),
+ M('g2T3','单双竹交替练习',2,'练习曲',0,'刘月宁编曲',12),
+ M('g2T4','分解和弦练习',2,'练习曲',1,'黄河编曲',12),
+ M('g2T5','单音与和音交替练习',2,'练习曲',0,'黄河编曲',13),
+ M('g2S1','蕉石鸣琴',2,'乐曲',1,'广东音乐 · 梁瑞华改编',14),
+ M('g2S2','五哥放羊',2,'乐曲',0,'榆林小曲 · 桂习礼改编',15),
+ M('g2S3','步步高',2,'乐曲',0,'吕文成曲 · 于海英改编',17),
+ M('g2S4','黎明舞曲',2,'乐曲',0,'维吾尔族民间乐曲 · 胡运籍改编',18),
+ M('g2S5','捉迷藏',2,'乐曲',0,'刘宝恒编曲',19),
+ M('g2S6','八月桂花遍地开',2,'乐曲',0,'江西民歌 · 雷雨声改编',21),
+ M('g2S7','倒垂帘',2,'乐曲',1,'广东音乐 · 梁瑞华订谱',23),
+ M('g2S8','春郊试马',2,'乐曲',0,'广东音乐 · 陈德钜曲 汤凯旋订谱',24),
+ /* —— 第三级 —— */
+ M('g3T1','连跳练习（草原儿女片断）',3,'练习曲',1,'桂习礼订谱',27),
+ M('g3T2','连竹练习',3,'练习曲',0,'刘月宁编曲',28),
+ M('g3T3','轮音练习',3,'练习曲',0,'桂习礼编曲',29),
+ M('g3T4','快速切分练习',3,'练习曲',1,'黄河编曲',29),
+ M('g3T5','左右手灵活性练习',3,'练习曲',0,'黄河编曲',31),
+ M('g3S1','欢乐歌',3,'乐曲',1,'民间乐曲 · 张晓峰订谱',32),
+ M('g3S2','敖西潮',3,'乐曲',0,'云南民间乐曲 · 甘永康改编',34),
+ M('g3S3','银河会',3,'乐曲',0,'吕文成曲 · 张全堂、刘月宁改编',38),
+ M('g3S4','欢乐的新疆',3,'乐曲',0,'周德明编曲',40),
+ M('g3S5','喜讯',3,'乐曲',1,'桂习礼编曲',43),
+ M('g3S6','山丹丹开花红艳艳',3,'乐曲',0,'陕北民歌 · 丁国舜、丁国立改编',46),
+ M('g3S7','水乡的春天',3,'乐曲',0,'张晓峰曲',48),
+ M('g3S8','牧歌',3,'乐曲',0,'蒙古族民歌 · 黄河改编',51),
+ /* —— 第四级 —— */
+ M('g4T1','快速座音练习',4,'练习曲',1,'桂习礼编曲',54),
+ M('g4T2','快速衬音与半音练习',4,'练习曲',0,'刘月宁编曲',55),
+ M('g4T3','定拍轮音练习',4,'练习曲',0,'桂习礼编曲',55),
+ M('g4T4','八度双音练习',4,'练习曲',1,'西藏民歌 · 黄河改编',56),
+ M('g4T5','左手单轮轮音练习',4,'练习曲',0,'黄河改编',58),
+ M('g4S1','弹词三六（江南丝竹）',4,'乐曲',1,'江南民间乐曲 · 项祖华整理',59),
+ M('g4S2','雨打芭蕉（广东音乐）',4,'乐曲',1,'广东音乐曲艺团改编 · 汤凯旋整理',62),
+ M('g4S3','天山之春',4,'乐曲',0,'乌斯满江、俞礼纯曲 · 王范地改编 李小刚移植',64),
+ M('g4S4','杜鹃啼',4,'乐曲',0,'广东音乐 · 刘月宁改编',67),
+ M('g4S5','大象',4,'乐曲',0,'几内亚民歌 · 敬敏清改编',69),
+ M('g4S6','乡村抒怀',4,'乐曲',0,'美国民歌 · 李玲玲改编',72),
+ M('g4S7','双手开出幸福泉',4,'乐曲',0,'丁国舜编曲',74),
+ M('g4S8','苗岭的早晨',4,'乐曲',0,'陈钢编曲 · 黄河改编',78),
+ /* —— 第五级 —— */
+ M('g5T1','两声部练习',5,'练习曲',0,'江西民歌 · 桂习礼改编',82),
+ M('g5T2','两声部练习',5,'练习曲',1,'江西民歌 · 刘月宁编曲',83),
+ M('g5T3','急速分解练习',5,'练习曲',0,'黄河编曲',84),
+ M('g5T4','综合轮音练习（沂蒙颂选曲）',5,'练习曲',1,'刘廷禹曲 · 桂习礼改编',85),
+ M('g5T5','七和弦快速分解练习',5,'练习曲',0,'黄河编曲',85),
+ M('g5S1','阳关三叠',5,'乐曲',0,'古曲 · 桂习礼改编',87),
+ M('g5S2','春到清江',5,'乐曲',1,'刘维康曲',89),
+ M('g5S3','游击队歌',5,'乐曲',0,'贺绿汀曲 · 梁瑞华改编',93),
+ M('g5S4','美丽的非洲',5,'乐曲',0,'于庆祝曲',96),
+ M('g5S5','节日的新疆',5,'乐曲',1,'曹玲曲 · 郭敏清改编',100),
+ M('g5S6','边疆的春天',5,'乐曲',0,'柴珏、张学生编曲',103),
+ M('g5S7','恰尔达什舞曲',5,'乐曲',1,'（意）蒙蒂曲 · 黄河改编',107),
+ M('g5S8','柯尔克孜舞曲',5,'乐曲',0,'桂习礼编曲',110),
+ /* —— 第六级 —— */
+ M('g6T1','快速分解和弦练习（燕子）',6,'练习曲',1,'（奥）布格缪勒曲',116),
+ M('g6T2','快速音阶练习',6,'练习曲',0,'刘月宁编曲',117),
+ M('g6T3','两声部练习（三十里铺）',6,'练习曲',0,'陕北民歌 · 桂习礼改编',118),
+ M('g6T4','两声部练习（叶塞尼亚选曲）',6,'练习曲',1,'刘春阳改编',119),
+ M('g6T5','和声性连弹练习',6,'练习曲',0,'黄河编曲',122),
+ M('g6S1','将军令',6,'乐曲',1,'四川扬琴曲牌 · 项祖华、李小元整理',123),
+ M('g6S2','大浪淘沙',6,'乐曲',0,'华彦钧传谱 · 张金堂改编',127),
+ M('g6S3','欢乐的火把节',6,'乐曲',1,'刘希圣曲',130),
+ M('g6S4','渔岛月夜',6,'乐曲',0,'莫凡曲',134),
+ M('g6S5','流水欢歌',6,'乐曲',0,'桂习礼、翟渊国编曲',136),
+ M('g6S6','金色牧场',6,'乐曲',0,'黄河编曲',141),
+ M('g6S7','唱支山歌给党听',6,'乐曲',0,'践耳曲 · 黄河改编',145),
+ M('g6S8','龙舟',6,'乐曲',0,'张正秋传谱 · 田克俭改编',147),
+ /* —— 已录入简谱的考级曲 —— */
+ {id:'g1T2',title:'两手平衡练习',grade:1,type:'练习曲',required:0,arranger:'刘月宁编曲',page:1,cat:'考级',
+  key:'C 或 F',beat:2,tempo:'慢板',
+  tip:'两手力度要均衡，交替均匀；这是最适合第一周的考级练习曲（原书第 1 首 p1）。',
   lines:[
-   {name:'① 上行',notes:[N('1'),N('2'),N('3'),N('5'),N('6'),N('5'),N('3'),N('2'),N('1',0,2)]},
-   {name:'② 下行',notes:[N('6'),N('5'),N('3'),N('2'),N('1'),N('2'),N('3'),N('5'),N('1',0,2)]}
+   {name:'①',notes:[N('1'),N('1'),N('5',-1),N('5',-1),N('6',-1),N('6',-1),N('7',-1),N('7',-1),N('1'),N('1'),N('2'),N('2'),N('3'),N('3'),N('1'),N('1'),N('2'),N('2'),N('6',-1),N('6',-1),N('7',-1),N('7',-1),N('1'),N('1')]},
+   {name:'②',notes:[N('2'),N('2'),N('3'),N('3'),N('4'),N('4'),N('2'),N('2'),N('3'),N('3'),N('7',-1),N('7',-1),N('1'),N('1'),N('2'),N('2'),N('3'),N('3'),N('4'),N('4'),N('5'),N('5'),N('3'),N('3')]},
+   {name:'③',notes:[N('4'),N('4'),N('1'),N('1'),N('2'),N('2'),N('3'),N('3'),N('4'),N('4'),N('5'),N('5'),N('6'),N('6'),N('4'),N('4'),N('5'),N('5'),N('2'),N('2'),N('3'),N('3'),N('4'),N('4')]},
+   {name:'④',notes:[N('5'),N('5'),N('6'),N('6'),N('7'),N('7'),N('5'),N('5'),N('6'),N('6'),N('3'),N('3'),N('4'),N('4'),N('5'),N('5'),N('6'),N('6'),N('7'),N('7'),N('1',1),N('1',1),N('2'),N('2'),N('1',1),N('0',0,1)]}
   ]},
- {id:'sc02',title:'轮音长音练习',cat:'基本功',key:'D 调',bpm:52,level:1,src:'自编练习曲',
-  tip:'左竹起、右竹跟，密度均匀；数拍子，不忽快忽慢。',
-  lines:[
-   {name:'① 长轮',notes:[N('1',0,4,'轮'),N('5',0,4,'轮')]},
-   {name:'② 换音轮',notes:[N('3',0,2,'轮'),N('5',0,2,'轮'),N('6',0,2,'轮'),N('5',0,2,'轮'),N('1',0,4,'轮')]}
-  ]},
- {id:'sc03',title:'八度双音练习',cat:'基本功',key:'D 调',bpm:66,level:2,src:'自编练习曲',
-  tip:'两竹同时落，听"一个音"而不是"两个音"。',
-  lines:[
-   {name:'① 同音八度',notes:[N('1',0,1,'八度'),N('2',0,1,'八度'),N('3',0,1,'八度'),N('5',0,1,'八度'),N('6',0,2,'八度')]},
-   {name:'② 上行回落',notes:[N('6',0,1,'八度'),N('5',0,1,'八度'),N('3',0,1,'八度'),N('2',0,1,'八度'),N('1',0,2,'八度')]}
-  ]},
- {id:'sc04',title:'琶音练习',cat:'基本功',key:'D 调',bpm:72,level:2,src:'自编练习曲',
-  tip:'由低到高依次弹出，手腕带，不要用手臂甩。',
-  lines:[
-   {name:'① 上行琶音',notes:[N('1',0,1,'琶'),N('3',0,1),N('5',0,1),N('6',0,1),N('1',1,2)]},
-   {name:'② 下行琶音',notes:[N('1',1,1,'琶'),N('6',0,1),N('5',0,1),N('3',0,1),N('1',0,2)]}
-  ]},
- {id:'sc05',title:'小星星',cat:'入门曲目',key:'C 调',bpm:76,level:1,src:'儿歌',
-  tip:'第一行全用单竹交替，第二行注意 5→4 的换弦位置。',
+ /* —— 补充曲目（公有领域儿歌与名曲，谱面完整可确证） —— */
+ {id:'sp01',title:'小星星',cat:'补充',key:'C',beat:4,bpm:76,sup:1,src:'法国童谣',
+  tip:'第一行全用单竹交替；注意 5→4 的换弦位置。',
   lines:[
    {name:'①',notes:[N('1'),N('1'),N('5'),N('5'),N('6'),N('6'),N('5',0,2)]},
    {name:'②',notes:[N('4'),N('4'),N('3'),N('3'),N('2'),N('2'),N('1',0,2)]},
@@ -281,8 +372,8 @@ const SCORE_LIB=[
    {name:'⑤',notes:[N('1'),N('1'),N('5'),N('5'),N('6'),N('6'),N('5',0,2)]},
    {name:'⑥',notes:[N('4'),N('4'),N('3'),N('3'),N('2'),N('2'),N('1',0,2)]}
   ]},
- {id:'sc06',title:'两只老虎',cat:'入门曲目',key:'C 调',bpm:80,level:1,src:'儿歌',
-  tip:'第三行是八分音符，容易抢拍，跟着节拍器慢来。',
+ {id:'sp02',title:'两只老虎',cat:'补充',key:'C',beat:4,bpm:80,sup:1,src:'法国童谣',
+  tip:'第三句是八分音符，容易抢拍，跟着节拍器慢来。',
   lines:[
    {name:'①',notes:[N('1'),N('2'),N('3'),N('1'),N('1'),N('2'),N('3'),N('1')]},
    {name:'②',notes:[N('3'),N('4'),N('5',0,2),N('3'),N('4'),N('5',0,2)]},
@@ -290,23 +381,15 @@ const SCORE_LIB=[
    {name:'④',notes:[N('5',0,.5),N('6',0,.5),N('5',0,.5),N('4',0,.5),N('3'),N('1')]},
    {name:'⑤',notes:[N('2'),N('5',-1),N('1',0,2),N('2'),N('5',-1),N('1',0,2)]}
   ]},
- {id:'sc07',title:'欢乐颂',cat:'入门曲目',key:'C 调',bpm:72,level:2,src:'贝多芬',
-  tip:'第 2、4 小节的附点要撑住，不要提前走。',
+ {id:'sp03',title:'欢乐颂',cat:'补充',key:'C',beat:4,bpm:72,sup:1,src:'贝多芬',
+  tip:'第 2、4 句的附点要撑住，不要提前走。',
   lines:[
    {name:'①',notes:[N('3'),N('3'),N('4'),N('5'),N('5'),N('4'),N('3'),N('2')]},
-   {name:'②',notes:[N('1'),N('1'),N('2'),N('3'),N('3',0,1.5),N('2',0,.5),N('2',0,2)]},
+   {name:'②',notes:[N('1'),N('1'),N('2'),N('3'),N('3',0,1.5,0),N('2',0,.5),N('2',0,2)]},
    {name:'③',notes:[N('3'),N('3'),N('4'),N('5'),N('5'),N('4'),N('3'),N('2')]},
-   {name:'④',notes:[N('1'),N('1'),N('2'),N('3'),N('2',0,1.5),N('1',0,.5),N('1',0,2)]}
+   {name:'④',notes:[N('1'),N('1'),N('2'),N('3'),N('2',0,1.5,0),N('1',0,.5),N('1',0,2)]}
   ]},
- {id:'sc08',title:'铃儿响叮当',cat:'入门曲目',key:'C 调',bpm:84,level:2,src:'美国歌曲',
-  tip:'第二行的 1、2 是高八度，注意换到高音区码位。',
-  lines:[
-   {name:'①',notes:[N('3'),N('3'),N('3',0,2),N('3'),N('3'),N('3',0,2)]},
-   {name:'②',notes:[N('3'),N('5'),N('1',1),N('2',1),N('3',0,4)]},
-   {name:'③',notes:[N('4'),N('4'),N('4',0,2),N('4'),N('3'),N('3'),N('3',0,2)]},
-   {name:'④',notes:[N('3'),N('2'),N('2'),N('3'),N('2',0,2),N('5',0,2)]}
-  ]},
- {id:'sc09',title:'玛丽有只小羊羔',cat:'入门曲目',key:'C 调',bpm:78,level:1,src:'美国儿歌',
+ {id:'sp04',title:'玛丽有只小羊羔',cat:'补充',key:'C',beat:4,bpm:78,sup:1,src:'美国儿歌',
   tip:'整曲只用 1-5，适合第一周；练熟后尝试背谱。',
   lines:[
    {name:'①',notes:[N('3'),N('2'),N('1'),N('2'),N('3'),N('3'),N('3',0,2)]},
@@ -314,8 +397,8 @@ const SCORE_LIB=[
    {name:'③',notes:[N('3'),N('2'),N('1'),N('2'),N('3'),N('3'),N('3'),N('3')]},
    {name:'④',notes:[N('2'),N('2'),N('3'),N('2'),N('1',0,4)]}
   ]},
- {id:'sc10',title:'划船歌',cat:'入门曲目',key:'C 调',bpm:74,level:2,src:'英国儿歌',
-  tip:'第三、四行是八分音符轮唱感，双手要留空隙。',
+ {id:'sp05',title:'划船歌',cat:'补充',key:'C',beat:2,bpm:74,sup:1,src:'英国儿歌',
+  tip:'第三、四句是八分音符，双手要留空隙。',
   lines:[
    {name:'①',notes:[N('1'),N('1'),N('1'),N('2'),N('3',0,2)]},
    {name:'②',notes:[N('3'),N('2'),N('3'),N('4'),N('5',0,2)]},
@@ -323,14 +406,13 @@ const SCORE_LIB=[
    {name:'④',notes:[N('3',0,.5),N('3',0,.5),N('3',0,.5),N('1',0,.5),N('1',0,.5),N('1',0,.5)]},
    {name:'⑤',notes:[N('5'),N('4'),N('3'),N('2'),N('1',0,2)]}
   ]},
- {id:'sc11',title:'茉莉花（片段）',cat:'入门曲目',key:'D 调',bpm:66,level:3,src:'江苏民歌',
+ {id:'sp06',title:'茉莉花（片段）',cat:'补充',key:'D',beat:4,bpm:66,sup:1,src:'江苏民歌',
   tip:'常见演奏版片段，请与所用教材核对；重点在分句与呼吸。',
   lines:[
    {name:'①',notes:[N('5'),N('5'),N('6'),N('5'),N('3'),N('5'),N('3'),N('2')]},
    {name:'②',notes:[N('1',0,2),N('2'),N('3'),N('5'),N('3'),N('2'),N('1',0,2)]}
   ]}
 ];
-
 /* ---------------- 2. 常量字典 ---------------- */
 const MARK_TYPES=[
  {k:'重点',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'这周必须拿下'},
@@ -406,82 +488,99 @@ const DB={db:null,
  async del(k){try{const d=await DB.open();const t=d.transaction('audio','readwrite');t.objectStore('audio').delete(k)}catch(e){}}
 };
 
-/* ---------------- 4. 五线谱渲染（自绘 SVG，零依赖） ---------------- */
-const PITCH_IDX={C:0,D:1,E:2,F:3,G:4,A:5,B:6};
-const KEY_ACC={'C 调':[],'D 调':['F#5','C#5'],'G 调':['F#5'],'F 调':['A#4']};
-function pitchStep(p){
-  if(!p||p==='R')return null;
-  const m=/^([A-G])(#|b)?(-?\d)$/.exec(p); if(!m)return 0;
-  return (parseInt(m[3])-4)*7+PITCH_IDX[m[1]];
+/* ---------------- 4. 简谱渲染（数字简谱 SVG，零依赖） ---------------- */
+/* 音符: {n:'1'-'7'|'0'休止|'-'延音, o:八度(-2..2,负=低音点/正=高音点), d:时值(1=四分,.5=八分,.25=十六分,2=二分,4=全), t:技法, dot:附点} */
+function jw(d){return d<=0.25?22:d<=0.5?27:d>=4?54:d>=2?44:34}
+/* 校验器：issues=硬伤（谱面不可用） warns=提示（可用但建议对照原书核对） */
+function validateScore(sc){
+  const issues=[],warns=[];
+  if(!sc.title)issues.push('缺曲名');
+  if(!Array.isArray(sc.lines)||!sc.lines.length){issues.push('无谱面行');return{ok:false,issues,warns}}
+  const beat=+sc.beat||4;
+  sc.lines.forEach((ln,li)=>{
+    if(!Array.isArray(ln.notes)||!ln.notes.length){issues.push('第'+(li+1)+'行没有音符');return}
+    let beats=0;
+    ln.notes.forEach((n,i)=>{
+      const w='第'+(li+1)+'行第'+(i+1)+'音';
+      if(!/^[1-7]$/.test(n.n)&&n.n!=='0'&&n.n!=='-')issues.push(w+'「'+n.n+'」不是简谱音符');
+      if(!(n.d>0&&n.d<=8))issues.push(w+'时值异常');
+      if((n.o||0)<-2||(n.o||0)>2)issues.push(w+'八度标记超出范围');
+      if(n.dot&&n.dot!==1)issues.push(w+'附点数异常');
+      if(n.t&&String(n.t).length>4)warns.push(w+'技法标记过长');
+      if(n.n!=='-')beats+=(n.d||1)*(n.dot?1.5:1);
+    });
+    if(beats>0.01){
+      const rem=beats%beat;
+      if(rem>0.01&&rem<beat-0.01)warns.push('第'+(li+1)+'行共 '+beats+' 拍，不是 '+beat+' 拍的整数倍');
+    }
+  });
+  if(sc.srcPage&&!sc.arranger)warns.push('未标改编者');
+  return {ok:!issues.length,issues,warns};
 }
-const STAFF_TOP=44, STAFF_GAP=10;               /* 第五线 y=44 … 第一线 y=84 */
-function pitchY(p){const s=pitchStep(p);return 94-s*5}
-function keyAccY(p){const s=pitchStep(p);return 94-s*5}
-
+/* 渲染一行简谱 → SVG */
+function jlineSVG(sc,ln,li,marks,clickable,big){
+  const S=big?1.5:1, F=30*S, GAP=7*S, X0=16*S, H=106*S;
+  const beat=+sc.beat||4;
+  let x=X0, beats=0, g='';
+  ln.notes.forEach((n,i)=>{
+    const w=jw(n.d||1)*S, cx=x+w/2;
+    if(beats>0.01){
+      const rem=beats%beat;
+      if(rem<0.01||Math.abs(rem-beat)<0.01)
+        g+='<line x1="'+(x-4.5*S)+'" y1="'+(32*S)+'" x2="'+(x-4.5*S)+'" y2="'+(90*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
+    }
+    const mk=marks.filter(m=>m.li===li&&m.i===i)[0];
+    const t=mk?(MARK_TYPES.filter(q=>q.k===mk.type)[0]||{bg:'#eee',c:'#666'}):null;
+    g+='<g class="note-g'+(clickable?' clickable':'')+(mk?' m-'+mk.type:'')+'" data-li="'+li+'" data-i="'+i+'">';
+    if(t)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(82*S)+'" rx="'+(9*S)+'" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.2"/>';
+    g+='<rect x="'+(x-10*S)+'" y="'+(18*S)+'" width="'+(w+20*S)+'" height="'+(80*S)+'" fill="transparent"/>';
+    if(n.n==='-'){
+      g+='<rect x="'+(x+2*S)+'" y="'+(52*S)+'" width="'+(w-8*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
+    }else{
+      if(n.t)g+='<text x="'+cx+'" y="'+(21*S)+'" font-size="'+(11*S)+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';
+      g+='<text class="jn" x="'+cx+'" y="'+(62*S)+'" font-size="'+F+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.n+'</text>';
+      const o=n.o||0;
+      for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(28*S-(k-1)*6*S)+'" r="'+(2.4*S)+'" fill="#1C1A17"/>';
+      for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(80*S+(k-1)*6*S)+'" r="'+(2.4*S)+'" fill="#1C1A17"/>';
+      const nw=F*0.6;
+      if((n.d||1)<=0.25){
+        g+='<rect x="'+(cx-nw/2)+'" y="'+(69*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+        g+='<rect x="'+(cx-nw/2)+'" y="'+(75*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+      }else if((n.d||1)<=0.5){
+        g+='<rect x="'+(cx-nw/2)+'" y="'+(69*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+      }
+      if((n.d||1)>=2){
+        const lw=w-F*0.55-6*S;
+        g+='<rect x="'+(cx+F*0.3)+'" y="'+(52*S)+'" width="'+lw+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
+      }
+      if((n.d||1)>=4)g+='<rect x="'+(cx+F*0.3)+'" y="'+(60*S)+'" width="'+(w-F*0.55-6*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
+      if(n.dot)g+='<circle cx="'+(cx+F*0.42)+'" cy="'+(66*S)+'" r="'+(2.6*S)+'" fill="#1C1A17"/>';
+    }
+    if(mk){
+      const idx=marks.filter(m=>m.li===li).indexOf(mk)+1;
+      g+='<circle cx="'+cx+'" cy="'+(9*S)+'" r="'+(7*S)+'" fill="'+t.c+'"/>'
+        +'<text x="'+cx+'" y="'+(12.5*S)+'" font-size="'+(9.5*S)+'" text-anchor="middle" fill="#fff" font-weight="700">'+idx+'</text>';
+    }
+    g+='</g>';
+    if(n.n!=='-')beats+=(n.d||1)*(n.dot?1.5:1);
+    x+=w+GAP;
+  });
+  const W=Math.max(x+12*S,320);
+  return '<svg class="staff-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" style="max-width:none">'+g+'</svg>';
+}
 function renderScore(sc,opts){
   opts=opts||{};
-  const lines=opts.lines, marks=opts.marks||[], clickable=!!opts.clickable;
+  const lines=opts.lines, marks=opts.marks||[], clickable=!!opts.clickable, big=!!opts.big;
   let h='<div class="score-box">';
-  let gi=0;
+  if(sc.key)h+='<div class="tiny muted" style="margin:0 2px 4px"><b style="font-size:14.5px;color:var(--ink)">1 = '+String(sc.key).replace('1=','').replace(/\s*调$/,'')+'</b>'
+    +(sc.beat?'<span style="margin-left:10px">'+sc.beat+' 拍</span>':'')
+    +(sc.tempo?'<span style="margin-left:10px">'+esc(sc.tempo)+'</span>':'')+'</div>';
   sc.lines.forEach((ln,li)=>{
-    if(lines && lines.indexOf(li)<0)return;
-    const ns=ln.notes, W=Math.max(320, 108+ns.length*44), H=132;
-    h+='<div class="line-lbl">'+esc(ln.name)+'</div>';
-    h+='<div class="staff-scroll"><svg class="staff-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">';
-    for(let k=0;k<5;k++) h+='<line x1="0" y1="'+(STAFF_TOP+k*STAFF_GAP)+'" x2="'+W+'" y2="'+(STAFF_TOP+k*STAFF_GAP)+'" stroke="#9aa4b2" stroke-width="1"/>';
-    h+='<line x1="0" y1="'+STAFF_TOP+'" x2="0" y2="'+(STAFF_TOP+40)+'" stroke="#6b7280" stroke-width="2.4"/>';
-    h+='<text x="6" y="82" font-size="42" font-family="Bravura,Apple Symbols,Segoe UI Symbol,serif" fill="#1f2328">\uD834\uDD1E</text>';
-    (KEY_ACC[sc.key]||[]).forEach((a,i)=>{
-      h+='<text x="'+(46+i*13)+'" y="'+(keyAccY(a)+4)+'" font-size="19" font-family="serif" fill="#1f2328">\u266F</text>';
-    });
-    h+='<text x="'+(46+(KEY_ACC[sc.key]||[]).length*14)+'" y="62" font-size="17" font-weight="700" font-family="serif" fill="#1f2328">4</text>';
-    h+='<text x="'+(46+(KEY_ACC[sc.key]||[]).length*14)+'" y="82" font-size="17" font-weight="700" font-family="serif" fill="#1f2328">4</text>';
-    let x=100, beats=0;
-    ns.forEach((n,i)=>{
-      const mk=marks.filter(m=>m.li===li&&m.i===i)[0];
-      const cls='note-g'+(clickable?' clickable':'')+(mk?(' m-'+mk.type):'');
-      h+='<g class="'+cls+'" data-li="'+li+'" data-i="'+i+'" '+(clickable?'onclick="A.noteClick(this)"':'')
-        +' data-x="'+x+'">';
-      if(mk){
-        const t=MARK_TYPES.filter(t=>t.k===mk.type)[0]||{bg:'#eee',c:'#666'};
-        h+='<rect x="'+(x-15)+'" y="'+(STAFF_TOP-22)+'" width="30" height="84" rx="7" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.4"/>';
-      }
-      h+='<rect x="'+(x-16)+'" y="'+(STAFF_TOP-4)+'" width="32" height="48" fill="transparent"/>';
-      if(n.p==='R'){
-        h+='<path d="M '+(x-4)+' '+(58)+' q 6 4 0 9 q 4 5 8 9 q -3 5 -7 6 q 5 3 1 9" fill="none" stroke="#374151" stroke-width="2"/>';
-      }else{
-        const y=pitchY(n.p);
-        for(let ly=94; ly<=y; ly+=10) h+='<line x1="'+(x-11)+'" y1="'+ly+'" x2="'+(x+11)+'" y2="'+ly+'" stroke="#6b7280" stroke-width="1.2"/>';
-        for(let ly=34; ly>=y; ly-=10) h+='<line x1="'+(x-11)+'" y1="'+ly+'" x2="'+(x+11)+'" y2="'+ly+'" stroke="#6b7280" stroke-width="1.2"/>';
-        const full=(n.d>=2);
-        h+='<ellipse cx="'+x+'" cy="'+y+'" rx="6.4" ry="4.6" fill="'+(full?'#fff':'#1f2328')+'" stroke="#1f2328" stroke-width="1.6"/>';
-        if(full) h+='<ellipse cx="'+x+'" cy="'+y+'" rx="2.4" ry="1.7" fill="#1f2328" opacity="'+(n.d>=3.5?'.9':'0')+'"/>';
-        if(n.d<2){
-          const up=(y>=64), sx=up?x+5.8:x-5.8, ey=up?y-30:y+30;
-          h+='<line x1="'+sx+'" y1="'+y+'" x2="'+sx+'" y2="'+ey+'" stroke="#1f2328" stroke-width="1.6"/>';
-          if(n.d<=0.5) h+='<path d="M '+sx+' '+ey+' q 9 4 11 16" fill="none" stroke="#1f2328" stroke-width="2.2"/>';
-        }
-        if(n.t) h+='<text x="'+x+'" y="'+(y-26)+'" font-size="11" text-anchor="middle" fill="#7c3aed" font-weight="700">'+esc(n.t)+'</text>';
-      }
-      if(mk) h+='<circle cx="'+(x+13)+'" cy="'+(STAFF_TOP-14)+'" r="6.5" fill="'+(MARK_TYPES.filter(t=>t.k===mk.type)[0]||{c:'#666'}).c+'"/>'
-        +'<text x="'+(x+13)+'" y="'+(STAFF_TOP-11)+'" font-size="8.5" text-anchor="middle" fill="#fff" font-weight="700">'+esc(mk.type[0])+'</text>';
-      h+='</g>';
-      beats+=n.d||1;
-      x+=38+(n.d>1?14:0);
-      if(beats>=4){ beats=0; h+='<line x1="'+(x-14)+'" y1="'+STAFF_TOP+'" x2="'+(x-14)+'" y2="'+(STAFF_TOP+40)+'" stroke="#6b7280" stroke-width="1.4"/>'; }
-    });
-    h+='<line x1="'+(W-1)+'" y1="'+STAFF_TOP+'" x2="'+(W-1)+'" y2="'+(STAFF_TOP+40)+'" stroke="#6b7280" stroke-width="2.4"/>';
-    h+='</svg></div>';
-    gi++;
+    if(lines&&lines.indexOf(li)<0)return;
+    h+='<div class="line-lbl">'+esc(ln.name||('第'+(li+1)+'行'))+'</div>';
+    h+='<div class="staff-scroll">'+jlineSVG(sc,ln,li,marks,clickable,big)+'</div>';
   });
-  h+='</div>';
-  if(marks.length){
-    h+='<div class="legend">'+MARK_TYPES.map(t=>{
-      const c=marks.filter(m=>m.type===t.k).length;
-      return c?'<span style="background:'+t.bg+';color:'+t.c+'">'+t.k+' ×'+c+'</span>':'';
-    }).join('')+'</div>';
-  }
-  return h;
+  return h+'</div>';
 }
 function markList(marks){
   if(!marks||!marks.length)return '<div class="small muted">还没有标记。点谱面上的音符可以添加。</div>';
@@ -502,6 +601,34 @@ function closeSheet(){
   try{if(window._stopPx)window._stopPx()}catch(e){}
   document.getElementById('layer').innerHTML='';
 }
+/* ===== 全屏看谱 ===== */
+let FS=null;
+function openFullScore(id,marks){
+  const sc=byId(S.scores,id);
+  if(!sc.lines){toast('这首的简谱还没录入，可对照原书 p'+(sc.page||'?')+' 补录');return}
+  FS={id:id,marks:marks||null,zoom:1.35};
+  renderFullScore();
+}
+function renderFullScore(){
+  const sc=byId(S.scores,FS.id);
+  const v=validateScore(sc);
+  const lvl=document.getElementById('layer');
+  lvl.innerHTML='<div class="fscore">'
+   +'<div class="fs-bar"><div class="fs-title"><b style="font-family:\'Songti SC\',\'STSong\',serif;letter-spacing:2px">'+esc(sc.title)+'</b>'
+   +(sc.grade?'<span class="tag">'+sc.grade+' 级'+(sc.type?' · '+esc(sc.type):'')+'</span>':'')
+   +(sc.required?'<span class="tag r">※ 必弹</span>':'')
+   +(sc.sup?'<span class="tag">补充</span>':'')
+   +(sc.key?'<span class="tag">1 = '+esc(String(sc.key).replace(/\s*调$/,''))+'</span>':'')
+   +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')
+   +'</div><div class="row" style="gap:6px;flex-shrink:0">'
+   +'<button class="btn xs" onclick="FS.zoom=Math.max(.8,FS.zoom-.3);renderFullScore()">A−</button>'
+   +'<button class="btn xs" onclick="FS.zoom=Math.min(2.6,FS.zoom+.3);renderFullScore()">A+</button>'
+   +'<button class="btn xs pri" onclick="closeFullScore()">关闭 ✕</button></div></div>'
+   +'<div class="fs-tip">'+(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||'')+'</div>'
+   +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom})+'</div></div>';
+}
+function closeFullScore(){FS=null;document.getElementById('layer').innerHTML='';}
+
 function confirmBox(title,msg,onOk){
   openSheet('<h3>'+esc(title)+'</h3><div class="small muted">'+msg+'</div>'
    +'<div class="sheet-actions"><button class="btn grow" onclick="closeSheet()">取消</button>'
@@ -679,14 +806,42 @@ function viewClass(){
      +'<button class="btn pri block" onclick="A.wizStep(2)">下一步：选曲目 →</button></div>';
   }
   if(w.step===2){
+    const stu=byId(S.students,w.studentId)||{};
+    const lvl=stu.stuLevel||1;
+    if(w.libG==null)w.libG=lvl;
+    const pickList=sc=>{
+      const on=w.pieces.find(p=>p.scoreId===sc.id);
+      return '<div class="row" style="padding:9px 0;border-bottom:1px solid var(--line2)">'
+       +'<div class="grow"><b>'+esc(sc.title)+'</b> '
+       +(sc.grade?'<span class="tag">'+sc.grade+' 级</span>':'<span class="tag">补充</span>')
+       +(sc.type?'<span class="tag">'+esc(sc.type)+'</span>':'')
+       +(sc.required?'<span class="tag r">※</span>':'')
+       +(sc.lines?'':'<span class="tag">待录入</span>')
+       +'<div class="tiny muted">'+(sc.arranger?esc(sc.arranger)+' · ':'')+'原书 p'+(sc.page||'—')+'</div></div>'
+       +'<button class="btn sm '+(on?'pri':'')+'" onclick="A.togglePiece(\''+sc.id+'\')">'+(on?'已选 ✓':'选择')+'</button></div>';
+    };
+    let listH='';
+    if(w.libG===0){
+      [1,2,3,4,5,6].forEach(g=>{
+        const L=S.scores.filter(sc=>sc.cat==='考级'&&sc.grade===g);
+        if(L.length)listH+='<div class="sec-title">第'+['一','二','三','四','五','六'][g-1]+'级</div>'+L.map(pickList).join('');
+      });
+      const sp=S.scores.filter(sc=>sc.cat!=='考级');
+      if(sp.length)listH+='<div class="sec-title">补充曲目</div>'+sp.map(pickList).join('');
+    }else if(w.libG==='sup'){
+      listH=S.scores.filter(sc=>sc.cat!=='考级').map(pickList).join('');
+    }else{
+      listH=S.scores.filter(sc=>sc.cat==='考级'&&sc.grade===w.libG).map(pickList).join('');
+    }
     h+='<div class="card"><h3>本节课的曲目 <span class="muted small">（可多选）</span></h3>'
-     +S.scores.map(sc=>{
-       const on=w.pieces.find(p=>p.scoreId===sc.id);
-       return '<div class="row" style="padding:9px 0;border-bottom:1px solid var(--line2)">'
-        +'<div class="grow"><b>'+esc(sc.title)+'</b> <span class="tag">'+esc(sc.cat)+'</span> <span class="tag">'+esc(sc.key)+'</span>'
-        +'<div class="tiny muted">'+esc(sc.tip||'')+'</div></div>'
-        +'<button class="btn sm '+(on?'pri':'')+'" onclick="A.togglePiece(\''+sc.id+'\')">'+(on?'已选 ✓':'选择')+'</button></div>';
-     }).join('')
+     +'<div class="row wrap" style="gap:6px">'
+     +'<button class="chip '+(w.libG===lvl?'sel':'')+'" onclick="A.libG('+lvl+')">'+lvl+' 级 · 本级曲目</button>'
+     +[1,2,3,4,5,6].filter(g=>g!==lvl).map(g=>'<button class="chip '+(w.libG===g?'sel':'')+'" onclick="A.libG('+g+')">'+g+' 级</button>').join('')
+     +'<button class="chip '+(w.libG==='sup'?'sel':'')+'" onclick="A.libG(\'sup\')">补充</button>'
+     +'<button class="chip '+(w.libG===0?'sel':'')+'" onclick="A.libG(0)">全部</button>'
+     +'</div>'
+     +(w.pieces.length?'<div class="tiny muted" style="margin-top:8px">已选 '+w.pieces.length+' 首，下一步批注</div>':'')
+     +'<div style="margin-top:6px">'+listH+'</div>'
      +'<div class="row" style="margin-top:12px"><button class="btn grow" onclick="A.wizStep(1)">← 上一步</button>'
      +'<button class="btn pri grow" onclick="A.wizStep(3)">下一步：批注 →</button></div></div>';
   }
@@ -952,6 +1107,23 @@ A.delStudent=function(id){
     if(ONLINE)api('/api/student/delete',{id:id}).then(()=>pull(true)).catch(()=>{});
   });
 };
+/* ===== 卡通头像：按学生稳定分配，可爱不严肃 ===== */
+const AV_STYLES=[
+ /* 小熊 */ '<circle cx="14" cy="11" r="7" fill="#C79A6B"/><circle cx="34" cy="11" r="7" fill="#C79A6B"/><circle cx="14" cy="11" r="3.2" fill="#F0D9BC"/><circle cx="34" cy="11" r="3.2" fill="#F0D9BC"/><circle cx="24" cy="27" r="16.5" fill="#F0D9BC"/><ellipse cx="24" cy="31" rx="2.8" ry="2" fill="#C79A6B"/><circle cx="18" cy="24.5" r="2.3" fill="#3A322B"/><circle cx="30" cy="24.5" r="2.3" fill="#3A322B"/><circle cx="18.8" cy="23.7" r=".8" fill="#fff"/><circle cx="30.8" cy="23.7" r=".8" fill="#fff"/><path d="M21 32.5 q3 2.6 6 0" stroke="#3A322B" stroke-width="1.4" fill="none" stroke-linecap="round"/><circle cx="11.5" cy="29" r="2.6" fill="#F2AFA3" opacity=".75"/><circle cx="36.5" cy="29" r="2.6" fill="#F2AFA3" opacity=".75"/>',
+ /* 小兔 */ '<ellipse cx="15" cy="10" rx="4.6" ry="10" fill="#F2F0EB"/><ellipse cx="33" cy="10" rx="4.6" ry="10" fill="#F2F0EB"/><ellipse cx="15" cy="10" rx="2.1" ry="6.5" fill="#F6C1C1"/><ellipse cx="33" cy="10" rx="2.1" ry="6.5" fill="#F6C1C1"/><circle cx="24" cy="29" r="16.5" fill="#F7F5F0"/><circle cx="18" cy="26" r="2.3" fill="#3A322B"/><circle cx="30" cy="26" r="2.3" fill="#3A322B"/><circle cx="18.8" cy="25.2" r=".8" fill="#fff"/><circle cx="30.8" cy="25.2" r=".8" fill="#fff"/><ellipse cx="24" cy="30.5" rx="1.9" ry="1.4" fill="#E88A8A"/><path d="M21 33.5 q3 2.6 6 0" stroke="#3A322B" stroke-width="1.4" fill="none" stroke-linecap="round"/><circle cx="11.5" cy="30.5" r="2.7" fill="#F2AFA3" opacity=".8"/><circle cx="36.5" cy="30.5" r="2.7" fill="#F2AFA3" opacity=".8"/>',
+ /* 小猫 */ '<path d="M9 15 L12 4 L20 10 Z" fill="#9BA6B5"/><path d="M39 15 L36 4 L28 10 Z" fill="#9BA6B5"/><circle cx="24" cy="27" r="16.5" fill="#B8C2CF"/><circle cx="18" cy="24.5" r="2.3" fill="#2E3138"/><circle cx="30" cy="24.5" r="2.3" fill="#2E3138"/><circle cx="18.8" cy="23.7" r=".8" fill="#fff"/><circle cx="30.8" cy="23.7" r=".8" fill="#fff"/><path d="M22.4 30.5 q1.6 1.6 3.2 0" stroke="#2E3138" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M7 27 h7 M7 31 l7 -1.6 M41 27 h-7 M41 31 l-7 -1.6" stroke="#7E8899" stroke-width="1.2" stroke-linecap="round"/><circle cx="11.5" cy="30" r="2.6" fill="#F2AFA3" opacity=".7"/><circle cx="36.5" cy="30" r="2.6" fill="#F2AFA3" opacity=".7"/>',
+ /* 熊猫 */ '<circle cx="13" cy="11" r="6.5" fill="#3A322B"/><circle cx="35" cy="11" r="6.5" fill="#3A322B"/><circle cx="24" cy="27" r="16.5" fill="#FAFAF7"/><ellipse cx="17.5" cy="24.5" rx="4.6" ry="5.2" fill="#3A322B" transform="rotate(-14 17.5 24.5)"/><ellipse cx="30.5" cy="24.5" rx="4.6" ry="5.2" fill="#3A322B" transform="rotate(14 30.5 24.5)"/><circle cx="18.2" cy="24.2" r="2" fill="#fff"/><circle cx="29.8" cy="24.2" r="2" fill="#fff"/><circle cx="18.2" cy="24.2" r="1" fill="#111"/><circle cx="29.8" cy="24.2" r="1" fill="#111"/><ellipse cx="24" cy="31.5" rx="2.4" ry="1.7" fill="#3A322B"/><path d="M21 34.5 q3 2.4 6 0" stroke="#3A322B" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="11" cy="31" r="2.4" fill="#F6B3B3" opacity=".8"/><circle cx="37" cy="31" r="2.4" fill="#F6B3B3" opacity=".8"/>',
+ /* 小狐 */ '<path d="M8 16 L11 3 L21 10 Z" fill="#E8945A"/><path d="M40 16 L37 3 L27 10 Z" fill="#E8945A"/><path d="M10.5 13 L12 6.5 L17.5 10.5 Z" fill="#4A3A30"/><path d="M37.5 13 L36 6.5 L30.5 10.5 Z" fill="#4A3A30"/><path d="M8 16 Q7 30 16 36 Q22 40 24 40 Q26 40 32 36 Q41 30 40 16 Q34 10 24 10 Q14 10 8 16 Z" fill="#F2A96E"/><path d="M24 40 Q20 40 17 34 Q24 30 31 34 Q28 40 24 40 Z" fill="#FBF3E8"/><circle cx="17.5" cy="23" r="2.3" fill="#3A2E26"/><circle cx="30.5" cy="23" r="2.3" fill="#3A2E26"/><circle cx="18.3" cy="22.2" r=".8" fill="#fff"/><circle cx="31.3" cy="22.2" r=".8" fill="#fff"/><circle cx="24" cy="30" r="1.9" fill="#4A3A30"/><path d="M21 33.5 q3 2.4 6 0" stroke="#4A3A30" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="11" cy="28" r="2.5" fill="#F2AFA3" opacity=".75"/><circle cx="37" cy="28" r="2.5" fill="#F2AFA3" opacity=".75"/>',
+ /* 小蛙 */ '<circle cx="14" cy="12" r="6.5" fill="#8FC97E"/><circle cx="34" cy="12" r="6.5" fill="#8FC97E"/><circle cx="14" cy="12" r="3.2" fill="#fff"/><circle cx="34" cy="12" r="3.2" fill="#fff"/><circle cx="14" cy="12.5" r="1.6" fill="#26301F"/><circle cx="34" cy="12.5" r="1.6" fill="#26301F"/><path d="M7.5 27 a16.5 16.5 0 1 0 33 0 a16.5 16.5 0 1 0 -33 0 Z" fill="#A5D894"/><path d="M15 33 q9 6 18 0" stroke="#3E5A33" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="18" cy="25" r="2.2" fill="#26301F"/><circle cx="30" cy="25" r="2.2" fill="#26301F"/><circle cx="18.8" cy="24.2" r=".7" fill="#fff"/><circle cx="30.8" cy="24.2" r=".7" fill="#fff"/><circle cx="11" cy="31" r="2.6" fill="#F2AFA3" opacity=".7"/><circle cx="37" cy="31" r="2.6" fill="#F2AFA3" opacity=".7"/>',
+ /* 小鸡 */ '<path d="M17 8 q1.4 -3 3 -1 M31 8 q-1.4 -3 -3 -1" stroke="#E8A13C" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="24" cy="26" r="16.5" fill="#FFD666"/><circle cx="18" cy="23" r="2.3" fill="#4A3A20"/><circle cx="30" cy="23" r="2.3" fill="#4A3A20"/><circle cx="18.8" cy="22.2" r=".8" fill="#fff"/><circle cx="30.8" cy="22.2" r=".8" fill="#fff"/><path d="M21 27.5 L24 30 L27 27.5 L24 32 Z" fill="#E88A3C"/><path d="M20.5 32.5 q3.5 3 7 0" stroke="#4A3A20" stroke-width="1.3" fill="none" stroke-linecap="round"/><circle cx="11.5" cy="28.5" r="2.7" fill="#F2AFA3" opacity=".8"/><circle cx="36.5" cy="28.5" r="2.7" fill="#F2AFA3" opacity=".8"/>',
+ /* 音符精灵 */ '<circle cx="24" cy="26" r="16.5" fill="#FBEDE8"/><path d="M15 14 L15 27 Q12 26 11.5 28.5 Q11.5 31 15.5 30.5 Q18 30 18 27.5 L18 17 Q23 16 25 20 Q30 14 15 14 Z" fill="#B04A3A" opacity=".28"/><circle cx="18" cy="24" r="2.3" fill="#3A322B"/><circle cx="30" cy="24" r="2.3" fill="#3A322B"/><circle cx="18.8" cy="23.2" r=".8" fill="#fff"/><circle cx="30.8" cy="23.2" r=".8" fill="#fff"/><path d="M20.5 31 q3.5 3 7 0" stroke="#B04A3A" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="11.5" cy="29" r="2.6" fill="#F2AFA3" opacity=".8"/><circle cx="36.5" cy="29" r="2.6" fill="#F2AFA3" opacity=".8"/>'
+];
+function avSvg(st,size){
+  const h=[...(st.id||'x')].reduce((a,c)=>a+c.charCodeAt(0),0);
+  const i=(st.av!=null?st.av:h)%AV_STYLES.length;
+  return '<span class="avsvg" style="width:'+size+'px;height:'+size+'px"><svg viewBox="0 0 48 48" aria-hidden="true">'+AV_STYLES[i]+'</svg></span>';
+}
+
 function viewStudents(){
   let h='<div class="card"><div class="spread"><h2>学生档案</h2><button class="btn xs pri" onclick="A.addStudent()">＋ 添加</button></div></div>';
   h+=S.students.map(st=>{
@@ -959,8 +1131,9 @@ function viewStudents(){
     const sub=hws.filter(x=>x.sub).length;
     const pass=hws.filter(x=>x.review&&x.review.judge==='达标').length;
     return '<div class="card"><div class="spread">'
-     +'<div class="row"><div class="av" style="width:40px;height:40px;border-radius:50%;background:'+st.color+';color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">'+esc(st.name[0])+'</div>'
-     +'<div><b>'+esc(st.name)+'</b><div class="tiny muted">'+esc(st.level||'')+(st.phone?'　📱 '+esc(st.phone):'　<span style="color:#b45309">未填手机号</span>')+'</div></div></div>'
+     +'<div class="row">'+avSvg(st,44)+
+     '<div><b>'+esc(st.name)+'</b><div class="tiny muted">'+esc(st.level||'')+(st.phone?'　📱 '+esc(st.phone):'　<span style="color:#b45309">未填手机号</span>')+'</div>'
+     +'<div class="row wrap" style="gap:4px;margin-top:4px">'+[1,2,3,4,5,6].map(g=>'<button class="chip '+(st.stuLevel===g?'sel':'')+'" style="padding:2px 9px;font-size:11.5px" onclick="A.setStuLevel(\''+st.id+'\','+g+')">'+g+'级</button>').join('')+'</div></div></div>'
      +'<button class="btn xs danger" onclick="A.delStudent(\''+st.id+'\')">删除</button></div>'
      +'<div class="grid3" style="margin-top:10px">'
      +'<div class="card tight" style="margin:0;text-align:center"><b>'+hws.length+'</b><div class="tiny muted">布置</div></div>'
@@ -992,13 +1165,6 @@ A.quickHw=function(sid){
 };
 
 /* ---------- 谱库（老师端） ---------- */
-A.previewScore=function(id){
-  const sc=byId(S.scores,id);
-  openSheet('<h3>'+esc(sc.title)+' <span class="small muted">'+esc(sc.key)+' · '+esc(sc.cat)+'</span></h3>'
-   +'<div class="tiny muted" style="margin-bottom:8px">'+esc(sc.tip||'')+'</div>'
-   +renderScore(sc)
-   +'<div class="sheet-actions"><button class="btn pri block" onclick="closeSheet()">关闭</button></div>');
-};
 A.addScoreForm=function(){
   openSheet('<h3>新增自编谱</h3>'
    +'<div class="small muted">每行一句，音符用空格分隔。高八度写 <kbd>1\'</kbd>，低八度写 <kbd>1,</kbd>，八分音符写 <kbd>1/</kbd>，延音写 <kbd>-</kbd>，休止写 <kbd>0</kbd>。</div>'
@@ -1026,14 +1192,65 @@ A.saveScore=function(){
   S.scores.push(sc);save();closeSheet();render();toast('已加入谱库：'+t);
   if(ONLINE)api('/api/score',{score:sc}).then(()=>pull(true)).catch(()=>toast('未同步到服务器'));
 };
-function viewLib(){
-  return '<div class="card"><div class="spread"><h2>谱库</h2><button class="btn xs pri" onclick="A.addScoreForm()">＋ 自编谱</button><button class="btn xs" onclick="A.importScore()">⌨ 粘贴成谱</button></div>'
-   +'<div class="small muted" style="margin-top:4px">共 '+S.scores.length+' 首 · 内置入门曲目与基本功练习，可在上课时直接调用并批注</div></div>'
-   +S.scores.map(sc=>'<div class="card tight"><div class="spread">'
-    +'<div><b>'+esc(sc.title)+'</b> <span class="tag">'+esc(sc.cat)+'</span> <span class="tag">'+esc(sc.key)+'</span>'
-    +'<div class="tiny muted">'+esc(sc.tip||'')+'</div></div>'
-    +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">查看</button></div></div>').join('');
+/* 谱库筛选状态：g=级别(0全部) type=类型 req=只看必弹 */
+let LIBF={g:0,type:'',req:false};
+function scoreBadge(sc){
+  if(!sc.lines)return '<span class="tag">待录入</span>';
+  const v=validateScore(sc);
+  return v.ok?'<span class="tag ok">✓ 已录</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处</span>';
 }
+function scoreCard(sc,stuView){
+  const canOpen=!!sc.lines;
+  const tags=(sc.grade?'<span class="tag">'+sc.grade+' 级</span>':'')
+   +(sc.type?'<span class="tag">'+sc.type+'</span>':'')
+   +(sc.required?'<span class="tag r">※ 必弹</span>':'')
+   +(sc.sup?'<span class="tag">补充</span>':'')
+   +'<span class="tag">'+(sc.cat==='考级'?esc(sc.key||''):esc(sc.key||''))+'</span>'
+   +scoreBadge(sc);
+  return '<div class="card tight'+(canOpen?'':' dim')+'"><div class="spread">'
+   +'<div><b>'+esc(sc.title)+'</b> '+tags
+   +'<div class="tiny muted">'+(sc.arranger?esc(sc.arranger)+' · ':'')+(sc.page?('原书 p'+sc.page):'')+(sc.tip?'　'+esc(sc.tip.slice(0,26))+(sc.tip.length>26?'…':''):'')+'</div></div>'
+   +(canOpen?'<button class="btn xs" onclick="openFullScore(\''+sc.id+'\')">看谱</button>'
+            :'<span class="tiny muted" style="white-space:nowrap">对照原书补录</span>')
+   +'</div></div>';
+}
+function viewLib(){
+  let h='<div class="card"><div class="spread"><h2>谱库</h2><button class="btn xs pri" onclick="A.addScoreForm()">＋ 自编谱</button></div>'
+   +'<div class="row wrap" style="gap:6px;margin-top:8px">'
+   +'<button class="chip '+(LIBF.g===0&&!LIBF.type&&!LIBF.req?'sel':'')+'" onclick="A.libFilter(0,\'\',0)">全部</button>'
+   +[1,2,3,4,5,6].map(g=>'<button class="chip '+(LIBF.g===g?'sel':'')+'" onclick="A.libFilter('+g+',\'\',0)">'+g+' 级</button>').join('')
+   +'<button class="chip '+(LIBF.type==='练习曲'?'sel':'')+'" onclick="A.libFilter(0,\'练习曲\',0)">练习曲</button>'
+   +'<button class="chip '+(LIBF.type==='乐曲'?'sel':'')+'" onclick="A.libFilter(0,\'乐曲\',0)">乐曲</button>'
+   +'<button class="chip '+(LIBF.req?'sel':'')+'" onclick="A.libFilter(0,\'\',1)">※ 必弹</button>'
+   +'</div>'
+   +'<div class="tiny muted" style="margin-top:6px">央音扬琴考级 1–6 级 78 首 + 补充曲目；「看谱」可全屏读谱，待录入的可对照原书页码补录</div></div>';
+  const exam=S.scores.filter(sc=>sc.cat==='考级');
+  const supp=S.scores.filter(sc=>sc.cat!=='考级');
+  const fex=exam.filter(sc=>(!LIBF.g||sc.grade===LIBF.g)&&(!LIBF.type||sc.type===LIBF.type)&&(!LIBF.req||sc.required));
+  if(LIBF.g||LIBF.type||LIBF.req){
+    h+=fex.length?fex.map(sc=>scoreCard(sc)).join(''):'<div class="empty">这个筛选条件下没有曲目</div>';
+  }else{
+    [1,2,3,4,5,6].forEach(g=>{
+      const list=exam.filter(sc=>sc.grade===g);
+      h+='<div class="sec-title">第'+['一','二','三','四','五','六'][g-1]+'级 <span class="tiny muted">'+list.length+' 首 · 必弹 '+list.filter(x=>x.required).length+'</span></div>'
+        +list.map(sc=>scoreCard(sc)).join('');
+    });
+  }
+  if(!LIBF.g&&!LIBF.type&&!LIBF.req){
+    h+='<div class="sec-title">补充曲目 <span class="tiny muted">'+supp.length+' 首 · 谱面完整</span></div>'+supp.map(sc=>scoreCard(sc)).join('');
+  }
+  return h;
+}
+A.libFilter=function(g,type,req){LIBF={g:g,type:type,req:!!req};render()};
+A.libG=function(g){T.wiz.libG=g;render()};
+A.setStuLevel=function(id,n){
+  const st=byId(S.students,id);if(!st)return;
+  st.stuLevel=n;save();render();
+  if(ONLINE)api('/api/patch',{kind:'student',id:id,patch:{stuLevel:n}}).then(()=>pull(true)).catch(()=>{});
+  toast('已设为 '+n+' 级');
+};
+A.previewScore=function(id){openFullScore(id)};
+
 /* =========================================================
    孩子端
    ========================================================= */
@@ -1048,14 +1265,13 @@ function viewS(){
   return viewLibStu();
 }
 function viewLibStu(){
-  return '<div class="card"><h2>我的谱子</h2><div class="small muted">老师布置过的曲子会出现在这里；灰色表示还没学过</div></div>'
+  return '<div class="card"><h2>我的谱子</h2><div class="small muted">点「看谱」可以放大到全屏读谱</div></div>'
    +S.scores.map(sc=>{
      const used=S.homework.some(h=>h.studentId===ST.id&&h.scoreId===sc.id);
-     return '<div class="card tight"><div class="spread"><div><b>'+esc(sc.title)+'</b> '
-      +(used?'<span class="tag ok">学过</span>':'<span class="tag">未学</span>')+' <span class="tag">'+esc(sc.key)+'</span></div>'
-      +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">看谱</button></div></div>';
+     return scoreCard(sc,true).replace('<div class="card tight','<div class="card tight'+(used?'':' dim'));
    }).join('');
 }
+
 function viewTask(){
   const list=S.homework.filter(h=>h.studentId===ST.id).sort((a,b)=>(a.status==='reviewed'?1:0)-(b.status==='reviewed'?1:0)||a.due.localeCompare(b.due));
   const open=list.filter(x=>x.status!=='reviewed');
@@ -1349,7 +1565,7 @@ function render(){
   else{
     h='<div class="stu-pick">'+S.students.map(s=>
       '<div class="stu-av '+(s.id===ST.id?'on':'')+'" onclick="B.pick(\''+s.id+'\')">'
-      +'<div class="av" style="background:'+s.color+'">'+esc(s.name[0])+'</div><div class="nm">'+esc(s.name)+'</div></div>').join('')
+      +avSvg(s,50)+'<div class="nm">'+esc(s.name)+'</div></div>').join('')
       +(S.students.length?'':'<div class="small muted">请先在老师端添加学生</div>')+'</div>'+viewS();
   }
   document.getElementById('app').innerHTML=h;
