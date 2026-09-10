@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>学生录音 AI 纠错 · 可行性调研 | 余音</title>
+<style>
+:root{
+  --paper:#FBF9F5; --paper2:#F5F1E8; --ink:#2B2622; --ink2:#5A5148; --muted:#8C8177;
+  --line:#E3DCCD; --brand:#B04A3A; --brand-soft:#F5E6E1; --brand2:#8C3A2C;
+  --ok:#4A7C59; --ok-soft:#E7F0E9; --warn:#B8860B; --warn-soft:#FBF3DC;
+  --bad:#A33; --bad-soft:#F7E6E6; --blue:#3C5A78; --blue-soft:#E8EEF4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15.5px;line-height:1.85;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 120px}
+header{padding:56px 0 28px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.eyebrow{font-size:12.5px;letter-spacing:3px;color:var(--brand);margin-bottom:14px}
+h1{font-family:"Songti SC","STSong",SimSun,serif;font-size:34px;line-height:1.35;margin:0 0 16px;letter-spacing:1px}
+.sub{color:var(--ink2);font-size:16px;margin:0}
+.meta{color:var(--muted);font-size:13px;margin-top:14px}
+/* TOC */
+nav.toc{position:sticky;top:0;z-index:50;background:rgba(251,249,245,.96);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin:0 -20px 32px;padding:10px 20px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 4px}
+nav.toc a{font-size:12.5px;color:var(--ink2);text-decoration:none;padding:3px 9px;border-radius:12px;white-space:nowrap}
+nav.toc a:hover{background:var(--brand-soft);color:var(--brand)}
+h2{font-family:"Songti SC","STSong",serif;font-size:23px;margin:52px 0 6px;padding-top:14px;letter-spacing:.5px}
+h2 .num{color:var(--brand);font-size:15px;margin-right:10px;font-family:-apple-system,sans-serif;letter-spacing:1px}
+h3{font-size:17px;margin:32px 0 10px;color:var(--ink)}
+h4{font-size:15px;margin:22px 0 8px;color:var(--ink2)}
+p{margin:11px 0}
+ul,ol{margin:11px 0;padding-left:24px}
+li{margin:6px 0}
+code{background:var(--paper2);padding:1px 6px;border-radius:4px;font-size:13.5px;
+  font-family:"SF Mono",Menlo,monospace;color:var(--brand2)}
+table{border-collapse:collapse;width:100%;margin:18px 0;font-size:14px;background:#fff}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:var(--paper2);font-weight:600;font-size:13.5px}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+tbody tr:hover{background:#FDFCF9}
+/* callouts */
+.box{border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:20px 0;background:#fff}
+.box.key{background:var(--brand-soft);border-color:#E3C9C1}
+.box.ok{background:var(--ok-soft);border-color:#C9DCCE}
+.box.warn{background:var(--warn-soft);border-color:#E8D9A8}
+.box.bad{background:var(--bad-soft);border-color:#E3C4C4}
+.box.blue{background:var(--blue-soft);border-color:#C8D6E3}
+.box h4{margin-top:0}
+.tag{display:inline-block;font-size:11.5px;padding:1.5px 8px;border-radius:10px;margin-right:6px;
+  border:1px solid;vertical-align:middle;white-space:nowrap}
+.t-a{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+.t-b{color:var(--blue);border-color:var(--blue);background:var(--blue-soft)}
+.t-c{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+.t-d{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
+sup.ref{color:var(--brand);font-size:11px;font-weight:600;cursor:help}
+.yes{color:var(--ok);font-weight:600}.no{color:var(--bad);font-weight:600}.mid{color:var(--warn);font-weight:600}
+figure{margin:26px 0;text-align:center}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+.src{font-size:12.5px;color:var(--muted);margin-top:6px}
+ol.srcs{font-size:13.5px;color:var(--ink2);padding-left:26px}
+ol.srcs li{margin:9px 0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px;margin:12px 0}
+.kv dt{color:var(--muted);white-space:nowrap}.kv dd{margin:0}
+.big{font-size:30px;font-family:"Songti SC",serif;color:var(--brand);font-weight:600}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.grid3 .card{border:1px solid var(--line);border-radius:10px;padding:16px;background:#fff}
+.grid3 .card .lbl{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.grid3 .card .val{font-size:22px;font-family:"Songti SC",serif;color:var(--ink)}
+.grid3 .card .note{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.6}
+@media(max-width:820px){.grid3{grid-template-columns:1fr}nav.toc{display:none}h1{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">余音 · 技术可行性调研 第 10 卷</div>
+  <h1>学生录音 AI 对照谱面纠错<br>——能不能做，做到什么程度，代价是什么</h1>
+  <p class="sub">用真实谱面合成音频、跑工业级模型实测，而不是引用厂商宣传口径</p>
+  <p class="meta">2026-09-10 · 含 3 组自有实测 · 18 条信源（A/B/C/D 分级）· 结论可直接决定排期</p>
+</header>
+
+<nav class="toc"><ol>
+  <li><a href="#s0">00 一句话结论</a></li>
+  <li><a href="#s1">01 技术全景四条路</a></li>
+  <li><a href="#s2">02 实测：能不能转录</a></li>
+  <li><a href="#s3">03 实测：能不能纠错</a></li>
+  <li><a href="#s4">04 余音定律（原创发现）</a></li>
+  <li><a href="#s5">05 扬琴的特殊性</a></li>
+  <li><a href="#s6">06 产品边界重划</a></li>
+  <li><a href="#s7">07 落地路线 V0–V3</a></li>
+  <li><a href="#s8">08 成本</a></li>
+  <li><a href="#s9">09 风险与假数据</a></li>
+  <li><a href="#s10">10 决策点</a></li>
+  <li><a href="#s11">11 已知缺口</a></li>
+  <li><a href="#s12">12 信源</a></li>
+</ol></nav>
+
+<!-- ===================== 00 ===================== -->
+<h2 id="s0"><span class="num">00</span>一句话结论</h2>
+
+<div class="box key">
+<h4>可以做，但不是"通用 AI 听一遍就批改"，而是"已知谱面的逐音核对"</h4>
+<p><strong>关键区别在于：你不是要让 AI 凭空听懂音乐，而是你已经知道学生应该弹什么（谱面在你手里），只需要判断"弹出来的和谱面对不对得上"。</strong>这叫 score-informed（谱面已知）路线，难度比盲转录低一个数量级。</p>
+<p>我在本机用你已录入的《两手平衡练习》谱面合成音频、跑 Spotify basic-pitch 实测：<strong>在慢速到中速、中高音区条件下，漏弹和错音能抓到，且假警报为 0</strong>；但在"余音长度超过音符间隔约 4 倍"时（扬琴低音区 + 八分音符），假警报激增到每 24 个音报 3–8 条，<strong>不可用</strong>。</p>
+</div>
+
+<div class="grid3">
+  <div class="card"><div class="lbl">可行性</div><div class="val">可行 · 有条件</div>
+    <div class="note">1–3 级、中高音区、中慢速 → 可用<br>4–6 级、轮音/快板 → 现在别做</div></div>
+  <div class="card"><div class="lbl">工程量</div><div class="val">V1 约 3–4 周</div>
+    <div class="note">已有开源模型，不需要训练；<br>主要工作是集成与阈值调参</div></div>
+  <div class="card"><div class="lbl">边际成本</div><div class="val">≈ 0</div>
+    <div class="note">Y1 规模（40 条/日）下推理算力<br>仅占 2 核服务器的 0.2%</div></div>
+</div>
+
+<h3>三个必须先接受的数字</h3>
+<table>
+<thead><tr><th>数字</th><th class="num">值</th><th>含义</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>盲转录路线的错误检测 F1</td><td class="num">49%</td>
+  <td>学术界 2025 年最好成绩（Polytune，14 种乐器）：判断"漏弹/多弹"的 F1 只有约一半<sup class="ref">[1]</sup>。这是<strong>不要走盲转录路线</strong>的直接依据</td>
+  <td><span class="tag t-a">A</span>arXiv 2501.02030</td></tr>
+<tr><td>SOTA 水平下 5 次练习遭遇误报概率</td><td class="num">96.9%</td>
+  <td>若精确率仅 50%，5 次内至少 1 次误报的概率是 96.9%，至少 3 次误报的概率是 50%。<strong>产品会在一周内失去信任</strong></td>
+  <td><span class="tag t-c">C</span>本报告计算</td></tr>
+<tr><td>谱面已知时的假警报（自有实测）</td><td class="num">0 / 24 音</td>
+  <td>改用"谱面已知 + 只判谱面内音符"后，中速高音区假警报归零，同时仍能抓到漏弹与错音</td>
+  <td><span class="tag t-c">C</span>本报告实测 3</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<h4>最反直觉的一点：扬琴同时是"最难"和"最容易"的乐器</h4>
+<p><strong>难</strong>在声学：余音长、无制音器、音符大量重叠，通用模型直接搬过来会误判（实测精确率从 98% 掉到 80%）。</p>
+<p><strong>易</strong>在音乐学：扬琴是<strong>固定音高</strong>乐器——音准由调音决定，不由演奏者控制。这意味着"弹得准不准"这个最主观、AI 最不擅长的维度，<strong>在扬琴上根本不存在</strong>。AI 只需要判"是不是这个音"，这是纯事实判断，不需要审美。</p>
+<p>换句话说：钢琴陪练 AI 必须回答"这个音弹得准吗"（主观、难），扬琴只需要回答"这是 do 还是 re"（客观、易）。<strong>这是扬琴相对钢琴的结构性优势，此前七卷都没有注意到。</strong></p>
+</div>
+
+<!-- ===================== 01 ===================== -->
+<h2 id="s1"><span class="num">01</span>技术全景：四条路线与它们的真实水平</h2>
+
+<p>先把"AI 听演奏"这件事拆成四层，因为市面上所有宣传都在混淆它们：</p>
+
+<figure>
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+  <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L8,3 z" fill="#8C8177"/></marker></defs>
+  <rect x="14" y="24" width="160" height="66" rx="8" fill="#F5F1E8" stroke="#E3DCCD"/>
+  <text x="94" y="48" text-anchor="middle" font-size="14" fill="#2B2622" font-weight="600">① 音频采集</text>
+  <text x="94" y="70" text-anchor="middle" font-size="11.5" fill="#5A5148">手机麦克风录音</text>
+  <text x="94" y="85" text-anchor="middle" font-size="10.5" fill="#8C8177">小程序支持 44.1kHz/10min</text>
+  <line x1="176" y1="57" x2="214" y2="57" stroke="#8C8177" marker-end="url(#ar)"/>
+  <rect x="216" y="24" width="180" height="66" rx="8" fill="#F5E6E1" stroke="#E3C9C1"/>
+  <text x="306" y="48" text-anchor="middle" font-size="14" fill="#B04A3A" font-weight="600">② 转录 AMT</text>
+  <text x="306" y="70" text-anchor="middle" font-size="11.5" fill="#5A5148">音频 → 音符序列</text>
+  <text x="306" y="85" text-anchor="middle" font-size="10.5" fill="#8C8177">钢琴 F1 90–98%</text>
+  <line x1="398" y1="57" x2="436" y2="57" stroke="#8C8177" marker-end="url(#ar)"/>
+  <rect x="438" y="24" width="180" height="66" rx="8" fill="#E7F0E9" stroke="#C9DCCE"/>
+  <text x="528" y="48" text-anchor="middle" font-size="14" fill="#4A7C59" font-weight="600">③ 与谱面对齐</text>
+  <text x="528" y="70" text-anchor="middle" font-size="11.5" fill="#5A5148">演奏 vs 标准答案</text>
+  <text x="528" y="85" text-anchor="middle" font-size="10.5" fill="#8C8177">★ 本产品的关键层</text>
+  <line x1="620" y1="57" x2="658" y2="57" stroke="#8C8177" marker-end="url(#ar)"/>
+  <rect x="660" y="24" width="200" height="66" rx="8" fill="#FBF3DC" stroke="#E8D9A8"/>
+  <text x="760" y="48" text-anchor="middle" font-size="14" fill="#B8860B" font-weight="600">④ 判断"好不好"</text>
+  <text x="760" y="70" text-anchor="middle" font-size="11.5" fill="#5A5148">音色 / 表现力 / 情感</text>
+  <text x="760" y="85" text-anchor="middle" font-size="10.5" fill="#8C8177">★ AI 目前做不了，不做</text>
+
+  <rect x="14" y="128" width="846" height="52" rx="8" fill="#fff" stroke="#E3DCCD"/>
+  <text x="30" y="150" font-size="12.5" fill="#4A7C59" font-weight="600">① ② ③ 都已成熟且开源可用</text>
+  <text x="30" y="170" font-size="12" fill="#5A5148">④ 是厂商宣传的重灾区，也是 2020–2022 年"智能陪练"集体失败的地方 —— 本报告建议的边界就划在 ③ 和 ④ 之间</text>
+
+  <rect x="14" y="196" width="410" height="82" rx="8" fill="#F7E6E6" stroke="#E3C4C4"/>
+  <text x="30" y="218" font-size="12.5" fill="#A33" font-weight="600">路线甲：盲转录 + 全量纠错（市面主流）</text>
+  <text x="30" y="238" font-size="11.5" fill="#5A5148">不管谱面，纯靠听 → 漏/多弹 F1 仅 49%</text>
+  <text x="30" y="256" font-size="11.5" fill="#5A5148">误报率 25%+ → 三次就没人信</text>
+  <text x="30" y="272" font-size="11.5" fill="#A33">小叶子/一起练琴走的是这条路 + 海量数据</text>
+
+  <rect x="450" y="196" width="410" height="82" rx="8" fill="#E7F0E9" stroke="#C9DCCE"/>
+  <text x="466" y="218" font-size="12.5" fill="#4A7C59" font-weight="600">路线乙：谱面已知 + 保守核对（本报告建议）</text>
+  <text x="466" y="238" font-size="11.5" fill="#5A5148">谱面在你手里 → 只判谱面内的音</text>
+  <text x="466" y="256" font-size="11.5" fill="#5A5148">实测中速高音区假警报 0，仍抓到漏音错音</text>
+  <text x="466" y="272" font-size="11.5" fill="#4A7C59">宁可漏报，绝不误报</text>
+</svg>
+<figcaption>图 1 · 技术分层与两条产品路线。③ 与 ④ 之间那条线，就是"AI 能力边界铁律"应该重新划定的位置。</figcaption>
+</figure>
+
+<h3>1.1 各层的当前最好成绩（2026 年）</h3>
+<table>
+<thead><tr><th>层</th><th>代表工作</th><th>最好成绩</th><th>对扬琴的可用性</th><th>源</th></tr></thead>
+<tbody>
+<tr><td>② 转录</td><td>hFT-Transformer / SFT-CRNN（MAESTRO v3）</td>
+  <td>Onset F1 98.36%，Note+Offset F1 90.78%</td>
+  <td class="mid">钢琴专用，扬琴无对应模型</td><td><span class="tag t-a">A</span><sup class="ref">[2]</sup></td></tr>
+<tr><td>② 转录</td><td>Spotify basic-pitch</td>
+  <td>轻量、乐器无关、Apache-2.0 商用免费</td>
+  <td class="yes">可用，本报告实测即用它</td><td><span class="tag t-a">A</span><sup class="ref">[3]</sup></td></tr>
+<tr><td>② 转录</td><td>Audio-to-Score（SheetSage2/Kern，ACM MM'26）</td>
+  <td>古典乐符号错误率 4.98%；流行乐 20.92%</td>
+  <td class="no">训练数据全是西方音乐</td><td><span class="tag t-a">A</span><sup class="ref">[4]</sup></td></tr>
+<tr><td>③ 错误检测</td><td>Polytune（端到端音频比对，免对齐）</td>
+  <td>Correct F1 95.0%；<strong>Missed 49.2%、Extra 48.0%</strong></td>
+  <td class="mid">这是学界最好的"漏/多弹"检测</td><td><span class="tag t-a">A</span><sup class="ref">[1]</sup></td></tr>
+<tr><td>③ 对齐</td><td>嵌入式实时钢琴评分（Springer 2026）</td>
+  <td>步延迟 31.4ms（p95 40ms），对齐成功率 90.43%</td>
+  <td class="yes">证明实时反馈在手机端可行</td><td><span class="tag t-a">A</span><sup class="ref">[5]</sup></td></tr>
+<tr><td>④ 表现力评分</td><td>MusicEval 榜单（SRCC，越高越准）</td>
+  <td>最好 0.83；Gemini3-pro 0.60；Qwen3-omni 0.31</td>
+  <td class="no">与人类评分相关性差 → 不做</td><td><span class="tag t-b">B</span><sup class="ref">[6]</sup></td></tr>
+</tbody>
+</table>
+
+<h3>1.2 音频大模型能直接"听一遍纠错"吗？</h3>
+<p>不能。MUSE 基准（含 6 位专业音乐家的人类对照）显示，Gemini 2.5 Pro 的能力曲线极不均匀<sup class="ref">[7]</sup>：</p>
+<table>
+<thead><tr><th>任务</th><th class="num">Gemini 2.5 Pro</th><th class="num">人类专家（6 人）</th><th>判断</th></tr></thead>
+<tbody>
+<tr><td>乐器识别</td><td class="num">98.3%</td><td class="num">—</td><td class="yes">局部识别很强</td></tr>
+<tr><td>旋律轮廓</td><td class="num">96.7%</td><td class="num">—</td><td class="yes">很强</td></tr>
+<tr><td>节奏匹配</td><td class="num">96.7%</td><td class="num">—</td><td class="yes">很强</td></tr>
+<tr><td>和弦进行匹配</td><td class="num">66.7%</td><td class="num">85%</td><td class="mid">明显落后</td></tr>
+<tr><td>拍号识别</td><td class="num">46.7%</td><td class="num">73.3%</td><td class="no">低于人类，接近掷骰</td></tr>
+</tbody>
+</table>
+<p>同一研究中，Audio Flamingo 3 在 10 个任务里有 6 个落在随机猜测水平，Qwen2.5-Omni 的旋律轮廓只有 23.33%（四选一瞎猜是 25%）。另有研究指出，用 MusicQA 评测大模型的"音乐理解"根本测不出事实正确性<sup class="ref">[8]</sup>。</p>
+
+<div class="box blue">
+<strong>结论：音频大模型适合做"这段演奏整体是什么感觉"的粗粒度理解，不适合做"第 12 个音弹错了"的音符级判定。</strong>前者没有教学价值，后者才是老师要的。所以本产品<strong>不采用端到端大模型方案</strong>，走"轻量专有模型 + 谱面对齐"的确定性路线。
+</div>
+
+<!-- ===================== 02 ===================== -->
+<h2 id="s2"><span class="num">02</span>实测一：通用模型搬到扬琴上，会退化多少？</h2>
+
+<div class="box">
+<h4>实验设计</h4>
+<dl class="kv">
+<dt>谱面来源</dt><dd>你已录入的央音一级《两手平衡练习》（g1T2，前两行 48 个音）</dd>
+<dt>音频合成</dt><dd>加性合成：基频 + 5 次谐波（扬琴金属感：2、3 次谐波强且衰减更快）+ 3ms 击弦瞬态 + 竹片噪声脉冲</dd>
+<dt>变量</dt><dd>只改衰减时间 T60：0.35s（钢琴式）→ 3.0s（扬琴低音区式）</dd>
+<dt>模型</dt><dd>Spotify basic-pitch（Apache-2.0），本机 ONNX 推理</dd>
+<dt>判定</dt><dd>onset 误差 ≤50ms 且音高完全一致才算对</dd>
+</dl>
+<p class="src">脚本与音频在 <code>/tmp/yqtest/</code>，可复现。</p>
+</div>
+
+<table>
+<thead><tr><th>场景</th><th class="num">真值</th><th class="num">检出</th><th class="num">精确率</th><th class="num">召回率</th><th class="num">F1</th><th>解读</th></tr></thead>
+<tbody>
+<tr><td>A 短衰减（钢琴式 T60=0.35s）</td><td class="num">48</td><td class="num">49</td><td class="num">98.0%</td><td class="num">100%</td><td class="num">99.0%</td><td class="yes">几乎完美</td></tr>
+<tr><td>B 长余音（扬琴式 T60=3.0s）</td><td class="num">48</td><td class="num">60</td><td class="num">80.0%</td><td class="num">100%</td><td class="num">88.9%</td><td class="mid">多出 12 个假音符</td></tr>
+<tr><td>C 长余音 + 手机噪声</td><td class="num">48</td><td class="num">60</td><td class="num">80.0%</td><td class="num">100%</td><td class="num">88.9%</td><td class="mid">噪声影响小于余音</td></tr>
+</tbody>
+</table>
+
+<div class="box warn">
+<h4>两个关键读数</h4>
+<p><strong>好消息：召回率 100%</strong> —— 48 个真音符一个没漏。这意味着"学生弹了但 AI 没听见"的情况基本不会发生，漏音检测的下限有保障。</p>
+<p><strong>坏消息：精确率掉到 80%</strong> —— 多出 12 个"莫须有的音符"（12/48 = 25% 误报率）。这些假音符来自余音重叠与谐波被误判为新音符。</p>
+<p>而这 12 个假音符在"完全正确的演奏"上出现 —— 也就是说，如果直接把盲转录结果当错音报给用户，<strong>一个一个音都没弹错的学生，会被报出 12 个错误</strong>。这是产品自杀。</p>
+<p>值得注意的是：加噪声后指标没变（80%），说明<strong>主要矛盾是余音，不是录音质量</strong>。这个结论决定了后续优化方向——该调的是"如何处理重叠音符"，而不是"如何降噪"。</p>
+</div>
+
+<!-- ===================== 03 ===================== -->
+<h2 id="s3"><span class="num">03</span>实测二：纠错到底能不能用？</h2>
+
+<p>上面的实验是"盲转录"（AI 不知道谱面）。但你的产品有一个别人没有的条件：<strong>谱面在你自己手里</strong>。于是我改成 score-informed 检测 —— 只判定谱面内音符的状态，<strong>主动不报告谱面外的音</strong>（因为无法区分"学生多弹了"和"余音被误判"）。</p>
+
+<table>
+<thead><tr><th>衰减场景</th><th>无错误（基准）</th><th>漏弹第 12 音</th><th>第 12 音弹错（高半音）</th><th>多弹 1 音</th></tr></thead>
+<tbody>
+<tr><td>钢琴式 T60=0.35s</td><td class="yes">✓ 0 假警报</td><td class="yes">✓ 抓到</td><td class="yes">✓ 抓到</td><td class="no">✗ 未报</td></tr>
+<tr><td>扬琴高音区 T60=1.0s</td><td class="yes">✓ 0 假警报</td><td class="yes">✓ 抓到</td><td class="yes">✓ 抓到</td><td class="no">✗ 未报</td></tr>
+<tr><td>扬琴低音区 T60=3.0s</td><td class="mid">⚠ 1 条假警报</td><td class="yes">✓ 抓到</td><td class="mid">✓ 抓到（但报了 2 条）</td><td class="no">✗ 未报</td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<h4>这一组数据是本次调研最重要的发现</h4>
+<p><strong>假警报从"盲转录的 12 条"降到"谱面已知的 0–1 条"，而漏弹、错音仍然抓得到。</strong>原因很简单：一旦知道谱面，AI 不需要猜测"这里有没有音"，只需要回答"谱上这个音，弹了没有 / 弹成了什么"——问题的自由度被砍掉了大半。</p>
+<p>这与 Polytune 论文报告的 49% F1 并不矛盾：Polytune 做的是<strong>盲比对</strong>（同时要找漏音和多弹），而本产品只需做<strong>半边</strong>（只找漏音和错音，放弃多弹检测）。用一半的能力换接近零的误报，是这笔交易的核心。</p>
+</div>
+
+<h4>必须诚实说明的代价：多弹检测被主动放弃</h4>
+<p>"多弹"在所有场景下都未报出——这是<strong>我有意的设计取舍</strong>，不是模型缺陷。因为要在扬琴上区分"学生真的多弹了一个音"和"上一个音的余音还在响"，在单麦克风条件下几乎不可能；前面实测显示，一旦放开报告谱面外的音，误报立刻回到 25%。</p>
+<p>所以产品话术上应该这样说：<strong>"我们告诉你要弹的音有没有弹对，但不会指控你多弹了。"</strong>对一个 6 岁孩子的家长来说，前者有用，后者只会制造焦虑。</p>
+
+<!-- ===================== 04 ===================== -->
+<h2 id="s4"><span class="num">04</span>余音定律：可用与不可用的分界线在哪里</h2>
+
+<p>上面的实验用的都是慢速四分音符（0.75 秒一个音）。但真实考级曲有八分、十六分音符。于是我做了密度压力测试——这是本次调研<strong>唯一原创的、可直接指导排期的规律</strong>：</p>
+
+<table>
+<thead><tr><th class="num">音符间隔</th><th>相当于</th><th class="num">余音</th><th class="num">余音/间隔</th><th class="num">假警报</th><th>判定</th></tr></thead>
+<tbody>
+<tr><td class="num">0.750s</td><td>四分音符 80BPM</td><td class="num">1.0s</td><td class="num">1.3</td><td class="num">0</td><td class="yes">✓ 可用</td></tr>
+<tr><td class="num">0.375s</td><td>八分音符 80BPM</td><td class="num">1.0s</td><td class="num">2.7</td><td class="num">0</td><td class="yes">✓ 可用</td></tr>
+<tr><td class="num">0.750s</td><td>四分音符 80BPM</td><td class="num">3.0s</td><td class="num">4.0</td><td class="num">1</td><td class="mid">⚠ 轻度</td></tr>
+<tr><td class="num">0.250s</td><td>十六分音符 60BPM</td><td class="num">1.0s</td><td class="num">4.0</td><td class="num">1</td><td class="mid">⚠ 轻度</td></tr>
+<tr><td class="num">0.150s</td><td>十六分音符 100BPM</td><td class="num">1.0s</td><td class="num">6.7</td><td class="num">1</td><td class="mid">⚠ 轻度</td></tr>
+<tr><td class="num">0.375s</td><td>八分音符 80BPM</td><td class="num">3.0s</td><td class="num">8.0</td><td class="num">3</td><td class="no">✗ 不可用</td></tr>
+<tr><td class="num">0.250s</td><td>十六分音符 60BPM</td><td class="num">3.0s</td><td class="num">12.0</td><td class="num">4</td><td class="no">✗ 不可用</td></tr>
+<tr><td class="num">0.150s</td><td>十六分音符 100BPM</td><td class="num">3.0s</td><td class="num">20.0</td><td class="num">8</td><td class="no">✗ 不可用</td></tr>
+</tbody>
+</table>
+
+<figure>
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto">
+  <line x1="70" y1="250" x2="690" y2="250" stroke="#E3DCCD"/>
+  <line x1="70" y1="30" x2="70" y2="250" stroke="#E3DCCD"/>
+  <text x="380" y="285" text-anchor="middle" font-size="12.5" fill="#5A5148">余音长度 ÷ 音符间隔（倍数）</text>
+  <text x="24" y="140" text-anchor="middle" font-size="12.5" fill="#5A5148" transform="rotate(-90,24,140)">假警报条数</text>
+  <!-- grid -->
+  <g stroke="#F0ECE2"><line x1="70" y1="200" x2="690" y2="200"/><line x1="70" y1="150" x2="690" y2="150"/>
+  <line x1="70" y1="100" x2="690" y2="100"/><line x1="70" y1="50" x2="690" y2="50"/></g>
+  <g font-size="10.5" fill="#8C8177"><text x="60" y="254" text-anchor="end">0</text><text x="60" y="204" text-anchor="end">2</text>
+  <text x="60" y="154" text-anchor="end">4</text><text x="60" y="104" text-anchor="end">6</text><text x="60" y="54" text-anchor="end">8</text></g>
+  <g font-size="10.5" fill="#8C8177" text-anchor="middle"><text x="70" y="266">0</text><text x="190" y="266">5</text>
+  <text x="310" y="266">10</text><text x="430" y="266">15</text><text x="550" y="266">20</text><text x="670" y="266">25</text></g>
+  <!-- 横轴映射 x=70+ratio*24 (ratio 0..25)；纵轴 y=250-fa*25 (fa 0..8) -->
+  <rect x="70" y="30" width="65" height="220" fill="#E7F0E9" opacity=".6"/>
+  <rect x="135" y="30" width="127" height="220" fill="#FBF3DC" opacity=".65"/>
+  <rect x="262" y="30" width="428" height="220" fill="#F7E6E6" opacity=".5"/>
+  <line x1="135" y1="30" x2="135" y2="250" stroke="#C9DCCE" stroke-dasharray="4 3"/>
+  <line x1="262" y1="30" x2="262" y2="250" stroke="#E3C4C4" stroke-dasharray="4 3"/>
+  <!-- 区域标签移到顶部横排 -->
+  <g font-size="11.5" text-anchor="middle">
+    <text x="102" y="22" fill="#4A7C59" font-weight="600">可用区</text>
+    <text x="198" y="22" fill="#B8860B" font-weight="600">谨慎区（比值 2.7–8）</text>
+    <text x="476" y="22" fill="#A33" font-weight="600">不可用区（比值 &gt; 8）</text>
+  </g>
+  <!-- 数据点 -->
+  <g>
+  <circle cx="101" cy="250" r="6" fill="#4A7C59"/><circle cx="135" cy="250" r="6" fill="#4A7C59"/>
+  <circle cx="166" cy="225" r="6" fill="#B8860B"/><circle cx="231" cy="225" r="6" fill="#B8860B"/>
+  <circle cx="262" cy="175" r="6" fill="#A33"/><circle cx="358" cy="150" r="6" fill="#A33"/><circle cx="550" cy="50" r="6" fill="#A33"/>
+  </g>
+  <path d="M101,250 L135,250 L166,225 L262,175 L358,150 L550,50" fill="none"
+        stroke="#B04A3A" stroke-width="1.8" stroke-dasharray="5 4" opacity=".65"/>
+  <text x="470" y="238" font-size="11.5" fill="#8C8177">↑ 假警报随比值非线性上升（8 个点）</text>
+</svg>
+<figcaption>图 2 · 余音定律。横轴"余音 ÷ 音符间隔"，纵轴每 24 个音的假警报条数。绿点 0 条、黄点 1 条、红点 3–8 条。</figcaption>
+</figure>
+
+<div class="box key">
+<h4>余音定律（可直接用于排期）</h4>
+<p><strong>假警报数量由"余音长度 ÷ 音符间隔"这个比值决定，而非由绝对速度或绝对音量决定。</strong></p>
+<ul>
+<li>比值 <strong>&lt; 2.7</strong> → 零假警报，可用</li>
+<li>比值 <strong>2.7–8</strong> → 1 条左右假警报，需人工复核</li>
+<li>比值 <strong>&gt; 8</strong> → 3–8 条假警报，不可用</li>
+</ul>
+<p>代入扬琴（余音长度是我的<strong>假设值，待你确认</strong>：高音区约 1.0s、中音区约 1.8s、低音区约 3.0s）：</p>
+</div>
+
+<table>
+<thead><tr><th>音区 / 余音</th><th>四分 80BPM（0.75s）</th><th>八分 80BPM（0.375s）</th><th>十六分 60BPM（0.25s）</th></tr></thead>
+<tbody>
+<tr><td>高音区 ~1.0s</td><td class="yes">✓ 比值 1.3</td><td class="yes">✓ 比值 2.7</td><td class="mid">⚠ 比值 4.0</td></tr>
+<tr><td>中音区 ~1.8s</td><td class="yes">✓ 比值 2.4</td><td class="mid">⚠ 比值 4.8</td><td class="mid">⚠ 比值 7.2</td></tr>
+<tr><td>低音区 ~3.0s</td><td class="mid">⚠ 比值 4.0</td><td class="no">✗ 比值 8.0</td><td class="no">✗ 比值 12.0</td></tr>
+</tbody>
+</table>
+
+<p>翻译成产品语言：<strong>一级《两手平衡练习》这类中高音区、中慢速曲目，今天就能做；六级那种密集快板，现在别碰。</strong>这恰好与你的教学路径一致——学生本来就是从慢到快、从中高音区开始练的。</p>
+
+<!-- ===================== 05 ===================== -->
+<h2 id="s5"><span class="num">05</span>扬琴的特殊性：一封写给技术团队的说明</h2>
+
+<h3>5.1 难的地方（三条，都要提前告知工程师）</h3>
+<table>
+<thead><tr><th>特性</th><th>后果</th><th>严重度</th></tr></thead>
+<tbody>
+<tr><td><strong>无制音器，余音长</strong></td><td>音符大量重叠，onset 检测把余音当新音符 → 实测精确率 98%→80%</td><td class="no">高（已量化）</td></tr>
+<tr><td><strong>击弦瞬态极短（~3ms）</strong></td><td>能量包络法在快板段落失效；必须靠频域而非时域</td><td class="mid">中</td></tr>
+<tr><td><strong>公开数据为零</strong></td><td>检索不到任何扬琴 AMT 研究或数据集。民乐整体也基本空白：2026 年葫芦丝 AMT 论文明言"中国传统乐器在自动转录领域基本未被探索"<sup class="ref">[9]</sup>；琵琶靠 PipaSet 数据集<sup class="ref">[10]</sup>与光电传感器<sup class="ref">[11]</sup>才起步</td><td class="no">高（意味着不能指望现成模型）</td></tr>
+</tbody>
+</table>
+
+<h3>5.2 容易的地方（这是被低估的优势）</h3>
+<div class="box ok">
+<p><strong>扬琴是固定音高乐器。</strong>每一根弦的音高由调音决定，演奏者无法像二胡、小提琴、声乐那样"按得不准"。因此：</p>
+<ul>
+<li>钢琴陪练 AI 必须回答"这个音准不准"——这是连续量的主观判断，也是"表现力评分"的入口，AI 最弱的地方</li>
+<li>扬琴只需要回答"这是不是谱上那个音"——这是<strong>离散的、二值的事实判断</strong>，本质是 OCR 校对而非审美评价</li>
+</ul>
+<p>这直接支持第七卷"AI 能力边界铁律"，而且把它<strong>收紧得更有利</strong>：扬琴上的"对/错"判断天然落在事实一侧，不在价值一侧。<strong>这是扬琴相对钢琴/小提琴的结构性优势。</strong></p>
+</div>
+
+<h3>5.3 一个必须承认的黑色幽默</h3>
+<p>产品叫"余音"。而余音恰恰是 AI 纠错最大的技术障碍——长余音让音符重叠，让模型分不清"新弹的音"和"上一个音还在响"。</p>
+<p>这不冲突，反而可以变成产品叙事的一部分：<strong>"你的琴会留有余音，所以我们不轻易指控你弹错。"</strong>宁可漏报、绝不误报的产品原则，可以用品牌语言讲出来。</p>
+
+<!-- ===================== 06 ===================== -->
+<h2 id="s6"><span class="num">06</span>产品边界重划：AI 判什么，不判什么</h2>
+
+<p>第七卷定的铁律是"只答有没有做/做没做完/稳不稳，绝不答弹得对不对/好不好"。本次调研建议把这条铁律<strong>升级而非推翻</strong>——因为实测证明，"弹的音符对不对"在扬琴上是可判的：</p>
+
+<table>
+<thead><tr><th>维度</th><th>AI 能否判</th><th>实测/依据</th><th>产品呈现</th></tr></thead>
+<tbody>
+<tr><td>这个音<strong>漏弹</strong>了吗</td><td class="yes">能</td><td>实测三种余音场景全部抓到</td><td>谱面该音标灰 + "这里没听到"</td></tr>
+<tr><td>这个音<strong>弹错</strong>了吗（音高不符）</td><td class="yes">能</td><td>实测三种场景全部抓到</td><td>谱面标红 + "听到的是 X，谱上是 Y"</td></tr>
+<tr><td>节奏偏了多少毫秒</td><td class="yes">能</td><td>onset 误差 ±50ms 内可靠</td><td>只显示"偏早/偏晚"，<strong>不显示毫秒数</strong></td></tr>
+<tr><td>整体速度稳不稳</td><td class="yes">能</td><td>BPM 方差，纯统计</td><td>"中段有点赶"</td></tr>
+<tr><td>练了几遍、每遍多长</td><td class="yes">能</td><td>能量包络即可</td><td>已实现</td></tr>
+<tr><td><strong>多弹</strong>了音吗</td><td class="no">不能（主动放弃）</td><td>无法区分余音与真实多弹</td><td><strong>不报告</strong></td></tr>
+<tr><td>轮音均匀吗、反竹到位吗</td><td class="no">不能</td><td>技法识别需专用数据集</td><td>不做（V3 再说）</td></tr>
+<tr><td>力度/音色/表现力好不好</td><td class="no">绝不做</td><td>MusicEval 相关性仅 0.31–0.83<sup class="ref">[6]</sup></td><td>留给老师写评语</td></tr>
+</tbody>
+</table>
+
+<div class="box bad">
+<h4>产品呈现的三条纪律（写进 PRD）</h4>
+<ol>
+<li><strong>只标位置，不下结论。</strong>说"第 5 小节第 3 个音没听到"，不说"你弹错了"。前者是观测，后者是裁决。</li>
+<li><strong>永远给老师最终裁决权。</strong>AI 的标记在回课驾驶舱里是"待确认疑点"，老师一键采纳或一键忽略。这既降低 AI 出错的代价，也让老师保有专业权威——这一点对老师渠道至关重要。</li>
+<li><strong>不确定的一律不报。</strong>置信度低于阈值就沉默。宁可让老师多听 10 秒，也不要让家长看到一条假指控。</li>
+</ol>
+</div>
+
+<!-- ===================== 07 ===================== -->
+<h2 id="s7"><span class="num">07</span>落地路线：从 V0 到 V3</h2>
+
+<table>
+<thead><tr><th>阶段</th><th>做什么</th><th>不做什么</th><th>工程量</th><th>准确率预期</th></tr></thead>
+<tbody>
+<tr><td><strong>V0</strong><br>现在就能有</td>
+  <td>录音 + 时长 + 遍数 + 完成度 + 老师听后打标</td>
+  <td>不做任何音符级分析</td><td>3–5 天<br>（录音上传 + 播放条）</td>
+  <td class="yes">接近 100%<br>（纯统计）</td></tr>
+<tr><td><strong>V1</strong><br>本报告建议的 MVP</td>
+  <td>谱面已知 + 漏音/错音检测 + 疑点标记；<strong>只开放 1–3 级、中高音区曲目</strong></td>
+  <td>不做多弹、不做技法、不评表现力</td>
+  <td>3–4 周<br>（basic-pitch 集成 + 对齐 + 阈值调优 + 驾驶舱 UI）</td>
+  <td class="yes">中速高音区假警报 0<br>（自有实测）</td></tr>
+<tr><td><strong>V2</strong><br>数据与调优</td>
+  <td>用真实学生录音微调；引入节拍跟踪改善对齐；覆盖中音区</td>
+  <td>仍不做技法识别</td>
+  <td>2–3 月<br>+ 需 200+ 条标注录音</td>
+  <td class="mid">待真实数据验证</td></tr>
+<tr><td><strong>V3</strong><br>护城河</td>
+  <td>轮音/反竹/滑弹等技法识别；扬琴专用模型</td>
+  <td>—</td>
+  <td>6 月+<br>需你主导标注</td>
+  <td class="no">当前无公开数据，属研究级</td></tr>
+</tbody>
+</table>
+
+<div class="box key">
+<h4>我的建议：直接做 V1，跳过"先做 V0 看看"的犹豫</h4>
+<p>V0 的价值在于它是 V1 的必要基础设施（录音、存储、播放、驾驶舱展示），所以它不是一个独立阶段，而应该<strong>作为 V1 的前 5 天</strong>来做。不要单独把 V0 当成一个交付——它没有差异化，市面上所有人都有。</p>
+<p>V1 的差异化在于：<strong>只有你知道谱面，所以只有你能做谱面已知的检测。</strong>通用陪练 App 必须盲听，它们在这件事上结构性劣于你。</p>
+</div>
+
+<h3>7.1 技术实现要点（给工程师）</h3>
+<ul>
+<li><strong>模型</strong>：Spotify basic-pitch，Apache-2.0 可商用，&lt;20MB / 17K 参数，CPU 上 10 倍实时<sup class="ref">[3]</sup>。提供 ONNX/TFLite/CoreML，可云端也可端侧</li>
+<li><strong>录音</strong>：微信小程序 <code>RecorderManager</code> 支持 mp3/aac/wav，采样率可设 44100，单次最长 10 分钟<sup class="ref">[12]</sup>；<code>onFrameRecorded</code> 可做实时流式处理（仅 mp3/pcm）</li>
+<li><strong>建议架构</strong>：小程序录音 → 上传 → 云端 basic-pitch 转录 → 与谱面 JSON 对齐 → 返回疑点列表（含位置与置信度）→ 驾驶舱展示</li>
+<li><strong>不要实时</strong>：V1 做"录完提交后 10–30 秒出结果"。实时反馈（&lt;200ms）需要流式推理与端侧模型，收益不明确但复杂度翻倍</li>
+<li><strong>阈值调优是主要工作量</strong>：onset 阈值、最小音符时长、置信度门槛——这些参数决定精确率/召回率的取舍，必须用你的真实录音反复调</li>
+</ul>
+
+<!-- ===================== 08 ===================== -->
+<h2 id="s8"><span class="num">08</span>成本</h2>
+
+<table>
+<thead><tr><th>项目</th><th class="num">数值</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>单条 90 秒录音推理耗时</td><td class="num">约 9 CPU 秒</td><td>basic-pitch 官方称 10 倍实时<sup class="ref">[3]</sup></td></tr>
+<tr><td>Y1 规模（40 条/日）月耗算力</td><td class="num">10,800 CPU 秒</td><td>占一台 2 核服务器（518 万 CPU 秒/月）的 <strong>0.21%</strong></td></tr>
+<tr><td>音频存储（128kbps mp3）</td><td class="num">1.41 MB/条</td><td>40 条/日 = 0.055 GB/日 ≈ 1.7 GB/月</td></tr>
+<tr><td>模型授权费</td><td class="num">0</td><td>Apache-2.0，商用免费</td></tr>
+<tr><td>API 调用费</td><td class="num">0</td><td>自部署，不调用任何商业 API</td></tr>
+</tbody>
+</table>
+
+<div class="box ok">
+<strong>结论：这个功能的边际成本约等于零。</strong>Y1 规模下既不需要额外服务器，也不需要支付 API 费用。真正的成本是<strong>一次性的 3–4 周开发工作量</strong>，以及 V2 阶段获取真实标注录音的组织成本——后者只有你能做。
+</div>
+
+<!-- ===================== 09 ===================== -->
+<h2 id="s9"><span class="num">09</span>风险、反面证据与已剔除的假数据</h2>
+
+<h3>9.1 必须正视的反面证据</h3>
+<table>
+<thead><tr><th>证据</th><th>内容</th><th>对本项目的含义</th></tr></thead>
+<tbody>
+<tr><td>Polytune 基准<sup class="ref">[1]</sup></td><td>盲比对下"漏/多弹" F1 仅 49%</td><td>若走盲路线必死；必须走谱面已知路线</td></tr>
+<tr><td>音乐笔记（北京银河润泰）</td><td>智能腕带 + 8 维度 + 自称纠错 &gt;99.5%，2017 年 A 轮后再无融资</td><td><strong>硬件 + 重度 AI 纠错已被证伪</strong>（第七卷已记）</td></tr>
+<tr><td>小叶子投诉</td><td>黑猫平台存在"APP 无法识别钢琴琴音"的投诉<sup class="ref">[13]</sup></td><td>即便钢琴这种最成熟的场景，真实环境仍有失败</td></tr>
+<tr><td>民乐数据空白</td><td>检索不到扬琴 AMT 研究；民乐整体刚起步<sup class="ref">[9][10]</sup></td><td>无法期待现成方案，V2/V3 必须自建数据</td></tr>
+<tr><td>实测中的不可用区</td><td>低音区 + 八分音符假警报 3/24</td><td>必须做曲目分级白名单，不能全量开放</td></tr>
+</tbody>
+</table>
+
+<h3>9.2 已主动剔除的数据（不要拿这些数字做决策）</h3>
+<div class="box warn">
+<ul>
+<li><strong>"全球 AI 陪练市场 2025 年 24.5 亿美元、2026 年 31.6 亿美元、CAGR 29.2%"</strong> —— 来自无署名 SEO 文章，无一手来源，且文字疑似 AI 批量生成。剔除。</li>
+<li><strong>"某机构 500 名学员实验：考级通过率 72%→91%、退课率 28%→11%"</strong> —— 同上，无机构名、无方法、无法核验。剔除。</li>
+<li><strong>"一起练琴 2026 年识别准确率 98% 以上"</strong> —— App 商店自述营销口径<sup class="ref">[14]</sup>，且黑猫投诉显示存在识别失败。本报告<strong>不引用</strong>此数字。</li>
+<li><strong>"小叶子精准度几乎达到 100%"</strong> —— 厂商宣传稿<sup class="ref">[15]</sup>。与学术基准（49% F1）差 50 个百分点，明显不可比（口径不同：厂商多指"在有谱面参照的钢琴单音上"）。剔除。</li>
+<li><strong>"一起练琴已覆盖古筝/二胡/琵琶"</strong>（第七卷记载）—— <strong>需要修正</strong>：其 App 商店页面明确列出支持的 11 种乐器<strong>全部为西洋乐器</strong>（钢琴、小提琴、中提琴、大提琴、长笛、单簧管、双簧管、萨克斯、小号、长号、圆号），不含民乐<sup class="ref">[14]</sup>；古筝仅见于其软件著作权列表<sup class="ref">[16]</sup>，未见主推。<strong>民乐 AI 纠错的市场空白比此前判断的更大。</strong></li>
+</ul>
+</div>
+
+<!-- ===================== 10 ===================== -->
+<h2 id="s10"><span class="num">10</span>需要你定的 4 个决策</h2>
+
+<table>
+<thead><tr><th>#</th><th>决策</th><th>我的建议</th><th>依据</th></tr></thead>
+<tbody>
+<tr><td><strong>D1</strong></td><td>做不做 V1（谱面已知的漏音/错音检测）</td>
+  <td class="yes"><strong>做</strong></td><td>实测可行、成本≈0、只有你能做（你有谱面）</td></tr>
+<tr><td><strong>D2</strong></td><td>是否放弃"多弹"检测</td>
+  <td class="yes"><strong>放弃</strong></td><td>实测显示放开即回到 25% 误报率</td></tr>
+<tr><td><strong>D3</strong></td><td>是否按"余音定律"做曲目白名单</td>
+  <td class="yes"><strong>做，先只开放 1–3 级中高音区</strong></td><td>比值 &lt;2.7 时零假警报；4–6 级等 V2</td></tr>
+<tr><td><strong>D4</strong></td><td>是否立即开始采集真实录音</td>
+  <td class="yes"><strong>立刻开始，这是唯一无法替代的动作</strong></td><td>V2 需要 200+ 条标注录音，只有你能组织</td></tr>
+</tbody>
+</table>
+
+<div class="box key">
+<h4>给你的 0 元验证动作（本周就能做，半天）</h4>
+<p>我这次用的全是我<strong>合成</strong>的音频。合成音没有房间混响、没有手机麦克风频响失真、没有真实琴竹击弦的复杂瞬态——所以它给出的是<strong>乐观上限</strong>。真实条件会退化，退化多少我不知道。</p>
+<p>要把它变成可信数字，只需要你做一件事：</p>
+<ol>
+<li>用手机（就是学生家长会用的那种）录一段你自己弹的《两手平衡练习》，<strong>正常速度、一遍</strong></li>
+<li>再录一遍，<strong>故意漏掉一个音</strong>；再录一遍，<strong>故意把某个音弹成旁边那个音</strong></li>
+<li>三段音频发我，每段落 15–30 秒即可</li>
+</ol>
+<p>我用同一套管线跑一遍，就能给出<strong>真实条件下的准确率和假警报率</strong>，那时再决定要不要投 3–4 周做 V1。<strong>在此之前不要写代码。</strong></p>
+<p class="src">这与第七卷的纪律一致：T1（手动跑通）之前不要写生产代码。</p>
+</div>
+
+<!-- ===================== 11 ===================== -->
+<h2 id="s11"><span class="num">11</span>已知缺口（诚实说明本报告不知道什么）</h2>
+
+<ol>
+<li><strong>扬琴各音区的真实余音时长（T60）未知。</strong>我用的是假设值（高音 1.0s / 中音 1.8s / 低音 3.0s），未经测量。第 04 节整张"可用区间表"的可靠性<strong>完全依赖这个假设</strong>。需要你判断，或实测。</li>
+<li><strong>全部实测使用合成音频。</strong>无真实扬琴录音，因此未覆盖：房间混响、手机麦克风频响、琴竹击弦的复杂瞬态、相邻弦的共鸣、学生演奏的力度不均与节奏抖动。<strong>真实条件一定更差，差多少未知。</strong></li>
+<li><strong>未测试轮音与双音。</strong>合成的是单声部单音序列。轮音（快速交替）在时域上是密度极高的音符流，按余音定律推断会落入不可用区，但<strong>未实测</strong>。</li>
+<li><strong>未测试节拍跟踪的真实表现。</strong>实测中我直接用谱面时间戳做对齐（相当于"完美对齐"）。真实场景需要先从音频中跟踪速度（学生会忽快忽慢），这一步的误差未纳入。</li>
+<li><strong>basic-pitch 在 Python 3.13 下无法安装</strong>（依赖 tensorflow-macos，官方支持 3.7–3.11）。我改用 Python 3.11 环境跑通。正式部署时需注意运行时版本，或改用其 ONNX/TFLite 后端绕开依赖。</li>
+<li><strong>未验证小程序端录音到云端的完整链路。</strong>仅依据官方文档确认了 API 能力<sup class="ref">[12]</sup>，未做真机测试。</li>
+</ol>
+
+<!-- ===================== 12 ===================== -->
+<h2 id="s12"><span class="num">12</span>信源清单</h2>
+<p class="src">分级说明：<span class="tag t-a">A</span> 一手/权威（同行评议论文、官方文档、官方仓库）· <span class="tag t-b">B</span> 二手权威（百科、榜单、媒体）· <span class="tag t-c">C</span> 自有实验或计算（方法已公开，可复现）· <span class="tag t-d">D</span> 营销或 SEO 内容（仅作背景，不用于决策）</p>
+<ol class="srcs">
+<li><span class="tag t-a">A</span> <strong>Polytune / Detecting Music Performance Errors with Transformers</strong>，arXiv 2501.02030（2025）。错误检测 F1：Correct 95.0%、Missed 49.2%、Extra 48.0%，14 种乐器。 <code>ar5iv.arxiv.org/html/2501.02030</code></li>
+<li><span class="tag t-a">A</span> <strong>Automatic Piano Transcription 现状综述</strong>（Emergent Mind，汇编同行评议结果）：hFT-Transformer 在 MAESTRO v3 上 Note w/ Offset F1 90.53%；SFT-CRNN（Wei et al., 2026-05）Onset F1 98.36%、Note+Offset F1 90.78%。</li>
+<li><span class="tag t-a">A</span> <strong>spotify/basic-pitch</strong>（GitHub 官方仓库与 basicpitch.spotify.com）：Apache-2.0 许可、&lt;20MB 峰值内存、&lt;17K 参数、10 倍实时、内部重采样 22050Hz、支持 ONNX/TFLite/CoreML、乐器无关。ICASSP 2022 论文：Bittner et al.</li>
+<li><span class="tag t-a">A</span> <strong>SheetSage2/Kern</strong>，ACM MM'26（arXiv 2608.06165）：Audio-to-Score，古典乐符号错误率 4.98%，流行乐 20.92%。</li>
+<li><span class="tag t-a">A</span> <strong>AI-based real-time piano performance scoring on embedded systems using MIDI alignment</strong>，Springer（2026）：步延迟均值 31.39ms（p95 40.03ms），对齐成功率 90.43%。</li>
+<li><span class="tag t-b">B</span> <strong>MusicEval 榜单</strong>（sota2.com）：音乐性评分 SRCC，CMI-RM 0.8266 最高，Gemini3-pro 0.6018，Qwen3-omni 0.3101，Qwen2.5-omni 0.1454。</li>
+<li><span class="tag t-b">B</span> <strong>MUSE: Benchmarking Auditory Reasoning in Multimodal Language Models</strong>（2025），数据经 lacuna.fm 整理：Gemini 2.5 Pro 乐器识别 98.33%、旋律轮廓 96.67%、节奏匹配 96.67%、和弦进行 66.67%、拍号 46.67%；人类专家（6 人）对应 85% / 73.3%。</li>
+<li><span class="tag t-a">A</span> <strong>Assessing Factual Music Comprehension in Large Audio Language Models</strong>，arXiv 2511.05550：证明用 MusicQA 评测 LALM 无法反映事实正确性，提出新基准。</li>
+<li><span class="tag t-a">A</span> <strong>A Hybrid Model for Automatic Music Transcription of Hulusi</strong>（ACM, 2026）：明言"中国传统乐器在自动音乐转录领域基本未被探索"。</li>
+<li><span class="tag t-a">A</span> <strong>PipaSet and TEAS: A Multimodal Dataset and Annotation Platform for AMT...Pipa</strong>，IEEE Access（2022）。</li>
+<li><span class="tag t-a">A</span> <strong>Towards Automatic Expressive Pipa Music Transcription Using Morphological Analysis of Photoelectric Signals</strong>，Sensors 25(5):1361（2025）：指出轮音可达 20Hz，短时方法在轮音段落失效。</li>
+<li><span class="tag t-a">A</span> <strong>微信开放文档 · RecorderManager.start</strong>：支持 mp3/aac/wav/pcm，采样率 8000–48000，单次最长 600000ms（10 分钟），<code>onFrameRecorded</code> 帧回调仅支持 mp3/pcm。</li>
+<li><span class="tag t-b">B</span> <strong>小叶子智能陪练</strong>百度百科：记载黑猫投诉平台存在"智能陪练 APP 无法识别钢琴琴音"等退费纠纷。</li>
+<li><span class="tag t-b">B</span> <strong>一起练琴 App Store 页面</strong>：支持乐器为钢琴、小提琴、中提琴、大提琴、长笛、单簧管、双簧管、萨克斯、小号、长号、圆号（11 种，均为西洋乐器）；自称"2026 年识别准确率 98% 以上"（营销口径，本报告不采用）。</li>
+<li><span class="tag t-d">D</span> <strong>小叶子琴音识别宣传稿</strong>（中华网科技、京报网 2022）："精准度几乎达到 100%""0.2 秒内纠错"。营销口径，与学术基准不可比，<strong>已剔除</strong>。</li>
+<li><span class="tag t-b">B</span> <strong>上海寻声网络科技有限公司</strong>百度百科：技术核心为 HMM 曲目识别 + 频谱实时乐声分析；软件著作权列表中含"寻声古筝弹奏识别软件"。</li>
+<li><span class="tag t-c">C</span> <strong>本报告自有实测 1</strong>：合成转录对比（<code>/tmp/yqtest/synth_test.py</code>）。</li>
+<li><span class="tag t-c">C</span> <strong>本报告自有实测 2、3</strong>：注入错误检测与密度压力测试（<code>/tmp/yqtest2/errtest.py</code>、<code>/tmp/yqtest3/density.py</code>）。</li>
+</ol>
+
+<p class="meta" style="margin-top:44px;padding-top:20px;border-top:1px solid var(--line)">
+余音 · 技术可行性调研 · 2026-09-10 · 第 10 卷<br>
+本报告所有数值均可在 <code>/tmp/yqtest*/</code> 下复现；凡引用外部数据均标注来源与分级，未能核实的一律标为 D 级或剔除。
+</p>
+
+</div>
+</body>
+</html>
