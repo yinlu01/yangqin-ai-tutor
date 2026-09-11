@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>民乐老师的 AI 助教 · 产品需求文档 PRD v1.0</title>
+<title>余音 · 产品需求文档 PRD v1.2 | 民乐老师的 AI 助教</title>
 <style>
 :root{
   --ink:#1a1f2b; --ink2:#3c4657; --ink3:#6b7688;
@@ -137,13 +137,13 @@ footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line
 <body>
 <header>
   <div class="wrap">
-    <div class="kicker">PRODUCT REQUIREMENTS DOCUMENT · 第九卷</div>
-    <h1>民乐老师的 AI 助教<br>产品需求文档（PRD）v1.0</h1>
-    <p class="sub">本卷是前八卷的落地交付物。它把第七卷《民乐老师的 AI 助教 · 产品方案篇》确定的产品定义与第八卷《孩子端：动机、定制计划与游戏化》确定的动机机制，翻译成可直接交付研发的功能需求、验收标准、数据模型与排期。<strong>本卷中所有需求均可被测试、所有数值均可被复算、所有未决事项均被显式标注。</strong></p>
+    <div class="kicker">YUYIN · 余音 · PRODUCT REQUIREMENTS DOCUMENT · 第九卷</div>
+    <h1>余音<br>民乐老师的 AI 助教 · 产品需求文档（PRD）v1.2</h1>
+    <p class="sub"><strong>余音（YUYIN）</strong>＝「民乐老师的 AI 助教」，品牌主张「课结束了，声音还在」。本卷是前八卷的落地交付物。它把第七卷《民乐老师的 AI 助教 · 产品方案篇》确定的产品定义与第八卷《孩子端：动机、定制计划与游戏化》确定的动机机制，翻译成可直接交付研发的功能需求、验收标准、数据模型与排期。<strong>本卷中所有需求均可被测试、所有数值均可被复算、所有未决事项均被显式标注。</strong></p>
     <div class="meta-row">
-      <span class="chip">文档版本 v1.0 · 2026-09-08</span>
+      <span class="chip">文档版本 v1.2 · 2026-09-10</span>
       <span class="chip">目标版本 V1.0</span>
-      <span class="chip">14 节 · 功能需求 73 条 · 非功能需求 20 条</span>
+      <span class="chip">15 节 · 功能需求 88 条 · 非功能需求 20 条</span>
       <span class="chip">状态：待评审</span>
     </div>
   </div>
@@ -178,8 +178,8 @@ footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line
     <table>
       <thead><tr><th>项</th><th>内容</th></tr></thead>
       <tbody>
-        <tr><td>产品名称</td><td><strong>民乐老师的 AI 助教</strong>（暂定名，微信小程序）</td></tr>
-        <tr><td>文档版本</td><td>v1.0（首版，待评审）</td></tr>
+        <tr><td>产品名称</td><td><strong>余音</strong>（YUYIN，微信小程序）<br>定位语：<strong>民乐老师的 AI 助教</strong>；品牌主张：<strong>课结束了，声音还在</strong><br><span style="color:var(--ink3)">命名取自扬琴击弦后的余音——产品做的是课堂结束之后仍然延续的教学意图</span></td></tr>
+        <tr><td>文档版本</td><td>v1.2（2026-09-10；含 M7 谱库换血与简谱回归，待评审）</td></tr>
         <tr><td>目标发布版本</td><td>V1.0</td></tr>
         <tr><td>上游依据</td><td>第七卷《民乐老师的 AI 助教 · 产品方案篇》（产品定义与商业论证）<br>第八卷《孩子端：动机、定制计划与游戏化》（动机机制与游戏化红线）<br>第五卷《决策收敛书》（客户与定价）</td></tr>
         <tr><td>配套文档</td><td><code>SPEC-研发规范.md</code>（工程规范，与本文档配套）</td></tr>
@@ -1824,7 +1824,7 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
   </section>
 
   <footer>
-    <p>《民乐老师的 AI 助教 · 产品需求文档 PRD v1.0》 · 乐器教育 AI 产品研究 · 第九卷</p>
+    <p>《余音 · 产品需求文档 PRD v1.2》 · 余音产品研究 · 第九卷</p>
     <p>本卷功能需求 73 条（P0 48 / P1 20 / P2 5）、非功能需求 20 条，全部带可测试验收标准。所有数值由脚本实算，人天与成本为量级估算（假设已公开），需实际报价校验。<br>
     未决问题 6 项已显式标注，不由本文档代为假设。</p>
   </footer>
