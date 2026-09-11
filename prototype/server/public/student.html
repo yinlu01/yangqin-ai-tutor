@@ -278,7 +278,7 @@ function syncBadge(err){
 function blobToDataURL(blob){return new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})}
 
 /* ---------------- 1. 内置谱库（入门级） ---------------- */
-/* note: {n:'1'-'7' | '-'延音 | '0'休止, o:-1/0/1 八度, d:时值(1=四分), t:技法} */
+/* note: {n:'1'-'7' | '-'延音 | '0'休止, o:-1/0/1 八度, d:时值(1=四分), t:技法, ch:[{n,o}]和弦音(叠于主音上方,不占拍)} */
 const N=(n,o=0,d=1,t='')=>({n,o,d,t});
 /* ===== 央音扬琴考级曲目库（1–6 级，78 首）=====
    grade:1-6  type:练习曲|乐曲  required:1=必弹※  page:原书页码  lines:null=简谱待录入
@@ -525,7 +525,11 @@ function validateScore(sc){
       if((n.o||0)<-2||(n.o||0)>2)issues.push(w+'八度标记超出范围');
       if(n.dot&&n.dot!==1)issues.push(w+'附点数异常');
       if(n.t&&String(n.t).length>4)warns.push(w+'技法标记过长');
-      if(n.n!=='-')beats+=(n.d||1)*(n.dot?1.5:1);
+      if(n.ch){if(!Array.isArray(n.ch))issues.push(w+'和弦标记异常');
+        else n.ch.forEach((c,ci)=>{if(!/^[1-7]$/.test(c.n))issues.push(w+'和弦音'+(ci+1)+'「'+c.n+'」不合法');
+          if((c.o||0)<-2||(c.o||0)>2)issues.push(w+'和弦音'+(ci+1)+'八度超范围');});}
+      else if(n.ch===null)delete n.ch;
+      beats+=(n.d||1)*(n.dot?1.5:1); /* 延音—也占拍 */
     });
     if(beats>0.01){
       const rem=beats%beat;
@@ -565,6 +569,13 @@ function jlineSVG(sc,ln,li,marks,clickable,big){
     }else{
       if(n.t)g+='<text x="'+cx+'" y="'+(21*S)+'" font-size="'+(11*S)+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';
       g+='<text class="jn" x="'+cx+'" y="'+(62*S)+'" font-size="'+F+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.n+'</text>';
+      if(n.ch&&n.ch.length){const CF=F*0.72,CHO=2.2*S;
+        n.ch.forEach(c=>{const cy=62*S-19*S;
+          g+='<text class="jn" x="'+cx+'" y="'+cy+'" font-size="'+CF+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+c.n+'</text>';
+          const co=c.o||0;
+          for(let k=1;k<=co;k++)g+='<circle cx="'+(cx+CF*0.44+CHO)+'" cy="'+(cy-CF*0.66-(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
+          for(let k=1;k<=-co;k++)g+='<circle cx="'+(cx+CF*0.44+CHO)+'" cy="'+(cy+CF*0.30+(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
+        });}
       const o=n.o||0;
       for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(28*S-(k-1)*6*S)+'" r="'+(2.4*S)+'" fill="#1C1A17"/>';
       for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(80*S+(k-1)*6*S)+'" r="'+(2.4*S)+'" fill="#1C1A17"/>';
@@ -589,7 +600,7 @@ function jlineSVG(sc,ln,li,marks,clickable,big){
         +'<text x="'+cx+'" y="'+(12.5*S)+'" font-size="'+(9.5*S)+'" text-anchor="middle" fill="#fff" font-weight="700">'+idx+'</text>';
     }
     g+='</g>';
-    if(n.n!=='-')beats+=(n.d||1)*(n.dot?1.5:1);
+    beats+=(n.d||1)*(n.dot?1.5:1); /* 延音—也占拍 */
   });
   /* 区间括线（画在音符层之上） */
   rmk.forEach(m=>{
