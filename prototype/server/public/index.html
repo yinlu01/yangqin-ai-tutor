@@ -167,6 +167,7 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .fs-tip { padding:7px 14px;font-size:12px;color:var(--muted);background:#fff;border-bottom:1px dashed #EFEAE0 }
 .fs-body { flex:1;overflow:auto;padding:12px 14px 48px;-webkit-overflow-scrolling:touch }
 .fs-body .score-box { background:#fff;border-radius:14px }
+.fs-page { display:flex;align-items:center;gap:8px;padding:6px 12px;background:#fff;border-bottom:1px solid #EFEAE0;flex-shrink:0 }
 .card.dim { opacity:.55 }
 /* ---------- 卡通头像 ---------- */
 .avsvg { display:inline-flex;border-radius:50%;overflow:hidden;background:#FFF9F0;border:2.5px solid #fff;box-shadow:0 2px 10px rgba(28,26,23,.13);flex-shrink:0;transition:transform .16s ease }
@@ -639,17 +640,49 @@ function closeSheet(){
   document.getElementById('layer').innerHTML='';
   if(FS){renderFullScore();return}
 }
-/* ===== 全屏看谱 ===== */
-let FS=null;
+/* ===== 全屏看谱（支持翻页） ===== */
+let FS=null, FS_PPR=null;                       /* FS_PPR: 记住用户选的每页行数 */
+function fsPageCount(sc){ return (!FS.ppr)?1:Math.max(1,Math.ceil(sc.lines.length/FS.ppr)); }
+function fsPageLines(sc){
+  if(!FS.ppr)return null;
+  const n=sc.lines.length, st=FS.pi*FS.ppr, en=Math.min(n,st+FS.ppr), out=[];
+  for(let i=st;i<en;i++)out.push(i);
+  return out;
+}
+function fsGo(d){
+  if(!FS)return;
+  const sc=byId(S.scores,FS.id); if(!sc||!sc.lines)return;
+  const pc=fsPageCount(sc), n=FS.pi+d;
+  if(n<0||n>=pc){ if(pc>1)toast(n<0?'已经是第一页':'已经是最后一页'); return; }
+  FS.pi=n; renderFullScore();
+  const b=document.querySelector('.fs-body'); if(b)b.scrollTop=0;
+}
+function fsSetPpr(){                            /* 4 → 6 → 整篇 → 2 → 4 */
+  FS.ppr = (FS.ppr===4?6:(FS.ppr===6?0:(FS.ppr===0?2:4)));
+  FS_PPR=FS.ppr; FS.pi=0; renderFullScore();
+  const b=document.querySelector('.fs-body'); if(b)b.scrollTop=0;
+}
 function openFullScore(id,marks,editable){
   const sc=byId(S.scores,id);
   if(!sc.lines){toast('这首的简谱还没录入，可对照原书 p'+(sc.page||'?')+' 补录');return}
-  FS={id:id,marks:marks||null,zoom:1.35,editable:!!editable};
+  /* 编辑模式：标注上下文按引用复用（向导已设则用向导的作业 marks，否则挂到曲子自带的 marks） */
+  if(editable){
+    const arr=Array.isArray(marks)?marks:(Array.isArray(sc.marks)?sc.marks:(sc.marks=[]));
+    if(!(A._mkCtx&&A._mkCtx.arr===arr))A._mkCtx={arr:arr,after:function(){renderFullScore()}};
+  }
+  const show=marks||((window.ROLE==='T'&&Array.isArray(sc.marks))?sc.marks:null);
+  FS={id:id,marks:show,zoom:1.35,editable:!!editable,
+      ppr:(FS_PPR!=null?FS_PPR:(sc.lines.length>5?4:0)),pi:0};
   renderFullScore();
 }
 function renderFullScore(){
   const sc=byId(S.scores,FS.id);
   const v=validateScore(sc);
+  const pc=fsPageCount(sc);
+  if(FS.pi>=pc)FS.pi=pc-1; if(FS.pi<0)FS.pi=0;
+  const ls=fsPageLines(sc);
+  const nm=i=>esc(sc.lines[i].name||('第'+(i+1)+'行'));
+  const rng=ls?(nm(ls[0])+(ls.length>1?('–'+nm(ls[ls.length-1])):'')):('共 '+sc.lines.length+' 行');
   const lvl=document.getElementById('layer');
   lvl.innerHTML='<div class="fscore">'
    +'<div class="fs-bar"><div class="fs-title"><b style="font-family:\'Songti SC\',\'STSong\',serif;letter-spacing:2px">'+esc(sc.title)+'</b>'
@@ -663,10 +696,35 @@ function renderFullScore(){
    +'<button class="btn xs" onclick="FS.zoom=Math.max(.8,FS.zoom-.3);renderFullScore()">A−</button>'
    +'<button class="btn xs" onclick="FS.zoom=Math.min(2.6,FS.zoom+.3);renderFullScore()">A+</button>'
    +'<button class="btn xs pri" onclick="closeFullScore()">关闭 ✕</button></div></div>'
-   +'<div class="fs-tip">'+(FS.editable?'<span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选</span>':(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||''))+'</div>'
-   +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable})+'</div></div>';
+   +'<div class="fs-page">'
+     +(pc>1?'<button class="btn xs" onclick="fsGo(-1)">‹ 上页</button>':'<span style="width:2px"></span>')
+     +'<span class="small grow" style="text-align:center">'+(pc>1?('<b>第 '+(FS.pi+1)+' / '+pc+' 页</b>　'):'')+'<span class="muted">'+rng+'</span></span>'
+     +(pc>1?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
+     +'<button class="btn xs" onclick="fsSetPpr()" title="切换每页显示的行数">'+(FS.ppr?FS.ppr+' 行/页':'整篇')+'</button>'
+   +'</div>'
+   +'<div class="fs-tip">'+(FS.editable?'<span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选 · ← → 翻页</span>':(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||''))+'</div>'
+   +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,lines:ls})+'</div></div>';
+  fsBindSwipe();
+}
+function fsBindSwipe(){
+  if(!FS||FS.editable)return;                    /* 编辑模式不劫持手势：拖选标注优先 */
+  const b=document.querySelector('.fs-body'); if(!b)return;
+  let tx=0,ty=0;
+  b.addEventListener('touchstart',function(e){if(e.touches.length!==1)return;tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+  b.addEventListener('touchend',function(e){
+    if(e.changedTouches.length!==1)return;
+    const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.6)fsGo(dx<0?1:-1);
+  },{passive:true});
 }
 function closeFullScore(){FS=null;document.getElementById('layer').innerHTML='';}
+document.addEventListener('keydown',function(e){
+  if(!FS)return;
+  if(document.getElementById('mask'))return;     /* 有子面板时交给面板处理 */
+  if(e.key==='ArrowLeft'){fsGo(-1);e.preventDefault()}
+  else if(e.key==='ArrowRight'){fsGo(1);e.preventDefault()}
+  else if(e.key==='Escape'){closeFullScore()}
+});
 
 function confirmBox(title,msg,onOk){
   openSheet('<h3>'+esc(title)+'</h3><div class="small muted">'+msg+'</div>'
@@ -792,13 +850,13 @@ A.mkSave=function(li,i,i1){
   if(idx>=0){arr[idx].type=type;arr[idx].note=note;if(i1!=null)arr[idx].i1=i1;else delete arr[idx].i1;}
   else{const m={li:li,i:i,type:type,note:note};if(i1!=null)m.i1=i1;arr.push(m);}
   arr.sort((a,b)=>a.li-b.li||a.i-b.i);
-  closeSheet();toast('已标记：'+type);
+  closeSheet();toast('已标记：'+type);save();
   if(ctx.after)ctx.after();else render();
 };
 A.mkDel=function(li,i,i1){
   const ctx=A._mkCtx;if(!ctx)return;
   ctx.arr=ctx.arr.filter(m=>!(m.li===li&&m.i===i&&(m.i1||null)===(i1==null?null:i1)));
-  closeSheet();toast('已删除标记');
+  closeSheet();toast('已删除标记');save();
   if(ctx.after)ctx.after();else render();
 };
 /* 全局指针交互：桌面拖选 + 点选 + 段选（document 级委托，只绑一次） */
@@ -1333,6 +1391,7 @@ function scoreCard(sc,stuView){
    +'<div><b>'+esc(sc.title)+'</b> '+tags
    +'<div class="tiny muted">'+(sc.arranger?esc(sc.arranger)+' · ':'')+(sc.page?('原书 p'+sc.page):'')+(sc.tip?'　'+esc(sc.tip.slice(0,26))+(sc.tip.length>26?'…':''):'')+'</div></div>'
    +(canOpen?'<button class="btn xs" onclick="openFullScore(\''+sc.id+'\')">看谱</button>'
+            +'<button class="btn xs" onclick="openFullScore(\''+sc.id+'\',null,true)">标注</button>'
             :'<span class="tiny muted" style="white-space:nowrap">对照原书补录</span>')
    +'</div></div>';
 }
