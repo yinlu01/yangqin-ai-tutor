@@ -165,7 +165,7 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .fs-bar { display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;background:#fff;border-bottom:1px solid #EFEAE0;flex-wrap:wrap }
 .fs-title { display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:15px }
 .fs-tip { padding:7px 14px;font-size:12px;color:var(--muted);background:#fff;border-bottom:1px dashed #EFEAE0 }
-.fs-body { flex:1;overflow:auto;padding:12px 14px 48px;-webkit-overflow-scrolling:touch }
+.fs-body { flex:1;overflow:auto;padding:10px 14px;-webkit-overflow-scrolling:touch }
 .fs-body .score-box { background:#fff;border-radius:14px }
 .fs-page { display:flex;align-items:center;gap:8px;padding:6px 12px;background:#fff;border-bottom:1px solid #EFEAE0;flex-shrink:0 }
 .card.dim { opacity:.55 }
@@ -231,6 +231,7 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
 
 <div class="toast" id="toast"></div>
 <div id="layer"></div>
+<div id="fslayer"></div>
 
 <script>
 /* =========================================================
@@ -530,8 +531,8 @@ function validateScore(sc){
   return {ok:!issues.length,issues,warns};
 }
 /* 渲染一行简谱 → SVG */
-function jlineSVG(sc,ln,li,marks,clickable,big){
-  const S=big?1.5:1, F=30*S, GAP=7*S, X0=16*S, H=106*S;
+function jlineSVG(sc,ln,li,marks,clickable,big,zm){
+  const S=(big?1.5:1)*(zm||1), F=30*S, GAP=7*S, X0=16*S, H=106*S;
   const beat=+sc.beat||4;
   /* pass1: 预计算每音位置（供区间括线使用） */
   const pos=[]; let xx=X0;
@@ -604,6 +605,11 @@ function jlineSVG(sc,ln,li,marks,clickable,big){
   });
   return '<svg class="staff-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" style="max-width:none">'+g+'</svg>';
 }
+function jlineNatW(ln){                          /* 一行谱在 zoom=1 时的自然宽度（供自适应排版） */
+  let xx=16;
+  (ln.notes||[]).forEach(n=>{xx+=jw(n.d||1)+7;});
+  return Math.max(xx+12,320);
+}
 function renderScore(sc,opts){
   opts=opts||{};
   const lines=opts.lines, marks=opts.marks||[], clickable=!!opts.clickable, big=!!opts.big;
@@ -614,7 +620,7 @@ function renderScore(sc,opts){
   sc.lines.forEach((ln,li)=>{
     if(lines&&lines.indexOf(li)<0)return;
     h+='<div class="line-lbl">'+esc(ln.name||('第'+(li+1)+'行'))+'</div>';
-    h+='<div class="staff-scroll">'+jlineSVG(sc,ln,li,marks,clickable,big)+'</div>';
+    h+='<div class="staff-scroll">'+jlineSVG(sc,ln,li,marks,clickable,big,opts.zoom)+'</div>';
   });
   return h+'</div>';
 }
@@ -640,8 +646,10 @@ function closeSheet(){
   document.getElementById('layer').innerHTML='';
   if(FS){renderFullScore();return}
 }
-/* ===== 全屏看谱（支持翻页） ===== */
-let FS=null, FS_PPR=null;                       /* FS_PPR: 记住用户选的每页行数 */
+/* ===== 全屏看谱（自适应整页 + 翻页） =====
+   大原则：谱面要完整，允许翻页，但每一页内部不允许再滚动。
+   实现：宽度按屏自适应（无横向滚动）＋ 高度按屏自动算每页行数（无纵向滚动）。 */
+let FS=null;
 function fsPageCount(sc){ return (!FS.ppr)?1:Math.max(1,Math.ceil(sc.lines.length/FS.ppr)); }
 function fsPageLines(sc){
   if(!FS.ppr)return null;
@@ -655,13 +663,39 @@ function fsGo(d){
   const pc=fsPageCount(sc), n=FS.pi+d;
   if(n<0||n>=pc){ if(pc>1)toast(n<0?'已经是第一页':'已经是最后一页'); return; }
   FS.pi=n; renderFullScore();
-  const b=document.querySelector('.fs-body'); if(b)b.scrollTop=0;
 }
-function fsSetPpr(){                            /* 4 → 6 → 整篇 → 2 → 4 */
-  FS.ppr = (FS.ppr===4?6:(FS.ppr===6?0:(FS.ppr===0?2:4)));
-  FS_PPR=FS.ppr; FS.pi=0; renderFullScore();
-  const b=document.querySelector('.fs-body'); if(b)b.scrollTop=0;
+/* 自适应排版：先按当前参数画一版，测出溢出则收 zoom/每页行数，直到整页放下 */
+function fsFit(){
+  const sc=byId(S.scores,FS.id);
+  renderFullScore();
+  const b=document.querySelector('.fs-body'); if(!b)return;
+  const availW=b.clientWidth-30;
+  let natW=320;
+  sc.lines.forEach(ln=>{const w=jlineNatW(ln);if(w>natW)natW=w;});
+  FS.zoom=Math.min(3,Math.max(0.45,(availW/natW)*(FS.zm||1)));
+  let best=1;
+  for(let p=1;p<=sc.lines.length;p++){
+    FS.ppr=p;
+    const pc=fsPageCount(sc); if(FS.pi>=pc)FS.pi=pc-1;
+    renderFullScore();
+    const bb=document.querySelector('.fs-body'); if(!bb)break;
+    if(bb.scrollHeight<=bb.clientHeight+1)best=p; else break;
+  }
+  if(FS.ppr!==best){
+    FS.ppr=best;
+    const pc=fsPageCount(sc); if(FS.pi>=pc)FS.pi=pc-1;
+    renderFullScore();
+  }
 }
+function fsZoom(d){                              /* 用户字号倍率：放大→每页行数自动变少，页面仍完整 */
+  FS.zm=Math.min(2.2,Math.max(0.6,(FS.zm||1)+d));
+  FS.pi=0; FS._needFit=true; renderFullScore();
+}
+let _rsT=null;
+window.addEventListener('resize',function(){     /* 转屏/窗口变化 → 重排整页 */
+  if(!FS)return;
+  clearTimeout(_rsT); _rsT=setTimeout(function(){FS._needFit=true;renderFullScore();},200);
+});
 function openFullScore(id,marks,editable){
   const sc=byId(S.scores,id);
   if(!sc.lines){toast('这首的简谱还没录入，可对照原书 p'+(sc.page||'?')+' 补录');return}
@@ -671,11 +705,11 @@ function openFullScore(id,marks,editable){
     if(!(A._mkCtx&&A._mkCtx.arr===arr))A._mkCtx={arr:arr,after:function(){renderFullScore()}};
   }
   const show=marks||((window.ROLE==='T'&&Array.isArray(sc.marks))?sc.marks:null);
-  FS={id:id,marks:show,zoom:1.35,editable:!!editable,
-      ppr:(FS_PPR!=null?FS_PPR:(sc.lines.length>5?4:0)),pi:0};
+  FS={id:id,marks:show,zoom:1,zm:1,editable:!!editable,ppr:0,pi:0,_needFit:true};
   renderFullScore();
 }
 function renderFullScore(){
+  if(FS._needFit){FS._needFit=false;fsFit();return}
   const sc=byId(S.scores,FS.id);
   const v=validateScore(sc);
   const pc=fsPageCount(sc);
@@ -683,7 +717,7 @@ function renderFullScore(){
   const ls=fsPageLines(sc);
   const nm=i=>esc(sc.lines[i].name||('第'+(i+1)+'行'));
   const rng=ls?(nm(ls[0])+(ls.length>1?('–'+nm(ls[ls.length-1])):'')):('共 '+sc.lines.length+' 行');
-  const lvl=document.getElementById('layer');
+  const lvl=document.getElementById('fslayer');
   lvl.innerHTML='<div class="fscore">'
    +'<div class="fs-bar"><div class="fs-title"><b style="font-family:\'Songti SC\',\'STSong\',serif;letter-spacing:2px">'+esc(sc.title)+'</b>'
    +(sc.grade?'<span class="tag">'+sc.grade+' 级'+(sc.type?' · '+esc(sc.type):'')+'</span>':'')
@@ -693,14 +727,14 @@ function renderFullScore(){
    +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')
    +'</div><div class="row" style="gap:6px;flex-shrink:0">'
    +(FS.editable?'<button class="btn xs'+(A._segMode?' seg-on':'')+'" onclick="A.segToggle()">'+(A._segMode?'✕ 退出段选':'⌗ 段选')+'</button>':'')
-   +'<button class="btn xs" onclick="FS.zoom=Math.max(.8,FS.zoom-.3);renderFullScore()">A−</button>'
-   +'<button class="btn xs" onclick="FS.zoom=Math.min(2.6,FS.zoom+.3);renderFullScore()">A+</button>'
+   +'<button class="btn xs" onclick="fsZoom(-0.15)">A−</button>'
+   +'<button class="btn xs" onclick="fsZoom(0.15)">A+</button>'
    +'<button class="btn xs pri" onclick="closeFullScore()">关闭 ✕</button></div></div>'
    +'<div class="fs-page">'
      +(pc>1?'<button class="btn xs" onclick="fsGo(-1)">‹ 上页</button>':'<span style="width:2px"></span>')
      +'<span class="small grow" style="text-align:center">'+(pc>1?('<b>第 '+(FS.pi+1)+' / '+pc+' 页</b>　'):'')+'<span class="muted">'+rng+'</span></span>'
      +(pc>1?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
-     +'<button class="btn xs" onclick="fsSetPpr()" title="切换每页显示的行数">'+(FS.ppr?FS.ppr+' 行/页':'整篇')+'</button>'
+     +(FS.editable?'':'<span class="tiny muted">整页显示</span>')
    +'</div>'
    +'<div class="fs-tip">'+(FS.editable?'<span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选 · ← → 翻页</span>':(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||''))+'</div>'
    +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,lines:ls})+'</div></div>';
@@ -717,7 +751,7 @@ function fsBindSwipe(){
     if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.6)fsGo(dx<0?1:-1);
   },{passive:true});
 }
-function closeFullScore(){FS=null;document.getElementById('layer').innerHTML='';}
+function closeFullScore(){FS=null;document.getElementById('fslayer').innerHTML='';}
 document.addEventListener('keydown',function(e){
   if(!FS)return;
   if(document.getElementById('mask'))return;     /* 有子面板时交给面板处理 */
@@ -2492,7 +2526,8 @@ B.practice = function(id){
     var h = '<h3>' + esc(hw.title) + '</h3>'
       + '<div class="small muted">' + hw.target.bpm + ' BPM · 建议 ' + hw.target.minutes + ' 分钟内练完</div>'
       + mediaBlock(hw, false)
-      + renderScore(sc, { lines:hw.lines, marks:hw.marks })
+      + '<div class="card tight" style="cursor:pointer" onclick="B.openFs(\'' + id + '\')"><div class="spread"><h3 style="margin:0">📖 ' + esc(sc.title) + '</h3><span class="tag">全屏读谱 ›</span></div>'
+        + '<div class="tiny muted" style="margin-top:4px">整页完整显示 · 左右翻页 · ' + ((hw.marks && hw.marks.length) ? ('老师 ' + hw.marks.length + ' 处标记') : '无标记') + '</div></div>'
       + '<div class="card tight" style="margin-top:10px"><div class="spread">'
         + '<div><div class="tiny muted">已练时间</div><div id="pTime" style="font-size:34px;font-weight:800;font-variant-numeric:tabular-nums">00:00</div></div>'
         + '<div style="text-align:center"><div class="tiny muted">遍数</div><div id="pRep" style="font-size:34px;font-weight:800;font-variant-numeric:tabular-nums">0</div></div>'
@@ -2533,10 +2568,14 @@ B.practice = function(id){
       + '<div class="row" style="margin-top:12px;gap:8px">'
         + '<button class="btn grow" onclick="B.cancelPx()">先不练了</button>'
         + '<button class="btn pri grow" onclick="B.submit()">提交回课 ✓</button></div>';
-    openSheet(h, function(){ B.setSelf('还行'); });
+    openSheet(h, function(){
+      B.setSelf('还行');
+      if(!ST.px._fsOpened){ ST.px._fsOpened = 1; setTimeout(function(){ openFullScore(hw.scoreId, hw.marks || null); }, 150); }
+    });
   };
   B._draw = draw; draw();
 };
+B.openFs = function(id){ var hw = byId(S.homework, id); openFullScore(hw.scoreId, hw.marks || null); };
 B.goGoal = function(i){ ST.px.gi = i; if (window._stopPx) window._stopPx(); B._draw(); };
 B.rec = async function(){
   var btn = document.getElementById('rBtn'), tip = document.getElementById('rTip'), box = document.getElementById('rBox');
