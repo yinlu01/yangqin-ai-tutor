@@ -1492,11 +1492,11 @@ function cardHwStudent(hw){
     ?'<span class="tag '+(hw.review&&hw.review.judge==='达标'?'ok':hw.review&&hw.review.judge==='需改进'?'warn':'info')+'">'+esc(hw.review?hw.review.judge:'')+'</span>'
     :hw.status==='submitted'?'<span class="tag info">已提交 · 等老师</span>':'<span class="tag warn">待完成</span>';
   return '<div class="hw"><div class="spread"><div><div class="title">'+esc(hw.title)+'</div>'
-   +'<div class="meta"><span style="color:var(--brand);font-weight:600">截止 '+esc(hw.due)+'</span> · '+esc(sc.key)+' · '+hw.target.bpm+' BPM</div></div>'+badge+'</div>'
+   +'<div class="meta"><span style="color:var(--brand);font-weight:600">截止 '+esc(hw.due||'')+'</span> · '+esc(sc.key||'')+' · '+((hw.target||{}).bpm||'—')+' BPM</div></div>'+badge+'</div>'
    +((hw.demoVideoId||hw.classAudioId)?'<div class="row wrap" style="margin-top:8px;gap:5px">'
       +(hw.demoVideoId?'<span class="tag info">老师示范视频</span>':'')
       +(hw.classAudioId?'<span class="tag info">课堂录音</span>':'')+'</div>':'')
-   +(hw.marks.length?'<div class="row wrap" style="margin-top:8px;gap:5px">'
+   +((hw.marks||[]).length?'<div class="row wrap" style="margin-top:8px;gap:5px">'
       +COUNT_MARKS(hw.marks).map(m=>'<span class="tag" style="background:'+m.bg+';color:'+m.c+'">'+m.k+' ×'+m.n+'</span>').join('')+'</div>':'')
    +'<div class="row" style="margin-top:10px;gap:8px">'
    +'<button class="btn sm grow" onclick="B.openCard(\''+hw.id+'\')">看谱与要点</button>'
@@ -1508,12 +1508,24 @@ function COUNT_MARKS(marks){
   return MARK_TYPES.map(t=>({k:t.k,bg:t.bg,c:t.c,n:marks.filter(m=>m.type===t.k).length})).filter(x=>x.n);
 }
 B.openCard=function(id){
-  const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId);
+  const hw=byId(S.homework,id),sc=byId(S.scores,hw.scoreId)||{title:'?',key:''};
+  const lines=hw.lines||[],marks=hw.marks||[];
+  /* 要点：新作业用微目标(goals)，老作业退回 criteria。老数据可能两个字段都没有 → 必须防御 */
+  let pts='';
+  try{
+    const gs=ensureGoals(hw);
+    if(gs.length)pts='<div class="card tight" style="margin:8px 0"><div class="tiny muted" style="margin-bottom:5px">这次的要点</div>'
+      +gs.map(g=>'<div class="row" style="gap:6px;padding:4px 0;border-bottom:1px solid var(--line2)">'
+        +'<span class="tag mk">'+esc(g.tech)+'</span>'
+        +'<span class="small grow">'+esc(g.seg||'全曲')+(g.std?' · '+esc(g.std):'')+'</span>'
+        +(g.note?'<span class="tiny muted">'+esc(g.note)+'</span>':'')+'</div>').join('')+'</div>';
+    else if((hw.criteria||[]).length)pts='<div class="row wrap" style="margin:8px 0;gap:5px"><span class="tiny muted">老师要求：</span>'+(hw.criteria||[]).map(c=>'<span class="tag">'+esc(c)+'</span>').join('')+'</div>';
+  }catch(e){}
   openSheet('<h3>'+esc(hw.title)+'</h3>'
-   +'<div class="small muted">'+esc(sc.key)+' · 练第 '+hw.lines.map(x=>x+1).join('/')+' 行</div>'
+   +'<div class="small muted">'+esc(sc.key||'')+' · 练第 '+(lines.length?lines.map(x=>x+1).join('/'):'全曲')+' 行</div>'
    +mediaBlock(hw,false)
-   +(hw.criteria.length?'<div class="row wrap" style="margin:8px 0;gap:5px"><span class="tiny muted">老师要求：</span>'+hw.criteria.map(c=>'<span class="tag">'+c+'</span>').join('')+'</div>':'')
-   +renderScore(sc,{lines:hw.lines,marks:hw.marks})
+   +pts
+   +renderScore(sc,{lines:lines,marks:marks})
    +(hw.status==='assigned'?'<button class="btn pri block" style="margin-top:12px" onclick="closeSheet();B.practice(\''+hw.id+'\')">开始练习 ▶</button>':'')
    +'<div class="sheet-actions"><button class="btn block" onclick="closeSheet()">关闭</button></div>');
 };
@@ -2537,7 +2549,8 @@ B.practice = function(id){
         + goalLine(g) + '<div style="margin-top:6px">' + goalBar(g) + '</div>'
         + '<div class="row" style="margin-top:8px;gap:8px">'
         + '<button class="btn sm pri" id="rBtn" onclick="B.rec()">🎙 录这一遍</button>'
-        + '<span class="tiny muted" id="rTip">录完自己判断：这一遍做到了吗？</span></div>'
+        + '<button class="btn sm" id="fBtn" onclick="B.pickAudio()">📁 选手机里的</button></div>'
+        + '<div class="tiny muted" id="rTip" style="margin-top:4px">录完自己判断：这一遍做到了吗？也可以直接选手机里已录好的音频。</div>'
         + '<div id="rBox"></div>'
         + '<div class="row" style="margin-top:8px;gap:8px">'
         + '<button class="btn grow" onclick="B.take(false)">↻ 再来一遍</button>'
@@ -2578,7 +2591,9 @@ B.rec = async function(){
     rec.ondataavailable = function(e){ if (e.data.size) recCh.push(e.data); };
     rec.onstop = async function(){
       recStream.getTracks().forEach(function(t){ t.stop(); });
-      var blob = new Blob(recCh, { type:'audio/webm' });
+      /* iOS Safari 录出来是 audio/mp4，硬写 webm 会导致文件打不开 → 用录制器自己的 mimeType 兜底 */
+      var mt = (rec && rec.mimeType) || (recCh[0] && recCh[0].type) || 'audio/webm';
+      var blob = new Blob(recCh, { type: mt });
       ST.px.audioBlob = blob; ST.px.audioId = null;
       box.innerHTML = '<audio controls src="' + URL.createObjectURL(blob) + '" style="width:100%;margin-top:6px"></audio>';
       tip.textContent = '录好了，点「这遍做到了」或「再来一遍」';
@@ -2586,14 +2601,44 @@ B.rec = async function(){
     };
     rec.start(); btn.textContent = '■ 停止'; tip.textContent = '录音中…';
     setTimeout(function(){ if (rec && rec.state === 'recording') rec.stop(); }, 300000);
-  }catch(e){ tip.textContent = '没有麦克风权限，可以直接记遍数'; }
+  }catch(e){
+    var n = (e && e.name) || '';
+    tip.innerHTML = '<span style="color:var(--warn)">'
+      + (n === 'NotAllowedError' ? '麦克风没打开：请在弹窗里点「允许」，或去系统设置给浏览器开麦克风权限。'
+         : n === 'NotFoundError' ? '没找到麦克风：请检查设备。'
+         : '这个环境不能录音：' + esc((e && e.message) || ''))
+      + ' 也可以点「📁 选手机里的」直接上传录好的音频。</span>';
+  }
+};
+/* 从手机里选一段已经录好的音频上传（微信/录音机录的都行） */
+B.pickAudio = function(){
+  var inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'audio/*';
+  inp.onchange = async function(){
+    var f = inp.files && inp.files[0]; if (!f) return;
+    var tip = document.getElementById('rTip'), box = document.getElementById('rBox'), btn = document.getElementById('rBtn');
+    if (tip) tip.textContent = '正在上传录音…';
+    try{
+      var up = await upAudio(f);
+      if (!up || !up.id) throw new Error('no id');
+      ST.px.audioBlob = f; ST.px.audioId = up.id; ST.lastAudioId = up.id;
+      if (box) box.innerHTML = '<audio controls src="' + audioUrl(up.id) + '" style="width:100%;margin-top:6px"></audio>';
+      if (tip) tip.textContent = '已选用手机里的录音，点「这遍做到了」或「再来一遍」';
+      if (btn) btn.textContent = '🎙 重新录';
+    }catch(e){ if (tip) tip.innerHTML = '<span style="color:var(--warn)">上传失败，请再试一次（文件太大可能传不动）</span>'; }
+  };
+  inp.click();
 };
 B.take = async function(ok){
   var hw = byId(S.homework, ST.px.id); if (!hw) return;
+  ensureGoals(hw);                                     /* pull 回来的 goals 可能缺 takes/id → 补齐 */
   var g = hw.goals[ST.px.gi]; if (!g) return;
-  var aid = '';
-  if (ok && ST.px.audioBlob){ var up = await upAudio(ST.px.audioBlob); aid = up.id; }
-  else if (ST.px.audioBlob){ var up2 = await upAudio(ST.px.audioBlob); aid = up2.id; }
+  if (!g.takes) g.takes = [];
+  var aid = ST.px.audioId || '';                       /* 「选手机里的」已上传过 → 直接复用 */
+  if (!aid && ST.px.audioBlob){
+    try { var up = await upAudio(ST.px.audioBlob); aid = (up && up.id) || ''; } catch (e) {}
+  }
+  if (aid) ST.lastAudioId = aid;
   g.takes.push({ at:Date.now(), ok:!!ok, sec:ST.px.sec, audioId:aid });
   ST.px.audioBlob = null; ST.px.audioId = null; ST.px.repeats++;
   await patchHw(hw.id, { goals:hw.goals });
