@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="2hbQILjKCi7ckxkHoAuDKb">
-<head data-page-node-id="suBvisv0czdDHGX3v7Ytab">
-<meta charset="utf-8" data-page-node-id="wH4LVPospoRhHVEVNf4Sbq">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" data-page-node-id="XBy2fzUfXIg1lxsjSg1aj1">
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>余音 · 老师端</title>
 <style>
 :root{
@@ -104,6 +104,11 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .note-g.clickable:hover .jn{fill:var(--brand)}
 .note-g.clickable{transition:transform .12s}
 .note-g.clickable:active{transform:scale(.92)}
+.note-g.sel-prev .jn{fill:var(--brand)}
+.note-g.sel-anchor .jn{fill:var(--brand)}
+.note-g.sel-anchor{animation:mkpulse .9s infinite}
+@keyframes mkpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.btn.seg-on{background:var(--brand);color:#fff}
 .line-lbl{font-size:11.5px;color:var(--muted);margin:8px 0 3px;font-weight:700}
 .line-lbl:first-child{margin-top:0}
 .nline{display:flex;flex-wrap:wrap;gap:2px;align-items:flex-end;padding:2px 0;border-bottom:1px dashed #eee}
@@ -195,36 +200,36 @@ kbd{background:#f3f4f6;border:1px solid var(--line);border-bottom-width:2px;bord
 }
 </style>
 </head>
-<body data-page-node-id="UBAsEQwkWzxpA8uJzObSjW">
+<body>
 
-<header class="topbar" data-page-node-id="HXEgc4nQ5OltrrpuQaGYXz"><div class="topbar-in" data-page-node-id="E8yUNWsxa6PmHaP8a6zDSH">
-  <div class="logo" data-page-node-id="hesSr9GiUsJnBNENipSjKs"><svg width="23" height="23" viewBox="0 0 56 56" aria-hidden="true" style="flex:none" data-page-node-id="3JPHjpCgqElRk4DN8tru8t"><circle cx="28" cy="28" r="21" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35" data-page-node-id="23BBRbLWtzVbtAZMN1FReT"/><circle cx="28" cy="28" r="11.5" fill="#B04A3A" data-page-node-id="fCcfCCLfZ1OMH1njp74WQc"/><circle cx="24" cy="24" r="3" fill="#D98A75" opacity=".5" data-page-node-id="YeSJ853sy152SCAqlw4VP0"/></svg><span class="wm" data-page-node-id="CTyd01BMIgRLATZoSkE9Xb">余音</span><span class="role-tag" id="roleTag" data-page-node-id="TiDvaA24nz0FMX7PJY4uR1"></span></div>
-  <div class="role-sw" style="display:none" data-page-node-id="n01128FphuCAfaXqpplDcr">
-    <button id="btnTeacher" class="on" data-page-node-id="d6YXcAubg4dCTZB7p0LCDh">老师端</button>
-    <button id="btnStudent" data-page-node-id="nbnTx1LcMTDeefNxPISwYc">孩子端</button>
+<header class="topbar"><div class="topbar-in">
+  <div class="logo"><svg width="23" height="23" viewBox="0 0 56 56" aria-hidden="true" style="flex:none"><circle cx="28" cy="28" r="21" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="28" cy="28" r="11.5" fill="#B04A3A"/><circle cx="24" cy="24" r="3" fill="#D98A75" opacity=".5"/></svg><span class="wm">余音</span><span class="role-tag" id="roleTag"></span></div>
+  <div class="role-sw" style="display:none">
+    <button id="btnTeacher" class="on">老师端</button>
+    <button id="btnStudent">孩子端</button>
   </div>
-  <span id="syncDot" class="tiny muted" style="margin-left:auto" data-page-node-id="EELpBODT1CwXSCC5ISvR1V"></span>
-  <button class="iconbtn" id="btnMenu" title="数据与设置" style="font-size:15px" data-page-node-id="JrSDSymOh2DMJo6pyRXC36">☰</button>
+  <span id="syncDot" class="tiny muted" style="margin-left:auto"></span>
+  <button class="iconbtn" id="btnMenu" title="数据与设置" style="font-size:15px">☰</button>
 </div></header>
 
-<nav class="subnav" id="navT" data-page-node-id="K2AaMMlXTpaqJn52BDgJYj"><div class="subnav-in" data-page-node-id="nLuHKtWFII1JI0GKFWzhDG">
-  <button data-tab="t-class" class="on" data-page-node-id="uMHZytU0vpXlAkwWg6hYeG">上课记录</button>
-  <button data-tab="t-review" data-page-node-id="Vh76BCrXzgXpzotzQU1l3d">回课驾驶舱</button>
-  <button data-tab="t-stu" data-page-node-id="GTcEzoNCMnS6AOhTuygerl">学生档案</button>
-  <button data-tab="t-lib" data-page-node-id="lBdrXyR9gXV6XRfMQ2OYxp">谱库</button>
+<nav class="subnav" id="navT"><div class="subnav-in">
+  <button data-tab="t-class" class="on">上课记录</button>
+  <button data-tab="t-review">回课驾驶舱</button>
+  <button data-tab="t-stu">学生档案</button>
+  <button data-tab="t-lib">谱库</button>
 </div></nav>
 
-<nav class="subnav stu hide" id="navS" data-page-node-id="HODxYmPk8n4EVzFyK6k79A"><div class="subnav-in" data-page-node-id="i3NHfJ7pVd0hZbLPEehnuu">
-  <button data-tab="s-task" class="on" data-page-node-id="UdcTc4l9EKQl6aaXimo9nx">今日任务</button>
-  <button data-tab="s-fb" data-page-node-id="qPAYkeQqXzsslHaMex0KjT">我的回课</button>
-  <button data-tab="s-lib" data-page-node-id="a45CQiFwMvlO293CnPpeIf">谱库</button>
+<nav class="subnav stu hide" id="navS"><div class="subnav-in">
+  <button data-tab="s-task" class="on">今日任务</button>
+  <button data-tab="s-fb">我的回课</button>
+  <button data-tab="s-lib">谱库</button>
 </div></nav>
 
-<main class="pagewrap" id="app" data-page-node-id="hHHhoV8ooaCqof7yOH9qOW"></main>
-<div class="foot" id="foot" data-page-node-id="dnG2fb2MojB0zbHEE9HKQi"></div>
+<main class="pagewrap" id="app"></main>
+<div class="foot" id="foot"></div>
 
-<div class="toast" id="toast" data-page-node-id="7cn5J1iunZOlxgYozA2fRA"></div>
-<div id="layer" data-page-node-id="RLUDwnIquoDA1iGbcI8GtA"></div>
+<div class="toast" id="toast"></div>
+<div id="layer"></div>
 
 <script>
 /* =========================================================
@@ -415,13 +420,14 @@ const SCORE_LIB=[
 ];
 /* ---------------- 2. 常量字典 ---------------- */
 const MARK_TYPES=[
- {k:'重点',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'这周必须拿下'},
- {k:'难点',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'容易错，慢练'},
- {k:'慢练',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'先慢速再提速'},
- {k:'轮音',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'轮音均匀度'},
- {k:'竹法',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'左右竹顺序'},
- {k:'分句',c:'#B04A3A',bg:'rgba(176,74,58,.08)',d:'换气与句读'}
+ {k:'重点',c:'#B04A3A',bg:'rgba(176,74,58,.10)',sym:'●',d:'这周必须拿下'},
+ {k:'难点',c:'#A65A12',bg:'rgba(166,90,18,.10)',sym:'▲',d:'容易错，慢练'},
+ {k:'慢练',c:'#2E6E5E',bg:'rgba(46,110,94,.10)',sym:'◆',d:'先慢速再提速'},
+ {k:'轮音',c:'#2F5D8A',bg:'rgba(47,93,138,.10)',sym:'★',d:'轮音均匀度'},
+ {k:'竹法',c:'#6B4A8A',bg:'rgba(107,74,138,.10)',sym:'■',d:'左右竹顺序'},
+ {k:'分句',c:'#4A7A2E',bg:'rgba(74,122,46,.10)',sym:'▼',d:'换气与句读'}
 ];
+function markStyle(t){return MARK_TYPES.find(x=>x.k===t)||{c:'#7A7265',bg:'rgba(122,114,101,.10)',sym:'⚑'};}
 const CRITERIA=['连贯不断','节奏稳','轮音均匀','音色干净','双音整齐','力度有变化','能背谱'];
 const QUICK_POINTS=['手型/手腕','竹法顺序','节奏稳定','轮音密度','换弦位置','音色','力度','分句呼吸','背谱'];
 const QUICK_REVIEW=['整体进步明显，继续保持！','轮音再均匀一点，跟着节拍器数拍。','这一句慢练 3 遍再提速。','换弦位置再确认一下，别碰到邻弦。','节奏稳住了，可以试着提速 5。','双音要同时落，听"一个音"。','下次课我们逐句过，先把这两小节拿下。'];
@@ -521,18 +527,26 @@ function validateScore(sc){
 function jlineSVG(sc,ln,li,marks,clickable,big){
   const S=big?1.5:1, F=30*S, GAP=7*S, X0=16*S, H=106*S;
   const beat=+sc.beat||4;
-  let x=X0, beats=0, g='';
+  /* pass1: 预计算每音位置（供区间括线使用） */
+  const pos=[]; let xx=X0;
+  ln.notes.forEach((n,i)=>{const w=jw(n.d||1)*S;pos.push({x:xx,w:w,cx:xx+w/2});xx+=w+GAP;});
+  const W=Math.max(xx+12*S,320);
+  const rmk=marks.filter(m=>m.li===li&&m.i1!=null);
+  let beats=0, g='';
   ln.notes.forEach((n,i)=>{
-    const w=jw(n.d||1)*S, cx=x+w/2;
+    const p=pos[i], x=p.x, w=p.w, cx=p.cx;
     if(beats>0.01){
       const rem=beats%beat;
       if(rem<0.01||Math.abs(rem-beat)<0.01)
         g+='<line x1="'+(x-4.5*S)+'" y1="'+(32*S)+'" x2="'+(x-4.5*S)+'" y2="'+(90*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
     }
-    const mk=marks.filter(m=>m.li===li&&m.i===i)[0];
-    const t=mk?(MARK_TYPES.filter(q=>q.k===mk.type)[0]||{bg:'#eee',c:'#666'}):null;
+    const mk=marks.find(m=>m.li===li&&m.i===i&&m.i1==null);
+    const rm=rmk.find(m=>i>=m.i&&i<=m.i1);
+    const isRS=rm&&i===rm.i;
+    const t=mk?markStyle(mk.type):(rm?markStyle(rm.type):null);
     g+='<g class="note-g'+(clickable?' clickable':'')+(mk?' m-'+mk.type:'')+'" data-li="'+li+'" data-i="'+i+'">';
-    if(t)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(82*S)+'" rx="'+(9*S)+'" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.2"/>';
+    if(rm)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(82*S)+'" fill="'+t.bg+'"/>';
+    if(mk)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(82*S)+'" rx="'+(9*S)+'" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.2"/>';
     g+='<rect x="'+(x-10*S)+'" y="'+(18*S)+'" width="'+(w+20*S)+'" height="'+(80*S)+'" fill="transparent"/>';
     if(n.n==='-'){
       g+='<rect x="'+(x+2*S)+'" y="'+(52*S)+'" width="'+(w-8*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
@@ -556,16 +570,24 @@ function jlineSVG(sc,ln,li,marks,clickable,big){
       if((n.d||1)>=4)g+='<rect x="'+(cx+F*0.3)+'" y="'+(60*S)+'" width="'+(w-F*0.55-6*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
       if(n.dot)g+='<circle cx="'+(cx+F*0.42)+'" cy="'+(66*S)+'" r="'+(2.6*S)+'" fill="#1C1A17"/>';
     }
-    if(mk){
-      const idx=marks.filter(m=>m.li===li).indexOf(mk)+1;
+    if(mk||isRS){
+      const m=mk||rm;
+      const idx=marks.filter(q=>q.li===li).indexOf(m)+1;
       g+='<circle cx="'+cx+'" cy="'+(9*S)+'" r="'+(7*S)+'" fill="'+t.c+'"/>'
         +'<text x="'+cx+'" y="'+(12.5*S)+'" font-size="'+(9.5*S)+'" text-anchor="middle" fill="#fff" font-weight="700">'+idx+'</text>';
     }
     g+='</g>';
     if(n.n!=='-')beats+=(n.d||1)*(n.dot?1.5:1);
-    x+=w+GAP;
   });
-  const W=Math.max(x+12*S,320);
+  /* 区间括线（画在音符层之上） */
+  rmk.forEach(m=>{
+    const t=markStyle(m.type);
+    const a=Math.max(0,Math.min(m.i,pos.length-1)), b=Math.max(0,Math.min(m.i1,pos.length-1));
+    const x0=pos[Math.min(a,b)].cx, x1=pos[Math.max(a,b)].cx;
+    g+='<line x1="'+x0+'" y1="'+(97.5*S)+'" x2="'+x1+'" y2="'+(97.5*S)+'" stroke="'+t.c+'" stroke-width="2.4" stroke-linecap="round"/>'
+      +'<line x1="'+x0+'" y1="'+(93*S)+'" x2="'+x0+'" y2="'+(97.5*S)+'" stroke="'+t.c+'" stroke-width="2.4" stroke-linecap="round"/>'
+      +'<line x1="'+x1+'" y1="'+(93*S)+'" x2="'+x1+'" y2="'+(97.5*S)+'" stroke="'+t.c+'" stroke-width="2.4" stroke-linecap="round"/>';
+  });
   return '<svg class="staff-svg" viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" style="max-width:none">'+g+'</svg>';
 }
 function renderScore(sc,opts){
@@ -584,9 +606,11 @@ function renderScore(sc,opts){
 }
 function markList(marks){
   if(!marks||!marks.length)return '<div class="small muted">还没有标记。点谱面上的音符可以添加。</div>';
-  return marks.map((m,i)=>'<div class="row" style="gap:6px;margin:5px 0">'
-    +'<span class="tag" style="background:'+(MARK_TYPES.find(t=>t.k===m.type)||{bg:'#eee'}).bg+';color:'+(MARK_TYPES.find(t=>t.k===m.type)||{c:'#555'}).c+'">'+esc(m.type)+'</span>'
-    +'<span class="small grow">第'+(m.li+1)+'行第'+(m.i+1)+'音'+(m.note?' · '+esc(m.note):'')+'</span></div>').join('');
+  return marks.map((m,i)=>{const t=markStyle(m.type);
+    const loc=m.i1!=null?('第'+(m.li+1)+'行 第'+(m.i+1)+'–'+(m.i1+1)+'音'):('第'+(m.li+1)+'行第'+(m.i+1)+'音');
+    return '<div class="row" style="gap:6px;margin:5px 0">'
+    +'<span class="tag" style="background:'+t.bg+';color:'+t.c+'">'+t.sym+' '+esc(m.type)+'</span>'
+    +'<span class="small grow">'+loc+(m.note?' · '+esc(m.note):'')+'</span></div>';}).join('');
 }
 /* =========================================================
    通用交互层
@@ -600,13 +624,14 @@ function openSheet(html,onMount){
 function closeSheet(){
   try{if(window._stopPx)window._stopPx()}catch(e){}
   document.getElementById('layer').innerHTML='';
+  if(FS){renderFullScore();return}
 }
 /* ===== 全屏看谱 ===== */
 let FS=null;
-function openFullScore(id,marks){
+function openFullScore(id,marks,editable){
   const sc=byId(S.scores,id);
   if(!sc.lines){toast('这首的简谱还没录入，可对照原书 p'+(sc.page||'?')+' 补录');return}
-  FS={id:id,marks:marks||null,zoom:1.35};
+  FS={id:id,marks:marks||null,zoom:1.35,editable:!!editable};
   renderFullScore();
 }
 function renderFullScore(){
@@ -621,11 +646,12 @@ function renderFullScore(){
    +(sc.key?'<span class="tag">1 = '+esc(String(sc.key).replace(/\s*调$/,''))+'</span>':'')
    +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')
    +'</div><div class="row" style="gap:6px;flex-shrink:0">'
+   +(FS.editable?'<button class="btn xs'+(A._segMode?' seg-on':'')+'" onclick="A.segToggle()">'+(A._segMode?'✕ 退出段选':'⌗ 段选')+'</button>':'')
    +'<button class="btn xs" onclick="FS.zoom=Math.max(.8,FS.zoom-.3);renderFullScore()">A−</button>'
    +'<button class="btn xs" onclick="FS.zoom=Math.min(2.6,FS.zoom+.3);renderFullScore()">A+</button>'
    +'<button class="btn xs pri" onclick="closeFullScore()">关闭 ✕</button></div></div>'
-   +'<div class="fs-tip">'+(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||'')+'</div>'
-   +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom})+'</div></div>';
+   +'<div class="fs-tip">'+(FS.editable?'<span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选</span>':(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||''))+'</div>'
+   +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable})+'</div></div>';
 }
 function closeFullScore(){FS=null;document.getElementById('layer').innerHTML='';}
 
@@ -692,51 +718,132 @@ A.toggleCrit=function(c){
   i>=0?p.criteria.splice(i,1):p.criteria.push(c);render();
 };
 
-/* 谱面音符点击 → 标记面板 */
-A.noteClick=function(el){
-  const li=+el.dataset.li,i=+el.dataset.i,p=T.wiz.pieces[T.cur];
-  const mk=p.marks.find(m=>m.li===li&&m.i===i);
-  const sc=byId(S.scores,p.scoreId);
-  const n=sc.lines[li].notes[i];
-  let h='<h3>标记 · 第'+(li+1)+'行第'+(i+1)+'音 <span class="muted small">（'+esc(n.n)+(n.t?' · '+esc(n.t):'')+'）</span></h3>';
-  h+=MARK_TYPES.map(t=>'<button class="chip" data-type="'+t.k+'" style="margin:3px;background:'+(mk&&mk.type===t.k?t.bg:'')+';color:'+(mk&&mk.type===t.k?t.c:'')+'" onclick="A.markPick(\''+t.k+'\')">'+t.k+'</button>').join('');
+/* ===== 谱面标注：点选 / 段选 / 拖选（FR-M7-04/16/17）===== */
+A._mkCtx=null;            /* {arr:marks数组引用, after:保存后刷新} */
+A._segMode=false;
+A._segAnchor=null;
+A.segToggle=function(){
+  A._segMode=!A._segMode;A._segAnchor=null;
+  document.querySelectorAll('.note-g.sel-anchor').forEach(x=>x.classList.remove('sel-anchor'));
+  toast(A._segMode?'段选：先点起点，再点终点':'已退出段选');
+  if(A._mkCtx&&A._mkCtx.after)A._mkCtx.after();else render();
+};
+/* 标注面板（单音 i1=null；区间 i1=结束序号） */
+A.markSheet=function(li,i,i1){
+  const ctx=A._mkCtx;
+  if(!ctx||!ctx.arr){toast('当前视图不能标注');return}
+  const arr=ctx.arr;
+  const mk=i1==null?arr.find(m=>m.li===li&&m.i===i&&m.i1==null)
+                   :arr.find(m=>m.li===li&&m.i===i&&m.i1===i1);
+  const loc=i1==null?('第'+(li+1)+'行第'+(i+1)+'音'):('第'+(li+1)+'行 第'+(i+1)+'–'+(i1+1)+'音（共'+(i1-i+1)+'音）');
+  let h='<h3>标记 · '+loc+'</h3>';
+  h+='<div class="row wrap" style="gap:6px">'+MARK_TYPES.map(t=>{
+      const on=mk&&mk.type===t.k;
+      return '<button class="chip mkchip" data-type="'+t.k+'" style="margin:0;'+(on?'background:'+t.bg+';color:'+t.c+';font-weight:700;':'')+'" onclick="A.mkChipSel(this)">'+t.sym+' '+t.k+'</button>';
+    }).join('')
+    +'<button class="chip mkchip" id="mkCustom" style="margin:0;" onclick="A.mkCustomIn()">＋ 自定义</button></div>';
+  h+='<input id="mkCustomIn" placeholder="输入类型名后回车，如：换弦" style="display:none;margin-top:8px">';
   h+='<label class="fld" style="margin-top:12px"><span>要点说明（会推送给孩子）</span>'
-   +'<textarea id="mkNote" placeholder="例：这里 5→4 换弦别碰邻弦">'+esc(mk?mk.note:'')+'</textarea></label>';
+   +'<textarea id="mkNote" placeholder="例：这一段 5→4 换弦别碰邻弦">'+esc(mk?mk.note:'')+'</textarea></label>';
   h+='<div class="sheet-actions">'
-   +(mk?'<button class="btn danger" onclick="A.delMark('+li+','+i+')">删除标记</button>':'')
+   +(mk?'<button class="btn danger" onclick="A.mkDel('+li+','+i+','+(i1==null?'null':i1)+')">删除标记</button>':'')
    +'<button class="btn grow" onclick="closeSheet()">取消</button>'
-   +'<button class="btn pri" onclick="A.markSave('+li+','+i+')">保存</button></div>';
+   +'<button class="btn pri" onclick="A.mkSave('+li+','+i+','+(i1==null?'null':i1)+')">保存</button></div>';
   openSheet(h,()=>{
-    document.querySelectorAll('#layer .chip').forEach(b=>b.onclick=()=>{
-      document.querySelectorAll('#layer .chip').forEach(x=>{x.style.background='';x.style.color='';x.style.fontWeight=''});
-      const t=MARK_TYPES.find(y=>y.k===b.dataset.type);
-      b.style.background=t.bg;b.style.color=t.c;b.style.fontWeight='700';b.dataset.picked='1';
-    });
-    if(mk){const b=[...document.querySelectorAll('#layer .chip')].find(x=>x.dataset.type===mk.type);
-      if(b){b.style.background=MARK_TYPES.find(y=>y.k===mk.type).bg;b.style.color=MARK_TYPES.find(y=>y.k===mk.type).c}}
+    if(mk){const b=document.querySelector('#layer .mkchip[data-type="'+mk.type+'"]');if(!b&&mk.type){/* 自定义类型 */}
+      if(b){const t=markStyle(mk.type);b.style.background=t.bg;b.style.color=t.c;b.style.fontWeight='700';}}
   });
 };
-let _mkType=null;
-A.markPick=function(k){_mkType=k;toast('已选：'+k)};
-A.markSave=function(li,i){
-  const p=T.wiz.pieces[T.cur];
-  const picked=[...document.querySelectorAll('#layer .chip')].find(x=>x.dataset.picked==='1');
-  const type=(picked&&picked.dataset.type)||_mkType||(p.marks.find(m=>m.li===li&&m.i===i)||{}).type||'重点';
+A.mkChipSel=function(btn){
+  document.querySelectorAll('#layer .mkchip').forEach(x=>{x.style.background='';x.style.color='';x.style.fontWeight='';x.dataset.picked='';});
+  const t=markStyle(btn.dataset.type);
+  btn.style.background=t.bg;btn.style.color=t.c;btn.style.fontWeight='700';btn.dataset.picked='1';
+};
+A.mkCustomIn=function(){
+  const inp=document.getElementById('mkCustomIn');
+  inp.style.display='block';inp.focus();
+  inp.onkeydown=e=>{if(e.key==='Enter'&&inp.value.trim()){
+    const name=inp.value.trim().slice(0,6);
+    const btn=document.getElementById('mkCustom');
+    btn.textContent='⚑ '+name;btn.dataset.type=name;btn.dataset.picked='1';inp.style.display='none';
+    A.mkChipSel(btn);toast('自定义类型：'+name);
+  }};
+};
+A.mkSave=function(li,i,i1){
+  const ctx=A._mkCtx;if(!ctx||!ctx.arr){closeSheet();return}
+  const arr=ctx.arr;
+  const picked=document.querySelector('#layer .mkchip[data-picked="1"]');
+  let type=picked?(picked.dataset.type||'重点'):'重点';
   const note=(document.getElementById('mkNote')||{}).value||'';
-  _mkType=null;
-  const idx=p.marks.findIndex(m=>m.li===li&&m.i===i);
-  if(idx>=0){p.marks[idx].type=type;p.marks[idx].note=note}
-  else p.marks.push({li,i,type,note});
-  T.wiz.pieces[T.cur].marks.sort((a,b)=>a.li-b.li||a.i-b.i);
-  closeSheet();render();toast('已标记：'+type);
+  const idx=arr.findIndex(m=>m.li===li&&m.i===i&&(m.i1||null)===(i1==null?null:i1));
+  if(idx>=0){arr[idx].type=type;arr[idx].note=note;if(i1!=null)arr[idx].i1=i1;else delete arr[idx].i1;}
+  else{const m={li:li,i:i,type:type,note:note};if(i1!=null)m.i1=i1;arr.push(m);}
+  arr.sort((a,b)=>a.li-b.li||a.i-b.i);
+  closeSheet();toast('已标记：'+type);
+  if(ctx.after)ctx.after();else render();
 };
-A.markDel=function(){
-  const el=document.querySelector('#layer .sheet');if(!el)return;
-  closeSheet();
+A.mkDel=function(li,i,i1){
+  const ctx=A._mkCtx;if(!ctx)return;
+  ctx.arr=ctx.arr.filter(m=>!(m.li===li&&m.i===i&&(m.i1||null)===(i1==null?null:i1)));
+  closeSheet();toast('已删除标记');
+  if(ctx.after)ctx.after();else render();
 };
-A.delMark=function(li,i){
-  const p=T.wiz.pieces[T.cur];
-  p.marks=p.marks.filter(m=>!(m.li===li&&m.i===i));closeSheet();render();toast('已删除标记');
+/* 全局指针交互：桌面拖选 + 点选 + 段选（document 级委托，只绑一次） */
+A.initMarkEvents=function(){
+  let anchor=null,drag=false;
+  const clearPrev=()=>document.querySelectorAll('.note-g.sel-prev').forEach(x=>x.classList.remove('sel-prev'));
+  document.addEventListener('pointerdown',e=>{
+    const g=e.target.closest?e.target.closest('.note-g.clickable'):null;
+    anchor=g?{el:g,li:+g.dataset.li,i:+g.dataset.i,x:e.clientX,y:e.clientY}:null;
+    drag=false;
+  },true);
+  document.addEventListener('pointermove',e=>{
+    if(!anchor)return;
+    const dx=e.clientX-anchor.x,dy=e.clientY-anchor.y;
+    if(!drag&&Math.abs(dx)>14&&Math.abs(dx)>Math.abs(dy)*1.2)drag=true;
+    if(!drag)return;
+    clearPrev();
+    const el=document.elementFromPoint(e.clientX,e.clientY);
+    const t=el&&el.closest?el.closest('.note-g.clickable'):null;
+    if(t&&+t.dataset.li===anchor.li){
+      const lo=Math.min(anchor.i,+t.dataset.i),hi=Math.max(anchor.i,+t.dataset.i);
+      document.querySelectorAll('.note-g.clickable[data-li="'+anchor.li+'"]').forEach(x=>{
+        const j=+x.dataset.i;if(j>=lo&&j<=hi)x.classList.add('sel-prev');
+      });
+    }
+  },true);
+  document.addEventListener('pointerup',e=>{
+    if(!anchor)return;
+    const wasDrag=drag,a=anchor;anchor=null;drag=false;
+    clearPrev();
+    const ctx=A._mkCtx;
+    if(wasDrag){
+      const el=document.elementFromPoint(e.clientX,e.clientY);
+      const t=el&&el.closest?el.closest('.note-g.clickable'):null;
+      if(t&&+t.dataset.li===a.li){
+        const lo=Math.min(a.i,+t.dataset.i),hi=Math.max(a.i,+t.dataset.i);
+        if(hi>lo){A.markSheet(a.li,lo,hi);return}
+      }
+      toast('按住拖过同一行的音符再松手（或用「段选」）');return;
+    }
+    if(A._segMode){
+      if(!ctx||!ctx.arr){toast('当前视图不能标注');return}
+      if(!A._segAnchor||A._segAnchor.li!==a.li){
+        if(A._segAnchor)document.querySelectorAll('.note-g.sel-anchor').forEach(x=>x.classList.remove('sel-anchor'));
+        A._segAnchor={li:a.li,i:a.i};a.el.classList.add('sel-anchor');
+        toast('起点：第'+(a.li+1)+'行第'+(a.i+1)+'音，再点终点');
+      }else{
+        const sa=A._segAnchor;
+        document.querySelectorAll('.note-g.sel-anchor').forEach(x=>x.classList.remove('sel-anchor'));
+        A._segAnchor=null;
+        if(sa.i===a.i)A.markSheet(a.li,a.i,null);
+        else A.markSheet(a.li,Math.min(sa.i,a.i),Math.max(sa.i,a.i));
+      }
+      return;
+    }
+    A.markSheet(a.li,a.i,null);
+  },true);
+  document.addEventListener('pointercancel',()=>{anchor=null;drag=false;clearPrev();},true);
 };
 
 /* 保存课次 + 生成作业 */
@@ -852,11 +959,13 @@ function viewClass(){
        +esc(byId(S.scores,x.scoreId).title)+(x.marks.length?' · '+x.marks.length+'⚑':'')+'</button>').join('')+'</div></div>';
 
     h+='<div class="card"><div class="spread"><h2>'+esc(sc.title)+' <span class="small muted">'+esc(sc.key)+'</span></h2>'
-      +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">全谱</button></div>'
-      +'<div class="small muted" style="margin-bottom:8px">点谱面上的音符即可加标记（孩子端会看到高亮）</div>'
+      +'<button class="btn xs'+(A._segMode?' seg-on':'')+'" onclick="A.segToggle()">'+(A._segMode?'✕ 退出段选':'⌗ 段选')+'</button>'
+     +'<button class="btn xs" onclick="A.previewScore(\''+sc.id+'\')">全谱</button></div>'
+      +'<div class="small muted" style="margin-bottom:8px">点音符加标记；开「段选」后点起点、再点终点可框选一段（孩子端会看到高亮）</div>'
       +renderScore(sc,{lines:p.lines,marks:p.marks,clickable:true})
       +'<div class="legend">'+MARK_TYPES.map(t=>'<span style="background:'+t.bg+';color:'+t.c+'">'+t.k+'</span>').join('')+'</div>'
       +'<div class="divider"></div><h3>本曲标记（'+p.marks.length+'）</h3>'+markList(p.marks)+'</div>';
+    A._mkCtx={arr:p.marks,after:function(){render()}};
 
     h+='<div class="card"><h3>课堂录音 / 示范视频 <span class="muted small">（孩子端可回放）</span></h3>'
      +'<div class="row wrap" style="gap:8px">'
@@ -1249,7 +1358,11 @@ A.setStuLevel=function(id,n){
   if(ONLINE)api('/api/patch',{kind:'student',id:id,patch:{stuLevel:n}}).then(()=>pull(true)).catch(()=>{});
   toast('已设为 '+n+' 级');
 };
-A.previewScore=function(id){openFullScore(id)};
+A.previewScore=function(id){
+  const pw=(window.ROLE==='T'&&T.wiz)?T.wiz.pieces[T.cur]:null;
+  if(pw&&pw.scoreId===id){A._mkCtx={arr:pw.marks,after:function(){render()}};openFullScore(id,pw.marks,true);}
+  else openFullScore(id);
+};
 
 /* =========================================================
    孩子端
@@ -1588,6 +1701,7 @@ document.querySelectorAll('.subnav button').forEach(b=>{
   b.onclick=()=>{const isT=b.dataset.tab[0]==='t';if(isT){T.tab=b.dataset.tab}else{ST.tab=b.dataset.tab}render();window.scrollTo(0,0)};
 });
 
+A.initMarkEvents();
 boot();
 async function boot(){
   await load();
