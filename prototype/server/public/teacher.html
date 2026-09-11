@@ -266,7 +266,7 @@ function syncBadge(err){
 function blobToDataURL(blob){return new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(blob)})}
 
 /* ---------------- 1. 内置谱库（入门级） ---------------- */
-/* note: {n:'1'-'7' | '-'延音 | '0'休止, o:-1/0/1 八度, d:时值(1=四分), t:技法, ch:[{n,o}]和弦音(叠于主音上方,不占拍)} */
+/* note: {n:'1'-'7' | '-'延音 | '0'休止, o:-1/0/1 八度, d:时值(1=四分), t:技法, ch:[{n,o}]和弦音(叠于主音上方,不占拍), bar:true=强制小节线(交替拍子用)} */
 const N=(n,o=0,d=1,t='')=>({n,o,d,t});
 /* ===== 央音扬琴考级曲目库（1–6 级，78 首）=====
    grade:1-6  type:练习曲|乐曲  required:1=必弹※  page:原书页码  lines:null=简谱待录入
@@ -519,7 +519,8 @@ function validateScore(sc){
       else if(n.ch===null)delete n.ch;
       beats+=(n.d||1)*(n.dot?1.5:1); /* 延音—也占拍 */
     });
-    if(beats>0.01){
+    const hasBar=ln.notes.some(n=>n.bar);
+    if(beats>0.01&&!hasBar){
       const rem=beats%beat;
       if(rem>0.01&&rem<beat-0.01)warns.push('第'+(li+1)+'行共 '+beats+' 拍，不是 '+beat+' 拍的整数倍');
     }
@@ -540,10 +541,11 @@ function jlineSVG(sc,ln,li,marks,clickable,big){
   ln.notes.forEach((n,i)=>{
     const p=pos[i], x=p.x, w=p.w, cx=p.cx;
     if(beats>0.01){
-      const rem=beats%beat;
-      if(rem<0.01||Math.abs(rem-beat)<0.01)
+        const forceBar=!!n.bar; const rem=beats%beat;
+        if(forceBar||rem<0.01||Math.abs(rem-beat)<0.01)
         g+='<line x1="'+(x-4.5*S)+'" y1="'+(32*S)+'" x2="'+(x-4.5*S)+'" y2="'+(90*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
     }
+        if(n.bar)beats=0;
     const mk=marks.find(m=>m.li===li&&m.i===i&&m.i1==null);
     const rm=rmk.find(m=>i>=m.i&&i<=m.i1);
     const isRS=rm&&i===rm.i;
