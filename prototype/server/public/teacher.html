@@ -2550,7 +2550,7 @@ B.practice = function(id){
         + '<button class="btn grow" onclick="B.take(false)">↻ 再来一遍</button>'
         + '<button class="btn pri grow" onclick="B.take(true)">✓ 这遍做到了</button></div>'
         + '<div class="tiny muted" style="margin-top:6px">系统只记录"练了/练了多久/稳不稳"，不评价弹得好不好。</div></div>'
-      + '<div class="card tight" style="margin-top:10px"><h3>谱面标记 · 这次做到了吗</h3>'
+      + '<div class="card tight" style="margin-top:10px" id="mkList"><h3>谱面标记 · 这次做到了吗</h3>'
         + ((hw.marks && hw.marks.length) ? hw.marks.map(function(m, i){
             var ok = (hw.checks || [])[i];
             return '<div class="row" style="gap:8px;padding:6px 0;border-bottom:1px solid var(--line2)">'
@@ -2573,7 +2573,14 @@ B.practice = function(id){
       if(!ST.px._fsOpened){ ST.px._fsOpened = 1; setTimeout(function(){ openFullScore(hw.scoreId, hw.marks || null); }, 150); }
     });
   };
-  B._draw = draw; draw();
+  /* 重绘保持滚动位置：记一遍/换微目标后视图停在原地，不跳回顶部 */
+  B._draw = function(){
+    var sh = document.querySelector('.sheet'), st = sh ? sh.scrollTop : 0;
+    draw();
+    var sh2 = document.querySelector('.sheet');
+    if (sh2 && st) sh2.scrollTop = st;
+  };
+  B._draw();
 };
 B.openFs = function(id){ var hw = byId(S.homework, id); openFullScore(hw.scoreId, hw.marks || null); };
 B.goGoal = function(i){ ST.px.gi = i; if (window._stopPx) window._stopPx(); B._draw(); };
@@ -2647,7 +2654,16 @@ B.take = async function(ok){
 B.check = async function(i, ok){
   var hw = byId(S.homework, ST.px.id); if (!hw) return;
   var c = (hw.checks || []).slice(); while (c.length < hw.marks.length) c.push(undefined);
-  c[i] = ok; await patchHw(hw.id, { checks:c }); B._draw();
+  c[i] = ok; hw.checks = c;                            /* 本地同步回写，别只给服务器 */
+  await patchHw(hw.id, { checks:c });
+  /* 原地更新按钮态：整页重绘会跳回顶部谱面卡，打断练习 */
+  var rows = document.querySelectorAll('#mkList .row');
+  var row = rows[i];
+  if (row){
+    var bs = row.querySelectorAll('button');
+    if (bs[0]) bs[0].className = 'btn xs ' + (ok === true ? 'pri' : '');
+    if (bs[1]) bs[1].className = 'btn xs ' + (ok === false ? 'danger' : '');
+  } else { B._draw(); }
 };
 B.submit = async function(){
   var hw = byId(S.homework, ST.px.id); if (!hw) return;
