@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>余音 · 产品需求文档 PRD v1.2 | 民乐老师的 AI 助教</title>
+<title>余音 · 产品需求文档 PRD v1.3 | 民乐老师的 AI 助教</title>
 <style>
 :root{
   --ink:#1a1f2b; --ink2:#3c4657; --ink3:#6b7688;
@@ -138,10 +138,10 @@ footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line
 <header>
   <div class="wrap">
     <div class="kicker">YUYIN · 余音 · PRODUCT REQUIREMENTS DOCUMENT · 第九卷</div>
-    <h1>余音<br>民乐老师的 AI 助教 · 产品需求文档（PRD）v1.2</h1>
+    <h1>余音<br>民乐老师的 AI 助教 · 产品需求文档（PRD）v1.3</h1>
     <p class="sub"><strong>余音（YUYIN）</strong>＝「民乐老师的 AI 助教」，品牌主张「课结束了，声音还在」。本卷是前八卷的落地交付物。它把第七卷《民乐老师的 AI 助教 · 产品方案篇》确定的产品定义与第八卷《孩子端：动机、定制计划与游戏化》确定的动机机制，翻译成可直接交付研发的功能需求、验收标准、数据模型与排期。<strong>本卷中所有需求均可被测试、所有数值均可被复算、所有未决事项均被显式标注。</strong></p>
     <div class="meta-row">
-      <span class="chip">文档版本 v1.2 · 2026-09-10</span>
+      <span class="chip">文档版本 v1.3 · 2026-09-11</span>
       <span class="chip">目标版本 V1.0</span>
       <span class="chip">15 节 · 功能需求 88 条 · 非功能需求 20 条</span>
       <span class="chip">状态：待评审</span>
@@ -179,7 +179,7 @@ footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line
       <thead><tr><th>项</th><th>内容</th></tr></thead>
       <tbody>
         <tr><td>产品名称</td><td><strong>余音</strong>（YUYIN，微信小程序）<br>定位语：<strong>民乐老师的 AI 助教</strong>；品牌主张：<strong>课结束了，声音还在</strong><br><span style="color:var(--ink3)">命名取自扬琴击弦后的余音——产品做的是课堂结束之后仍然延续的教学意图</span></td></tr>
-        <tr><td>文档版本</td><td>v1.2（2026-09-10；含 M7 谱库换血与简谱回归，待评审）</td></tr>
+        <tr><td>文档版本</td><td>v1.3（2026-09-11；含 M7 谱库换血、简谱回归、品牌名与事实基线统一，待评审）</td></tr>
         <tr><td>目标发布版本</td><td>V1.0</td></tr>
         <tr><td>上游依据</td><td>第七卷《民乐老师的 AI 助教 · 产品方案篇》（产品定义与商业论证）<br>第八卷《孩子端：动机、定制计划与游戏化》（动机机制与游戏化红线）<br>第五卷《决策收敛书》（客户与定价）</td></tr>
         <tr><td>配套文档</td><td><code>SPEC-研发规范.md</code>（工程规范，与本文档配套）</td></tr>
@@ -195,7 +195,7 @@ footer{text-align:center;padding:34px 20px;color:var(--ink3);font-size:13px;line
         <tr><td class="num">v1.1</td><td>2026-09-08</td><td>新增 <strong>M7 谱库与谱面批注</strong>（12 条）；V0.5 范围加入 M7；WBS 与数据模型同步；修正 v1.0 优先级分布表 P0 计数漏 1 条（47 → 48）</td><td>用户补充需求：老师端/孩子端双端 + 内置入门谱库 + 老师对课上谱面做批注与重点标记，作为作业依据</td></tr>
       
         <tr><td>v1.1</td><td>2026-09-09</td><td>新增第 15 节；MVP 原型升级 v0.2，补齐 M2 微目标四要素、M3 逐条批改与驾驶舱矩阵、M5 85% 自适应建议、M6 成长体系、M7 批注继承与 A4 导出；同步修正「学生 ID 在演示数据与客户端种子间不一致」的缺陷</td><td>产品</td></tr>
-        <tr><td class="num">v1.2</td><td>2026-09-10</td><td><strong>M7 谱库与谱面批注重大变更</strong>：①谱库由「10 首入门曲」换血为《中央音乐学院海内外考级曲目·扬琴 1–6 级》全量 78 首 + 公有领域补充 6 首 = 84 条，按 1–6 级分类排序；②谱面渲染由五线谱<strong>回归数字简谱</strong>（PRD 原文即简谱，此前实现偏航）；③新增 FR-M7-13 全屏看谱、FR-M7-14 考级分级与按级过滤、FR-M7-15 谱面校验（M7 12 → 15 条，P0 57 → 60，人天 207 → 213，成本 ¥248,400 → ¥255,600）；④数据模型 Score 表新增 <code>grade / piece_type / is_required / arranger / book_page / transcribed</code>；⑤Q8 版权处置明确为「只收元数据索引、谱面由老师对照原书自行录入、不存扫描件」；⑥同步修正第 15 节原型对照中「五线谱 / 10 首」的过时描述</td><td>用户提供央音考级教材，确认曲目库与简谱方案（第 09 卷需求变更设计）</td></tr></tbody>
+        <tr><td class="num">v1.2</td><td>2026-09-10</td><td><strong>M7 谱库与谱面批注重大变更</strong>：①谱库由「10 首入门曲」换血为《中央音乐学院海内外考级曲目·扬琴 1–6 级》全量 78 首 + 公有领域补充 6 首 = 84 条，按 1–6 级分类排序；②谱面渲染由五线谱<strong>回归数字简谱</strong>（PRD 原文即简谱，此前实现偏航）；③新增 FR-M7-13 全屏看谱、FR-M7-14 考级分级与按级过滤、FR-M7-15 谱面校验（M7 12 → 15 条，P0 57 → 60，人天 207 → 213，成本 ¥248,400 → ¥255,600）；④数据模型 Score 表新增 <code>grade / piece_type / is_required / arranger / book_page / transcribed</code>；⑤Q8 版权处置明确为「只收元数据索引、谱面由老师对照原书自行录入、不存扫描件」；⑥同步修正第 15 节原型对照中「五线谱 / 10 首」的过时描述</td><td>用户提供央音考级教材，确认曲目库与简谱方案（第 09 卷需求变更设计）</td></tr><tr><td class="num">v1.3</td><td>2026-09-11</td><td><strong>品牌名与事实基线统一</strong>：①全套 11 份文档（01–09 卷 + PRD）品牌名统一为「<strong>余音（YUYIN）／民乐老师的 AI 助教</strong>」；②<strong>修正第 04/05/07 卷引用的事实错误</strong>——「一起练琴已覆盖古筝/二胡/琵琶 AI 纠错」经核对不实（其在架 11 种乐器<strong>全为西洋乐器</strong>，古筝仅软著登记、无上线功能），<strong>民乐 AI 陪练至今仍空白</strong>；据此将"本方案不做 AI 纠错"的理由由「已被覆盖、绕不开」改为「<strong>空白但无溢价、无壁垒</strong>」，战略结论不变；③新增第 00 卷《文档导航与事实基线》作为全套文档唯一事实源；④清理仓库中平台注入的 <code>data-page-node-id</code> 属性 13,924 处</td><td>全套文档梳理：发现 04 卷核心结论 2 建立在已证伪事实上，且 05/07 卷定稿引用了该结论</td></tr></tbody>
     </table>
 
     <h3>1.3 术语表</h3>
@@ -1629,7 +1629,7 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
         <tr><td class="num">R4</td><td>ASR 成本失控</td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>NFR-14 抽象层；NFR-17 成本监控</td></tr>
         <tr><td class="num">R5</td><td>合规不通过（备案/等保）</td><td class="num">低</td><td class="num"><span class="b b-lo">高</span></td><td>V0.8 即启动，预留 8 周</td></tr>
         <tr><td class="num">R6</td><td>孩子端无手机 / 家长不给用</td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>家长端代提交；V0.1 观察</td></tr>
-        <tr><td class="num">R7</td><td>竞品（一起练琴等）扩展至扬琴</td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>护城河在花音 + 技法词表 + 老师渠道</td></tr>
+        <tr><td class="num">R7</td><td>竞品（一起练琴等）扩展至扬琴<br><span class="tnote">2026-09-11 注：其在架 11 种乐器全为西洋乐器，民乐侧至今空白，但随时可补</span></td><td class="num">中</td><td class="num"><span class="b b-mid">中</span></td><td>护城河在花音 + 技法词表 + 老师渠道</td></tr>
         <tr><td class="num">R8</td><td>学龄人口收缩导致市场萎缩</td><td class="num"><span class="b b-hi">确定</span></td><td class="num"><span class="b b-mid">中</span></td><td>已发生事实，靠留存而非拉新（第六卷）</td></tr>
         <tr><td class="num">R9</td><td><strong>小程序无法可靠触达家长</strong>（订阅消息需逐次授权，长期订阅行业范围未确认）</td><td class="num"><span class="b b-lo">高</span></td><td class="num"><span class="b b-lo">高</span></td><td>微信群兜底 + 服务号方案；<strong>V0.1 阶段即应摸清真实触达率</strong></td></tr>
       </tbody>
@@ -1824,7 +1824,7 @@ GET    /api/v1/weekly-report/{student_id}  家长周报</pre>
   </section>
 
   <footer>
-    <p>《余音 · 产品需求文档 PRD v1.2》 · 余音产品研究 · 第九卷</p>
+    <p>《余音 · 产品需求文档 PRD v1.3》 · 余音产品研究 · 第九卷</p>
     <p>本卷功能需求 73 条（P0 48 / P1 20 / P2 5）、非功能需求 20 条，全部带可测试验收标准。所有数值由脚本实算，人天与成本为量级估算（假设已公开），需实际报价校验。<br>
     未决问题 6 项已显式标注，不由本文档代为假设。</p>
   </footer>

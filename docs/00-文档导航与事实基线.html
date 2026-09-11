@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>余音 · 文档导航与事实基线（第 00 卷）</title>
+<style>
+:root{--ink:#1C1A17;--muted:#8A8377;--brand:#B04A3A;--brand-soft:rgba(176,74,58,.08);--line:#E8E2D6;--line2:#EFEAE0;--bg:#FBF9F4;--card:#FFFFFF;--ok:#3E7C4F;--warn:#B0782A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px 120px}
+header.brand{padding:52px 0 8px;text-align:center}
+header.brand h1{font-family:'Songti SC','STSong',SimSun,serif;font-size:30px;letter-spacing:8px;margin:10px 0 4px}
+header.brand .sub{color:var(--muted);font-size:13px;letter-spacing:2px}
+.badge{display:inline-block;background:var(--brand-soft);color:var(--brand);border:1px solid rgba(176,74,58,.25);border-radius:999px;padding:2px 12px;font-size:12.5px;margin:0 3px}
+nav.toc{position:sticky;top:0;z-index:9;background:rgba(251,249,244,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:10px 0;margin:24px 0 8px;font-size:12.5px;overflow-x:auto;white-space:nowrap}
+nav.toc a{color:var(--muted);text-decoration:none;margin-right:14px}
+nav.toc a:hover{color:var(--brand)}
+section{margin-top:44px}
+h2{font-size:21px;border-left:4px solid var(--brand);padding-left:12px;margin:0 0 14px}
+h3{font-size:16.5px;margin:22px 0 8px}
+p{margin:8px 0}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:13.5px;margin:12px 0}
+th{background:#F6F2E9;text-align:left;padding:8px 10px;font-weight:600;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid var(--line2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.hl{background:var(--brand-soft);border-left:4px solid var(--brand);padding:10px 14px;border-radius:0 10px 10px 0;margin:14px 0}
+.warnbox{background:#FDF6EC;border-left:4px solid var(--warn);padding:10px 14px;border-radius:0 10px 10px 0;margin:14px 0;font-size:13.5px}
+.okbox{background:rgba(62,124,79,.06);border-left:4px solid var(--ok);padding:10px 14px;border-radius:0 10px 10px 0;margin:14px 0;font-size:13.5px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:6px;padding:0 7px;font-size:12px;background:#fff;color:var(--muted)}
+.tag.r{border-color:rgba(176,74,58,.35);color:var(--brand);background:var(--brand-soft)}
+.tag.g{border-color:rgba(62,124,79,.35);color:var(--ok);background:rgba(62,124,79,.07)}
+.tag.y{border-color:rgba(176,120,42,.35);color:var(--warn);background:rgba(176,120,42,.07)}
+small,.small{font-size:12.5px;color:var(--muted)}
+code{background:#F3EFE6;border-radius:5px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,Consolas,monospace}
+sup{color:var(--brand);font-size:11px}
+ol.src{font-size:12.5px;color:var(--muted)}
+li{margin:4px 0}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:60px}
+@media print{nav.toc{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="brand">
+  <svg width="72" height="72" viewBox="0 0 160 160" aria-hidden="true">
+    <circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="2" opacity=".35"/>
+    <circle cx="80" cy="80" r="46" fill="none" stroke="#B04A3A" stroke-width="1.2" opacity=".22"/>
+    <circle cx="80" cy="80" r="30" fill="none" stroke="#B04A3A" stroke-width="1" opacity=".14"/>
+    <circle cx="80" cy="80" r="7" fill="#B04A3A"/>
+  </svg>
+  <h1>余音 · 事实基线</h1>
+  <div class="sub">文档导航 · 定稿结论 · 关键数字 · 已修正错误 ｜ 第 00 卷</div>
+  <div style="margin-top:10px">
+    <span class="badge">2026-09-11</span>
+    <span class="badge">全套文档唯一事实源</span>
+    <span class="badge">共 13 份文档</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#s1">01 品牌定义</a><a href="#s2">02 文档地图</a><a href="#s3">03 不可动摇的结论</a><a href="#s4">04 关键数字</a><a href="#s5">05 已修正的错误</a><a href="#s6">06 当前状态与阻塞</a><a href="#s7">07 按角色读哪几卷</a><a href="#s8">08 信源</a>
+</nav>
+
+<div class="hl"><b>这一卷的用法</b>：其余 12 份文档写于 2026-09-07 至 09-11，期间有两处判断被后来的证据推翻、一次需求换血、一次品牌改名。<b>本卷记录"现在成立的版本"</b>；读到与旧卷冲突时，以本卷为准。</div>
+
+<!-- ============ 01 ============ -->
+<section id="s1">
+<h2>01 · 品牌定义</h2>
+<table>
+  <tr><th style="width:110px">项</th><th>内容</th></tr>
+  <tr><td><b>品牌名</b></td><td><b>余音</b>（YUYIN）</td></tr>
+  <tr><td><b>定位语</b></td><td>民乐老师的 AI 助教</td></tr>
+  <tr><td><b>主张</b></td><td>课结束了，声音还在</td></tr>
+  <tr><td><b>命名释义</b></td><td>取自扬琴击弦后的余音——产品做的是<b>课堂结束之后仍然延续的教学意图</b></td></tr>
+  <tr><td><b>形态</b></td><td>微信小程序（非 App）</td></tr>
+  <tr><td><b>产品本质</b></td><td><b>教学记忆的外化系统</b>：课堂 → 课后 → 家庭 → 回课的数据链；老师的大脑目前是这条链上唯一的数据库</td></tr>
+  <tr><td><b>AI 铁律</b></td><td>只答<b>事实判断</b>（有没有做 / 做没做完 / 稳不稳），<b>绝不答价值判断</b>（弹得对不对、好不好）→ <b>只做镜子，不做评委</b></td></tr>
+  <tr><td><b>AI 原生三特征</b></td><td>路径动态生成 · 意图结构化可追溯 · 人在回路（AI 提案、老师批准）</td></tr>
+</table>
+<div class="warnbox"><b>不是什么</b>：不是调音器（调音只是入口）、不是 AI 陪练（该能力已是红海）、不做错音纠错（见 §03 结论 4 与 §05）。</div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section id="s2">
+<h2>02 · 文档地图</h2>
+<table>
+  <tr><th style="width:52px">卷</th><th>文档</th><th style="width:130px">角色</th><th style="width:96px">状态</th><th style="width:76px">日期</th></tr>
+  <tr><td class="small">00</td><td><b>文档导航与事实基线</b><br><span class="small">本文档</span></td><td>唯一事实源 / 入口</td><td><span class="tag r">现行</span></td><td class="small">09-11</td></tr>
+  <tr><td class="small">01</td><td>市场机会深度调研</td><td>市场与机会论证</td><td><span class="tag">基础</span></td><td class="small">09-07</td></tr>
+  <tr><td class="small">02</td><td>产品设计深度篇</td><td>产品形态设计</td><td><span class="tag">基础</span></td><td class="small">09-07</td></tr>
+  <tr><td class="small">03</td><td>扬琴定制篇</td><td>扬琴场景与用户定位</td><td><span class="tag">基础</span></td><td class="small">09-07</td></tr>
+  <tr><td class="small">04</td><td>竞品全景与产品战略篇</td><td>竞品扫描与战略定位</td><td><span class="tag y">含已修正错误</span></td><td class="small">09-08</td></tr>
+  <tr><td class="small">05</td><td><b>决策收敛书</b> ⭐</td><td><b>定稿答案</b>：面向谁、做什么</td><td><span class="tag g">定稿</span></td><td class="small">09-08</td></tr>
+  <tr><td class="small">06</td><td>需求池与前景研判（专题）</td><td>兴趣学习家庭规模</td><td><span class="tag">专题</span></td><td class="small">09-08</td></tr>
+  <tr><td class="small">07</td><td><b>民乐老师的 AI 助教 · 方案篇</b> ⭐</td><td><b>定稿答案</b>：产品怎么做</td><td><span class="tag g">定稿</span></td><td class="small">09-08</td></tr>
+  <tr><td class="small">08</td><td>孩子端动机与游戏化篇</td><td>学生端动机设计</td><td><span class="tag">方案</span></td><td class="small">09-08</td></tr>
+  <tr><td class="small">09</td><td>考级曲目库与简谱 · 需求变更设计</td><td>第 4 次需求变更依据</td><td><span class="tag r">现行</span></td><td class="small">09-10</td></tr>
+  <tr><td class="small">—</td><td><b>PRD 产品需求文档 v1.3</b></td><td>可交付需求（88 条）</td><td><span class="tag r">现行</span></td><td class="small">09-11</td></tr>
+  <tr><td class="small">—</td><td>SPEC 研发规范（.md）</td><td>工程约定</td><td><span class="tag">现行</span></td><td class="small">09-09</td></tr>
+  <tr><td class="small">（10）</td><td>学生录音 AI 纠错 · 可行性调研<br><span class="small">已移至 <code>_archive/</code></span></td><td>技术调研存档</td><td><span class="tag">归档·不推进</span></td><td class="small">09-10</td></tr>
+</table>
+<div class="card small">
+<b>第 10 卷为何归档</b>：2026-09-10 决策——AI 纠错「<b>现在不做，也不说</b>」：不排期、不写代码、不写进 PRD 或任何产品文档。调研结论（含 3 组自有实测）保留在 <code>_archive/</code> 备查，除非主动提起不再推进。
+</div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section id="s3">
+<h2>03 · 不可动摇的结论</h2>
+<p>五条。这五条是全部产品决策的地基，任何新需求先过这五条。</p>
+
+<h3>结论 1 · 市场在收缩，不是扩张</h3>
+<p>音乐培训产值：2024 年 <b>1554.8 亿</b>（同比 −3.8%）、2025 年 <b>1469.2 亿</b>（<b>−5.5%</b>）<sup>[1]</sup>。所有"市场高速增长"的叙事在本项目一律不成立。</p>
+
+<h3>结论 2 · 真人 1v1 陪练已被证伪</h3>
+<p>成本结构：师资 &gt;60% + 获客约 50% → <b>结构性亏损</b>。快陪练、柚子练琴、VIP 陪练、小音咖全部退出<sup>[2]</sup>。不要在这个方向找机会。</p>
+
+<h3>结论 3 · 扬琴第一痛点是调音，不是练琴</h3>
+<p>与钢琴相反——钢琴不存在"每次上课前要调 140+ 根弦"的问题。<b>入口应在调音</b><sup>[3]</sup>。但调音只是入口，后面必须有工作流承接，否则用完即走、无留存无壁垒。</p>
+
+<h3>结论 4 · 民乐 AI 纠错至今仍是空白——但空白不等于机会</h3>
+<div class="warnbox">
+<b>2026-09-10 更正</b>：第 04 卷初稿曾断言「一起练琴已覆盖古筝/二胡/琵琶，民乐 AI 陪练七年前就被走通了」，<b>该判断不实</b>。核对「一起练琴」App Store 在架乐器列表：<b>11 种全部为西洋乐器</b>；古筝仅见「寻声古筝弹奏识别软件」<b>软件著作权登记</b>——<b>持有软著 ≠ 有上线功能</b>。<br><br>
+<b>因此：民乐 AI 陪练至今（2026-09）仍是空白</b>，第三卷"空位"的事实判断成立。
+</div>
+<p>但空白<b>不构成机会</b>，三条理由独立于上述更正、依然成立：</p>
+<table>
+  <tr><th style="width:100px">理由</th><th>证据</th></tr>
+  <tr><td>已红海</td><td>通用 AI 陪练年费从 ¥2,680 崩到 <b>¥300 以内</b><sup>[4]</sup></td></tr>
+  <tr><td>无壁垒</td><td>古筝智能调音模型 R²=0.972、<b>推理 8ms</b><sup>[5]</sup>——端侧即可运行的成熟 DSP，做不出代差</td></tr>
+  <tr><td>不够大</td><td>扬琴单品类 TAM 仅 <b>¥0.30 亿</b>（按 ¥199/年 × 在学存量）</td></tr>
+</table>
+<div class="hl"><b>空白 + 无溢价 + 无壁垒 = 依然是死亡区。</b>本方案不做 AI 纠错，理由由「已被覆盖、绕不开」更正为「<b>空白，但做了也不赚钱</b>」——战略结论不变。</div>
+
+<h3>结论 5 · 儿童池子不可逆塌缩</h3>
+<p>2025 年出生人口 <b>792 万</b>（较 2016 年峰值 <b>−55.7%</b>）；北大 CIEFR：义务教育适龄儿童 2025–2035 年降 <b>50–60%</b><sup>[6]</sup>。任何依赖"新增学员持续增长"的商业模式都不成立——<b>本产品的价值必须来自留存与效率，而非获客</b>。</p>
+
+<h3>附：真正的空位</h3>
+<p>扫描 34 家竞品后：<b>所有面向学生的产品都挤在"即时反馈"上，几乎无人认真做"教师每周处理回课的时间成本"</b>。一个带 30 名学生的老师每周花在回课处理上的 <b>150 分钟</b>，可压缩到约 <b>45 分钟</b><sup>[7]</sup>。这是当前竞争格局里唯一一个"高痛感 + 无人做 + 你有身份优势"的交集。</p>
+</section>
+
+<!-- ============ 04 ============ -->
+<section id="s4">
+<h2>04 · 关键数字速查</h2>
+<table>
+  <tr><th style="width:180px">指标</th><th>数值</th><th style="width:88px">级别</th></tr>
+  <tr><td>民乐在学人口</td><td><b>≈ 1,500 万</b>（保守下限；古筝近 1,000 万 + 古琴约 50 万 + 其他）</td><td><span class="tag g">A</span></td></tr>
+  <tr><td>扬琴在学存量</td><td><b>5 万 – 40 万</b>，中性 <b>10 万 – 20 万</b></td><td><span class="tag y">B（推算）</span></td></tr>
+  <tr><td>扬琴从业者</td><td><b>≈ 5,000 人</b></td><td><span class="tag y">B</span></td></tr>
+  <tr><td>扬琴专委会核心层</td><td><b>40 – 50 人</b>，名单公开 → 渠道路径可执行</td><td><span class="tag g">A</span></td></tr>
+  <tr><td>老师每周回课耗时</td><td><b>150 分钟</b> → 目标 <b>45 分钟</b>（30 名学生）</td><td><span class="tag y">B（测算）</span></td></tr>
+  <tr><td>谱库规模</td><td><b>84 条</b> = 央音考级 1–6 级 78 首 + 公有领域补充 6 首</td><td><span class="tag g">A</span></td></tr>
+  <tr><td>其中已录谱面</td><td><b>1 首</b>（g1T2《两手平衡练习》），其余 83 条「待录入」</td><td><span class="tag g">A</span></td></tr>
+  <tr><td>需求规模</td><td><b>88 条</b>（P0 60 / P1 25 / P2 3）· 213 人天 · ¥255,600</td><td><span class="tag g">A</span></td></tr>
+</table>
+
+<h3>收入天花板（实话）</h3>
+<table>
+  <tr><th style="width:80px">年份</th><th>收入</th><th>说明</th></tr>
+  <tr><td>Y1</td><td><b>¥3.1 万</b></td><td rowspan="3">撑得起<b>高毛利工作室</b>，<b>撑不起公司或融资</b>。这个判断决定了形态选择，不要绕过它</td></tr>
+  <tr><td>Y2</td><td><b>¥12.5 万</b></td></tr>
+  <tr><td>Y3</td><td><b>¥41.8 万</b></td></tr>
+</table>
+
+<h3>定价与北极星</h3>
+<table>
+  <tr><th style="width:150px">项</th><th>内容</th></tr>
+  <tr><td>老师端定价</td><td><b>¥398 / ¥698 / ¥998</b>（10 人以下永久免费）</td></tr>
+  <tr><td>学生端</td><td><b>免费</b></td></tr>
+  <tr><td>分阶段</td><td>三阶段，<b>不要跳过阶段②</b>（老师免费 + 家长 ¥199、分成 30%）</td></tr>
+  <tr><td>最强 ROI 话术</td><td>1 个学生 ¥6,000/年，产品 ¥698 → <b>留住 0.12 个学生即回本</b></td></tr>
+  <tr><td>北极星指标</td><td><b>WER</b>：周有效回课次数 / 学生 ≥ <b>2.5</b></td></tr>
+</table>
+</section>
+
+<!-- ============ 05 ============ -->
+<section id="s5">
+<h2>05 · 已修正的错误</h2>
+<p>记录被推翻的判断。<b>不掩饰、不删改原文，在原文处加更正标注</b>，保留可追溯性。</p>
+<table>
+  <tr><th style="width:96px">日期</th><th style="width:210px">原判断</th><th>更正</th></tr>
+  <tr>
+    <td><b>2026-09-10</b></td>
+    <td>「一起练琴已覆盖古筝/二胡/琵琶 AI 纠错，民乐陪练不是空位」<br><span class="small">第 04 卷结论 2；第 05、07 卷引用</span></td>
+    <td><b>不实。</b>其在架 11 种乐器全为西洋乐器，古筝仅软著登记、无上线功能。<b>民乐 AI 陪练至今空白</b>。已修 04/05/07 卷共 12 处；"不做纠错"的理由改为「空白但无溢价、无壁垒」，<b>战略结论不变</b></td>
+  </tr>
+  <tr>
+    <td><b>2026-09-08</b></td>
+    <td>扬琴年度考级人次 1.1 万 – 7.6 万，被当作"在学人口存量"<br><span class="small">第 03 卷</span></td>
+    <td>混淆了<b>年度人次</b>与<b>在学存量</b>。修正为在学存量 <b>5 万 – 40 万</b>（中性 10 万 – 20 万）<br><span class="small">第 04 卷结论 3</span></td>
+  </tr>
+  <tr>
+    <td><b>2026-09-10</b></td>
+    <td>原型为自绘<b>五线谱</b> + 10 首自编入门曲<br><span class="small">原型实现</span></td>
+    <td><b>实现偏航</b>——PRD 原文 FR-M7-02/03 本就是简谱。已回归<b>数字简谱</b>，曲库换血为央音考级 84 条<br><span class="small">第 09 卷 / PRD v1.2</span></td>
+  </tr>
+  <tr>
+    <td><b>2026-09-11</b></td>
+    <td>全套 11 份文档中 10 份无品牌名「余音」<br><span class="small">2026-09-09 改名后未回填</span></td>
+    <td>已统一（title / kicker / 页脚）。此前仅第 09、10 卷带品牌名</td>
+  </tr>
+  <tr>
+    <td><b>2026-09-11</b></td>
+    <td>PRD 中"功能需求 73 条"<br><span class="small">加 M7 之前的旧口径</span></td>
+    <td>修正为 <b>88 条</b>（15 节 / P0 60）</td>
+  </tr>
+</table>
+<div class="okbox"><b>方法约定</b>：任何数值结论先跑验算再写进文档；公开全部假设供复算；报告须含「已主动剔除的假数据」与「已知缺口」。信源按 A/B/C/D 分级标注。</div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section id="s6">
+<h2>06 · 当前状态与阻塞</h2>
+
+<h3>产品与原型</h3>
+<table>
+  <tr><th style="width:150px">项</th><th>状态</th></tr>
+  <tr><td>谱库</td><td>84 条元数据已入库；<b>已录谱面仅 1 首</b>（g1T2）</td></tr>
+  <tr><td>已实现</td><td>简谱渲染器、谱面校验、全屏看谱（A± 缩放）、卡通头像（8 款）、引导按角色分流、练琴任务卡、回课驾驶舱</td></tr>
+  <tr><td>MVP 范围</td><td>只做 <b>M2 练琴任务卡 + M3 回课驾驶舱</b>。M1 课堂速记属"先付出后收益"，第一周即流失，<b>不做</b></td></tr>
+  <tr><td>技术栈</td><td>零依赖：原生 JS + SVG 自绘简谱 + 服务端 JSON 存储</td></tr>
+</table>
+
+<h3>阻塞项（全部需本人推动，0 元）</h3>
+<table>
+  <tr><th style="width:52px">#</th><th style="width:230px">事项</th><th>说明</th></tr>
+  <tr><td><b>1</b></td><td><b>83 首曲目谱面待录入</b><br><span class="tag r">主阻塞</span></td><td>对照原书页码，用「粘贴成谱」补录。系统<b>不得生成占位谱面充数</b>——未录曲目一律显示「待录入」灰态</td></tr>
+  <tr><td>2</td><td>E3 调音实测</td><td>第 05 卷设定：<b>耗时 &lt; 15 分钟</b> 或 <b>放弃率 &lt; 30%</b> 才成立；否则入口方向需重新设计</td></tr>
+  <tr><td>3</td><td>第 90 天唯一决策点</td><td>是否有 <b>≥ 2 位同行老师主动推荐给家长</b>。无则停止投入</td></tr>
+</table>
+<div class="warnbox"><b>版权处置原则</b>：考级曲目<b>只收元数据索引</b>（级别 / 类型 / 必弹 / 改编者 / 原书页码），<b>谱面由本人对照原书自行录入</b>；系统<b>不存储、不分发任何扫描件</b>。</div>
+</section>
+
+<!-- ============ 07 ============ -->
+<section id="s7">
+<h2>07 · 按角色读哪几卷</h2>
+<table>
+  <tr><th style="width:150px">你要做的事</th><th>读这几卷</th><th style="width:70px">耗时</th></tr>
+  <tr><td><b>快速回忆"我们在做什么"</b></td><td>本卷 00 → 第 05 卷 → 第 07 卷</td><td class="small">约 30 min</td></tr>
+  <tr><td><b>给开发派活</b></td><td>PRD v1.3（第 3、7 节）+ SPEC 研发规范</td><td class="small">约 1 h</td></tr>
+  <tr><td><b>对外讲这个项目</b><br><span class="small">如申请 RA、找同行合作</span></td><td>本卷 00 → 第 05 卷 → 第 07 卷 → 第 01 卷（市场数据）<br><span class="small">第 04 卷暂未纳入发布目录，对外前需本人确认</span></td><td class="small">约 1.5 h</td></tr>
+  <tr><td><b>重新审视战略前提</b></td><td>第 01、03、04、06 卷（<b>注意第 04 卷含已修正错误，以本卷 §03 为准</b>）</td><td class="small">约 2 h</td></tr>
+  <tr><td><b>做学生端设计</b></td><td>第 07 卷 → 第 08 卷</td><td class="small">约 45 min</td></tr>
+</table>
+</section>
+
+<!-- ============ 08 ============ -->
+<section id="s8">
+<h2>08 · 信源</h2>
+<ol class="src">
+<li><span class="tag g">A</span> 中国传媒大学音乐产业发展研究中心《2026 中国音乐产业发展总报告》：2025 年音乐教育培训产值 1,469.2 亿元（−5.5%）；2024 年 1,554.8 亿元（−3.8%）</li>
+<li><span class="tag y">B</span> 公开媒体报道：真人 1v1 陪练成本结构（师资 &gt;60%、获客约 50%）；快陪练、柚子练琴、VIP 陪练、小音咖相继退出</li>
+<li><span class="tag y">B</span> 第 03 卷：扬琴 402 型 140+ 弦；调音为高频刚需</li>
+<li><span class="tag y">B</span> 第 01 卷 05 节：AI 陪练年费由 ¥2,680 降至 ¥300 以内</li>
+<li><span class="tag g">A</span> 同行评审论文：古筝单音音高识别准确率 98.15%（噪声环境 &gt;96%）；智能调音模型 R²=0.972、推理 8ms。<b>注</b>：扬琴无公开数据集，此为同类固定音高弦鸣乐器的参照，不可直接套用</li>
+<li><span class="tag g">A</span> 国家统计局出生人口数据（2025 年 792 万）；北京大学中国教育财政科学研究所（CIEFR）：义务教育适龄儿童 2025–2035 年降 50–60%</li>
+<li><span class="tag y">B</span> 第 04 卷 12 节测算：30 名学生回课处理 150 分钟 → 约 45 分钟；Tonara 官网自述教师平均练习时长提升 68%</li>
+<li><span class="tag y">B</span> 应用商店公开信息：一起练琴（寻声科技）App Store 在架 11 种乐器<b>全部为西洋乐器</b>；另持有「寻声古筝弹奏识别软件」软件著作权（仅登记、未见上线功能）。<b>2026-09-10 核对</b></li>
+<li><span class="tag g">A</span> 中国乐器协会：古筝学习人数近 1,000 万、古琴约 50 万</li>
+<li><span class="tag g">A</span> 《中央音乐学院海内外考级曲目·扬琴 1–6 级》（实体教材，160 页）：1–6 级共 78 首（练习曲 30 + 乐曲 48，含 25 首必弹※）</li>
+</ol>
+<div class="card small">
+<b>已知缺口</b>：①扬琴在学存量 5 万–40 万为推算，无权威口径，区间跨度 8 倍；②扬琴从业者 ≈5,000 人为估算；③第 04 卷未纳入对外发布目录；④83 首曲目谱面未录入，谱库当前不可用于真实教学。
+</div>
+</section>
+
+<div class="foot">
+《余音 · 文档导航与事实基线（第 00 卷）》· 余音产品研究<br>
+编制：WorkBuddy 深度研究 · 2026-09-11 · 版本 v1.0<br>
+<span style="font-size:11px">与旧卷冲突时以本卷为准</span>
+</div>
+
+</div>
+</body>
+</html>
