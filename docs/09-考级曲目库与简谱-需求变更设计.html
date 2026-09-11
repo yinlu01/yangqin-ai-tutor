@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="dft1SUEAbkGCcuZyARpPz4">
-<head data-page-node-id="vd1Dx0PZVtDRYOktU7ZVmw">
-<meta charset="UTF-8" data-page-node-id="sF5HEdZ3SR08sUbk61KRmf">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="UTovIwK3JTjYXu1H8Jyu9h">
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>需求变更设计 · 考级曲目库与简谱化（v1 草案）</title>
 <style>
 :root{--ink:#1C1A17;--muted:#8A8377;--brand:#B04A3A;--brand-soft:rgba(176,74,58,.08);--line:#E8E2D6;--line2:#EFEAE0;--bg:#FBF9F4;--card:#FFFFFF;--ok:#3E7C4F;--warn:#B0782A}
@@ -40,366 +40,366 @@ li{margin:4px 0}
 @media print{nav.toc{display:none}body{background:#fff}}
 </style>
 </head>
-<body data-page-node-id="BGh6Sp9vSW3UlWeBwHIgok">
-<div class="wrap" data-page-node-id="xaRhmX5lUdvDzpPOz1Mc9g">
+<body>
+<div class="wrap">
 
-<header class="brand" data-page-node-id="K6zex4bDnYZVPdff3lopbv">
-  <svg width="72" height="72" viewBox="0 0 160 160" aria-hidden="true" data-page-node-id="EMK7f4TJaAGBk5CRL0yTQ5"><circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="2" opacity=".18" data-page-node-id="nI993fH2HvUSDAybQPKDoS"/><circle cx="80" cy="80" r="46" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35" data-page-node-id="85dBgru1CUsUvFTYB48iRM"/><circle cx="80" cy="80" r="26" fill="#B04A3A" data-page-node-id="3Fj8NUA2Ef6B3Gv7Ws6ng4"/><circle cx="71.5" cy="71.5" r="6" fill="#D98A75" opacity=".45" data-page-node-id="ju5qEZ0sgMXYkaeuxhJMVK"/></svg>
-  <h1 data-page-node-id="JVG2Jl4Kh2YXaTdJMnWZq1">需求变更设计</h1>
-  <div class="sub" data-page-node-id="3SWRlMTrsMHey3Gnj4KoYS">考级曲目库 · 简谱化 · 分级体系 ｜ v1 草案（待确认后落地）</div>
-  <div style="margin-top:10px" data-page-node-id="A3sa1LDBwpC77mNHZmM1wg">
-    <span class="badge" data-page-node-id="t56Di2MTGlqABpTKkAJRpO">2026-09-10</span>
-    <span class="badge" data-page-node-id="QDNTtWEL9T13eENCuq2xk6">影响：PRD M7 / 原型谱面 / 演示数据</span>
+<header class="brand">
+  <svg width="72" height="72" viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="62" fill="none" stroke="#B04A3A" stroke-width="2" opacity=".18"/><circle cx="80" cy="80" r="46" fill="none" stroke="#B04A3A" stroke-width="2.4" opacity=".35"/><circle cx="80" cy="80" r="26" fill="#B04A3A"/><circle cx="71.5" cy="71.5" r="6" fill="#D98A75" opacity=".45"/></svg>
+  <h1>需求变更设计</h1>
+  <div class="sub">考级曲目库 · 简谱化 · 分级体系 ｜ v1 草案（待确认后落地）</div>
+  <div style="margin-top:10px">
+    <span class="badge">2026-09-10</span>
+    <span class="badge">影响：PRD M7 / 原型谱面 / 演示数据</span>
   </div>
 </header>
 
-<nav class="toc" data-page-node-id="rBpVXpecBEwcETILFgfHlh">
-  <a href="#s1" data-page-node-id="U6JTcGGH8DqkRV0UEWKKHF">01 变更摘要</a><a href="#s2" data-page-node-id="mpUuKGX4nC4CpdCVa9DGIC">02 关键发现</a><a href="#s3" data-page-node-id="Cdf8rerMl3CyEzR0BFOrGJ">03 事实基础</a><a href="#s4" data-page-node-id="eGI5lgdGWhzvCvuPH53d0Z">04 曲目全清单</a><a href="#s5" data-page-node-id="6NS7pzM1w7oxgzaJZJCV6k">05 PRD 修改</a><a href="#s6" data-page-node-id="oVGDjbDCBVuU7M5kScAESt">06 原型改造</a><a href="#s7" data-page-node-id="uTwEASdTKjR1uXAGsGdBNy">07 简谱渲染器</a><a href="#s8" data-page-node-id="NYBt4plnTDPBps3kxZsOR8">08 录入策略</a><a href="#s9" data-page-node-id="famngNKARIR7vFKaJnCZAb">09 分级产品逻辑</a><a href="#s10" data-page-node-id="VZCTU5Hcf1SBt9zkeltrdH">10 路线图</a><a href="#s11" data-page-node-id="2DtSa2G1qx5L4vrg26ub7n">11 待确认决策</a><a href="#s12" data-page-node-id="V0dRs3cIDs7dQFhd5wjSyl">12 缺口与风险</a><a href="#s13" data-page-node-id="UYUK1DiJ8Aw4R2hUp4QS33">13 信源</a>
+<nav class="toc">
+  <a href="#s1">01 变更摘要</a><a href="#s2">02 关键发现</a><a href="#s3">03 事实基础</a><a href="#s4">04 曲目全清单</a><a href="#s5">05 PRD 修改</a><a href="#s6">06 原型改造</a><a href="#s7">07 简谱渲染器</a><a href="#s8">08 录入策略</a><a href="#s9">09 分级产品逻辑</a><a href="#s10">10 路线图</a><a href="#s11">11 待确认决策</a><a href="#s12">12 缺口与风险</a><a href="#s13">13 信源</a>
 </nav>
 
 <!-- ============ 01 ============ -->
-<section id="s1" data-page-node-id="dNJFD3eEltPGxrOf2eRnIc">
-<h2 data-page-node-id="xbDwRFgrTGM46ta31Rddxq">01 · 变更摘要</h2>
-<p data-page-node-id="T977cUVFszH6rtsH0tSdy2">以《中央音乐学院海内外考级曲目·扬琴 1–6 级》（你在用的这本）为事实基准，需求要做三件事：</p>
-<table data-page-node-id="PIWJ7xFELPyfXUvFAgRPRe">
-  <tr data-page-node-id="mxG9bkuN3MEm0oiLs48xmh"><th style="width:90px" data-page-node-id="Yp6EDq3xYYqsYK33UuqB2c">变更</th><th data-page-node-id="yMfqUC9JwhQGYwBOBA4dIe">现状</th><th data-page-node-id="bkRmzbBVOsK0KxqBI2AjSe">目标</th></tr>
-  <tr data-page-node-id="237T3Vrfl4ND8oT42lz8R2"><td data-page-node-id="ufBRuTtU9y0umDcrXopItF"><b data-page-node-id="Gykt1BYueAWYYsXtKRnMWL">记谱法</b></td><td data-page-node-id="UocnVpBOx0FoW86tGN7GOU">原型实现的是<b data-page-node-id="hDkaW0ZyPQmNG4f23kGUJH">自绘五线谱</b>（SVG 逐音点击）</td><td data-page-node-id="oOIawwx6YIFT5Uv6tUQHCL">改为<b data-page-node-id="J7CPFgQP8wA94YeJydp2DY">简谱渲染</b>（数字简谱，含高低八度点、减时线、小节线），与真实教学一致</td></tr>
-  <tr data-page-node-id="tlllaGEe3M0PR4endaHAr2"><td data-page-node-id="r0q289iD6bzFSVITpSKWq1"><b data-page-node-id="gdb3ATmFdkP26D6qNzOJst">曲目库</b></td><td data-page-node-id="uoeNLhewcAr9EGqqvpgcKW">11 首自编入门曲（五声音阶练习、小星星、两只老虎……）</td><td data-page-node-id="ATVna6DnMQxDurje9Vc3Wz">替换为<b data-page-node-id="1xSnoEuPJEKzgWKbDhn1S3">央音 1–6 级曲目库</b>：78 首（练习曲 30 + 乐曲 48，含 25 首必弹※）<sup data-page-node-id="BuhBcW1vKFUS3VMrlpqHvA">[1]</sup>，按级分类排序</td></tr>
-  <tr data-page-node-id="ZkM1ZsB36LH8DUdWt0b3Vw"><td data-page-node-id="Y7YGAVqUniGkfetHSaAzc7"><b data-page-node-id="ExhTDVkwqMWWfmhK3S7wRH">分级体系</b></td><td data-page-node-id="ge3GstDK9MAJGcvMOMxyxL">谱库只有「基本功 / 入门曲目」两类标签</td><td data-page-node-id="94nKgxhfakFwbXuSxBWtdE">曲目挂 <b data-page-node-id="rwhdfEIQ7uS4kcAmZLMgFh">级别(1–6) / 类型(练习曲·乐曲) / 必弹标记</b>；学生档案挂<b data-page-node-id="HuK8DKvKl7JiAo3D6Q7y6n">当前级别</b>；选曲、作业、成长线全部按级联动</td></tr>
+<section id="s1">
+<h2>01 · 变更摘要</h2>
+<p>以《中央音乐学院海内外考级曲目·扬琴 1–6 级》（你在用的这本）为事实基准，需求要做三件事：</p>
+<table>
+  <tr><th style="width:90px">变更</th><th>现状</th><th>目标</th></tr>
+  <tr><td><b>记谱法</b></td><td>原型实现的是<b>自绘五线谱</b>（SVG 逐音点击）</td><td>改为<b>简谱渲染</b>（数字简谱，含高低八度点、减时线、小节线），与真实教学一致</td></tr>
+  <tr><td><b>曲目库</b></td><td>11 首自编入门曲（五声音阶练习、小星星、两只老虎……）</td><td>替换为<b>央音 1–6 级曲目库</b>：78 首（练习曲 30 + 乐曲 48，含 25 首必弹※）<sup>[1]</sup>，按级分类排序</td></tr>
+  <tr><td><b>分级体系</b></td><td>谱库只有「基本功 / 入门曲目」两类标签</td><td>曲目挂 <b>级别(1–6) / 类型(练习曲·乐曲) / 必弹标记</b>；学生档案挂<b>当前级别</b>；选曲、作业、成长线全部按级联动</td></tr>
 </table>
-<div class="hl" data-page-node-id="oNngwP8vRGxAGLoBQh9IUZ"><b data-page-node-id="NVkYx9qQNqAcLz9LwSq3wW">一句话</b>：把「示范用的玩具曲库」换成了「你上课真的在教的考级曲目」，把「画出来的五线谱」换成「你和学生真正读的简谱」。</div>
+<div class="hl"><b>一句话</b>：把「示范用的玩具曲库」换成了「你上课真的在教的考级曲目」，把「画出来的五线谱」换成「你和学生真正读的简谱」。</div>
 </section>
 
 <!-- ============ 02 ============ -->
-<section id="s2" data-page-node-id="79M7Yy8OuACwKgkIwFu0h5">
-<h2 data-page-node-id="88yDF62MXZp2YHDs3AauUk">02 · 关键发现：这不是改需求，是需求回归 + 原型补课</h2>
-<p data-page-node-id="vopT5hcpVIPMn7Nq9se9BM">翻 PRD 时发现一个重要事实：<b data-page-node-id="piEkViEeX7zkqeZ6IVEWCX">PRD 的 FR-M7-02 / FR-M7-03 本来就写的是简谱</b><sup data-page-node-id="cuCOgEInHflIwxFyOdpl03">[2]</sup>：</p>
-<div class="card small" data-page-node-id="ClOpdDBZCwJZ1NaPzapz0F">
-FR-M7-02 谱面数据结构：「以『行 + 音符』两级结构存储……同一结构可承载<b data-page-node-id="0WNFothPo4IblmDe8uUGBP">简谱</b>与扬琴技法标记」<br data-page-node-id="EJTitBvnb0uGy66evfHzGI">
-FR-M7-03 谱面渲染：「小程序内渲染可横向滚动的<b data-page-node-id="82t2TfpgVGYCzG7Idjka1S">简谱</b>，支持放大、按行定位、只显示作业指定行」
+<section id="s2">
+<h2>02 · 关键发现：这不是改需求，是需求回归 + 原型补课</h2>
+<p>翻 PRD 时发现一个重要事实：<b>PRD 的 FR-M7-02 / FR-M7-03 本来就写的是简谱</b><sup>[2]</sup>：</p>
+<div class="card small">
+FR-M7-02 谱面数据结构：「以『行 + 音符』两级结构存储……同一结构可承载<b>简谱</b>与扬琴技法标记」<br>
+FR-M7-03 谱面渲染：「小程序内渲染可横向滚动的<b>简谱</b>，支持放大、按行定位、只显示作业指定行」
 </div>
-<p data-page-node-id="DT9BCurNFvt7HlS3Y8Unt7">偏航发生在<b data-page-node-id="sBZ14xfzhv5X3L1dQ9eY10">原型实现</b>：为了快速做出可点击的谱面，原型用了自绘五线谱 SVG。所以本次变更的定性是——</p>
-<table data-page-node-id="OcrbUyuyL78B0vvDJHBqap">
-  <tr data-page-node-id="rIx6mUaYP7EvwcQOyTqP6r"><th data-page-node-id="VDEjJg4Uh4bTp4jlDWNYLa">对象</th><th data-page-node-id="C8fwsE4nG4MTV6SuqMuyHK">定性</th><th data-page-node-id="tdoPB5bbDemBDhn4fTLhvv">动作量</th></tr>
-  <tr data-page-node-id="JNH8slHoHKWBLz8eGAVOHn"><td data-page-node-id="5pMJCeo7jz8JwdDL2WPGyd">PRD</td><td data-page-node-id="OBlugCm64GjKTYFEQCtiqJ"><span class="tag g" data-page-node-id="tZxQ2h4uoJRzsq9AN485u3">小幅修订</span>方向本来正确，补「考级分级」相关条目即可</td><td data-page-node-id="tB7Utj1a6BMTGhD48n1UBl">改 3 条 + 新增 3 条（§05）</td></tr>
-  <tr data-page-node-id="JRy7EvSEuuGYc6mn4SBNad"><td data-page-node-id="FTHayjc5l0T459dYUq1t9E">原型</td><td data-page-node-id="2DBr0xm3banazAv3nxTACK"><span class="tag r" data-page-node-id="4aWRNSbrux66Ouo3euagSH">补课</span>渲染器与真实教学脱节，需重做</td><td data-page-node-id="U9lJj7NdMK1JAOu82hGzbh">简谱渲染器 + 曲目数据替换（§06–08）</td></tr>
-  <tr data-page-node-id="wHfjXCC02ADiE97mjEc0xH"><td data-page-node-id="gpM4WqfwytgvGn4Hsd0DoV">曲目内容</td><td data-page-node-id="Cqr9uZp8RC8BxjoXudG46F"><span class="tag r" data-page-node-id="d5QiZukBfCQheJar9jSL2d">换血</span>玩具曲库 → 真实考级曲库</td><td data-page-node-id="muSgPG07KpfTEtj3m5oFE2">78 首结构化数据，分批录入（§08）</td></tr>
+<p>偏航发生在<b>原型实现</b>：为了快速做出可点击的谱面，原型用了自绘五线谱 SVG。所以本次变更的定性是——</p>
+<table>
+  <tr><th>对象</th><th>定性</th><th>动作量</th></tr>
+  <tr><td>PRD</td><td><span class="tag g">小幅修订</span>方向本来正确，补「考级分级」相关条目即可</td><td>改 3 条 + 新增 3 条（§05）</td></tr>
+  <tr><td>原型</td><td><span class="tag r">补课</span>渲染器与真实教学脱节，需重做</td><td>简谱渲染器 + 曲目数据替换（§06–08）</td></tr>
+  <tr><td>曲目内容</td><td><span class="tag r">换血</span>玩具曲库 → 真实考级曲库</td><td>78 首结构化数据，分批录入（§08）</td></tr>
 </table>
 </section>
 
 <!-- ============ 03 ============ -->
-<section id="s3" data-page-node-id="6dMzvxZM4vkEW6cfU8IORk">
-<h2 data-page-node-id="rQZr7EG5xhCDRDEAEsgKPl">03 · 事实基础（信源与实证）</h2>
-<table data-page-node-id="WFX9o492kb2gHWqBNDgWN9">
-  <tr data-page-node-id="FwQ4xE8nybbjSewpUgf2bj"><th data-page-node-id="WZyrlRHvvumuIEIIQxe8jw">事实</th><th data-page-node-id="wjttIZCnkQYuZNAkyKAoS8">证据</th><th data-page-node-id="9KNogCTGWztunCcKz0spgY">级别</th></tr>
-  <tr data-page-node-id="05MW6wIEo6Fwm0scVGZq1N"><td data-page-node-id="loUY5LPSPRMSSaa74MWn84">书为 160 页扫描版 PDF，<b data-page-node-id="PrlET1UyoqqkpFZ4n7q0gj">简谱排版</b>（1=C/D 调号标记、数字音符、高低八度点、减时线、小节线、演奏提示）</td><td data-page-node-id="jVudFeEZPzZcW2d0lDaU6Y">实读 p16《分奏练习》《小跳练习》谱面页</td><td data-page-node-id="olUjHSS7COHG0TbzQOgEPf"><b data-page-node-id="cfEzFH5n4xlNQ4TOPcEMEI">A</b>（原书实拍）</td></tr>
-  <tr data-page-node-id="0EksUorbS8HU4PzvMHiGyK"><td data-page-node-id="xHlyk5MBfj3tJOgPrTro06">1–6 级共 <b data-page-node-id="7iRF9FlVYONCnjcLW8ekeG">78 首</b>：练习曲 30（每级 5）+ 乐曲 48（每级 8），另每级附「乐曲说明」，书末附「扬琴技法符号表」（原书 p153）</td><td data-page-node-id="Ig7k7Aq8rEtjwRgSIJ7bm6">目录页 I–IV（PDF p2–p5），150dpi 视觉转录</td><td data-page-node-id="vnGgZ9YQhBRjhm2uZedGCd"><b data-page-node-id="LqoCg1yTkslVcElGQVoTcc">A</b>，转录件按 <b data-page-node-id="rr5RMayC27xdcQG9ZHlAfx">B</b> 对待</td></tr>
-  <tr data-page-node-id="WiWHpo5Fi3iL1Oy78pdHef"><td data-page-node-id="OUY6QaXu42Fku43MIVgVnw">※ 标记共 <b data-page-node-id="gC897RUzSNplZ43RODQ1OS">25 首</b>（L1/L2/L3/L4/L6 各 4 首，L5 5 首），通常为考级规定曲目（具体规则以考级简章为准，本文不背书）</td><td data-page-node-id="yAEPNovdEZBqyoQJTX6iHw">同上，※ 号逐条清点</td><td data-page-node-id="eoGS5tcePeXt4fmMnsFHY6"><b data-page-node-id="JXycXEozrI0HojoFCYW5yP">A</b>（标记）/ <b data-page-node-id="GBjeR5pm9zfgqWpl2vG69T">C</b>（含义解释）</td></tr>
-  <tr data-page-node-id="ETA7ZqC71YgbXan4N7n7XJ"><td data-page-node-id="KqnqIGf5TwoF9Da0Ie0qSM">现有 PRD 已以简谱为目标（FR-M7-02/03）</td><td data-page-node-id="AiBlBlXSN7RbrCizufctYz">PRD-产品需求文档.html M7 模块</td><td data-page-node-id="ofaJiAw4Mqhb7GQFwJmIyk"><b data-page-node-id="NePYMFnJKF4oa3k34Ua9jK">A</b>（文档原文）</td></tr>
+<section id="s3">
+<h2>03 · 事实基础（信源与实证）</h2>
+<table>
+  <tr><th>事实</th><th>证据</th><th>级别</th></tr>
+  <tr><td>书为 160 页扫描版 PDF，<b>简谱排版</b>（1=C/D 调号标记、数字音符、高低八度点、减时线、小节线、演奏提示）</td><td>实读 p16《分奏练习》《小跳练习》谱面页</td><td><b>A</b>（原书实拍）</td></tr>
+  <tr><td>1–6 级共 <b>78 首</b>：练习曲 30（每级 5）+ 乐曲 48（每级 8），另每级附「乐曲说明」，书末附「扬琴技法符号表」（原书 p153）</td><td>目录页 I–IV（PDF p2–p5），150dpi 视觉转录</td><td><b>A</b>，转录件按 <b>B</b> 对待</td></tr>
+  <tr><td>※ 标记共 <b>25 首</b>（L1/L2/L3/L4/L6 各 4 首，L5 5 首），通常为考级规定曲目（具体规则以考级简章为准，本文不背书）</td><td>同上，※ 号逐条清点</td><td><b>A</b>（标记）/ <b>C</b>（含义解释）</td></tr>
+  <tr><td>现有 PRD 已以简谱为目标（FR-M7-02/03）</td><td>PRD-产品需求文档.html M7 模块</td><td><b>A</b>（文档原文）</td></tr>
 </table>
-<div class="warnbox" data-page-node-id="wVHgkTDmNkIr6wTFZAIx4D"><b data-page-node-id="Z1cSUFJWYjlA0GtVvTwSEq">转录声明</b>：曲目清单由目录页视觉转录而来，个别小字（改编者姓名、2–3 个曲名）存在误读可能，已在 §04 中用 <span class="tag r" data-page-node-id="F2E36F9ySepnS8fueVWquP">⚠</span> 标出共 6 处，录入数据库时请以你手上的原书逐一核对——这一步只有你能做，预计 10 分钟。</div>
+<div class="warnbox"><b>转录声明</b>：曲目清单由目录页视觉转录而来，个别小字（改编者姓名、2–3 个曲名）存在误读可能，已在 §04 中用 <span class="tag r">⚠</span> 标出共 6 处，录入数据库时请以你手上的原书逐一核对——这一步只有你能做，预计 10 分钟。</div>
 </section>
 
 <!-- ============ 04 ============ -->
-<section id="s4" data-page-node-id="ho4l1q6GNc3gGQKAEIvie4">
-<h2 data-page-node-id="Fbks6CYcxHQ438H0UTEueK">04 · 央音扬琴 1–6 级曲目全清单（78 首）</h2>
-<p class="small" data-page-node-id="oKU1u6W8DMGyAlBUev7xgq">※ = 原书标※（必弹/规定曲目）｜ 页码 = 原书页码，可作为未来「扫描页对照」的索引 ｜ <span class="tag r" data-page-node-id="Dgzp2mXM7zfPwTL4YcsB52">⚠</span> = 视觉转录不确定，录入时需人工核对</p>
+<section id="s4">
+<h2>04 · 央音扬琴 1–6 级曲目全清单（78 首）</h2>
+<p class="small">※ = 原书标※（必弹/规定曲目）｜ 页码 = 原书页码，可作为未来「扫描页对照」的索引 ｜ <span class="tag r">⚠</span> = 视觉转录不确定，录入时需人工核对</p>
 
-<h3 data-page-node-id="EZUfgQrGy4lzIpLg7zxJN1">第一级（练习曲 5 + 乐曲 8）</h3>
-<table data-page-node-id="vFogpfMhGlN0nNCbh784hp">
-<tr data-page-node-id="ghWZI0k14aRdZOUNw5oEMg"><th style="width:60px" data-page-node-id="xOgyLdB6hndKCw5Ro5xf6u">类型</th><th style="width:36px" data-page-node-id="GgkaQ06XZ2Ys1N0FBwxCOw">#</th><th data-page-node-id="t7IKjgHq4fRnlzQhyJ0aI9">曲名</th><th data-page-node-id="xV8ZpsHSC9iIZW0BEWDlA7">来源 / 订谱改编</th><th style="width:52px" data-page-node-id="sTqIZxFmwGMCBYcdUpuFH2">页</th></tr>
-<tr data-page-node-id="7xfrmnmniCFsReJVcOh8a9"><td rowspan="5" data-page-node-id="tAMlJC8fmgheAlBUkwpRqy">练习曲</td><td data-page-node-id="voNWr2ahbT6HW5BHAH4oQG">1</td><td data-page-node-id="F2Hsn3ozklG73JkPPHLzFK">两手交替练习</td><td data-page-node-id="VQu97NlHwgfLgDWjbwtKgn">桂习礼编曲</td><td data-page-node-id="tNobTMgHxGPkUCcVx5sMIV">1</td></tr>
-<tr data-page-node-id="pGDsKqJdg8vXmpRBl0Fixl"><td data-page-node-id="e5M2iKZvj3TMODmSLA7fVL">2</td><td data-page-node-id="in0HodpU8q8yFGK5bUb1Af">两手平衡练习</td><td data-page-node-id="CrXwt2psY6rwvuykzz1mZS">刘月宁编曲</td><td data-page-node-id="dsggNQP61ijqWhCG52ra7Z">1</td></tr>
-<tr data-page-node-id="McwiA1Tp2tVrv572BF4cYU"><td data-page-node-id="Xzpcgmc1RCmtQZMAPyaoec">3</td><td data-page-node-id="xLf3Tgvo6kXHPwpUCXuwZO">※ 五声音阶练习</td><td data-page-node-id="HimWkH8WH9KGurbudvVMAX">桂习礼编曲</td><td data-page-node-id="JsIKlPr9qR2IqzJhkYT4Fb">2</td></tr>
-<tr data-page-node-id="1srFFUZMnyMFZsln35NvG4"><td data-page-node-id="8bBTGFBIxIRYSlE1iMLOeT">4</td><td data-page-node-id="mEVSTGORQYh2XSnrMQUSNv">※ 七声音阶进阶练习</td><td data-page-node-id="nIWNtVUf2bWi8ghmrIM1zK">黄河编曲</td><td data-page-node-id="Cjk5CQX7NeLVUUqKUwWuBw">2</td></tr>
-<tr data-page-node-id="37ZxDzwUeJ4qLViqpg4TeX"><td data-page-node-id="y9E0WSeXOXCQA56GhNyUQE">5</td><td data-page-node-id="QojQRc0elww53icZfYq4sm">左竹法练习</td><td data-page-node-id="qkfTqXlPJNsZQ1btlKMC7W">黄河编曲</td><td data-page-node-id="ksi1NzEUGTs4UIkr4qDgXB">3</td></tr>
-<tr data-page-node-id="t6abFFyaMSqZeejGNvSDsw"><td rowspan="8" data-page-node-id="0GG0Jao5hy7JwXAIOOaeqc">乐曲</td><td data-page-node-id="IfVQDrZAFB6VEToppHgyep">1</td><td data-page-node-id="eCzCCPWz3EJYnAwmRL4YG6">月牙五更</td><td data-page-node-id="brajZ3JkNekV7tUtzO3yxL">东北民歌 · 桂习礼改编</td><td data-page-node-id="kxDYtvZ8BAELNcqpFLklzt">4</td></tr>
-<tr data-page-node-id="kYQ70RQLrxbjnmhK2m1fu6"><td data-page-node-id="lT3U1GyYlp3H237RWtZZAp">2</td><td data-page-node-id="5BuEufHMkuZABqVziYlWPH">小白船</td><td data-page-node-id="ML0rfDim7SIE7BxhoF1OIB">朝鲜童谣 · 桂习礼改编</td><td data-page-node-id="xG6q0ujyTtLOT3nAHpVPon">4</td></tr>
-<tr data-page-node-id="yBPOVVHnbPgzzmY0eokxgi"><td data-page-node-id="Q9MqDKaCEWDniHyNjviYyn">3</td><td data-page-node-id="BRoLtGLHTvbN2cLwABDYXP">紫竹调</td><td data-page-node-id="XeMcJcykQ1G2ypI4oPXHfP">民间乐曲 · 刘月宁改编</td><td data-page-node-id="mSdCt8Hjy0MiivGkZYIMLA">5</td></tr>
-<tr data-page-node-id="EiYFPrTCv8EXUHW3H8Ium6"><td data-page-node-id="V0RfVuAEacIG8nJFSqhv8D">4</td><td data-page-node-id="EBOIEmIfHA0PIxD3LOhZeM">※ 金蛇狂舞</td><td data-page-node-id="AiS1K771BWGiPrvFYMqsg5">民间乐曲 · 桂习礼改编</td><td data-page-node-id="iHJ5spRIcVpT4ldqFMKfqa">5</td></tr>
-<tr data-page-node-id="RL9NubQafPl35YSwxw3Ovj"><td data-page-node-id="nbFLWCik3esEYqcwawLT4m">5</td><td data-page-node-id="nC82DD0bRPZWDHkxBUiFGT">小猫钓鱼</td><td data-page-node-id="K87wxijlUmU8eDn62cHNzP">黄淮曲 · 胡宝恒改编 <span class="tag r" data-page-node-id="ru5YgBZGpZ32OQdfm9Z5Hu">⚠改编者</span></td><td data-page-node-id="nN1XFRkEQBftTpgjSiGhBw">6</td></tr>
-<tr data-page-node-id="li7ptTLzva0zTBy5Fu5yuX"><td data-page-node-id="08lzrgk3XNe7ehKT8GAySz">6</td><td data-page-node-id="hj7ftSgxRFO8HsGns5hXsP">小竹排沿江中游</td><td data-page-node-id="schqjhgxmO2NpcyguetfAz">傅庚辰曲 · 张晓峰改编</td><td data-page-node-id="XEQaW25pEdMtfldG8oKGKP">7</td></tr>
-<tr data-page-node-id="pw8HI4orwdrLcXrQaaWsL7"><td data-page-node-id="uZPgoWpdr45Ok15a1s3hnS">7</td><td data-page-node-id="7L0ytQtAET4PHP4D1dw9tv">※ 拖拉机来了</td><td data-page-node-id="LCE1FEUZClkc28gkDd8eFC">张晓峰编曲</td><td data-page-node-id="PeMx4ua4Q5HVzAgtOB6fYi">8</td></tr>
-<tr data-page-node-id="scquhikYQQJ16GAFn3oVeq"><td data-page-node-id="FGtzEiBkERBTKu5AI5mHUh">8</td><td data-page-node-id="lLPNVzOt2CfhhEGjascrAF">风车</td><td data-page-node-id="atWXezaxgc6MMcOABhPvVP">宿英曲</td><td data-page-node-id="IUIVsfeDLzfuw9nb48g7fo">9</td></tr>
+<h3>第一级（练习曲 5 + 乐曲 8）</h3>
+<table>
+<tr><th style="width:60px">类型</th><th style="width:36px">#</th><th>曲名</th><th>来源 / 订谱改编</th><th style="width:52px">页</th></tr>
+<tr><td rowspan="5">练习曲</td><td>1</td><td>两手交替练习</td><td>桂习礼编曲</td><td>1</td></tr>
+<tr><td>2</td><td>两手平衡练习</td><td>刘月宁编曲</td><td>1</td></tr>
+<tr><td>3</td><td>※ 五声音阶练习</td><td>桂习礼编曲</td><td>2</td></tr>
+<tr><td>4</td><td>※ 七声音阶进阶练习</td><td>黄河编曲</td><td>2</td></tr>
+<tr><td>5</td><td>左竹法练习</td><td>黄河编曲</td><td>3</td></tr>
+<tr><td rowspan="8">乐曲</td><td>1</td><td>月牙五更</td><td>东北民歌 · 桂习礼改编</td><td>4</td></tr>
+<tr><td>2</td><td>小白船</td><td>朝鲜童谣 · 桂习礼改编</td><td>4</td></tr>
+<tr><td>3</td><td>紫竹调</td><td>民间乐曲 · 刘月宁改编</td><td>5</td></tr>
+<tr><td>4</td><td>※ 金蛇狂舞</td><td>民间乐曲 · 桂习礼改编</td><td>5</td></tr>
+<tr><td>5</td><td>小猫钓鱼</td><td>黄淮曲 · 胡宝恒改编 <span class="tag r">⚠改编者</span></td><td>6</td></tr>
+<tr><td>6</td><td>小竹排沿江中游</td><td>傅庚辰曲 · 张晓峰改编</td><td>7</td></tr>
+<tr><td>7</td><td>※ 拖拉机来了</td><td>张晓峰编曲</td><td>8</td></tr>
+<tr><td>8</td><td>风车</td><td>宿英曲</td><td>9</td></tr>
 </table>
 
-<h3 data-page-node-id="RQPjNlA3EWMq9DlmDfrrb5">第二级（练习曲 5 + 乐曲 8）</h3>
-<table data-page-node-id="f0NJVUY8cC2j3AVnC2XMWj">
-<tr data-page-node-id="hKKECpDHoisgQR15KCuM3F"><td rowspan="5" data-page-node-id="WEXyDTDg8YO3xqelLcXXq8">练习曲</td><td data-page-node-id="5cQLW1BelApGrxu1PmN1N4">1</td><td data-page-node-id="6HditFeaDkX35HLyvi56A9">分奏练习</td><td data-page-node-id="2lYRZEAyKXVlxKs5DGJBAH">桂习礼编曲</td><td data-page-node-id="XF4Wr15oVjLgZnvTa3SrKl">11</td></tr>
-<tr data-page-node-id="FcsUFWBbcNpVTXAoYMObsc"><td data-page-node-id="87HCGY8metv5otWDQyl3AP">2</td><td data-page-node-id="axQdI0LTHoLxSV8J9mGDyV">※ 小跳练习</td><td data-page-node-id="SSMEgaHOZTMGyQUpYcvTQ5">桂习礼编曲</td><td data-page-node-id="WNWGH384t8Bp7kwHGBu9ac">11</td></tr>
-<tr data-page-node-id="E8JWPABSbtSqCqOy1vTRHd"><td data-page-node-id="scDRAparD8uVrzIZrdRLgw">3</td><td data-page-node-id="OGCNPnpgLJMKFjwwopTuXN">单双竹交替练习</td><td data-page-node-id="wmSAM4LPex8rIXM1rkeL57">刘月宁编曲</td><td data-page-node-id="ZTxCC1uyQ13zJgvNyyw8PO">12</td></tr>
-<tr data-page-node-id="X2A1IIwmwSVHu3YvEKPoCx"><td data-page-node-id="IsAc2myUN78jmEVjjMtqx1">4</td><td data-page-node-id="dGIITioikUBv6wxTNI5lrr">※ 分解和弦练习</td><td data-page-node-id="KtgHij98frHzBfwvekxyK1">黄河编曲</td><td data-page-node-id="gfkSkXEpDvYCq5kWEXZHOU">12</td></tr>
-<tr data-page-node-id="IYyB6zmGYB4Ift0zsfzMfe"><td data-page-node-id="RnfhraZaCGU5pZAUwU2lIl">5</td><td data-page-node-id="z8uOSlEoPEAEAxOLPHLfW5">单音与和音交替练习</td><td data-page-node-id="BjENH02riKfCmNAArEcYBN">黄河编曲</td><td data-page-node-id="5eAdMd5M4Iqtey2IIseHmp">13</td></tr>
-<tr data-page-node-id="eoYZDuBC85Z5728GD9Mm70"><td rowspan="8" data-page-node-id="fwkxrhCVE3G0oMLlnPekIC">乐曲</td><td data-page-node-id="dyvGWYUHWGz5DhhPm2V71d">1</td><td data-page-node-id="AlKRc7CeSS0xGyZsQjIZKS">※ 蕉石鸣琴</td><td data-page-node-id="YflGNaHM6AjkTx6BlM5BbU">广东音乐 · 梁瑞华改编 <span class="tag r" data-page-node-id="Gw5MJB1iO0pKGilqGAq24c">⚠曲名</span></td><td data-page-node-id="JxCZigwRAC8FxFuVygIpYr">14</td></tr>
-<tr data-page-node-id="cRFUe5AW7g1mNxcgNVKzDx"><td data-page-node-id="lHAAAtvIP2fOtZTAsDNC0m">2</td><td data-page-node-id="eeKVYAFLM5q03AVurJ4jIn">五哥放羊</td><td data-page-node-id="TM346qT0GFFXF6zJpoEFxa">榆林小曲 · 桂习礼改编</td><td data-page-node-id="vHQxh242xAn28Lhh7jawLx">15</td></tr>
-<tr data-page-node-id="YPHxxCwlIMNAgNrIOATpY2"><td data-page-node-id="jJeFVkWcczC4nEX5GCP6Bd">3</td><td data-page-node-id="fIkpKoiCxyIBt97fTNNHtQ">步步高</td><td data-page-node-id="vsxDBYhz2P4Lv3IwOh4JSU">吕文成曲 · 于海英改编</td><td data-page-node-id="tpCQOnRJqtH2DZ0yY6vk42">17</td></tr>
-<tr data-page-node-id="KFSwGQUEpRucgXvaWxPavo"><td data-page-node-id="UtR1BboejTlVflNffRTsQ0">4</td><td data-page-node-id="x8CXHZYl6446d9hkThHnOr">黎明舞曲</td><td data-page-node-id="nnKiQ3Jsinv1BHsVsfOmMF">维吾尔族民间乐曲 · 胡运籍改编 <span class="tag r" data-page-node-id="XbW0X5BTEtVTQqEzc5zOtp">⚠全条目</span></td><td data-page-node-id="fsOGYp3Zn8AE2K7UDyeyEX">18</td></tr>
-<tr data-page-node-id="QkOBiBDrMYPCAsIuD0mXMO"><td data-page-node-id="kjMhpH1KcQynq5rBEElfIL">5</td><td data-page-node-id="z1itEJIrnNX7rQCQfZyday">捉迷藏</td><td data-page-node-id="MMP4O7WE2yYMX9pnJ5rEM3">刘宝恒编曲 <span class="tag r" data-page-node-id="JoEjnEMIeS5eQrF8DKJQn9">⚠改编者</span></td><td data-page-node-id="sXuKiHsdZuDfjm2YtemdDK">19</td></tr>
-<tr data-page-node-id="RvzYElBbOWylHkUlGEBmdv"><td data-page-node-id="kSUQWQTIpPZHIOj4t2C68w">6</td><td data-page-node-id="8jy1cKoLzC4rYWZA4uiyUQ">八月桂花遍地开</td><td data-page-node-id="w1eidRaQG3VvCxcuWs5Q98">江西民歌 · 雷雨声改编 <span class="tag r" data-page-node-id="D67JdrSBXoiUVQ5QV907dF">⚠改编者</span></td><td data-page-node-id="nFChHqWgnx3QvbZJbDPGnx">21</td></tr>
-<tr data-page-node-id="NAYeCsNPHKGGNNmihCsFTU"><td data-page-node-id="D1sGz0WhMCeklJn4Cc4wzn">7</td><td data-page-node-id="tc0BRDvDNxWPyVORHFcG6Z">※ 倒垂帘</td><td data-page-node-id="a98PsgS5q12KLbydDQ2J43">广东音乐 · 梁瑞华订谱</td><td data-page-node-id="1Lczyby6hJUyZwNY2sNiST">23</td></tr>
-<tr data-page-node-id="SNRCoRnjDJ0ore69URJS17"><td data-page-node-id="N0bbKhWrsKbv1GB3oNVRdh">8</td><td data-page-node-id="Vz66nvdt6SvjVaZZlW4Gj3">春郊试马</td><td data-page-node-id="3CuNsUi9WoSMi93b0j1Ert">广东音乐 · 陈德钜曲 汤凯旋订谱</td><td data-page-node-id="dFPIXR5LJbsUIemHROmOHR">24</td></tr>
+<h3>第二级（练习曲 5 + 乐曲 8）</h3>
+<table>
+<tr><td rowspan="5">练习曲</td><td>1</td><td>分奏练习</td><td>桂习礼编曲</td><td>11</td></tr>
+<tr><td>2</td><td>※ 小跳练习</td><td>桂习礼编曲</td><td>11</td></tr>
+<tr><td>3</td><td>单双竹交替练习</td><td>刘月宁编曲</td><td>12</td></tr>
+<tr><td>4</td><td>※ 分解和弦练习</td><td>黄河编曲</td><td>12</td></tr>
+<tr><td>5</td><td>单音与和音交替练习</td><td>黄河编曲</td><td>13</td></tr>
+<tr><td rowspan="8">乐曲</td><td>1</td><td>※ 蕉石鸣琴</td><td>广东音乐 · 梁瑞华改编 <span class="tag r">⚠曲名</span></td><td>14</td></tr>
+<tr><td>2</td><td>五哥放羊</td><td>榆林小曲 · 桂习礼改编</td><td>15</td></tr>
+<tr><td>3</td><td>步步高</td><td>吕文成曲 · 于海英改编</td><td>17</td></tr>
+<tr><td>4</td><td>黎明舞曲</td><td>维吾尔族民间乐曲 · 胡运籍改编 <span class="tag r">⚠全条目</span></td><td>18</td></tr>
+<tr><td>5</td><td>捉迷藏</td><td>刘宝恒编曲 <span class="tag r">⚠改编者</span></td><td>19</td></tr>
+<tr><td>6</td><td>八月桂花遍地开</td><td>江西民歌 · 雷雨声改编 <span class="tag r">⚠改编者</span></td><td>21</td></tr>
+<tr><td>7</td><td>※ 倒垂帘</td><td>广东音乐 · 梁瑞华订谱</td><td>23</td></tr>
+<tr><td>8</td><td>春郊试马</td><td>广东音乐 · 陈德钜曲 汤凯旋订谱</td><td>24</td></tr>
 </table>
 
-<h3 data-page-node-id="5l32a3cTy1LxWpdJ2uHm45">第三级（练习曲 5 + 乐曲 8）</h3>
-<table data-page-node-id="NTJ31gMD7qsrhAWDeCZfzB">
-<tr data-page-node-id="RAMdXWD37Oc2zXYd8c62L6"><td rowspan="5" data-page-node-id="ynMDTTaP7cMphrpByUPCom">练习曲</td><td data-page-node-id="lFR3bP0C6003q09yQQeZZ5">1</td><td data-page-node-id="R8mYwYQ8kmCUPquJQgjWKB">※ 连跳练习（舞蹈《草原儿女》片断）</td><td data-page-node-id="IMEVpRmeQ5oQYEOIaE6wEn">桂习礼订谱</td><td data-page-node-id="f6GKDfLkD283hkdAfhElnw">27</td></tr>
-<tr data-page-node-id="FYFAUIqVqG6uw8pAnEqDmF"><td data-page-node-id="bYLdhy9o2zGz8MEKSz6Qc6">2</td><td data-page-node-id="TdJGedJrY92n6hfyqFymca">连竹练习</td><td data-page-node-id="FKgimqAspl0Gg9OvEkrRTV">刘月宁编曲</td><td data-page-node-id="Ji134U0IlbrjVSZa8iyj5Y">28</td></tr>
-<tr data-page-node-id="BftR63DZ8FjuVxMdiRq3P8"><td data-page-node-id="OhDw2WUoqscLpHP9V1QhNy">3</td><td data-page-node-id="nd7UfdS0o6nAokPtJv9wHz">轮音练习</td><td data-page-node-id="46498LNxvgluM7pGzYnPdC">桂习礼编曲</td><td data-page-node-id="tasZOdCG499q7B5qIEKmBW">29</td></tr>
-<tr data-page-node-id="fRgBnEOd8KCBDd5j6ftTME"><td data-page-node-id="S2PnpMi9Ifo4noykqRiZU3">4</td><td data-page-node-id="c4H0zAoC3bgoOr4bG9zcHT">※ 快速切分练习</td><td data-page-node-id="GsRdhBKh9tDwCTpZhkYrnG">黄河编曲</td><td data-page-node-id="LmKohZ60XZamhsiMkfbakN">29</td></tr>
-<tr data-page-node-id="Vwpl6IghkflaJUGDrjte7L"><td data-page-node-id="DPitBovgGz2voKNMxAfNmp">5</td><td data-page-node-id="SVgrXGO0w24nTUQNb51D0p">左右手灵活性练习</td><td data-page-node-id="DNoB8DOEHNUmkN97grYf92">黄河编曲</td><td data-page-node-id="uxLXEicdeNpJqkljiFlpro">31</td></tr>
-<tr data-page-node-id="37kEti9LxWIkFCHJfX4Wfa"><td rowspan="8" data-page-node-id="jj29exXOBQr1I9BDMvckGf">乐曲</td><td data-page-node-id="DFMhEYCz8PiyaOHG5HjYrl">1</td><td data-page-node-id="pX8wpg0NOP2OUuwBJeG2iU">※ 欢乐歌</td><td data-page-node-id="Qr9YZh2sZeMVXN8UVHfcvT">民间乐曲 · 张晓峰订谱</td><td data-page-node-id="iKyYBDUYLzkebjwTtpPXeA">32</td></tr>
-<tr data-page-node-id="7LCLszBmoMI5HnLTAbEhhm"><td data-page-node-id="sSUE03i3ipRQASqqV9QAQb">2</td><td data-page-node-id="qhgw1AWkaEjosa7aYN5fa8">敖西潮</td><td data-page-node-id="9MnaKKsyQPqjY8ThE7Za9e">云南民间乐曲 · 甘永康改编 <span class="tag r" data-page-node-id="HI1HLVU7wi6ZnTrconsSen">⚠曲名</span></td><td data-page-node-id="Iqi0y3BuaLOQda2maXABAV">34</td></tr>
-<tr data-page-node-id="yypk5RJ7HaXyaxp8tUernA"><td data-page-node-id="MTnX2yZ7ZbKF0FtcWbEGbX">3</td><td data-page-node-id="XplHe0dVoASCcLRuFpbHDR">银河会</td><td data-page-node-id="ye8ieykPjEd836302nU5KU">吕文成曲 · 张全堂、刘月宁改编</td><td data-page-node-id="bu7IuMRPQ2je1T9PPivSNP">38</td></tr>
-<tr data-page-node-id="GNwybImnmSls5SUTbOsUJG"><td data-page-node-id="lal5IDPtv6JHMUC1wcrIHK">4</td><td data-page-node-id="FmkVUi9b3ilKY5YzjQPHPX">欢乐的新疆</td><td data-page-node-id="PgnFdowM2cr7tZy8IsKNwH">周德明编曲</td><td data-page-node-id="vdxsLVTnJ5u7iFawqe1Yre">40</td></tr>
-<tr data-page-node-id="qHpnknymuFXZjQDbn9zxMo"><td data-page-node-id="NWBuNXCCZdQPmVrt2cw2CS">5</td><td data-page-node-id="OY0G9DUu8QB9E4oQ9Ruaer">※ 喜讯</td><td data-page-node-id="lOxrkSaKUL5iHVRTCb3DlL">桂习礼编曲</td><td data-page-node-id="fCQYvyKEHUQRJTjo03wDmB">43</td></tr>
-<tr data-page-node-id="qgLJxfz73Zjg6co3CccUEl"><td data-page-node-id="cVo2hlpFy5Wxkp07xNwjyV">6</td><td data-page-node-id="3EFcpc12kJO7g46gzyLvkM">山丹丹开花红艳艳</td><td data-page-node-id="MAZd2cUUPDSoZY4gnCfmSR">陕北民歌 · 丁国舜、丁国立改编</td><td data-page-node-id="6XFyvoI6DCDpAqGmHafX2F">46</td></tr>
-<tr data-page-node-id="ub5jbbg6A3M3gOYkW1rnYt"><td data-page-node-id="NyzDbiXmlXaqYeJdrWJgr4">7</td><td data-page-node-id="9jfPMoXMbTERAwIMrHSD3f">水乡的春天</td><td data-page-node-id="Lj4GBJoO0XawGEXyzMVjUl">张晓峰曲</td><td data-page-node-id="lBQQ57hWVRAbqyPZGd1t6V">48</td></tr>
-<tr data-page-node-id="KKD33HHmDSJ1vBFwZ9wW1I"><td data-page-node-id="DiX1W8JfhL0u3Hks4Bml87">8</td><td data-page-node-id="1DMfnnkZwLI5T9p0aG7i4l">牧歌</td><td data-page-node-id="YXTE6wyEwDm2HTM6Scbc5j">蒙古族民歌 · 黄河改编</td><td data-page-node-id="ABtYA38EPfdXuai0cQ6HCZ">51</td></tr>
+<h3>第三级（练习曲 5 + 乐曲 8）</h3>
+<table>
+<tr><td rowspan="5">练习曲</td><td>1</td><td>※ 连跳练习（舞蹈《草原儿女》片断）</td><td>桂习礼订谱</td><td>27</td></tr>
+<tr><td>2</td><td>连竹练习</td><td>刘月宁编曲</td><td>28</td></tr>
+<tr><td>3</td><td>轮音练习</td><td>桂习礼编曲</td><td>29</td></tr>
+<tr><td>4</td><td>※ 快速切分练习</td><td>黄河编曲</td><td>29</td></tr>
+<tr><td>5</td><td>左右手灵活性练习</td><td>黄河编曲</td><td>31</td></tr>
+<tr><td rowspan="8">乐曲</td><td>1</td><td>※ 欢乐歌</td><td>民间乐曲 · 张晓峰订谱</td><td>32</td></tr>
+<tr><td>2</td><td>敖西潮</td><td>云南民间乐曲 · 甘永康改编 <span class="tag r">⚠曲名</span></td><td>34</td></tr>
+<tr><td>3</td><td>银河会</td><td>吕文成曲 · 张全堂、刘月宁改编</td><td>38</td></tr>
+<tr><td>4</td><td>欢乐的新疆</td><td>周德明编曲</td><td>40</td></tr>
+<tr><td>5</td><td>※ 喜讯</td><td>桂习礼编曲</td><td>43</td></tr>
+<tr><td>6</td><td>山丹丹开花红艳艳</td><td>陕北民歌 · 丁国舜、丁国立改编</td><td>46</td></tr>
+<tr><td>7</td><td>水乡的春天</td><td>张晓峰曲</td><td>48</td></tr>
+<tr><td>8</td><td>牧歌</td><td>蒙古族民歌 · 黄河改编</td><td>51</td></tr>
 </table>
 
-<h3 data-page-node-id="GaYDxa3MDlaBdWHy3hybWN">第四级（练习曲 5 + 乐曲 8）</h3>
-<table data-page-node-id="q4wYlWbUmtJz4JxvHpAKLF">
-<tr data-page-node-id="QYUgGSRh3z8hNGJaKaHBAB"><td rowspan="5" data-page-node-id="GzZ9Rm7nh3cSP07Gv44uFw">练习曲</td><td data-page-node-id="aUIreG0Ohq482XVYaEyXLV">1</td><td data-page-node-id="76NEVP9jxnj6sojfpsuera">※ 快速座音练习</td><td data-page-node-id="svwJjLBxA5K7T20AyhAFd4">桂习礼编曲</td><td data-page-node-id="syJedRt4PBMIM96nyr9GN5">54</td></tr>
-<tr data-page-node-id="qWo76PUNbtInM8ulnzY1ZU"><td data-page-node-id="o1KeLs0SCRqCNSsqI41Ns7">2</td><td data-page-node-id="ujoueWnL6hF4MYl8pWRYDO">快速衬音与半音练习</td><td data-page-node-id="x5mV6uXED6g22FX1WSbvFv">刘月宁编曲</td><td data-page-node-id="bSRM9xGVGI0bh6vk6HYXZF">55</td></tr>
-<tr data-page-node-id="CTEALCkDD782HeVmPtbv4W"><td data-page-node-id="hC7jxTf5CH6hrz9CbaYkDi">3</td><td data-page-node-id="PLY54B4XxLk7Na01U69xuW">定拍轮音练习</td><td data-page-node-id="NA3HBtAb3iNMitm2Ff4KxZ">桂习礼编曲</td><td data-page-node-id="m1CX5jhadV9XkEV7Zvo5cx">55</td></tr>
-<tr data-page-node-id="I5lAFCOBFlVdMqqKLRTNaB"><td data-page-node-id="TyIqyus1ypB8CNHnjTemyE">4</td><td data-page-node-id="9PTG4Wz9kfGMEgyy5Pakr5">※ 八度双音练习</td><td data-page-node-id="B2kI9yC1h84ieYKsVNCYN6">西藏民歌 · 黄河改编</td><td data-page-node-id="zUVV9Cs1HA4vrPzJKkCMOZ">56</td></tr>
-<tr data-page-node-id="OPOALkfmKceYBMqC37c74Q"><td data-page-node-id="gfSjKQ6LgC8WZVH8Y2L5xb">5</td><td data-page-node-id="FejnbLOFoTcp97tg6gYNuH">左手单轮轮音练习</td><td data-page-node-id="nRS8EZEzbvh4fchSMJaeNf">黄河改编</td><td data-page-node-id="E8ZJKBsvgLYQp9qbbinEZa">58</td></tr>
-<tr data-page-node-id="fbAqsIVQUPKaixAaoxp6ZE"><td rowspan="8" data-page-node-id="KifKFwZJpdsB3njp6m9XYE">乐曲</td><td data-page-node-id="kFa8vzpHN9KxBCHVACYhcM">1</td><td data-page-node-id="kQdqD0KsQvNbZ7fqxQ6bwQ">※ 弹词三六（江南丝竹）</td><td data-page-node-id="W4FLbhdJPqKu3INCmCSCRM">江南民间乐曲 · 项祖华整理</td><td data-page-node-id="L5IjUHXrCUk8LaZS5qRZgo">59</td></tr>
-<tr data-page-node-id="Q5UAAYaRi4XMkImtFl1HJ0"><td data-page-node-id="edGIFRajXfEdcYbLyEhMCG">2</td><td data-page-node-id="bdmUYmANz6ECAmxudDMJKI">※ 雨打芭蕉（广东音乐）</td><td data-page-node-id="KK8BlFAmH9tJWtJjiMtcGS">广东音乐曲艺团改编 · 汤凯旋整理</td><td data-page-node-id="KwGibZMOZXFvJ9Kas1HMwl">62</td></tr>
-<tr data-page-node-id="MBpAdMYF7a9QBKcu8xR0Sh"><td data-page-node-id="kOUnsDKDg8NdItnC0Fehn4">3</td><td data-page-node-id="SuUFHkcSF1nq6YoQFqm6Fz">天山之春</td><td data-page-node-id="1Hx3YthWKsMroFENE5Uonk">乌斯满江、俞礼纯曲 · 王范地改编 李小刚移植</td><td data-page-node-id="Dqt5DHfKfkboGCnOfOpGKr">64</td></tr>
-<tr data-page-node-id="4zR5FT6FFsSFaF1AuZ3ntH"><td data-page-node-id="niCDZ8y4jyFA8e9b66yXtM">4</td><td data-page-node-id="lHR2BnQuC3ZKrDAaVj1ljJ">杜鹃啼</td><td data-page-node-id="3mxaGQ77HyVraO75evREZc">广东音乐 · 刘月宁改编 <span class="tag r" data-page-node-id="aD7ItgGwFfAi3C1OzJC6ED">⚠曲名</span></td><td data-page-node-id="xHgc5usYKxyp2VgTccIaLa">67</td></tr>
-<tr data-page-node-id="1AgwK1nBxDZQGRfCseX88m"><td data-page-node-id="DF1oiAvUCVESTr9WZAocrh">5</td><td data-page-node-id="gSy9qtQeGkYPvDZtmGu74b">大象</td><td data-page-node-id="mjfSK96CW2EoMeAOiXPA2w">几内亚民歌 · 敬敏清改编</td><td data-page-node-id="EWILmbin5jQRSAAhDIj7iR">69</td></tr>
-<tr data-page-node-id="f3AxdtjFvoAFySytcWTDBA"><td data-page-node-id="9HgQMIT4Pz6JNn696UoMcR">6</td><td data-page-node-id="kUhttIcTAGm9fOHSusX3ly">乡村抒怀</td><td data-page-node-id="5A414Y57BWBpNzXxav3IWF">美国民歌 · 李玲玲改编</td><td data-page-node-id="hnIUjLE1v6pccoOodHprVZ">72</td></tr>
-<tr data-page-node-id="hrdATYsLj3MMdDEDbQVBAn"><td data-page-node-id="EaivZECb3iFTYRTf4SE79o">7</td><td data-page-node-id="KFjqH6leHZW1RSDWNRJ6ef">双手开出幸福泉</td><td data-page-node-id="xjcwKBM3UhGFW0Tu5ZaB3g">丁国舜编曲</td><td data-page-node-id="oBLQoUM9Ng7NzDFA4eHlT5">74</td></tr>
-<tr data-page-node-id="4vIZQawIRAM2MazcqNufuL"><td data-page-node-id="G3lTCTJ1WbU5x9tqvVWEr8">8</td><td data-page-node-id="Qd00dCHktvZYj1NIUYl5Q4">苗岭的早晨</td><td data-page-node-id="54UpZHXRTnFYQrBX6p05xh">陈钢编曲 · 黄河改编</td><td data-page-node-id="sZnHWoJWG4Vs2FjqPGT2hK">78</td></tr>
+<h3>第四级（练习曲 5 + 乐曲 8）</h3>
+<table>
+<tr><td rowspan="5">练习曲</td><td>1</td><td>※ 快速座音练习</td><td>桂习礼编曲</td><td>54</td></tr>
+<tr><td>2</td><td>快速衬音与半音练习</td><td>刘月宁编曲</td><td>55</td></tr>
+<tr><td>3</td><td>定拍轮音练习</td><td>桂习礼编曲</td><td>55</td></tr>
+<tr><td>4</td><td>※ 八度双音练习</td><td>西藏民歌 · 黄河改编</td><td>56</td></tr>
+<tr><td>5</td><td>左手单轮轮音练习</td><td>黄河改编</td><td>58</td></tr>
+<tr><td rowspan="8">乐曲</td><td>1</td><td>※ 弹词三六（江南丝竹）</td><td>江南民间乐曲 · 项祖华整理</td><td>59</td></tr>
+<tr><td>2</td><td>※ 雨打芭蕉（广东音乐）</td><td>广东音乐曲艺团改编 · 汤凯旋整理</td><td>62</td></tr>
+<tr><td>3</td><td>天山之春</td><td>乌斯满江、俞礼纯曲 · 王范地改编 李小刚移植</td><td>64</td></tr>
+<tr><td>4</td><td>杜鹃啼</td><td>广东音乐 · 刘月宁改编 <span class="tag r">⚠曲名</span></td><td>67</td></tr>
+<tr><td>5</td><td>大象</td><td>几内亚民歌 · 敬敏清改编</td><td>69</td></tr>
+<tr><td>6</td><td>乡村抒怀</td><td>美国民歌 · 李玲玲改编</td><td>72</td></tr>
+<tr><td>7</td><td>双手开出幸福泉</td><td>丁国舜编曲</td><td>74</td></tr>
+<tr><td>8</td><td>苗岭的早晨</td><td>陈钢编曲 · 黄河改编</td><td>78</td></tr>
 </table>
 
-<h3 data-page-node-id="qA8YEdy5u0YIWB9uDYl6OD">第五级（练习曲 5 + 乐曲 8）</h3>
-<table data-page-node-id="XC5b3Wa0lUCfR6Cep4eGl5">
-<tr data-page-node-id="yg3w5zlapHVY4brPDa8JEv"><td rowspan="5" data-page-node-id="RkKhnYocZ6H7ntzJF8lV9v">练习曲</td><td data-page-node-id="97X7FQsmOLoZbnSwJyVh4l">1</td><td data-page-node-id="z2n9Ci4FTziCvOePbsaGeX">两声部练习</td><td data-page-node-id="wnnAt5xg33OhhBev8ROIGN">江西民歌 · 桂习礼改编</td><td data-page-node-id="LN3ensAIvWzHgJQDvbLkOc">82</td></tr>
-<tr data-page-node-id="vNEHZzijRVLnCBRG4t1irh"><td data-page-node-id="HxBs22gIw7Sb3skc2fGEE6">2</td><td data-page-node-id="aDjgGS46VtCxXoMaSam7Lu">※ 两声部练习</td><td data-page-node-id="WFvCEtvpx2UC8SH149wQd7">江西民歌 · 刘月宁编曲</td><td data-page-node-id="oXpyWZmH4zIg3Vsn0cqAjp">83</td></tr>
-<tr data-page-node-id="dvo6We3s2yNajjXTzHaAkG"><td data-page-node-id="w0fV1yYg1qHDbkoeWfsa73">3</td><td data-page-node-id="q9JMtII8syRcYohR0IcZA1">急速分解练习</td><td data-page-node-id="bw896uO0ajpF5TsR3ZEwUd">黄河编曲</td><td data-page-node-id="9ghNh8KQeVXuJJsGyeHpbt">84</td></tr>
-<tr data-page-node-id="rVcMHCqVHkzJlvm8eWOdaF"><td data-page-node-id="j41Ov5CUoy0JhUpZG46J8C">4</td><td data-page-node-id="RJsc3GwolE2mYIUBenPEgE">※ 综合轮音练习（舞蹈《沂蒙颂》选曲）</td><td data-page-node-id="ahbWGKaW4Gjv9EjJccNhsT">刘廷禹曲 · 桂习礼改编</td><td data-page-node-id="Vos8TGG9f2Pv6UT2DGBIpK">85</td></tr>
-<tr data-page-node-id="FJp4K0prEFYWWKIGPihOF7"><td data-page-node-id="NSiCtuchTbLgD8XEAnaLoP">5</td><td data-page-node-id="cmnYzwQanjHKIP3mBvMrpH">七和弦快速分解练习</td><td data-page-node-id="0UDIGVWvZz65yy9Z6YPSpv">黄河编曲</td><td data-page-node-id="JDgJl363LizcFDFdrF4n7X">85</td></tr>
-<tr data-page-node-id="mPab8ccwzmYcDdwAqoROOj"><td rowspan="8" data-page-node-id="VD4Wfqlhf81LcMk5QFq9D3">乐曲</td><td data-page-node-id="jlgP1EJ71fO5HyV1BAe9Qh">1</td><td data-page-node-id="Y7euhzJF4dNCQojJGejpjc">阳关三叠</td><td data-page-node-id="jXTI48jE8UtDllebciY4lb">古曲 · 桂习礼改编</td><td data-page-node-id="XUubfdKu2as6RXKHHRxi2s">87</td></tr>
-<tr data-page-node-id="d3whVzRT2NUDKCB2z0z6lt"><td data-page-node-id="kwoh9PlMqqpwwnG5TzqzOj">2</td><td data-page-node-id="qLrCaCfPJbW4Gxa6vpL08j">※ 春到清江</td><td data-page-node-id="qiOZGm2bQT6DFrmbDKxCLm">刘维康曲</td><td data-page-node-id="SaHXf7RO2kIbP1P9frETnI">89</td></tr>
-<tr data-page-node-id="3usPlJAK4hToj4zVKEVXYH"><td data-page-node-id="Omw7FffyG95F4IZq04agFq">3</td><td data-page-node-id="U8BGmyDIHgB5F66sQdwMql">游击队歌</td><td data-page-node-id="nEb4ZIVJ0HwclJvE0FreLt">贺绿汀曲 · 梁瑞华改编</td><td data-page-node-id="JZADHlptMSDR4Qslj0ZJw4">93</td></tr>
-<tr data-page-node-id="NvxsMEfOOLilT2caWMfbZZ"><td data-page-node-id="7WQmJrB8PNw7IguMti0SIL">4</td><td data-page-node-id="ijHNcpKEBidXvjEAmZjGGD">美丽的非洲</td><td data-page-node-id="EXVAQR8G6Rxb66AgaW9SRk">于庆祝曲</td><td data-page-node-id="9eabCDHb3HTpCAE73aRurF">96</td></tr>
-<tr data-page-node-id="yWVT9yaEoNtW4R78vgDrbO"><td data-page-node-id="OW6vPNNsxrge8LvMqHFIjR">5</td><td data-page-node-id="MHMIji1qUD0IxaanUG2l7J">※ 节日的新疆</td><td data-page-node-id="DydgjBE4Sp98i996JZL9oL">曹玲曲 · 郭敏清改编</td><td data-page-node-id="fHfXDbITnPM8KxDfrYl3Ia">100</td></tr>
-<tr data-page-node-id="AJYnmUws6c4XSh6ddBVa7e"><td data-page-node-id="cNbreYDQsP3326ObElVqlc">6</td><td data-page-node-id="DqYtzWE84BwWBNK24s6uCO">边疆的春天</td><td data-page-node-id="x1QBZ1JqEET2WF4EWwdbgE">柴珏、张学生编曲</td><td data-page-node-id="BCZIyVhMDb8oy9fmGkb06L">103</td></tr>
-<tr data-page-node-id="d2IWVWL9lzR95JQXtLIJBE"><td data-page-node-id="CNuEKGUdxlWECY0gv8Fcec">7</td><td data-page-node-id="BVMF4Np7zzZjnqIklxzYlw">※ 恰尔达什舞曲</td><td data-page-node-id="zus8of5tlGhP1t18nCw5sW">（意）蒙蒂曲 · 黄河改编</td><td data-page-node-id="3p9vwRAyu9487cpOboHPGl">107</td></tr>
-<tr data-page-node-id="mBOfkcURhLa1FduKa17946"><td data-page-node-id="Oi5aq5QUS1vR7U1Hi0EBLt">8</td><td data-page-node-id="uGlTJMJqXbjayOamjosqkW">柯尔克孜舞曲</td><td data-page-node-id="6VAKEqJiSPYveqXWmvSfT0">桂习礼编曲</td><td data-page-node-id="OHQROnube5yEvJkrHE99rz">110</td></tr>
+<h3>第五级（练习曲 5 + 乐曲 8）</h3>
+<table>
+<tr><td rowspan="5">练习曲</td><td>1</td><td>两声部练习</td><td>江西民歌 · 桂习礼改编</td><td>82</td></tr>
+<tr><td>2</td><td>※ 两声部练习</td><td>江西民歌 · 刘月宁编曲</td><td>83</td></tr>
+<tr><td>3</td><td>急速分解练习</td><td>黄河编曲</td><td>84</td></tr>
+<tr><td>4</td><td>※ 综合轮音练习（舞蹈《沂蒙颂》选曲）</td><td>刘廷禹曲 · 桂习礼改编</td><td>85</td></tr>
+<tr><td>5</td><td>七和弦快速分解练习</td><td>黄河编曲</td><td>85</td></tr>
+<tr><td rowspan="8">乐曲</td><td>1</td><td>阳关三叠</td><td>古曲 · 桂习礼改编</td><td>87</td></tr>
+<tr><td>2</td><td>※ 春到清江</td><td>刘维康曲</td><td>89</td></tr>
+<tr><td>3</td><td>游击队歌</td><td>贺绿汀曲 · 梁瑞华改编</td><td>93</td></tr>
+<tr><td>4</td><td>美丽的非洲</td><td>于庆祝曲</td><td>96</td></tr>
+<tr><td>5</td><td>※ 节日的新疆</td><td>曹玲曲 · 郭敏清改编</td><td>100</td></tr>
+<tr><td>6</td><td>边疆的春天</td><td>柴珏、张学生编曲</td><td>103</td></tr>
+<tr><td>7</td><td>※ 恰尔达什舞曲</td><td>（意）蒙蒂曲 · 黄河改编</td><td>107</td></tr>
+<tr><td>8</td><td>柯尔克孜舞曲</td><td>桂习礼编曲</td><td>110</td></tr>
 </table>
 
-<h3 data-page-node-id="GBfDPqLpqt0m8pZ6j2NVE9">第六级（练习曲 5 + 乐曲 8）</h3>
-<table data-page-node-id="D2af9jgBQmE226ToD4dVRB">
-<tr data-page-node-id="NVKTzDETn8WxGWw4RXMpbr"><td rowspan="5" data-page-node-id="9ET0Pzc5U4MCr7blOoTydi">练习曲</td><td data-page-node-id="5s87MforkTf0VXN3v9H34C">1</td><td data-page-node-id="CsSleu2qy6W4Y776v5R1HJ">※ 快速分解和弦练习（燕子）</td><td data-page-node-id="i2pRPkSNk92Qpkx0Q4PFD0">（奥）布格缪勒曲</td><td data-page-node-id="GVepb4F6oAIlHf12MdZerH">116</td></tr>
-<tr data-page-node-id="0NmVbznL8ihKDhLh17pVGt"><td data-page-node-id="r1UOcYY4tirJMOoLOVH3op">2</td><td data-page-node-id="dMzsau4oer8oc2gqlizvG6">快速音阶练习</td><td data-page-node-id="PSouAogb8BJ2LnTEz2RMmG">刘月宁编曲</td><td data-page-node-id="zlQH9Y44tGpGuE4FfWha53">117</td></tr>
-<tr data-page-node-id="17GMwpozAJGAr1cf2HkZEK"><td data-page-node-id="NWq3S0YWn17wtwYk5yGsy7">3</td><td data-page-node-id="iMzVsiTtW7Ke0BGXGlhcWD">两声部练习（三十里铺）</td><td data-page-node-id="Wuouf73o7iFVyD26MUlWtE">陕北民歌 · 桂习礼改编</td><td data-page-node-id="v0hnohImq6YjTtDRBV6T4l">118</td></tr>
-<tr data-page-node-id="xlTucpbrmRnKo8yZCd5FDZ"><td data-page-node-id="lOEGSYq6mHc9w6BPS7zVfF">4</td><td data-page-node-id="1Obyee3Ikuw8BKF2EQK4oO">※ 两声部练习（墨西哥影片《叶塞尼亚》选曲）</td><td data-page-node-id="1GZBhK1IT7J1BpHpGTQYxk">刘春阳改编</td><td data-page-node-id="lmu6BA1HU7hfxYsepTiGVG">119</td></tr>
-<tr data-page-node-id="ScEcPAyoh8dIc9DHw0HzLd"><td data-page-node-id="8hTXCITeRM7abqaSPEVSbM">5</td><td data-page-node-id="X349MC08evwDpVrP8tMpVL">和声性连弹练习</td><td data-page-node-id="c8QDobN9cSX3Ppe7mV6JOm">黄河编曲</td><td data-page-node-id="A0u0lbsGUjGFoCxx5OLjvB">122</td></tr>
-<tr data-page-node-id="jsQxRPCGPPhiBMCNT7qomE"><td rowspan="8" data-page-node-id="3mJBityP8Nq5Xm891RGFjA">乐曲</td><td data-page-node-id="f4B7X0znOM4SXa01JRx3yc">1</td><td data-page-node-id="zJQny9u0Q0FbGxszGY5pqS">※ 将军令</td><td data-page-node-id="CVFFXqV9MP72cUTClAohfy">四川扬琴曲牌 · 项祖华、李小元整理</td><td data-page-node-id="Vz6y5uBlB54nR6UrTgLVuA">123</td></tr>
-<tr data-page-node-id="o87vv1o19Dwd51pM3wsG4y"><td data-page-node-id="4BoIxXWh5kFSu4kHfpg4uW">2</td><td data-page-node-id="3sMYRYIGzdFLLLDLn7WYDO">大浪淘沙</td><td data-page-node-id="jMsQsdHcv90n433pEsiYHg">华彦钧传谱 · 张金堂改编</td><td data-page-node-id="faS4Avp7Frj59nX2VaWbMh">127</td></tr>
-<tr data-page-node-id="zrYTrNhdZLIPwHiF3Yz7Ju"><td data-page-node-id="qzdUdvu00jVUNHXwvXMYuX">3</td><td data-page-node-id="QB9ZBmQ0kO0Ze6grrwirR9">※ 欢乐的火把节</td><td data-page-node-id="TDMKV3zJleDmnhMfeUhS36">刘希圣曲</td><td data-page-node-id="4rMxjxYBsgmtJmF43Nt4ck">130</td></tr>
-<tr data-page-node-id="LZSHJF0WKhmd3rnpw7tmgK"><td data-page-node-id="RBprrJQVuhHyEAvmvfQs0L">4</td><td data-page-node-id="qdDADzVJZTgO0hF2Gx0fXH">渔岛月夜</td><td data-page-node-id="KGirKXGw6XSfsCCECMKoyN">莫凡曲</td><td data-page-node-id="dOYmgcDd5RTcA10mf1bQgc">134</td></tr>
-<tr data-page-node-id="VL7cbxPooaFHRufLGuW3Jk"><td data-page-node-id="LROAfAGgbmvNKBRvVeftQQ">5</td><td data-page-node-id="hnhBZGmed8gK2v6B1Pdx8r">流水欢歌</td><td data-page-node-id="fqujR7w5EueEJV43oMMoIc">桂习礼、翟渊国编曲</td><td data-page-node-id="RE40wJnknuSAczRIT4Ekwj">136</td></tr>
-<tr data-page-node-id="rJaWMr7v0kDDAYQqwh2AED"><td data-page-node-id="PiD2NjiGw7ukZWdwcMGAtj">6</td><td data-page-node-id="lAf18QXWEKKMStt8BZ6wdE">金色牧场</td><td data-page-node-id="wHu4sQZY5GhwhoW3AI52YM">黄河编曲</td><td data-page-node-id="Z4gMe7D0hLqqZtuGRmQ4XF">141</td></tr>
-<tr data-page-node-id="uaGnbf5jeEGNUTWlRVDNum"><td data-page-node-id="EoxsxUhPUiJsEwL3ESnjQn">7</td><td data-page-node-id="oQ46SuSv7ihrrNlGH5cF13">唱支山歌给党听</td><td data-page-node-id="FR0tg8kj9pu87uQrowwToE">践耳曲 · 黄河改编</td><td data-page-node-id="DasPzDLxTS6Shdp8yhf58Z">145</td></tr>
-<tr data-page-node-id="OldFLjXdaf7ExBrSsECxxZ"><td data-page-node-id="wlgwjejHAlY81SZ1msFTy9">8</td><td data-page-node-id="D5rFSnBjnp6yup6PvrJzwF">龙舟</td><td data-page-node-id="MkaA5BBJbJzm59MfKKCmzC">张正秋传谱 · 田克俭改编 <span class="tag r" data-page-node-id="COjC4IMGZESa3Gyap5ulSt">⚠改编者</span></td><td data-page-node-id="ANXB5UpLI0KzZn1pIt8QOW">147</td></tr>
+<h3>第六级（练习曲 5 + 乐曲 8）</h3>
+<table>
+<tr><td rowspan="5">练习曲</td><td>1</td><td>※ 快速分解和弦练习（燕子）</td><td>（奥）布格缪勒曲</td><td>116</td></tr>
+<tr><td>2</td><td>快速音阶练习</td><td>刘月宁编曲</td><td>117</td></tr>
+<tr><td>3</td><td>两声部练习（三十里铺）</td><td>陕北民歌 · 桂习礼改编</td><td>118</td></tr>
+<tr><td>4</td><td>※ 两声部练习（墨西哥影片《叶塞尼亚》选曲）</td><td>刘春阳改编</td><td>119</td></tr>
+<tr><td>5</td><td>和声性连弹练习</td><td>黄河编曲</td><td>122</td></tr>
+<tr><td rowspan="8">乐曲</td><td>1</td><td>※ 将军令</td><td>四川扬琴曲牌 · 项祖华、李小元整理</td><td>123</td></tr>
+<tr><td>2</td><td>大浪淘沙</td><td>华彦钧传谱 · 张金堂改编</td><td>127</td></tr>
+<tr><td>3</td><td>※ 欢乐的火把节</td><td>刘希圣曲</td><td>130</td></tr>
+<tr><td>4</td><td>渔岛月夜</td><td>莫凡曲</td><td>134</td></tr>
+<tr><td>5</td><td>流水欢歌</td><td>桂习礼、翟渊国编曲</td><td>136</td></tr>
+<tr><td>6</td><td>金色牧场</td><td>黄河编曲</td><td>141</td></tr>
+<tr><td>7</td><td>唱支山歌给党听</td><td>践耳曲 · 黄河改编</td><td>145</td></tr>
+<tr><td>8</td><td>龙舟</td><td>张正秋传谱 · 田克俭改编 <span class="tag r">⚠改编者</span></td><td>147</td></tr>
 </table>
 
-<p class="small" data-page-node-id="sOGbaDmGhhIYNbNkCPYzuC">每级另附「乐曲说明」（黄河撰），书末附「扬琴技法符号表」（原书 p153）——后者是批注词表（§05）的权威依据。</p>
+<p class="small">每级另附「乐曲说明」（黄河撰），书末附「扬琴技法符号表」（原书 p153）——后者是批注词表（§05）的权威依据。</p>
 </section>
 
 <!-- ============ 05 ============ -->
-<section id="s5" data-page-node-id="dsYIGi1ajcKg3jTYlOQFMP">
-<h2 data-page-node-id="Ps0O0NQzNXLDz0RKJTYOpR">05 · PRD 修改清单（逐条）</h2>
-<table data-page-node-id="wLZEsgTQZSJGxRDABE4gih">
-  <tr data-page-node-id="Mjt5M93YCdxXfFv4f3Dsif"><th style="width:110px" data-page-node-id="XwIQjWgct2JcsDclOOvxfU">条目</th><th data-page-node-id="eEfa60GEPViU6jGv8EaMB8">改法</th></tr>
-  <tr data-page-node-id="k87WJtcCO28oedPAykOgpp"><td data-page-node-id="HRCPlxXKSudGqrXn8gZp0f">FR-M7-01 内置谱库</td><td data-page-node-id="FOIy29MDdjtHOtpf01YDRM"><b data-page-node-id="1YJp5iWVu5x6LE9xePBFVw">重写</b>：内置曲目库改为「央音扬琴考级 1–6 级曲目」，每首含 <code data-page-node-id="e3q2vn12nXSEGRz6gHxIuC">{grade:1–6, type:练习曲|乐曲, required:必弹|选弹, title, arranger, source_page, key:1=X, tempo_mark, default_bpm}</code>；验收标准从「首发 ≥30 首」改为「<b data-page-node-id="TEuVVhqiW888y5uggXQYeA">首批 ≥12 首（分批录入策略见 §08），结构上 78 首占位、可渐进补齐</b>」</td></tr>
-  <tr data-page-node-id="Xz6sqHTNcWSLBEMqQAObEk"><td data-page-node-id="sMBfvqRVZqcEdZG7sRzZIM">FR-M7-02 谱面数据结构</td><td data-page-node-id="LVc6jWRHzc8oA1jUxRgOwi"><b data-page-node-id="ydMdidIDavv4Jtr9E6YKGE">保留</b>「行+音符」两级结构，<b data-page-node-id="YX88mTxN3zTiA3DQGNXEUy">细化</b>简谱音符字段：<code data-page-node-id="ArmvATMcaGgciVH8CIjw2r">{degree:1–7, octave:-1|0|1(低/中/高音点), duration:{base, dot_count, beam_count}, rest:bool}</code>；行级补 <code data-page-node-id="6Hnkbf45zeAcZ8znTPewkJ">{key_sig, tempo_mark, lyrics?}</code></td></tr>
-  <tr data-page-node-id="Nf2dfEibnDfVg54gXkbMEe"><td data-page-node-id="0Scv7FlX1lgj9Zs5skh3Pl">FR-M7-03 谱面渲染</td><td data-page-node-id="wZ0NqpyxcjhjhYu7WELJVQ"><b data-page-node-id="69NHgDOSN9U8zZDacUWQDZ">保留</b>简谱方向，<b data-page-node-id="iOzbC3r8Tt9wE3PPcYPlZl">补验收元素清单</b>：高低八度点、减时线（1–3 条）、增时线（—）、休止符 0、小节线、终止线、连线、反复记号（V1 可不支持）、临时升降记号（V1 可不支持，见 §12）</td></tr>
-  <tr data-page-node-id="weyhePBpZEcKFTV7hzkcBC"><td data-page-node-id="xTHylvPQir6oGQZWgAwU5p">FR-M7-04 谱面批注</td><td data-page-node-id="SMvpCwwjhwKHHuymIVC6Nl"><b data-page-node-id="Ue9uIqR0yLLyIw2dL6tO1t">保留</b>交互；<b data-page-node-id="SsnOP678PjIqFINTyyHKb5">词表升级</b>：标记类型从现在的 6 种扩展为两层——<b data-page-node-id="0NbAN4ql7s6itYmHddh4hU">通用标记</b>（重点/难点/慢练/分句）+ <b data-page-node-id="keCRsYbfH25wHni3HhpKvc">扬琴技法标记</b>（轮音/反竹/弹轮/衬音/座音/滑弹/拨音……以原书 p153 技法符号表为准，由你人工核定，正好并入 T0 词表任务）</td></tr>
-  <tr data-page-node-id="JDUls6vPAfrJFiC3hb5bZA"><td data-page-node-id="I7ucj9cfUz0XfOnMQxe83K">FR-M7-06 批注锚定</td><td data-page-node-id="kIfUkTrxsCD1wTdGebWEdL"><b data-page-node-id="FsBdeX9UcffWnAuLa4xj4n">不变</b>：锚定 <code data-page-node-id="KdtNuaug0lpEysCDohncgF">{课次,学生,曲目,谱面版本,行号,音符序号}</code> 在简谱下语义完全一致（行号=简谱行，音符序号=行内第 N 个音符）</td></tr>
-  <tr data-page-node-id="pJWoSwCcg5mkPL0wGgy36A"><td data-page-node-id="g8ZvNMDdL5SoEhimu3om0S"><b data-page-node-id="xBSoMAvrmnlXfolv5irCaa">新增</b> FR-M7-12 曲目分级元数据</td><td data-page-node-id="x5DPPEpzrU557eeUACxTdH">谱库支持按 级别/类型/必弹 筛选与排序；选曲页默认显示「学生当前级别」的曲目</td></tr>
-  <tr data-page-node-id="7zScCsSc6yfg7wm6EfuM80"><td data-page-node-id="YQRNIqUgJQZmqND3HlQ8gd"><b data-page-node-id="rFrOFiOuYE7KM96lCdxHKK">新增</b> FR-M7-13 学生当前级别</td><td data-page-node-id="UK6HQzn9t5aKCD4EMQhYB1">学生档案增加「当前级别(1–6)」字段，老师可改；布置作业时选曲列表默认过滤该级别、可跨级</td></tr>
-  <tr data-page-node-id="BEFw8fXHC5B2Rf3LMKBPzC"><td data-page-node-id="VUqjkxALF9qygzPYk0H1dc"><b data-page-node-id="7b0rfwtj4jZfxDbgfNVoCO">新增</b> FR-M7-14 考级路径（V2）</td><td data-page-node-id="hfjMUiM1jY7a92bapckbSq">成长页展示考级路径地图：本级必弹※曲目的练习覆盖度；「这一级还差哪首必弹曲没练过」——留作 V2，不进 MVP</td></tr>
-  <tr data-page-node-id="Ucx7zdsLoL9gGiBTIrT0Qx"><td data-page-node-id="VvfQfCxsfP7zm82mYUz817">FR-M4 考级模拟（远期）</td><td data-page-node-id="EnlR5z1QSQDLPTDt6P0ifn">原 PRD 的「考级模拟只做三项」设想与此天然衔接，V2 再议，本次不动</td></tr>
+<section id="s5">
+<h2>05 · PRD 修改清单（逐条）</h2>
+<table>
+  <tr><th style="width:110px">条目</th><th>改法</th></tr>
+  <tr><td>FR-M7-01 内置谱库</td><td><b>重写</b>：内置曲目库改为「央音扬琴考级 1–6 级曲目」，每首含 <code>{grade:1–6, type:练习曲|乐曲, required:必弹|选弹, title, arranger, source_page, key:1=X, tempo_mark, default_bpm}</code>；验收标准从「首发 ≥30 首」改为「<b>首批 ≥12 首（分批录入策略见 §08），结构上 78 首占位、可渐进补齐</b>」</td></tr>
+  <tr><td>FR-M7-02 谱面数据结构</td><td><b>保留</b>「行+音符」两级结构，<b>细化</b>简谱音符字段：<code>{degree:1–7, octave:-1|0|1(低/中/高音点), duration:{base, dot_count, beam_count}, rest:bool}</code>；行级补 <code>{key_sig, tempo_mark, lyrics?}</code></td></tr>
+  <tr><td>FR-M7-03 谱面渲染</td><td><b>保留</b>简谱方向，<b>补验收元素清单</b>：高低八度点、减时线（1–3 条）、增时线（—）、休止符 0、小节线、终止线、连线、反复记号（V1 可不支持）、临时升降记号（V1 可不支持，见 §12）</td></tr>
+  <tr><td>FR-M7-04 谱面批注</td><td><b>保留</b>交互；<b>词表升级</b>：标记类型从现在的 6 种扩展为两层——<b>通用标记</b>（重点/难点/慢练/分句）+ <b>扬琴技法标记</b>（轮音/反竹/弹轮/衬音/座音/滑弹/拨音……以原书 p153 技法符号表为准，由你人工核定，正好并入 T0 词表任务）</td></tr>
+  <tr><td>FR-M7-06 批注锚定</td><td><b>不变</b>：锚定 <code>{课次,学生,曲目,谱面版本,行号,音符序号}</code> 在简谱下语义完全一致（行号=简谱行，音符序号=行内第 N 个音符）</td></tr>
+  <tr><td><b>新增</b> FR-M7-12 曲目分级元数据</td><td>谱库支持按 级别/类型/必弹 筛选与排序；选曲页默认显示「学生当前级别」的曲目</td></tr>
+  <tr><td><b>新增</b> FR-M7-13 学生当前级别</td><td>学生档案增加「当前级别(1–6)」字段，老师可改；布置作业时选曲列表默认过滤该级别、可跨级</td></tr>
+  <tr><td><b>新增</b> FR-M7-14 考级路径（V2）</td><td>成长页展示考级路径地图：本级必弹※曲目的练习覆盖度；「这一级还差哪首必弹曲没练过」——留作 V2，不进 MVP</td></tr>
+  <tr><td>FR-M4 考级模拟（远期）</td><td>原 PRD 的「考级模拟只做三项」设想与此天然衔接，V2 再议，本次不动</td></tr>
 </table>
 </section>
 
 <!-- ============ 06 ============ -->
-<section id="s6" data-page-node-id="d6oD8EVIqAArEIenLgTAOs">
-<h2 data-page-node-id="F4RfsPjR6P0gePa2em1LGD">06 · 原型改造清单（工程视角）</h2>
-<table data-page-node-id="Fm2r8QbVFU2iqBUZQE8JFd">
-  <tr data-page-node-id="jilCBhVBi5q6Y1WAiv9gIf"><th style="width:150px" data-page-node-id="usBK0642VHQ4rXEeU95hem">模块</th><th data-page-node-id="rrtybOWWFldRcXpuGLQS80">现状</th><th data-page-node-id="S42xVtJs7kVu173YNdgz7P">改造</th></tr>
-  <tr data-page-node-id="Feh505nFA5V4795GKUrRI8"><td data-page-node-id="NlCrdvlxTMVIpjMpFw9GKS">谱面渲染器</td><td data-page-node-id="g0Eam23mLIstwHg8h1LrKc">自绘五线谱 SVG（音高→谱线位置）</td><td data-page-node-id="GBQjvRzcdCQHqziVEhuunG"><b data-page-node-id="vwx1fItx7CVyDRhDig2Tu1">重写为简谱渲染器</b>（§07），保留「逐音可点击 + 批注高亮」接口不变</td></tr>
-  <tr data-page-node-id="FYNqE5R5RpmKuT5caN5mCx"><td data-page-node-id="VMga9Jax30PmVPqk2Bs8CM">谱面数据 scores</td><td data-page-node-id="BoQmeoG1vm7W1PqGGRGvpf"><code data-page-node-id="EDsIOYT7wbHD9To4Fjp7cL">{title, cat:基本功|入门曲目, key, bpm, difficulty, notes(五线谱音高序列)}</code></td><td data-page-node-id="q2Q9n83z1iyzsyx3B3gZjC">改为 <code data-page-node-id="3j0CE04TeHxR3djJEkbc7K">{title, grade, type:练习曲|乐曲, required, arranger, page, key_sig, tempo_mark, bpm, lines:[[token...]]}</code></td></tr>
-  <tr data-page-node-id="wr5tovrKgdaJfKvGBJBFsP"><td data-page-node-id="AA7H8uPvzByUG6XuPGVxQv">批注 marks</td><td data-page-node-id="cQydDArHkNyrHNL7SHyCh4"><code data-page-node-id="olOUuogjur8Tc4wmBId5CH">{li, i, type, note}</code></td><td data-page-node-id="FL2zRvFrX54LecBgdGoQe9"><b data-page-node-id="DmWW4t0VScXT7Unl9OhLvG">结构不变</b>（li=行, i=行内音序），仅含义随渲染器切换；批注面板词表按 §05 扩展</td></tr>
-  <tr data-page-node-id="j0V7r3v6E7lWRP2jAX9gcO"><td data-page-node-id="zYObBAvQsTqTT3jqgZUJVq">谱库页（双端）</td><td data-page-node-id="J6E8hOKuF13EiXFOIPZRHr">平铺 11 首</td><td data-page-node-id="fiRxiU6dWEfgKTvmEEAg1G">按级别分组 + 类型（练习曲/乐曲）筛选 + 必弹徽标；显示「老师布置过」灰态保留</td></tr>
-  <tr data-page-node-id="RFDBp5Rjh7uByuvDBMTC41"><td data-page-node-id="vNG1U6OrdfAYNSQee9KLVj">上课向导 · 选曲步</td><td data-page-node-id="XCSIARY5bWkGhFtzaHtjGv">平铺 11 首</td><td data-page-node-id="zF6OUXiNQVOasBViMfW13j">默认过滤学生当前级别，可切换全部级别；曲名旁显示 <code data-page-node-id="PcRDaSqAdaimbA0IFuQ4Jb">四级·乐曲·※</code> 徽标</td></tr>
-  <tr data-page-node-id="6T32mWmDWbqlJEi3U2sBK2"><td data-page-node-id="E0R413IR7wScCYx8GyZgl9">学生档案</td><td data-page-node-id="XG9LYVeJuNh2xGcskfe05j">{姓名, 手机号, 入门时长}</td><td data-page-node-id="JTHD0daAdezjnTT1OLt8P5">增加「当前级别」选择器（1–6 级，默认 1）</td></tr>
-  <tr data-page-node-id="5ti8c42dIkKrtl3RXG8UzL"><td data-page-node-id="J4cJwtFC8qyEzhJm8yHDbZ">任务卡 / 练习页</td><td data-page-node-id="vSkNm4iQacWq2gnVovx0AY">五线谱高亮批注</td><td data-page-node-id="UDa0WpeyJgE497cEzdGmnF">渲染器替换后逻辑不变；任务卡 meta 增加级别徽标（「四级 · 乐曲」）</td></tr>
-  <tr data-page-node-id="O4M6EcZ1vNC2sPOGST43ME"><td data-page-node-id="6DOGIcJrgMl52Cj2CducFy">演示数据</td><td data-page-node-id="zxeTDC1iQSm9IEPEilg4sO">3 条作业挂在 sc01/sc05</td><td data-page-node-id="hg3MExBqZhKguCFjq6Upny">重挂到新库曲目（如 一级※五声音阶练习 / 一级乐曲·金蛇狂舞），保持三种回课状态</td></tr>
+<section id="s6">
+<h2>06 · 原型改造清单（工程视角）</h2>
+<table>
+  <tr><th style="width:150px">模块</th><th>现状</th><th>改造</th></tr>
+  <tr><td>谱面渲染器</td><td>自绘五线谱 SVG（音高→谱线位置）</td><td><b>重写为简谱渲染器</b>（§07），保留「逐音可点击 + 批注高亮」接口不变</td></tr>
+  <tr><td>谱面数据 scores</td><td><code>{title, cat:基本功|入门曲目, key, bpm, difficulty, notes(五线谱音高序列)}</code></td><td>改为 <code>{title, grade, type:练习曲|乐曲, required, arranger, page, key_sig, tempo_mark, bpm, lines:[[token...]]}</code></td></tr>
+  <tr><td>批注 marks</td><td><code>{li, i, type, note}</code></td><td><b>结构不变</b>（li=行, i=行内音序），仅含义随渲染器切换；批注面板词表按 §05 扩展</td></tr>
+  <tr><td>谱库页（双端）</td><td>平铺 11 首</td><td>按级别分组 + 类型（练习曲/乐曲）筛选 + 必弹徽标；显示「老师布置过」灰态保留</td></tr>
+  <tr><td>上课向导 · 选曲步</td><td>平铺 11 首</td><td>默认过滤学生当前级别，可切换全部级别；曲名旁显示 <code>四级·乐曲·※</code> 徽标</td></tr>
+  <tr><td>学生档案</td><td>{姓名, 手机号, 入门时长}</td><td>增加「当前级别」选择器（1–6 级，默认 1）</td></tr>
+  <tr><td>任务卡 / 练习页</td><td>五线谱高亮批注</td><td>渲染器替换后逻辑不变；任务卡 meta 增加级别徽标（「四级 · 乐曲」）</td></tr>
+  <tr><td>演示数据</td><td>3 条作业挂在 sc01/sc05</td><td>重挂到新库曲目（如 一级※五声音阶练习 / 一级乐曲·金蛇狂舞），保持三种回课状态</td></tr>
 </table>
 </section>
 
 <!-- ============ 07 ============ -->
-<section id="s7" data-page-node-id="YOTFGRhjhJkfiwsbPQxL6r">
-<h2 data-page-node-id="qFggHzUrRL40pXP7gHVJxI">07 · 简谱渲染器技术方案</h2>
-<h3 data-page-node-id="3TrRpdwusKMBCUXygwC5Su">7.1 渲染目标（对照原书 p16 实际排版）</h3>
-<div class="card" data-page-node-id="NfZfUBrKBvMlBW74YMsJUy">
-<svg viewBox="0 0 680 250" style="width:100%;height:auto" aria-label="简谱渲染示意" data-page-node-id="XKl3OQ9kcoCXQBuNrp8zWH">
-  <rect x="0" y="0" width="680" height="250" fill="#FFFDF8" data-page-node-id="mTfd8XyaUDc0vMkwUCtfGs"/>
-  <text x="16" y="26" font-size="14" font-weight="700" fill="#1C1A17" data-page-node-id="RyIDzJjLmuN9o5kf5okCqK">小跳练习 ※</text>
-  <text x="120" y="26" font-size="12" fill="#8A8377" data-page-node-id="IkO5bKttKKCrCnMqMRCsqA">二级 · 练习曲 · 桂习礼编曲</text>
-  <text x="620" y="26" font-size="12" fill="#8A8377" data-page-node-id="R2Yc9wPP3XiZdk6fCQR9AU">p11</text>
-  <text x="16" y="52" font-size="12" fill="#1C1A17" font-weight="600" data-page-node-id="KoAGy1bV71qrspVoNPn9BO">1 = D</text>
-  <text x="70" y="52" font-size="12" fill="#8A8377" data-page-node-id="sT4Lt1wFos5KXdqGzHsnlz">中速</text>
+<section id="s7">
+<h2>07 · 简谱渲染器技术方案</h2>
+<h3>7.1 渲染目标（对照原书 p16 实际排版）</h3>
+<div class="card">
+<svg viewBox="0 0 680 250" style="width:100%;height:auto" aria-label="简谱渲染示意">
+  <rect x="0" y="0" width="680" height="250" fill="#FFFDF8"/>
+  <text x="16" y="26" font-size="14" font-weight="700" fill="#1C1A17">小跳练习 ※</text>
+  <text x="120" y="26" font-size="12" fill="#8A8377">二级 · 练习曲 · 桂习礼编曲</text>
+  <text x="620" y="26" font-size="12" fill="#8A8377">p11</text>
+  <text x="16" y="52" font-size="12" fill="#1C1A17" font-weight="600">1 = D</text>
+  <text x="70" y="52" font-size="12" fill="#8A8377">中速</text>
   <!-- 第一行 -->
-  <g font-size="16" font-weight="600" fill="#1C1A17" font-family="Georgia,serif" text-anchor="middle" data-page-node-id="pPu0TeZG4hphXuYbQ0iwqB">
+  <g font-size="16" font-weight="600" fill="#1C1A17" font-family="Georgia,serif" text-anchor="middle">
     <!-- 小节1: 1 2 3 4 | 高音点示例在 i 上 -->
-    <text x="40"  y="100" data-page-node-id="vi9K4zz8GtkfDClvIKzzVe">1</text><text x="64"  y="100" data-page-node-id="Zo35Ymxj4FR4SodENMPS4G">2</text><text x="88"  y="100" data-page-node-id="XhBuOYbAU3AU0KBMmuFXns">3</text><text x="112" y="100" data-page-node-id="CajZSDKyua5TKM97NkmQn5">4</text>
-    <text x="136" y="100" data-page-node-id="wzFMEmqG7HvzZqSHlDDW6i">3</text><text x="160" y="100" data-page-node-id="T2BFtuaBwaKG6eJVvsxl4M">4</text>
+    <text x="40"  y="100">1</text><text x="64"  y="100">2</text><text x="88"  y="100">3</text><text x="112" y="100">4</text>
+    <text x="136" y="100">3</text><text x="160" y="100">4</text>
     <!-- 高音 1: 上加点 -->
-    <circle cx="196" cy="82" r="1.8" fill="#1C1A17" data-page-node-id="x4YWRQyS6rTrzFRDMS7GJN"/><text x="196" y="100" data-page-node-id="COZzIDEz8fGEGrfTXc8OmP">1</text>
-    <circle cx="220" cy="82" r="1.8" fill="#1C1A17" data-page-node-id="3xpNbBEe8pkN7U9PUMJes0"/><text x="220" y="100" data-page-node-id="mUwJ3cZT3OGBkFDWX7btxE">2</text>
+    <circle cx="196" cy="82" r="1.8" fill="#1C1A17"/><text x="196" y="100">1</text>
+    <circle cx="220" cy="82" r="1.8" fill="#1C1A17"/><text x="220" y="100">2</text>
     <!-- 小节线 -->
-    <line x1="24" y1="84" x2="24" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="yASPGCr1H1EbLFTF9mRZz6"/>
-    <line x1="124" y1="84" x2="124" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="aNZsOtdIbrBHIsD3Bwo7aE"/>
-    <line x1="244" y1="84" x2="244" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="5HbekGwfVrSfd9DyzCc6Lb"/>
+    <line x1="24" y1="84" x2="24" y2="106" stroke="#B9B2A4" stroke-width="1"/>
+    <line x1="124" y1="84" x2="124" y2="106" stroke="#B9B2A4" stroke-width="1"/>
+    <line x1="244" y1="84" x2="244" y2="106" stroke="#B9B2A4" stroke-width="1"/>
     <!-- 批注高亮: 5 6 (轮音) -->
-    <rect x="262" y="80" width="72" height="30" rx="6" fill="rgba(176,74,58,.10)" stroke="#B04A3A" stroke-width="1.4" data-page-node-id="AeM9HXldyhPpmGUjAX977b"/>
-    <text x="280" y="100" data-page-node-id="y7gdGvhz6xwXeBPMV9jGCR">5</text><text x="316" y="100" data-page-node-id="AUNsfCqzcf2IZKgDS6aPYv">6</text>
-    <text x="334" y="100" data-page-node-id="yF94xDgGecM78OJ9AWfkRU">5</text><text x="358" y="100" data-page-node-id="0bK389v3fWLx4v0FC9ioc4">3</text>
-    <line x1="252" y1="84" x2="252" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="22x9mwuVW6o91dtmO8eIHT"/>
-    <line x1="376" y1="84" x2="376" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="840im8qDzxddvJx22lVKLK"/>
-    <text x="400" y="100" data-page-node-id="ZcTTZMGbTRA6AHVoSAmaBC">2</text><text x="424" y="100" data-page-node-id="EBLwMTC8A7BRGbBGNS9d5k">3</text><text x="448" y="100" data-page-node-id="rMAT97buAyH7qPb5h7C3RF">5</text>
+    <rect x="262" y="80" width="72" height="30" rx="6" fill="rgba(176,74,58,.10)" stroke="#B04A3A" stroke-width="1.4"/>
+    <text x="280" y="100">5</text><text x="316" y="100">6</text>
+    <text x="334" y="100">5</text><text x="358" y="100">3</text>
+    <line x1="252" y1="84" x2="252" y2="106" stroke="#B9B2A4" stroke-width="1"/>
+    <line x1="376" y1="84" x2="376" y2="106" stroke="#B9B2A4" stroke-width="1"/>
+    <text x="400" y="100">2</text><text x="424" y="100">3</text><text x="448" y="100">5</text>
     <!-- 减时线示例: 两个八分音符下划一条线 -->
-    <line x1="472" y1="106" x2="520" y2="106" stroke="#1C1A17" stroke-width="1.2" data-page-node-id="eWix27oYXb6EivHNwed4lD"/>
-    <text x="472" y="100" data-page-node-id="bFSiGB70uUZ0yiwUGAb13b">6</text><text x="496" y="100" data-page-node-id="uBKqt6sYj8IVMn6AYE3k97">1</text><text x="520" y="100" data-page-node-id="aW8y0n1piJnrUH4R2dOq3y">6</text>
-    <line x1="460" y1="84" x2="460" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="0VAxEB4e3LYfHK2OiObSiD"/>
-    <text x="544" y="100" data-page-node-id="ghX2OO65JQNcq5pcnzK9a5">5</text><text x="568" y="100" data-page-node-id="io2AUSdBxKayk8MNlZFFhF">3</text><text x="592" y="100" data-page-node-id="zStgXLHuyEcUEPiQDkrspz">2</text><text x="616" y="100" data-page-node-id="fio2H9lr08ubf6d9fp5hDi">1</text>
-    <line x1="532" y1="84" x2="532" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="6PzI6bjByBxz8jbMvlJCnV"/>
-    <line x1="640" y1="84" x2="640" y2="106" stroke="#B9B2A4" stroke-width="1" data-page-node-id="qUnk7L1akKninv5YO0R1vy"/>
+    <line x1="472" y1="106" x2="520" y2="106" stroke="#1C1A17" stroke-width="1.2"/>
+    <text x="472" y="100">6</text><text x="496" y="100">1</text><text x="520" y="100">6</text>
+    <line x1="460" y1="84" x2="460" y2="106" stroke="#B9B2A4" stroke-width="1"/>
+    <text x="544" y="100">5</text><text x="568" y="100">3</text><text x="592" y="100">2</text><text x="616" y="100">1</text>
+    <line x1="532" y1="84" x2="532" y2="106" stroke="#B9B2A4" stroke-width="1"/>
+    <line x1="640" y1="84" x2="640" y2="106" stroke="#B9B2A4" stroke-width="1"/>
   </g>
   <!-- 批注气泡 -->
-  <g data-page-node-id="I1RTQZ2z9rBWWveuiIBmY6">
-    <rect x="238" y="34" width="120" height="26" rx="13" fill="#B04A3A" data-page-node-id="cjInEfVrro93CVpYwa9jiH"/>
-    <text x="298" y="51" font-size="12" fill="#fff" text-anchor="middle" data-page-node-id="PxTqTnPwGorDvrjuSBwGOV">轮音 · 要均匀，先慢</text>
-    <line x1="298" y1="60" x2="298" y2="78" stroke="#B04A3A" stroke-width="1.2" stroke-dasharray="3 3" data-page-node-id="RyYT1keK10vIv9xH7BAhlc"/>
+  <g>
+    <rect x="238" y="34" width="120" height="26" rx="13" fill="#B04A3A"/>
+    <text x="298" y="51" font-size="12" fill="#fff" text-anchor="middle">轮音 · 要均匀，先慢</text>
+    <line x1="298" y1="60" x2="298" y2="78" stroke="#B04A3A" stroke-width="1.2" stroke-dasharray="3 3"/>
   </g>
   <!-- 第二行示意 -->
-  <g font-size="16" font-weight="600" fill="#1C1A17" font-family="Georgia,serif" text-anchor="middle" opacity=".55" data-page-node-id="tI0rqoEqdKzsQPjxUu0qBd">
-    <text x="40"  y="160" data-page-node-id="kf641fje736vLOAiWtANnk">6</text><text x="64" y="160" data-page-node-id="mResYPvHQ6t85CtT1GgrUX">6</text><text x="88" y="160" data-page-node-id="7spaN2CDrH31ykl4KaOnBY">5</text>
-    <text x="112" y="160" data-page-node-id="EZUXtKW90kc7BWDnGxGfhZ">—</text><text x="136" y="160" data-page-node-id="yI6fQZyapoXMO8HcDU3qSR">5</text><text x="160" y="160" data-page-node-id="508QrjVUwSwGo00p0A6Aks">3</text>
-    <circle cx="196" cy="190" r="1.8" fill="#1C1A17" data-page-node-id="Bzb5AM6zZAqEup0p2ED4kE"/><circle cx="196" cy="195" r="1.8" fill="#1C1A17" data-page-node-id="o7JDhMkrFDwIPPjRIBBCJS"/><text x="196" y="178" data-page-node-id="F15mqBEkg4Uv7NNM6Sm4jE">5</text>
-    <text x="220" y="160" opacity="0" data-page-node-id="hKJWENziIoyLwpqNb51ada">.</text>
-    <text x="244" y="160" data-page-node-id="QtnjyZy6ZoQSHchh9bsjCp">2</text><text x="268" y="160" data-page-node-id="b9oiESum6tEfOKlMK7KKrP">1</text><text x="292" y="160" data-page-node-id="nHT8nIPrt3iBwXIFJoPO1M">—</text><text x="316" y="160" data-page-node-id="KxS4iUcX1DSEOXWNV4YwLU">—</text>
-    <text x="340" y="160" data-page-node-id="MW59oDz35h9MGddZQsEgAx">0</text>
-    <line x1="24" y1="144" x2="24" y2="166" stroke="#B9B2A4" stroke-width="1" data-page-node-id="U3Irtd1KYbFEJxRPiwAgxw"/>
-    <line x1="352" y1="144" x2="352" y2="166" stroke="#B9B2A4" stroke-width="1" data-page-node-id="CsV1Wiqrwljgv1dmCwvyAS"/>
+  <g font-size="16" font-weight="600" fill="#1C1A17" font-family="Georgia,serif" text-anchor="middle" opacity=".55">
+    <text x="40"  y="160">6</text><text x="64" y="160">6</text><text x="88" y="160">5</text>
+    <text x="112" y="160">—</text><text x="136" y="160">5</text><text x="160" y="160">3</text>
+    <circle cx="196" cy="190" r="1.8" fill="#1C1A17"/><circle cx="196" cy="195" r="1.8" fill="#1C1A17"/><text x="196" y="178">5</text>
+    <text x="220" y="160" opacity="0">.</text>
+    <text x="244" y="160">2</text><text x="268" y="160">1</text><text x="292" y="160">—</text><text x="316" y="160">—</text>
+    <text x="340" y="160">0</text>
+    <line x1="24" y1="144" x2="24" y2="166" stroke="#B9B2A4" stroke-width="1"/>
+    <line x1="352" y1="144" x2="352" y2="166" stroke="#B9B2A4" stroke-width="1"/>
   </g>
-  <text x="16" y="216" font-size="12" fill="#8A8377" data-page-node-id="XjcXCfeZlFGiska6SWj1TD">演奏提示：清晰、流畅。</text>
-  <g data-page-node-id="UveDYd59GC2YuLFZ5u8MjB">
-    <rect x="480" y="196" width="184" height="34" rx="8" fill="#F6F2E9" stroke="#E8E2D6" data-page-node-id="qfyG3MQ3EqKAhHcYRiY13i"/>
-    <text x="494" y="212" font-size="11" fill="#8A8377" data-page-node-id="Gxmbp5FTHeiinHRWRvoyuq">低八度点（下加点）· 增时线（—）</text>
-    <text x="494" y="225" font-size="11" fill="#8A8377" data-page-node-id="ns5WEyizwKaZcT8RrEtBon">休止符 0 · 减时线（下划线）</text>
+  <text x="16" y="216" font-size="12" fill="#8A8377">演奏提示：清晰、流畅。</text>
+  <g>
+    <rect x="480" y="196" width="184" height="34" rx="8" fill="#F6F2E9" stroke="#E8E2D6"/>
+    <text x="494" y="212" font-size="11" fill="#8A8377">低八度点（下加点）· 增时线（—）</text>
+    <text x="494" y="225" font-size="11" fill="#8A8377">休止符 0 · 减时线（下划线）</text>
   </g>
 </svg>
 </div>
-<p class="small" data-page-node-id="NKEB5UlETAknMLAwi4pFiH">上图为渲染目标示意（非实现截图）：调号/速度标记、小节线、高低八度点、减时线、增时线、休止 0、批注高亮 + 一句话指令气泡。原书 p16 的实际排版是唯一对照标准。</p>
+<p class="small">上图为渲染目标示意（非实现截图）：调号/速度标记、小节线、高低八度点、减时线、增时线、休止 0、批注高亮 + 一句话指令气泡。原书 p16 的实际排版是唯一对照标准。</p>
 
-<h3 data-page-node-id="kjEuoowIin1mulwcd5v1ai">7.2 数据与交互设计</h3>
-<table data-page-node-id="cqjghnPYGGKWQ8jNwyAi63">
-  <tr data-page-node-id="y3YxYvFb6xRQuv5nPf93By"><th style="width:150px" data-page-node-id="LZoYR6BD7NcPZf6rQgyfcf">项</th><th data-page-node-id="M7VJg0ETB9K9gsm2TAXCvU">设计</th></tr>
-  <tr data-page-node-id="AGBIX2A0yXR5f8cjPgSUKG"><td data-page-node-id="k3HBBqP05yEwilGLgaB34T">谱面载体</td><td data-page-node-id="8PczXUuGge5rusp042qcE8">结构化 token，不用图片。每行 = token 数组；token = <code data-page-node-id="PXGzawvBTOEdGcylJSFp8w">数字 + 八度 + 时值 + 休止</code>，小节线/终止线为行内标点</td></tr>
-  <tr data-page-node-id="4VxpEtGgam4wHmdQ8nCgRr"><td data-page-node-id="Id3u9aD5SEIqw3FIt29Vq8">录入 DSL（内部）</td><td data-page-node-id="C5p58Dd9pVheL11QwtzzXW">给人录的极简文本，如 <code data-page-node-id="kFXjndduozgUD0tpoSD3oX">1=D 中速 | 1 2 3 4 | 3 4 1' 2' | (5 6:轮音) 5 3 | 2 3 5 6_1 6 | 5 3 2 1 ‖</code>——解析器转 token。录入成本主要在这里（§08）</td></tr>
-  <tr data-page-node-id="qWizYf1lyFhHp23Yob438d"><td data-page-node-id="DcLPOdofN6F0O9GhGsJK5c">点击批注</td><td data-page-node-id="KXxyNlhl5nxQVlTH3vbM2a">点任意音符 token → 弹标记面板（与现在五线谱完全同构）；锚定 <code data-page-node-id="WGAgm0TuHcAW2kkAW9ZvoQ">{li, i}</code> 不变，FR-M7-06 快照机制照常生效</td></tr>
-  <tr data-page-node-id="0xnBOlx0wd0NOAlVkxCo5O"><td data-page-node-id="QDyfzwDFcqyi4STeBmKx89">批注显示</td><td data-page-node-id="8AlRD7FxdBPawKBhgqYIlA">标记高亮框（朱砂系单色，沿用现有 token）+ 气泡显示一句话指令；孩子端同构</td></tr>
-  <tr data-page-node-id="ickMGwGBHY5GbTzKHvJHNm"><td data-page-node-id="6mAiFqTTqM2WsAxZEKld2O">技法符号（V2）</td><td data-page-node-id="Alrp4J6AClYZCdqKHPuwVT">轮音⌁、反竹、弹轮、滑弹等原书符号，V1 先用文字标签（现有 MARK_TYPES 扩展），V2 再做符号字形映射——避免 V1 范围膨胀</td></tr>
-  <tr data-page-node-id="xTdrv2F40dlBgU8j8sKbt5"><td data-page-node-id="Va6xmIYPuXqIycDCggLBDl">多声部（V2）</td><td data-page-node-id="vSMqcX5MqSBujWIdBWHjFc">5/6 级出现两声部练习（上下两行对齐渲染）。V1 只支持单声部，两声部曲目先「扫描图 + 行级批注」兜底（§12）</td></tr>
+<h3>7.2 数据与交互设计</h3>
+<table>
+  <tr><th style="width:150px">项</th><th>设计</th></tr>
+  <tr><td>谱面载体</td><td>结构化 token，不用图片。每行 = token 数组；token = <code>数字 + 八度 + 时值 + 休止</code>，小节线/终止线为行内标点</td></tr>
+  <tr><td>录入 DSL（内部）</td><td>给人录的极简文本，如 <code>1=D 中速 | 1 2 3 4 | 3 4 1' 2' | (5 6:轮音) 5 3 | 2 3 5 6_1 6 | 5 3 2 1 ‖</code>——解析器转 token。录入成本主要在这里（§08）</td></tr>
+  <tr><td>点击批注</td><td>点任意音符 token → 弹标记面板（与现在五线谱完全同构）；锚定 <code>{li, i}</code> 不变，FR-M7-06 快照机制照常生效</td></tr>
+  <tr><td>批注显示</td><td>标记高亮框（朱砂系单色，沿用现有 token）+ 气泡显示一句话指令；孩子端同构</td></tr>
+  <tr><td>技法符号（V2）</td><td>轮音⌁、反竹、弹轮、滑弹等原书符号，V1 先用文字标签（现有 MARK_TYPES 扩展），V2 再做符号字形映射——避免 V1 范围膨胀</td></tr>
+  <tr><td>多声部（V2）</td><td>5/6 级出现两声部练习（上下两行对齐渲染）。V1 只支持单声部，两声部曲目先「扫描图 + 行级批注」兜底（§12）</td></tr>
 </table>
 </section>
 
 <!-- ============ 08 ============ -->
-<section id="s8" data-page-node-id="8cT4HZiOWOnfjnB3psE2h9">
-<h2 data-page-node-id="KXnZj8G6UHQYxEpEhHKdb2">08 · 曲目录入策略（最容易被低估的成本）</h2>
-<p data-page-node-id="QOY5Km4G2zm3e5VoOxaryI">78 首全部结构化录入不现实也没必要——<b data-page-node-id="iAkyol9EmUIuduuQMlAWAA">你只会同时教其中一小部分</b>。建议「占位全量 + 内容分批」：</p>
-<table data-page-node-id="j9Q0H8jNVeSszCd1Cv1DAK">
-  <tr data-page-node-id="rkZOAKCJ6vC10ajdkNclSi"><th data-page-node-id="dH632gIGUK8GG8tna62Lce">层</th><th data-page-node-id="ECRf6h4OAxCoXSV1ubx7E6">内容</th><th data-page-node-id="qVKDNbvFxgHJGQeTGyKFBM">成本</th></tr>
-  <tr data-page-node-id="zx2uqIbkNq3U7th0TC23KJ"><td data-page-node-id="ePR5PMEqEFB0EePFv0P8P0"><b data-page-node-id="4JbcgcJ1Bf73wV4Wo9Depc">全量占位</b>（P0，机器做）</td><td data-page-node-id="lk2IJQlcagKp16WafynzYX">78 首全部入库，但只有元数据：<code data-page-node-id="A8AX6e4dVe4PALwZaEsJoi">{级别, 类型, 曲名, 订谱者, 页码, 必弹}</code>——列表可见、可选中的「缺谱态」（灰色 + 「谱面待录入」）</td><td data-page-node-id="TGKZYveqJ2pJJ9oSoLDH0G">脚本一次性生成，0 人工 <span class="tag r" data-page-node-id="BTMi0TpFIxlr3DDsAEceu2">⚠6 处曲名由你核对</span></td></tr>
-  <tr data-page-node-id="1a6oId8GJ8Qhj9D71AgaeC"><td data-page-node-id="pv8iZIV45uba7VzPUivDj5"><b data-page-node-id="6ZR2OFcGfDjUcFjXd7A3TZ">首批精录</b>（P0，人工）</td><td data-page-node-id="hWmEAwTwp6P3cQDQvCblhQ">你正在教 / 最常布置的 <b data-page-node-id="DInLV51PpH5ONEJGOoZ3Hf">10–15 首</b>，录入简谱 DSL + 默认 BPM + 演奏提示。建议优先：一级 3–4 首（含五声音阶练习——正好接住现有演示数据）+ 你学生在学各曲</td><td data-page-node-id="D7zCeap6RHGtlGY7ueaH2c">每首 15–40 分钟（行数少的练习曲快，乐曲慢）；可由我协助批量转录</td></tr>
-  <tr data-page-node-id="CJsNnCmWCELnygEAMZrDiY"><td data-page-node-id="3bWpyRkkc0W7WwQguJjgXC"><b data-page-node-id="DCbZNN0ecflk7raGeApNZA">渐进补齐</b>（P1+，随教学）</td><td data-page-node-id="YDbUpLwbMoznHNc3pIobrh">每次给真学生布置作业时顺手录一首——录入行为本身发生在上课流程里，不设专门「录完 78 首」的里程碑</td><td data-page-node-id="Ja6QsPB0VkuK8dgXQJ1zxV">自然增长</td></tr>
-  <tr data-page-node-id="5YIcWkfTbopEXbkM8kXzGH"><td data-page-node-id="dPoXGrX5zkydiSuijV5efL">扫描图兜底（可选）</td><td data-page-node-id="jNDskwSwVEJH5pthj7O119">缺谱曲目支持上传该页扫描图作为谱面（只读、行级批注定位粗）——个人教学够用</td><td data-page-node-id="So8rDTSUPZORZ08CaVUQz1">每首 1 分钟</td></tr>
+<section id="s8">
+<h2>08 · 曲目录入策略（最容易被低估的成本）</h2>
+<p>78 首全部结构化录入不现实也没必要——<b>你只会同时教其中一小部分</b>。建议「占位全量 + 内容分批」：</p>
+<table>
+  <tr><th>层</th><th>内容</th><th>成本</th></tr>
+  <tr><td><b>全量占位</b>（P0，机器做）</td><td>78 首全部入库，但只有元数据：<code>{级别, 类型, 曲名, 订谱者, 页码, 必弹}</code>——列表可见、可选中的「缺谱态」（灰色 + 「谱面待录入」）</td><td>脚本一次性生成，0 人工 <span class="tag r">⚠6 处曲名由你核对</span></td></tr>
+  <tr><td><b>首批精录</b>（P0，人工）</td><td>你正在教 / 最常布置的 <b>10–15 首</b>，录入简谱 DSL + 默认 BPM + 演奏提示。建议优先：一级 3–4 首（含五声音阶练习——正好接住现有演示数据）+ 你学生在学各曲</td><td>每首 15–40 分钟（行数少的练习曲快，乐曲慢）；可由我协助批量转录</td></tr>
+  <tr><td><b>渐进补齐</b>（P1+，随教学）</td><td>每次给真学生布置作业时顺手录一首——录入行为本身发生在上课流程里，不设专门「录完 78 首」的里程碑</td><td>自然增长</td></tr>
+  <tr><td>扫描图兜底（可选）</td><td>缺谱曲目支持上传该页扫描图作为谱面（只读、行级批注定位粗）——个人教学够用</td><td>每首 1 分钟</td></tr>
 </table>
-<div class="warnbox" data-page-node-id="NaCFNCg82t15rHyv5uBHhW"><b data-page-node-id="HKcg5riOClpUvADrsEWB1f">版权提醒</b>：原书扫描页只能用于<b data-page-node-id="5hVWzbcB7fc23JHXcM1dXN">你自己的教学</b>（自用合理）。若产品将来要公开发布/分发给其他老师，谱面必须用「结构化录入」这条路（简谱数字本身不受旋律之外的表达版权保护，但扫描件是出版物复制），且曲目元数据（曲名/订谱者）应保留署名。PRD 应写明这条边界。</div>
+<div class="warnbox"><b>版权提醒</b>：原书扫描页只能用于<b>你自己的教学</b>（自用合理）。若产品将来要公开发布/分发给其他老师，谱面必须用「结构化录入」这条路（简谱数字本身不受旋律之外的表达版权保护，但扫描件是出版物复制），且曲目元数据（曲名/订谱者）应保留署名。PRD 应写明这条边界。</div>
 </section>
 
 <!-- ============ 09 ============ -->
-<section id="s9" data-page-node-id="OOIHlWCp576JIsiVnPqGtA">
-<h2 data-page-node-id="zQNKHl8iO2ii9gaLqpmnRZ">09 · 分级体系的产品逻辑（设计优化点）</h2>
-<table data-page-node-id="J966wF5OQnZCa4999jGezc">
-  <tr data-page-node-id="U841zbdcVYSoL5Pu97Povn"><th style="width:160px" data-page-node-id="A68hH7Fc421DmFPqh1knIM">触点</th><th data-page-node-id="CDlnklvHWpRMTTDqVOsuj1">优化</th></tr>
-  <tr data-page-node-id="mwMKDdoGoFhLfWGWTS4VrO"><td data-page-node-id="EMtjqCEFuExOT3E0peICQ1">学生档案</td><td data-page-node-id="7EeLxuOUP4hGBH1FjpLOl6">+「当前级别」。这不是装饰字段——它是老师布置作业时<b data-page-node-id="Lrd0dAgf3kDTOJUtGLof3y">选曲过滤的默认值</b>，也是成长线的坐标系</td></tr>
-  <tr data-page-node-id="pXqy3hPDGbpftYiEFymLSk"><td data-page-node-id="TxCaigvT1Q2CTbEneigQSI">上课向导 · 选曲</td><td data-page-node-id="wEyd3IC6z8tubYBIdMnxdS">默认只看该级别曲目（练习曲/乐曲两个子表）；「看全部级别」折叠在次级操作。选曲成本从「在 78 首里找」降为「在本级 13 首里点」</td></tr>
-  <tr data-page-node-id="nqwNkYM6sCMrA5Dnm2uMAJ"><td data-page-node-id="TtSq1GmuNKM5MjFNhs6ITm">微目标生成</td><td data-page-node-id="J4LfHlFXPq1M2ZQLpnP3h1">练习曲天然带技法主题（小跳练习→分腕跳音、定拍轮音→轮音均匀）——「从批注生成微目标」可直接继承曲目主题作为技法默认值，减少老师打字</td></tr>
-  <tr data-page-node-id="moN6RmKLxkKmlnUZ9IGWkN"><td data-page-node-id="1pYNeoaDMxXBCzPZoOjNac">任务卡</td><td data-page-node-id="XhYe2zDhIkHeU53EibD3Eg">显示 <code data-page-node-id="x14x2sbNm4lGDXmNm0wQux">三级 · 乐曲 · ※喜讯</code> 徽标；家长不用懂考级体系，但能看到「孩子在练第几级什么曲」——<b data-page-node-id="kEtofjsmWErubCNGQwscET">进度可视化</b>，呼应「这周的小目标」</td></tr>
-  <tr data-page-node-id="3hFOPVCfPP5EgAEURau996"><td data-page-node-id="rSvZOMJ2FoD78fB8jRgbRQ">回课驾驶舱</td><td data-page-node-id="tXRxkJgldq3KA4JpkrD9N2">卡片按曲目级别/类型排布不变，仅加徽标；老师扫一眼知道哪个孩子在攻哪一级</td></tr>
-  <tr data-page-node-id="w0HzzIO7FoJY19vkY2YzEk"><td data-page-node-id="XYfP0cHggR1sWmJWSSFnfo">成长页（V2）</td><td data-page-node-id="Rs8Mzuous9o2UHjvmw8dxG">考级路径地图：本级 25 首必弹中的覆盖度、每首最近一次回课判定；「升级」事件（最后一批必弹全部达标 → 建议进入下一级）</td></tr>
-  <tr data-page-node-id="Gs1Qqg8bUmDA5OAcpxnLbL"><td data-page-node-id="AV0agRww4lqDkowdH8hjja">数据资产</td><td data-page-node-id="scs5wxHF7k32RqrLzHvdYy">每份「批注 + 回课判定」都挂在校音曲目库的规范曲目上——这是将来「扬琴教学法数据壁垒」的原始积累（与第五卷结论一致）</td></tr>
+<section id="s9">
+<h2>09 · 分级体系的产品逻辑（设计优化点）</h2>
+<table>
+  <tr><th style="width:160px">触点</th><th>优化</th></tr>
+  <tr><td>学生档案</td><td>+「当前级别」。这不是装饰字段——它是老师布置作业时<b>选曲过滤的默认值</b>，也是成长线的坐标系</td></tr>
+  <tr><td>上课向导 · 选曲</td><td>默认只看该级别曲目（练习曲/乐曲两个子表）；「看全部级别」折叠在次级操作。选曲成本从「在 78 首里找」降为「在本级 13 首里点」</td></tr>
+  <tr><td>微目标生成</td><td>练习曲天然带技法主题（小跳练习→分腕跳音、定拍轮音→轮音均匀）——「从批注生成微目标」可直接继承曲目主题作为技法默认值，减少老师打字</td></tr>
+  <tr><td>任务卡</td><td>显示 <code>三级 · 乐曲 · ※喜讯</code> 徽标；家长不用懂考级体系，但能看到「孩子在练第几级什么曲」——<b>进度可视化</b>，呼应「这周的小目标」</td></tr>
+  <tr><td>回课驾驶舱</td><td>卡片按曲目级别/类型排布不变，仅加徽标；老师扫一眼知道哪个孩子在攻哪一级</td></tr>
+  <tr><td>成长页（V2）</td><td>考级路径地图：本级 25 首必弹中的覆盖度、每首最近一次回课判定；「升级」事件（最后一批必弹全部达标 → 建议进入下一级）</td></tr>
+  <tr><td>数据资产</td><td>每份「批注 + 回课判定」都挂在校音曲目库的规范曲目上——这是将来「扬琴教学法数据壁垒」的原始积累（与第五卷结论一致）</td></tr>
 </table>
 </section>
 
 <!-- ============ 10 ============ -->
-<section id="s10" data-page-node-id="qpdkvWLjB8xkzGmTRs4BSN">
-<h2 data-page-node-id="opBHtyY23SodhvYNovlafc">10 · 落地路线图</h2>
-<table data-page-node-id="25BRd1O0GPiqqN73Yl8MzN">
-  <tr data-page-node-id="gZFWpXVd7Ca3uA2YcUKwBP"><th style="width:70px" data-page-node-id="RF9cjEUd2xgltECyHpFFsC">阶段</th><th data-page-node-id="1pj83Hp66FENniv3PDf87B">内容</th><th data-page-node-id="JL5FEjjHxuJ9T3SbN5sYBz">完成标志</th></tr>
-  <tr data-page-node-id="dmD1DXXLUOZEv2LeG9g5TL"><td data-page-node-id="NERqGJCCGu7h8XEEyBbt81"><b data-page-node-id="YZGm6WMFTaeuP4HA3OJRkL">P0-a</b><br data-page-node-id="ifANZ53Za3aWEE8XCfFEJ2"><span class="small" data-page-node-id="d0UV5aPqihVMQp6hQOwfjc">数据先行</span></td><td data-page-node-id="DcXdUETR90hmLesPEZQsou">① 78 首元数据全量入库（占位）② 你核对 6 处⚠ ③ 你圈定首批精录 10–15 首</td><td data-page-node-id="W0wxNDKh1g2HhxVHYAyerZ">原型谱库页显示 6 级分组全量列表（灰色缺谱态）</td></tr>
-  <tr data-page-node-id="P8FCaxCYsyYTNz1GgTJx4N"><td data-page-node-id="2Ldn2nc4PsYCEUBhFlP8S7"><b data-page-node-id="EgLLqb8JxcbYAYJOSfKKKO">P0-b</b><br data-page-node-id="K3HRkDY9WJ6BoD9sjDz8oE"><span class="small" data-page-node-id="OJmeHNSqF4OUJZ8Xy6qUMY">渲染器</span></td><td data-page-node-id="dMGHEBNT2HMBwj5vGFLGCa">简谱渲染器（单声部）：DSL 解析 + 渲染 + 点击批注 + 高亮；替换五线谱渲染器；演示数据迁移（五声音阶练习 → 一级※曲目）</td><td data-page-node-id="gcgCUoWABAFYAiqf3eGYQB">「批注 → 布置 → 练习 → 回课」全链路在简谱上跑通</td></tr>
-  <tr data-page-node-id="zL0PLHYRjBrGAzydwf7ZWv"><td data-page-node-id="D5BXtQRtiNrbrqZ9YMUljT"><b data-page-node-id="oYNnVb0gqlhHiIFzzbFObP">P0-c</b><br data-page-node-id="1M6FG9vMc93BoyJC1KE168"><span class="small" data-page-node-id="3yGxJ9sK6sDAT0glK6whNy">首批精录</span></td><td data-page-node-id="902MuSG9oTEimMzh4HmibR">首批 10–15 首录入（我协助转录 + 你核对指法/技法标记）</td><td data-page-node-id="1jMdgc06qCJ3w2nK0ZJ9w0">真实可教的曲目量；学生档案级别字段上线</td></tr>
-  <tr data-page-node-id="eftEgVtYBxTBb9rmHW9cQN"><td data-page-node-id="463xwBBIsdMMcM9e7mp6Mf"><b data-page-node-id="bHoCBegHDCPCh9VNX91SUK">P1</b></td><td data-page-node-id="WNrnywUBfS9gjdiccaGwFu">选曲默认按级过滤、任务卡级别徽标、PRD 正式修订版（§05 落进文档）</td><td data-page-node-id="5DyHdCVenisTXAlWrMslLy">发布流程更新</td></tr>
-  <tr data-page-node-id="cBW9cwhRazrCS11sHI14M3"><td data-page-node-id="20iEpNHOCPw40b5Hri378Q"><b data-page-node-id="VobbNEjAwhWArNwtJPexWs">P2</b></td><td data-page-node-id="KcPtQjQqMbE1v5mZ4tpdrH">考级路径地图（FR-M7-14）、多声部渲染、扬琴技法符号字形（对齐原书符号表）</td><td data-page-node-id="FEBA0yCp59KnJ5F3YgO0Tc">V2 需求评审</td></tr>
+<section id="s10">
+<h2>10 · 落地路线图</h2>
+<table>
+  <tr><th style="width:70px">阶段</th><th>内容</th><th>完成标志</th></tr>
+  <tr><td><b>P0-a</b><br><span class="small">数据先行</span></td><td>① 78 首元数据全量入库（占位）② 你核对 6 处⚠ ③ 你圈定首批精录 10–15 首</td><td>原型谱库页显示 6 级分组全量列表（灰色缺谱态）</td></tr>
+  <tr><td><b>P0-b</b><br><span class="small">渲染器</span></td><td>简谱渲染器（单声部）：DSL 解析 + 渲染 + 点击批注 + 高亮；替换五线谱渲染器；演示数据迁移（五声音阶练习 → 一级※曲目）</td><td>「批注 → 布置 → 练习 → 回课」全链路在简谱上跑通</td></tr>
+  <tr><td><b>P0-c</b><br><span class="small">首批精录</span></td><td>首批 10–15 首录入（我协助转录 + 你核对指法/技法标记）</td><td>真实可教的曲目量；学生档案级别字段上线</td></tr>
+  <tr><td><b>P1</b></td><td>选曲默认按级过滤、任务卡级别徽标、PRD 正式修订版（§05 落进文档）</td><td>发布流程更新</td></tr>
+  <tr><td><b>P2</b></td><td>考级路径地图（FR-M7-14）、多声部渲染、扬琴技法符号字形（对齐原书符号表）</td><td>V2 需求评审</td></tr>
 </table>
 </section>
 
 <!-- ============ 11 ============ -->
-<section id="s11" data-page-node-id="S9tyhYrh7ZbjBEqUG7KsiT">
-<h2 data-page-node-id="TBRUZ8rpS9v7DtL4Ywe4mx">11 · 待你确认的决策点</h2>
-<table data-page-node-id="2hoGzmVRFPGxDCuvxrt2O0">
-  <tr data-page-node-id="9z0oeUo6syKhMw36moZEf4"><th style="width:60px" data-page-node-id="LUf7yuiFB43xSfJfOzfIru">#</th><th data-page-node-id="W1HVJcLio8RbAeCeKXyjSA">决策</th><th data-page-node-id="CgOnDIggJxqHAnQTbBDtHg">我的建议</th></tr>
-  <tr data-page-node-id="trrvDXO8iX1py3zhOUDUCL"><td data-page-node-id="saz8SHDONzLD6SqemKr43V">D1</td><td data-page-node-id="iKfyMFD3o90KvpMEyVWaGA">首批精录选哪些曲</td><td data-page-node-id="BW5WFGGP9sw9KPaG9CMQCH">每级必弹※里挑你真在教的 + 一级练习曲 3 首（接住演示数据）；具体清单由你圈定</td></tr>
-  <tr data-page-node-id="FWKEtReboRNUtjHDBFguKK"><td data-page-node-id="vdZgh1c2L2Qs7lFXvjJDWv">D2</td><td data-page-node-id="UGCw8ofpsHEg3rhyXSMyNF">原 11 首入门曲库去留</td><td data-page-node-id="0uvHvhUnQ6VTNb0gPHInFO"><b data-page-node-id="9g2SrPY6M1i3rzqFpOEy9M">删除</b>（五声音阶练习本身就在一级必弹里，其余小星星/两只老虎与考级体系无关，留着稀释专业感）</td></tr>
-  <tr data-page-node-id="cj4DYIcixOJQXX45CXqyJs"><td data-page-node-id="BABNJgB6FBog3jhhom3dwR">D3</td><td data-page-node-id="sHYcCviZl5A3OA9dHzFsGA">扫描图兜底要不要做</td><td data-page-node-id="LOLp9LIXvZfvJiyIDdKp1x">V1 先<b data-page-node-id="xuAaFRCF2lh8bpEStcsaBG">不做</b>（避免两套批注锚定体系）；缺谱就显示「待录入」，逼出真实录入优先级</td></tr>
-  <tr data-page-node-id="T6DRQadsQCIuOMv2rI8TPz"><td data-page-node-id="xAa79fiEmf7nc0uf1nWCFI">D4</td><td data-page-node-id="vMKcPY3ClTITCMCTu7lBxb">本轮先改文档还是连原型一起改</td><td data-page-node-id="cjKMv5n70fLAfk2ZICWwWa">先<b data-page-node-id="AZvRYCAiW1jlbCrRmoinkF">确认本方案</b> → 改 PRD → 再动原型（渲染器是硬活，别在决策未定时开工）</td></tr>
+<section id="s11">
+<h2>11 · 待你确认的决策点</h2>
+<table>
+  <tr><th style="width:60px">#</th><th>决策</th><th>我的建议</th></tr>
+  <tr><td>D1</td><td>首批精录选哪些曲</td><td>每级必弹※里挑你真在教的 + 一级练习曲 3 首（接住演示数据）；具体清单由你圈定</td></tr>
+  <tr><td>D2</td><td>原 11 首入门曲库去留</td><td><b>删除</b>（五声音阶练习本身就在一级必弹里，其余小星星/两只老虎与考级体系无关，留着稀释专业感）</td></tr>
+  <tr><td>D3</td><td>扫描图兜底要不要做</td><td>V1 先<b>不做</b>（避免两套批注锚定体系）；缺谱就显示「待录入」，逼出真实录入优先级</td></tr>
+  <tr><td>D4</td><td>本轮先改文档还是连原型一起改</td><td>先<b>确认本方案</b> → 改 PRD → 再动原型（渲染器是硬活，别在决策未定时开工）</td></tr>
 </table>
 </section>
 
 <!-- ============ 12 ============ -->
-<section id="s12" data-page-node-id="tl3t4ojlFJobtZP0ceLhaz">
-<h2 data-page-node-id="HmX0B242InjOgXEixDsdGc">12 · 已知缺口与风险（不装的）</h2>
-<ul data-page-node-id="o3bGXf9qYOCvO9yULzfRpj">
-  <li data-page-node-id="e7jlDJGYDHbGUjcNp13ci0"><b data-page-node-id="FDEhB9sY2oVSsTBuXLHbQR">6 处转录不确定</b>（§04 标⚠）：曲名 3 处（蕉石鸣琴 / 黎明舞曲 / 敖西潮 / 杜鹃啼中的不确定者）、改编者 3–4 处。置信度高但非零误差，必须人工核对——原书在你手上，10 分钟的事。</li>
-  <li data-page-node-id="6UJAgYdmLn8LYmYCxxOIbx"><b data-page-node-id="vHACey28DOscY83CewY4pV">※ 含义未向央音官方求证</b>：「必弹/规定曲目」是行业惯例解读（C 级），落地前以央音当年考级简章为准。</li>
-  <li data-page-node-id="ZYmqMYq9kRvQ14A0zo7bIx"><b data-page-node-id="MBKN3KaycK3OF9A1OfDMAF">简谱渲染的复杂度长尾</b>：V1 覆盖 音符/八度点/减时线/增时线/休止/小节线/连线（约覆盖书内 90% 记号）；<b data-page-node-id="DKdMSxaJWUMsauyoJomY16">暂不支持</b>：临时升降记号、复杂连音符、多声部对齐、转调——5/6 级部分曲目会踩到，方案是 V1 显式「不支持标记」而不是渲染错。</li>
-  <li data-page-node-id="sh9DbhklZ1h7sVQBBFjpql"><b data-page-node-id="Rsl1HDO8VuI97WOohF9XHe">录入是持续性人力成本</b>：没有「录完」的状态，只有「够教」的状态。靠 P1 的「布置时顺手录」消化，不设集中录入冲刺。</li>
-  <li data-page-node-id="tqmHwAXcVQt48je1tCD2R4"><b data-page-node-id="yZydKUdsWo3jT4ZbAVvDb2">版权边界</b>：扫描图仅自用；对外分发必须走结构化录入（§08）。这条要写进 PRD 非功能需求。</li>
-  <li data-page-node-id="KeajA6HgR1f8tKM98p6ffj"><b data-page-node-id="EVkw5MK2eIGINFUs9P0TJj">本书版本</b>：PDF 为网店扫描件（水印 jazz100.cn），与正规出版物的页码/曲目应一致，但建议以你手里的正版实体书为最终校对基准。</li>
+<section id="s12">
+<h2>12 · 已知缺口与风险（不装的）</h2>
+<ul>
+  <li><b>6 处转录不确定</b>（§04 标⚠）：曲名 3 处（蕉石鸣琴 / 黎明舞曲 / 敖西潮 / 杜鹃啼中的不确定者）、改编者 3–4 处。置信度高但非零误差，必须人工核对——原书在你手上，10 分钟的事。</li>
+  <li><b>※ 含义未向央音官方求证</b>：「必弹/规定曲目」是行业惯例解读（C 级），落地前以央音当年考级简章为准。</li>
+  <li><b>简谱渲染的复杂度长尾</b>：V1 覆盖 音符/八度点/减时线/增时线/休止/小节线/连线（约覆盖书内 90% 记号）；<b>暂不支持</b>：临时升降记号、复杂连音符、多声部对齐、转调——5/6 级部分曲目会踩到，方案是 V1 显式「不支持标记」而不是渲染错。</li>
+  <li><b>录入是持续性人力成本</b>：没有「录完」的状态，只有「够教」的状态。靠 P1 的「布置时顺手录」消化，不设集中录入冲刺。</li>
+  <li><b>版权边界</b>：扫描图仅自用；对外分发必须走结构化录入（§08）。这条要写进 PRD 非功能需求。</li>
+  <li><b>本书版本</b>：PDF 为网店扫描件（水印 jazz100.cn），与正规出版物的页码/曲目应一致，但建议以你手里的正版实体书为最终校对基准。</li>
 </ul>
 </section>
 
 <!-- ============ 13 ============ -->
-<section id="s13" data-page-node-id="O810WeO3CzXQ8gQ4hNiAmB">
-<h2 data-page-node-id="oYtIfN1kOUEtsT12AIIlT2">13 · 信源清单</h2>
-<ol class="src" data-page-node-id="dkCBmDR82ikxsTFmNV5rGV">
-  <li data-page-node-id="6tGZ9rVM9HeiROgHFKZ9Uu"><b data-page-node-id="NQqFZXQQ9CzatHDATIpwzo">[A]</b> 《中央音乐学院海内外考级曲目·扬琴 1–6 级》扫描版 PDF（用户提供，160 页；目录页 I–IV 视觉转录，谱面页 p16、技法符号表位置 p153 实读）——曲目清单与简谱排版实证。</li>
-  <li data-page-node-id="xcssGYHb9Yd9Hi2ZMH4KdF"><b data-page-node-id="frdERv5QMDQEqnljTA66kE">[A]</b> 本项目 <code data-page-node-id="yD6zcFtT2zJhaH5mylnbYY">docs/PRD-产品需求文档.html</code>（FR-M7-01～07 原文，2026-09 版）——「PRD 本就写了简谱」的依据。</li>
-  <li data-page-node-id="oCAxHWNcoXBmMpkTgkjXMt"><b data-page-node-id="3x3VjQEf4qSvpemOlX8oUg">[A]</b> 本项目原型 <code data-page-node-id="qj38qDu2Pw0tiU0vKsD4vg">prototype/server/public/index.html</code>（scores 数据结构与五线谱渲染器实现）——现状差距分析依据。</li>
-  <li data-page-node-id="N7NeRQZoULzVTp6SwfbYnu"><b data-page-node-id="H4CobyJlT3EyGJSlSarmRH">[C]</b> 「※ = 考级规定曲目」的行业惯例解释——未经央音官方简章核实，仅作设计参考。</li>
-  <li data-page-node-id="L9Vs3Jvaah9iX7Qn21H6k1"><b data-page-node-id="pTMtfZa7flKpeNJvq33xQp">[D]</b> 首批录入成本估算（15–40 分钟/首）——基于 DSL 复杂度推算，待 P0-b 实测修正。</li>
+<section id="s13">
+<h2>13 · 信源清单</h2>
+<ol class="src">
+  <li><b>[A]</b> 《中央音乐学院海内外考级曲目·扬琴 1–6 级》扫描版 PDF（用户提供，160 页；目录页 I–IV 视觉转录，谱面页 p16、技法符号表位置 p153 实读）——曲目清单与简谱排版实证。</li>
+  <li><b>[A]</b> 本项目 <code>docs/PRD-产品需求文档.html</code>（FR-M7-01～07 原文，2026-09 版）——「PRD 本就写了简谱」的依据。</li>
+  <li><b>[A]</b> 本项目原型 <code>prototype/server/public/index.html</code>（scores 数据结构与五线谱渲染器实现）——现状差距分析依据。</li>
+  <li><b>[C]</b> 「※ = 考级规定曲目」的行业惯例解释——未经央音官方简章核实，仅作设计参考。</li>
+  <li><b>[D]</b> 首批录入成本估算（15–40 分钟/首）——基于 DSL 复杂度推算，待 P0-b 实测修正。</li>
 </ol>
-<div class="foot" data-page-node-id="igjtzqOd7uVOi2duVuEN1y">余音 · 需求变更设计 v1 ｜ 2026-09-10 ｜ 确认 §11 决策点后进入 P0</div>
+<div class="foot">余音 · 需求变更设计 v1 ｜ 2026-09-10 ｜ 确认 §11 决策点后进入 P0</div>
 </section>
 
 </div>
