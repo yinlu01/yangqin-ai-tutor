@@ -1,0 +1,40 @@
+[
+ {
+  "tag": "replace",
+  "before": [
+   "<head>",
+   "<meta charset=\"utf-8\">",
+   "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">"
+  ],
+  "old": [
+   "<title>扬琴 AI 助教 · MVP 原型 v0.1</title>"
+  ],
+  "after": [
+   "<style>",
+   ":root{",
+   "  /* 余音 · 设计 token（规范 v1）：宣纸底 / 墨阶 / 黛青·竹青 / 朱砂唯一强调 */"
+  ],
+  "new": [
+   "<title>余音 · 老师端</title>"
+  ]
+ },
+ {
+  "tag": "replace",
+  "before": [
+   "",
+   "<header class=\"topbar\"><div class=\"topbar-in\">",
+   "  <div class=\"logo\"><svg width=\"23\" height=\"23\" viewBox=\"0 0 56 56\" aria-hidden=\"true\" style=\"flex:none\"><circle cx=\"28\" cy=\"28\" r=\"21\" fill=\"none\" stroke=\"#B04A3A\" stroke-width=\"2.4\" opacity=\".35\"/><circle cx=\"28\" cy=\"28\" r=\"11.5\" fill=\"#B04A3A\"/><circle cx=\"24\" cy=\"24\" r=\"3\" fill=\"#D98A75\" opacity=\".5\"/></svg><span class=\"wm\">余音</span><span class=\"role-tag\" id=\"roleTag\"></span></div>"
+  ],
+  "old": [
+   "  <div class=\"role-sw\">"
+  ],
+  "after": [
+   "    <button id=\"btnTeacher\" class=\"on\">老师端</button>",
+   "    <button id=\"btnStudent\">孩子端</button>",
+   "  </div>"
+  ],
+  "new": [
+   "  <div class=\"role-sw\" style=\"display:none\">"
+  ]
+ }
+]

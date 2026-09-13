@@ -1,0 +1,196 @@
+[
+ {
+  "tag": "replace",
+  "before": [
+   "<head>",
+   "<meta charset=\"utf-8\">",
+   "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">"
+  ],
+  "old": [
+   "<title>扬琴 AI 助教 · MVP 原型 v0.1</title>"
+  ],
+  "after": [
+   "<style>",
+   ":root{",
+   "  /* 余音 · 设计 token（规范 v1）：宣纸底 / 墨阶 / 黛青·竹青 / 朱砂唯一强调 */"
+  ],
+  "new": [
+   "<title>余音 · 孩子端</title>"
+  ]
+ },
+ {
+  "tag": "replace",
+  "before": [
+   "<body>",
+   "",
+   "<header class=\"topbar\"><div class=\"topbar-in\">"
+  ],
+  "old": [
+   "  <div class=\"logo\"><svg width=\"23\" height=\"23\" viewBox=\"0 0 56 56\" aria-hidden=\"true\" style=\"flex:none\"><circle cx=\"28\" cy=\"28\" r=\"21\" fill=\"none\" stroke=\"#B04A3A\" stroke-width=\"2.4\" opacity=\".35\"/><circle cx=\"28\" cy=\"28\" r=\"11.5\" fill=\"#B04A3A\"/><circle cx=\"24\" cy=\"24\" r=\"3\" fill=\"#D98A75\" opacity=\".5\"/></svg><span class=\"wm\">余音</span><span class=\"role-tag\" id=\"roleTag\"></span></div>",
+   "  <div class=\"role-sw\">"
+  ],
+  "after": [
+   "    <button id=\"btnTeacher\" class=\"on\">老师端</button>",
+   "    <button id=\"btnStudent\">孩子端</button>",
+   "  </div>"
+  ],
+  "new": [
+   "  <div class=\"logo\"><svg width=\"23\" height=\"23\" viewBox=\"0 0 56 56\" aria-hidden=\"true\" style=\"flex:none\"><circle cx=\"28\" cy=\"28\" r=\"21\" fill=\"none\" stroke=\"#B04A3A\" stroke-width=\"2.4\" opacity=\".35\"/><circle cx=\"28\" cy=\"28\" r=\"11.5\" fill=\"#B04A3A\"/><circle cx=\"24\" cy=\"24\" r=\"3\" fill=\"#D98A75\" opacity=\".5\"/></svg><span class=\"wm\">余音</span><span class=\"role-tag\" id=\"roleTag\"></span><span id=\"meTag\" style=\"margin-left:2px\"></span></div>",
+   "  <div class=\"role-sw\" style=\"display:none\">"
+  ]
+ },
+ {
+  "tag": "insert",
+  "before": [
+   "  <button data-tab=\"s-lib\">谱库</button>",
+   "</div></nav>",
+   ""
+  ],
+  "old": [],
+  "after": [
+   "<main class=\"pagewrap\" id=\"app\"></main>",
+   "<div class=\"foot\" id=\"foot\"></div>",
+   ""
+  ],
+  "new": [
+   "<main class=\"pagewrap\" id=\"loginGate\" style=\"display:none;padding-top:0\">",
+   "  <div style=\"text-align:center;padding:46px 0 8px\">",
+   "    <svg width=\"96\" height=\"96\" viewBox=\"0 0 160 160\" aria-hidden=\"true\"><circle cx=\"80\" cy=\"80\" r=\"62\" fill=\"none\" stroke=\"#B04A3A\" stroke-width=\"2\" opacity=\".18\"/><circle cx=\"80\" cy=\"80\" r=\"46\" fill=\"none\" stroke=\"#B04A3A\" stroke-width=\"2.4\" opacity=\".35\"/><circle cx=\"80\" cy=\"80\" r=\"26\" fill=\"#B04A3A\"/><circle cx=\"71.5\" cy=\"71.5\" r=\"6\" fill=\"#D98A75\" opacity=\".45\"/></svg>",
+   "    <div style=\"font-family:'Songti SC','STSong',SimSun,serif;font-size:30px;letter-spacing:14px;text-indent:14px;margin-top:6px\">余音</div>",
+   "    <div style=\"font-size:12px;color:#A19A8F;letter-spacing:2px;margin:4px 0 16px\">课结束了，声音还在</div>",
+   "  </div>",
+   "  <div class=\"card\" style=\"max-width:320px;margin:0 auto\">",
+   "    <label class=\"fld\"><span>手机号</span>",
+   "      <input type=\"tel\" id=\"lgPhone\" inputmode=\"numeric\" placeholder=\"老师登记过的手机号\" onkeydown=\"if(event.key==='Enter')doLogin()\"></label>",
+   "    <button class=\"btn pri block stu\" onclick=\"doLogin()\">进入我的练习</button>",
+   "    <div class=\"tiny muted\" style=\"margin-top:12px;text-align:center\">收不到任务？请老师确认档案里有你的手机号</div>",
+   "  </div></main>"
+  ]
+ },
+ {
+  "tag": "replace",
+  "before": [
+   "/* =========================================================",
+   "   启动",
+   "   ========================================================= */"
+  ],
+  "old": [
+   "window.ROLE='T';"
+  ],
+  "after": [
+   "function render(){",
+   "  const isT=window.ROLE==='T';",
+   "  document.getElementById('btnTeacher').className=isT?'on':'';"
+  ],
+  "new": [
+   "window.ROLE='S';"
+  ]
+ },
+ {
+  "tag": "replace",
+  "before": [
+   "  let h='';",
+   "  if(isT){h=renderT()}",
+   "  else{"
+  ],
+  "old": [
+   "    h='<div class=\"stu-pick\">'+S.students.map(s=>",
+   "      '<div class=\"stu-av '+(s.id===ST.id?'on':'')+'\" onclick=\"B.pick(\\''+s.id+'\\')\">'",
+   "      +avSvg(s,50)+'<div class=\"nm\">'+esc(s.name)+'</div></div>').join('')",
+   "      +(S.students.length?'':'<div class=\"small muted\">请先在老师端添加学生</div>')+'</div>'+viewS();"
+  ],
+  "after": [
+   "  }",
+   "  document.getElementById('app').innerHTML=h;",
+   "  document.querySelectorAll('.subnav button').forEach(b=>{"
+  ],
+  "new": [
+   "    h=(window.ME?'':'<div class=\"stu-pick\">'+S.students.map(s=>",
+   "      '<div class=\"stu-av '+(s.id===ST.id?'on':'')+'\" onclick=\"B.pick(\\''+s.id+'\\')\">'",
+   "      +avSvg(s,50)+'<div class=\"nm\">'+esc(s.name)+'</div></div>').join('')",
+   "      +(S.students.length?'':'<div class=\"small muted\">请先在老师端添加学生</div>')+'</div>')+viewS();"
+  ]
+ },
+ {
+  "tag": "insert",
+  "before": [
+   "});",
+   "",
+   "A.initMarkEvents();"
+  ],
+  "old": [],
+  "after": [
+   "boot();",
+   "async function boot(){",
+   "  await load();"
+  ],
+  "new": [
+   "var ME=null;",
+   "async function doLogin(){",
+   "  const ph=(document.getElementById('lgPhone').value||'').trim();",
+   "  if(!/^\\d{6,15}$/.test(ph))return toast('请输入正确的手机号');",
+   "  let r;",
+   "  try{ r=await api('/api/login',{phone:ph}); }",
+   "  catch(e){ return toast('连不上服务器，请稍后再试'); }",
+   "  if(!r.ok||!r.student)return toast(r.msg||'登录失败');",
+   "  ME=r.student;ST.id=ME.id;",
+   "  try{localStorage.setItem('yangqin_phone',ph)}catch(e){}",
+   "  enterApp();toast('欢迎回来，'+ME.name+'！');",
+   "}",
+   "async function enterApp(){",
+   "  const g=document.getElementById('loginGate'); if(g)g.style.display='none';",
+   "  const a=document.getElementById('app'); if(a)a.style.display='';",
+   "  const n=document.getElementById('navS'); if(n)n.style.display='';",
+   "  const tg=document.getElementById('meTag');",
+   "  if(tg&&ME)tg.innerHTML='<span class=\"tag\" style=\"background:var(--stu-soft);color:var(--stu)\">'+esc(ME.name)+'</span>'",
+   "    +' <button class=\"btn xs\" onclick=\"logout()\">退出</button>';",
+   "  await pull();render();",
+   "}",
+   "function logout(){ try{localStorage.removeItem('yangqin_phone')}catch(e){} location.reload(); }",
+   ""
+  ]
+ },
+ {
+  "tag": "replace",
+  "before": [
+   "boot();",
+   "async function boot(){",
+   "  await load();"
+  ],
+  "old": [
+   "  let me=null; try{me=localStorage.getItem('yangqin_me')}catch(e){}",
+   "  if(me&&byId(S.students,me))ST.id=me; else if(S.students.length)ST.id=S.students[0].id;",
+   "  if(!S.students.length)window.ROLE='T';",
+   "  render();syncBadge();",
+   "  if(ONLINE){",
+   "    setInterval(()=>pull(true),3000);",
+   "    document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});",
+   "  }",
+   "",
+   "if(S.settings&&S.settings.firstRun){showIntro(true)}"
+  ],
+  "after": [
+   "}",
+   "",
+   "/* 30 秒引导：首启自动弹出，之后从页脚\"看引导\"随时进入 */"
+  ],
+  "new": [
+   "  let ph=null; try{ph=localStorage.getItem('yangqin_phone')}catch(e){}",
+   "  if(ph&&ONLINE){ try{ const r=await api('/api/login',{phone:ph}); if(r.ok){ME=r.student;ST.id=ME.id;} }catch(e){} }",
+   "  else if(ph){ const st=S.students.find(x=>x.phone===ph); if(st){ME=st;ST.id=st.id} }",
+   "  render();syncBadge();",
+   "  if(ME){ enterApp(); }",
+   "  else{",
+   "    const g=document.getElementById('loginGate'); if(g)g.style.display='';",
+   "    const a=document.getElementById('app'); if(a)a.style.display='none';",
+   "    const n=document.getElementById('navS'); if(n)n.style.display='none';",
+   "  }",
+   "  if(ONLINE){",
+   "    setInterval(()=>pull(true),3000);",
+   "    document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});",
+   "  }",
+   "",
+   "if(false){showIntro(true)}"
+  ]
+ }
+]
