@@ -826,8 +826,13 @@ function renderFullScore(){
   const pc=fsPageCount(sc);
   if(FS.pi>=pc)FS.pi=pc-1; if(FS.pi<0)FS.pi=0;
   const ls=fsPageLines(sc);
-  const nm=i=>esc(sc.lines[i].name||('第'+(i+1)+'行'));
-  const rng=ls?(nm(ls[0])+(ls.length>1?('–'+nm(ls[ls.length-1])):'')):('共 '+sc.lines.length+' 行');
+  /* ls 是【扁平段索引】（0..段数-1），不是行索引 —— 取小节号范围，别拿它直接索引 sc.lines */
+  const _segs=scoreSegs(sc);
+  const rng=(ls&&ls.length)?
+    (function(){const a=_segs[ls[0]],b=_segs[ls[ls.length-1]];
+      if(!a||!b)return '共 '+sc.lines.length+' 行';
+      return a.no===b.no?('第 '+a.no+' 小节'):('第 '+a.no+'–'+b.no+' 小节');})()
+    :('共 '+_segs.length+' 小节');
   const lvl=document.getElementById('fslayer');
   lvl.innerHTML='<div class="fscore">'
    +'<div class="fs-bar"><div class="fs-title"><b style="font-family:\'Songti SC\',\'STSong\',serif;letter-spacing:2px">'+esc(sc.title)+'</b>'
