@@ -116,6 +116,11 @@ label.fld > span{display:block;font-size:12.5px;color:var(--muted);margin-bottom
 .bar-no{flex:0 0 16px;text-align:right;font-size:10px;color:#BDB5A6;font-variant-numeric:tabular-nums;user-select:none}
 /* 宽屏流式：段并排多列（老师端备课一屏多看），窄屏自动退化为单列 */
 .score-flow{display:flex;flex-wrap:wrap;gap:6px 30px;align-items:flex-start}
+.score-flow .line-lbl{flex:0 0 100%}
+.fs-all{overflow-y:auto!important;-webkit-overflow-scrolling:touch;padding-bottom:24px}
+.seg-row.jump{cursor:pointer;border-radius:6px;transition:background .12s}
+.seg-row.jump:hover{background:rgba(176,74,58,.07)}
+.seg-row.jump:active{background:rgba(176,74,58,.14)}
 .score-flow .seg-row{flex:0 0 auto}
 .line-lbl:first-child{margin-top:0}
 .nline{display:flex;flex-wrap:wrap;gap:2px;align-items:flex-end;padding:2px 0;border-bottom:1px dashed #eee}
@@ -556,14 +561,16 @@ function measW(txt,fs){
 function noteNeedW(n,F,S){                       /* 音符"净需求宽"：主音/和弦/技法字三者取大 + 附点 + 内边距 */
   if(n.n==='-')return F*0.55;
   let w=measW(n.n,F);
-  const CF=F*0.72;
+  const CF=F*0.62;                                 /* 与 jlineSVG 渲染用的和弦字号保持一致 */
   if(n.ch&&n.ch.length){
+    /* 和弦按"水平横排"渲染（竖叠会把行高顶高、且多层叠音必重叠），故宽度是累加而非取最大 */
     let cw=0;
     n.ch.forEach(function(c){
-      let x=measW(c.n,CF)+CF*0.44+2.2*S;
-      if(c.o)x+=2.4*S;
-      if(x>cw)cw=x;
+      let x=measW(c.n,CF);
+      if(c.o)x+=2.6*S;                             /* 叠音自带八度点，点在字右侧 */
+      cw+=x;
     });
+    cw+=2.4*S*(n.ch.length-1);                     /* 叠音之间的间隙 */
     if(cw>w)w=cw;
   }
   if(n.t){const tw=String(n.t).length*11*S*1.05; if(tw>w)w=tw;}
@@ -600,7 +607,7 @@ function scoreSegs(sc){
   return out;
 }
 function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
-  const S=(big?1.5:1)*(zm||1), F=30*S, GAP=7*S, X0=16*S, H=106*S;
+  const S=(big?1.5:1)*(zm||1), F=30*S, GAP=7*S, X0=16*S, H=128*S;
   const beat=+sc.beat||4;
   const A=seg?seg.a:0, B=seg?seg.b:ln.notes.length;
   const notes=(ln.notes||[]).slice(A,B);
@@ -615,14 +622,14 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
   const W=Math.max(xx-GAP+12*S+X0*0.5,140*S);
   const rmk=marks.filter(m=>m.li===li&&m.i1!=null);
   let beats=0, g='';
-  if(seg)g+='<line x1="'+(X0-6*S)+'" y1="'+(32*S)+'" x2="'+(X0-6*S)+'" y2="'+(90*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
+  if(seg)g+='<line x1="'+(X0-6*S)+'" y1="'+(40*S)+'" x2="'+(X0-6*S)+'" y2="'+(116*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
   notes.forEach((n,i)=>{
     const gi=A+i;                                    /* 全局音符索引：marks 与点击标注都用这个 */
     const p=pos[i], x=p.x, w=p.w, cx=p.cx;
     if(beats>0.01){
         const forceBar=!!n.bar; const rem=beats%beat;
         if(forceBar||rem<0.01||Math.abs(rem-beat)<0.01)
-        g+='<line x1="'+(x-4.5*S)+'" y1="'+(32*S)+'" x2="'+(x-4.5*S)+'" y2="'+(90*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
+        g+='<line x1="'+(x-4.5*S)+'" y1="'+(40*S)+'" x2="'+(x-4.5*S)+'" y2="'+(116*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
     }
         if(n.bar)beats=0;
     const mk=marks.find(m=>m.li===li&&m.i===gi&&m.i1==null);
@@ -630,39 +637,48 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
     const isRS=rm&&gi===rm.i;
     const t=mk?markStyle(mk.type):(rm?markStyle(rm.type):null);
     g+='<g class="note-g'+(clickable?' clickable':'')+(mk?' m-'+mk.type:'')+'" data-li="'+li+'" data-i="'+gi+'">';
-    if(rm)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(82*S)+'" fill="'+t.bg+'"/>';
-    if(mk)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(82*S)+'" rx="'+(9*S)+'" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.2"/>';
-    g+='<rect x="'+(x-10*S)+'" y="'+(18*S)+'" width="'+(w+20*S)+'" height="'+(80*S)+'" fill="transparent"/>';
+    if(rm)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(106*S)+'" fill="'+t.bg+'"/>';
+    if(mk)g+='<rect x="'+(x-11*S)+'" y="'+(16*S)+'" width="'+(w+22*S)+'" height="'+(106*S)+'" rx="'+(9*S)+'" fill="'+t.bg+'" stroke="'+t.c+'" stroke-width="1.2"/>';
+    g+='<rect x="'+(x-10*S)+'" y="'+(18*S)+'" width="'+(w+20*S)+'" height="'+(104*S)+'" fill="transparent"/>';
     if(n.n==='-'){
-      g+='<rect x="'+(x+2*S)+'" y="'+(52*S)+'" width="'+Math.max(2,w-8*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
+      g+='<rect x="'+(x+6*S)+'" y="'+(88*S)+'" width="'+Math.max(2,w-14*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
     }else{
       if(n.t){                                       /* 技法字宽了就自动缩字号，不越界压邻居 */
         const ts=Math.min(11*S,(w-4*S)/Math.max(1,String(n.t).length)*1.05);
-        g+='<text x="'+cx+'" y="'+(21*S)+'" font-size="'+ts+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';}
-      g+='<text class="jn" x="'+cx+'" y="'+(62*S)+'" font-size="'+F+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.n+'</text>';
-      if(n.ch&&n.ch.length){const CF=F*0.72,CHO=2.2*S;
-        n.ch.forEach(c=>{const cy=62*S-19*S;
-          g+='<text class="jn" x="'+cx+'" y="'+cy+'" font-size="'+CF+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+c.n+'</text>';
+        g+='<text x="'+cx+'" y="'+(32*S)+'" font-size="'+ts+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';}
+      g+='<text class="jn" x="'+cx+'" y="'+(100*S)+'" font-size="'+F+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.n+'</text>';
+      if(n.ch&&n.ch.length){const CF=F*0.62,CHO=2.2*S;
+        /* 叠音水平横排（竖叠必重叠且会把行高顶高）：先量总宽，再以 cx 为中心均分 */
+        const slots=n.ch.map(function(c){
+          return measW(c.n,CF)+((c.o)?2.6*S:0);
+        });
+        const tot=slots.reduce(function(a,b){return a+b;},0)+2.4*S*(n.ch.length-1);
+        let acc=cx-tot/2;
+        n.ch.forEach(function(c,ci){
+          const ccx=acc+slots[ci]/2; acc+=slots[ci]+2.4*S;
+          const cy=60*S;                                /* 和弦组下移：给技法字底与叠音八度点之间留足间隔 */
+          g+='<text class="jn" x="'+ccx+'" y="'+cy+'" font-size="'+CF+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+c.n+'</text>';
           const co=c.o||0;
-          for(let k=1;k<=co;k++)g+='<circle cx="'+(cx+CF*0.44+CHO)+'" cy="'+(cy-CF*0.66-(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
-          for(let k=1;k<=-co;k++)g+='<circle cx="'+(cx+CF*0.44+CHO)+'" cy="'+(cy+CF*0.30+(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
+          const dx=measW(c.n,CF)/2+CHO;                       /* 八度点贴在该叠音右侧 */
+          for(let k=1;k<=co;k++)g+='<circle cx="'+(ccx+dx)+'" cy="'+(cy-CF*0.96-2.4*S-(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
+          for(let k=1;k<=-co;k++)g+='<circle cx="'+(ccx+dx)+'" cy="'+(cy+CF*0.22+2.0*S+(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
         });}
       const o=n.o||0, dr=Math.min(2.4*S,w*0.12);
-      for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(28*S-(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
-      for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(80*S+(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
+      for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(66*S-(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
+      for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(118*S+(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
       const nw=Math.min(F*0.6,w*0.5);
       if((n.d||1)<=0.25){
-        g+='<rect x="'+(cx-nw/2)+'" y="'+(69*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
-        g+='<rect x="'+(cx-nw/2)+'" y="'+(75*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+        g+='<rect x="'+(cx-nw/2)+'" y="'+(107*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+        g+='<rect x="'+(cx-nw/2)+'" y="'+(113*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
       }else if((n.d||1)<=0.5){
-        g+='<rect x="'+(cx-nw/2)+'" y="'+(69*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+        g+='<rect x="'+(cx-nw/2)+'" y="'+(107*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
       }
       if((n.d||1)>=2){
-        const lw=Math.max(2,w-F*0.55-6*S);
-        g+='<rect x="'+(cx+F*0.3)+'" y="'+(52*S)+'" width="'+lw+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
+        const lw=Math.max(2,w/2-F*0.3-2*S);
+        g+='<rect x="'+(cx+F*0.3)+'" y="'+(90*S)+'" width="'+lw+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
       }
-      if((n.d||1)>=4)g+='<rect x="'+(cx+F*0.3)+'" y="'+(60*S)+'" width="'+Math.max(2,w-F*0.55-6*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
-      if(n.dot)g+='<circle cx="'+(cx+Math.min(F*0.42,w*0.42))+'" cy="'+(66*S)+'" r="'+Math.min(2.6*S,w*0.11)+'" fill="#1C1A17"/>';
+      if((n.d||1)>=4)g+='<rect x="'+(cx+F*0.3)+'" y="'+(98*S)+'" width="'+Math.max(2,w/2-F*0.3-2*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
+      if(n.dot)g+='<circle cx="'+(cx+Math.min(F*0.42,w*0.42))+'" cy="'+(104*S)+'" r="'+Math.min(2.6*S,w*0.11)+'" fill="#1C1A17"/>';
     }
     if(mk||isRS){
       const m=mk||rm;
@@ -673,7 +689,7 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
     g+='</g>';
     beats+=(n.d||1)*(n.dot?1.5:1); /* 延音—也占拍 */
   });
-  if(seg)g+='<line x1="'+(W-6*S)+'" y1="'+(32*S)+'" x2="'+(W-6*S)+'" y2="'+(90*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
+  if(seg)g+='<line x1="'+(W-6*S)+'" y1="'+(40*S)+'" x2="'+(W-6*S)+'" y2="'+(116*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
   /* 区间括线（画在音符层之上）；跨段的区间在各自段内分别画 */
   rmk.forEach(m=>{
     if(m.i1<A||m.i>=B)return;                       /* 与本段无交集 */
@@ -711,10 +727,11 @@ function renderScore(sc,opts){
     +(sc.beat?'<span style="margin-left:10px">'+sc.beat+' 拍</span>':'')
     +(sc.tempo?'<span style="margin-left:10px">'+esc(sc.tempo)+'</span>':'')+'</div>';
   let curLi=-1;
-  sel.forEach(function(s){
+  sel.forEach(function(s,si){
     const ln=sc.lines[s.li]; if(!ln||!ln.notes)return;
+    const gi=(opts.segs?opts.segs[si]:si);          /* 扁平全局段索引，用于全谱点段跳转 */
     if(s.li!==curLi){curLi=s.li;h+='<div class="line-lbl">'+esc(ln.name||('第'+(s.li+1)+'行'))+'</div>';}
-    h+='<div class="seg-row">'+(all.length>1?'<span class="bar-no">'+s.no+'</span>':'')
+    h+='<div class="seg-row'+(opts.jump?' jump':'')+'"'+(opts.jump?' onclick="fsJump('+gi+')"':'')+'>'+(all.length>1?'<span class="bar-no">'+s.no+'</span>':'')
       +'<div class="staff-scroll">'+jlineSVG(sc,ln,s.li,marks,clickable,big,opts.zoom,{a:s.a,b:s.b})+'</div></div>';
   });
   return h+'</div>';
@@ -747,8 +764,9 @@ function closeSheet(){
    实现：宽度按屏自适应（无横向滚动）＋ 高度按屏自动算每页行数（无纵向滚动）。 */
 let FS=null;
 function fsSegN(sc){ return scoreSegs(sc).length; }   /* 全曲"段"总数 = 真正的显示行数 */
-function fsPageCount(sc){ const n=fsSegN(sc); return (!FS.ppr)?1:Math.max(1,Math.ceil(n/FS.ppr)); }
+function fsPageCount(sc){ if(FS.all)return 1; const n=fsSegN(sc); return (!FS.ppr)?1:Math.max(1,Math.ceil(n/FS.ppr)); }
 function fsPageLines(sc){
+  if(FS.all)return null;                              /* 全谱模式：不切段 */
   if(!FS.ppr)return null;
   const n=fsSegN(sc), st=FS.pi*FS.ppr, en=Math.min(n,st+FS.ppr), out=[];
   for(let i=st;i<en;i++)out.push(i);                  /* 返回扁平段索引 */
@@ -761,34 +779,68 @@ function fsGo(d){
   if(n<0||n>=pc){ if(pc>1)toast(n<0?'已经是第一页':'已经是最后一页'); return; }
   FS.pi=n; renderFullScore();
 }
-/* 自适应排版：先按当前参数画一版，测出溢出则收 zoom/每页行数，直到整页放下 */
+/* 自适应排版 v3：页数优先
+   规格（老师定）：①少分几页，一页尽量多放 ②字号"清晰舒适"即可，不必最大
+   ③每一页仍然完整、页内零滚动 ④宽屏自动多列吃满宽度
+   实现：先按"屏宽÷段宽"算出能排几列 → 反推填满列宽的 zoom（夹在 MIN_Z..MAX_Z）
+        → 估算每页段数 → 实测微调（放不下递减/放得下再试探） */
+const FS_MIN_Z=0.62, FS_MAX_Z=1.15, FS_SEG_H=128, FS_GAPX=30;
 function fsFit(){
   const sc=byId(S.scores,FS.id);
-  renderFullScore();
+  renderFullScore();                                  /* 先画一版，拿到 .fs-body 的真实可用尺寸 */
   const b=document.querySelector('.fs-body'); if(!b)return;
-  const availW=b.clientWidth-30;
-  const natW=scoreNatW(sc);                 /* 最宽"段"的自然宽（分句后已远小于整行） */
-  const fullRatio=availW/natW;
-  const twoCol=fullRatio>1.7;               /* 宽屏一列放不满 → 两列并排，每页容量翻倍 */
-  FS.zoom=Math.min(1.6,Math.max(0.55,(twoCol?fullRatio/2:fullRatio)*(FS.zm||1)));
-  let best=1;
+  const availW=b.clientWidth-8, availH=b.clientHeight-4;
+  const natW=scoreNatW(sc);
   const n=fsSegN(sc);
-  for(let p=1;p<=n;p++){
-    FS.ppr=p;
-    const pc=fsPageCount(sc); if(FS.pi>=pc)FS.pi=pc-1;
-    renderFullScore();
-    const bb=document.querySelector('.fs-body'); if(!bb)break;
-    if(bb.scrollHeight<=bb.clientHeight+1)best=p; else break;
+  /* 1) 选列数：从多到少试，取"每列仍清晰(zoom>=MIN_Z)"的最多列 */
+  let cols=1;
+  for(let c=4;c>=1;c--){
+    if((availW/c-FS_GAPX)/natW >= FS_MIN_Z){ cols=c; break; }
   }
-  if(FS.ppr!==best){
-    FS.ppr=best;
-    const pc=fsPageCount(sc); if(FS.pi>=pc)FS.pi=pc-1;
+  /* 2) 该列数下填满列宽的 zoom，再夹到清晰区间；乘上用户字号倍率 */
+  let z=(availW/cols-FS_GAPX)/natW;
+  z=Math.max(FS_MIN_Z,Math.min(FS_MAX_Z,z))*(FS.zm||1);
+  z=Math.max(0.4,Math.min(2.2,z));                    /* 用户手动缩放时的硬边界 */
+  FS.zoom=z;
+  if(FS.all){ FS.ppr=0; FS.pi=0; renderFullScore(); return; }   /* 全谱：不分页，只定字号/列数 */
+  /* 3) 估算每页段数：每列能放几行 × 列数 */
+  const rowH=FS_SEG_H*z+3;
+  const rowsPerCol=Math.max(1,Math.floor(availH/rowH));
+  let ppr=Math.max(1,Math.min(n,cols*rowsPerCol));
+  const fits=function(p){
+    FS.ppr=Math.max(1,Math.min(n,p));
+    const pc=fsPageCount(sc); if(FS.pi>=pc)FS.pi=pc-1; if(FS.pi<0)FS.pi=0;
     renderFullScore();
+    const bb=document.querySelector('.fs-body'); if(!bb)return false;
+    return bb.scrollHeight<=bb.clientHeight+2;
+  };
+  if(!fits(ppr)){                                     /* 估多了 → 往回退 */
+    let k=ppr-1; while(k>=1&&!fits(k))k--;
+    if(k<1){FS.ppr=1;fits(1);}
+  }else{                                              /* 估少了 → 再塞几段试试 */
+    let k=ppr+1,guard=0;
+    while(k<=n&&guard<8&&fits(k)){ppr=k;k++;guard++;}
+    FS.ppr=ppr; fits(ppr);
   }
 }
 function fsZoom(d){                              /* 用户字号倍率：放大→每页行数自动变少，页面仍完整 */
   FS.zm=Math.min(2.2,Math.max(0.6,(FS.zm||1)+d));
   FS.pi=0; FS._needFit=true; renderFullScore();
+}
+/* 全谱 ⇄ 分页 切换；全谱下点任意小节 → 回到分页并跳到该页 */
+function fsToggleAll(){
+  if(!FS)return;
+  FS.all=!FS.all; FS._needFit=true; renderFullScore();
+  const b=document.querySelector('.fs-body'); if(b)b.scrollTop=0;
+}
+function fsJump(gi){
+  if(!FS)return;
+  FS.all=false; FS._needFit=true; renderFullScore();      /* 先 fit 出 ppr */
+  if(!FS.ppr)return;
+  const pg=Math.floor(gi/FS.ppr);
+  FS.pi=Math.max(0,pg); renderFullScore();
+  const b=document.querySelector('.fs-body'); if(b)b.scrollTop=0;
+  toast('跳到第 '+(FS.pi+1)+' 页');
 }
 let _rsT=null;
 window.addEventListener('resize',function(){     /* 转屏/窗口变化 → 重排整页 */
@@ -804,7 +856,7 @@ function openFullScore(id,marks,editable){
     if(!(A._mkCtx&&A._mkCtx.arr===arr))A._mkCtx={arr:arr,after:function(){renderFullScore()}};
   }
   const show=marks||((window.ROLE==='T'&&Array.isArray(sc.marks))?sc.marks:null);
-  FS={id:id,marks:show,zoom:1,zm:1,editable:!!editable,ppr:0,pi:0,_needFit:true};
+  FS={id:id,marks:show,zoom:1,zm:1,editable:!!editable,ppr:0,pi:0,all:false,_needFit:true};
   renderFullScore();
 }
 function renderFullScore(){
@@ -816,7 +868,8 @@ function renderFullScore(){
   const ls=fsPageLines(sc);
   /* ls 是【扁平段索引】（0..段数-1），不是行索引 —— 取小节号范围，别拿它直接索引 sc.lines */
   const _segs=scoreSegs(sc);
-  const rng=(ls&&ls.length)?
+  const rng=FS.all?('全谱 · 共 '+_segs.length+' 小节　点任意小节跳到该页')
+    :(ls&&ls.length)?
     (function(){const a=_segs[ls[0]],b=_segs[ls[ls.length-1]];
       if(!a||!b)return '共 '+sc.lines.length+' 行';
       return a.no===b.no?('第 '+a.no+' 小节'):('第 '+a.no+'–'+b.no+' 小节');})()
@@ -831,17 +884,17 @@ function renderFullScore(){
    +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')
    +'</div><div class="row" style="gap:6px;flex-shrink:0">'
    +(FS.editable?'<button class="btn xs'+(A._segMode?' seg-on':'')+'" onclick="A.segToggle()">'+(A._segMode?'✕ 退出段选':'⌗ 段选')+'</button>':'')
+   +'<button class="btn xs'+(FS.all?' pri':'')+'" onclick="fsToggleAll()">'+(FS.all?'⇄ 分页读谱':'☰ 看全谱')+'</button>'
    +'<button class="btn xs" onclick="fsZoom(-0.15)">A−</button>'
    +'<button class="btn xs" onclick="fsZoom(0.15)">A+</button>'
    +'<button class="btn xs pri" onclick="closeFullScore()">关闭 ✕</button></div></div>'
    +'<div class="fs-page">'
-     +(pc>1?'<button class="btn xs" onclick="fsGo(-1)">‹ 上页</button>':'<span style="width:2px"></span>')
-     +'<span class="small grow" style="text-align:center">'+(pc>1?('<b>第 '+(FS.pi+1)+' / '+pc+' 页</b>　'):'')+'<span class="muted">'+rng+'</span></span>'
-     +(pc>1?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
-     +(FS.editable?'':'<span class="tiny muted">整页显示</span>')
+     +(!FS.all&&pc>1?'<button class="btn xs" onclick="fsGo(-1)">‹ 上页</button>':'<span style="width:2px"></span>')
+     +'<span class="small grow" style="text-align:center">'+(!FS.all&&pc>1?('<b>第 '+(FS.pi+1)+' / '+pc+' 页</b>　'):'')+'<span class="muted">'+rng+'</span></span>'
+     +(!FS.all&&pc>1?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
    +'</div>'
    +'<div class="fs-tip">'+(FS.editable?'<span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选 · ← → 翻页</span>':(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||''))+'</div>'
-   +'<div class="fs-body">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,segs:ls,flow:true})+'</div></div>';
+   +'<div class="fs-body'+(FS.all?' fs-all':'')+'">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,segs:ls,flow:true,jump:!FS.editable&&FS.all})+'</div></div>';
   fsBindSwipe();
 }
 function fsBindSwipe(){
