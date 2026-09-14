@@ -558,22 +558,23 @@ function measW(txt,fs){
     const w=_mc.measureText(txt).width; _mw[k]=w; return w;
   }catch(e){ _mw[k]=txt.length*fs*0.58; return _mw[k]; }
 }
-function noteNeedW(n,F,S){                       /* 音符"净需求宽"：主音/和弦/技法字三者取大 + 附点 + 内边距 */
+function noteNeedW(n,F,S){                       /* 音符"净需求宽"：主音/堆叠/技法字取大 + 倚音/待核/附点 + 内边距 */
   if(n.n==='-')return F*0.55;
   let w=measW(n.n,F);
-  const CF=F*0.62;                                 /* 与 jlineSVG 渲染用的和弦字号保持一致 */
   if(n.ch&&n.ch.length){
-    /* 和弦按"水平横排"渲染（竖叠会把行高顶高、且多层叠音必重叠），故宽度是累加而非取最大 */
+    /* 竖排堆叠（双音/和弦/琶音）：宽度=各声部（全字号+右置八度点）取最大 */
     let cw=0;
     n.ch.forEach(function(c){
-      let x=measW(c.n,CF);
-      if(c.o)x+=2.6*S;                             /* 叠音自带八度点，点在字右侧 */
-      cw+=x;
+      let x=measW(c.n,F);
+      if(c.o)x+=3.4*S;
+      if(x>cw)cw=x;
     });
-    cw+=2.4*S*(n.ch.length-1);                     /* 叠音之间的间隙 */
     if(cw>w)w=cw;
+    if(n.ch.length>1&&n.t)w+=F*0.5;                /* 多层琶音左侧竖波线占位 */
   }
   if(n.t){const tw=String(n.t).length*11*S*1.05; if(tw>w)w=tw;}
+  if(n.gr)w+=F*0.75;                               /* 倚音占位 */
+  if(n.q)w+=F*0.45;                                /* 待核?占位 */
   if(n.dot)w+=F*0.40;
   return w+F*0.32;
 }
@@ -626,6 +627,9 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
   notes.forEach((n,i)=>{
     const gi=A+i;                                    /* 全局音符索引：marks 与点击标注都用这个 */
     const p=pos[i], x=p.x, w=p.w, cx=p.cx;
+    if(ln.marks)ln.marks.forEach(function(mk){    /* 行内表情/速度记号（明快地/渐慢/回原速…）锚在音符上方 */
+      if(mk.i===gi)g+='<text x="'+cx+'" y="'+(16*S)+'" font-size="'+(F*0.74)+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+esc(mk.txt)+'</text>';
+    });
     if(beats>0.01){
         const forceBar=!!n.bar; const rem=beats%beat;
         if(forceBar||rem<0.01||Math.abs(rem-beat)<0.01)
@@ -643,29 +647,50 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
     if(n.n==='-'){
       g+='<rect x="'+(x+6*S)+'" y="'+(88*S)+'" width="'+Math.max(2,w-14*S)+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
     }else{
-      if(n.t){                                       /* 技法字宽了就自动缩字号，不越界压邻居 */
-        const ts=Math.min(11*S,(w-4*S)/Math.max(1,String(n.t).length)*1.05);
-        g+='<text x="'+cx+'" y="'+(32*S)+'" font-size="'+ts+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';}
-      g+='<text class="jn" x="'+cx+'" y="'+(100*S)+'" font-size="'+F+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.n+'</text>';
-      if(n.ch&&n.ch.length){const CF=F*0.62,CHO=2.2*S;
-        /* 叠音水平横排（竖叠必重叠且会把行高顶高）：先量总宽，再以 cx 为中心均分 */
-        const slots=n.ch.map(function(c){
-          return measW(c.n,CF)+((c.o)?2.6*S:0);
+      if(n.mk){                                       /* 奏法/力度记号：重音>/顿音▼/滑音↑ */
+        const my=n.t?12*S:18*S;
+        g+='<text x="'+cx+'" y="'+my+'" font-size="'+(F*0.68)+'" text-anchor="middle" fill="#1C1A17" font-weight="700">'+esc(n.mk)+'</text>';}
+      const hasCh=n.ch&&n.ch.length?n.ch.length:0;
+      if(hasCh){
+        /* 竖排堆叠（扬琴双音/和弦/琶音）：主音+叠音按音高排序，高在上；八度点置字右侧避免纵向冲突 */
+        const deg=function(s){return '1234567'.indexOf(s)+1;};
+        const vs=n.ch.map(function(c){return {n:c.n,o:c.o||0};}); vs.push({n:n.n,o:n.o||0});
+        vs.sort(function(p,q){return ((p.o||0)+deg(p.n)/10)-((q.o||0)+deg(q.n)/10);});
+        /* 三层0.85F/四层0.65F缩字号：em框高≈1.163×fs 必须小于槽距(42/31/24·S)，否则相邻音框叠 */
+        const sf=hasCh===1?F:(hasCh===2?F*0.85:F*0.65);
+        const Y=hasCh===1?[58,100]:(hasCh===2?[38,69,100]:[28,52,76,100]);
+        vs.forEach(function(v,vi){
+          const cy=Y[vi]*S;
+          g+='<text class="jn" x="'+cx+'" y="'+cy+'" font-size="'+sf+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+v.n+'</text>';
+          const dx=measW(v.n,sf)/2+2.8*S;
+          for(let k=1;k<=v.o;k++)g+='<circle cx="'+(cx+dx)+'" cy="'+(cy-sf*0.78-(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
+          for(let k=1;k<=-v.o;k++)g+='<circle cx="'+(cx+dx)+'" cy="'+(cy+sf*0.16+(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
         });
-        const tot=slots.reduce(function(a,b){return a+b;},0)+2.4*S*(n.ch.length-1);
-        let acc=cx-tot/2;
-        n.ch.forEach(function(c,ci){
-          const ccx=acc+slots[ci]/2; acc+=slots[ci]+2.4*S;
-          const cy=60*S;                                /* 和弦组下移：给技法字底与叠音八度点之间留足间隔 */
-          g+='<text class="jn" x="'+ccx+'" y="'+cy+'" font-size="'+CF+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+c.n+'</text>';
-          const co=c.o||0;
-          const dx=measW(c.n,CF)/2+CHO;                       /* 八度点贴在该叠音右侧 */
-          for(let k=1;k<=co;k++)g+='<circle cx="'+(ccx+dx)+'" cy="'+(cy-CF*0.96-2.4*S-(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
-          for(let k=1;k<=-co;k++)g+='<circle cx="'+(ccx+dx)+'" cy="'+(cy+CF*0.22+2.0*S+(k-1)*5.5*S)+'" r="'+(2.2*S)+'" fill="#1C1A17"/>';
-        });}
-      const o=n.o||0, dr=Math.min(2.4*S,w*0.12);
-      for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(66*S-(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
-      for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(118*S+(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
+        if(n.t){
+          if(hasCh===1){                             /* 双音：技法字保持在顶部槽位 */
+            const ts=Math.min(11*S,(w-4*S)/Math.max(1,String(n.t).length)*1.05);
+            g+='<text x="'+cx+'" y="'+(32*S)+'" font-size="'+ts+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';
+          }else{                                     /* 三层以上：琶音/滚奏竖波线画在左侧 */
+            const wx=x+3.2*S, y0=Y[0]*S-sf*0.55, y1=104*S;
+            g+='<path d="M '+wx+' '+y0+' q '+(3.2*S)+' '+((y1-y0)*0.25)+' 0 '+((y1-y0)*0.5)+' q '+(-3.2*S)+' '+((y1-y0)*0.25)+' 0 '+((y1-y0)*0.5)+'" fill="none" stroke="#B04A3A" stroke-width="'+(1.6*S)+'"/>';
+          }
+        }
+      }else{
+        if(n.t){                                     /* 技法字宽了就自动缩字号，不越界压邻居 */
+          const ts=Math.min(11*S,(w-4*S)/Math.max(1,String(n.t).length)*1.05);
+          g+='<text x="'+cx+'" y="'+(32*S)+'" font-size="'+ts+'" text-anchor="middle" fill="#B04A3A" font-weight="700">'+esc(n.t)+'</text>';}
+        g+='<text class="jn" x="'+cx+'" y="'+(100*S)+'" font-size="'+F+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.n+'</text>';
+        const o=n.o||0, dr=Math.min(2.4*S,w*0.12);
+        for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(66*S-(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
+        for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(118*S+(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
+      }
+      if(n.gr){                                      /* 前倚音：小字号置于主体左上 */
+        const gy=hasCh?(hasCh===1?52:30)*S:88*S;
+        g+='<text x="'+(x+F*0.32)+'" y="'+gy+'" font-size="'+(F*0.6)+'" text-anchor="middle" fill="#1C1A17" font-weight="600">'+n.gr.n+'</text>';
+      }
+      if(n.q){                                       /* 待核标记：琥珀?，对照原书确认后删除 */
+        g+='<text x="'+(x+w-F*0.36)+'" y="'+(80*S)+'" font-size="'+(F*0.6)+'" text-anchor="middle" fill="#B07830" font-weight="800">?</text>';
+      }
       /* 减时线不再逐音画短横：改为按拍分组的贯穿 beam，见主循环之后的统一绘制 */
       if((n.d||1)>=2){
         const lw=Math.max(2,w/2-F*0.3-2*S);
@@ -902,7 +927,7 @@ function renderFullScore(){
    +(sc.required?'<span class="tag r">※ 必弹</span>':'')
    +(sc.sup?'<span class="tag">补充</span>':'')
    +(sc.key?'<span class="tag">1 = '+esc(String(sc.key).replace(/\s*调$/,''))+'</span>':'')
-   +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')
+   +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')+(sc.proof==='未校对'?'<span class="tag" style="background:#fef3c7;color:#92400e">未校对</span>':'')
    +'</div><div class="row" style="gap:6px;flex-shrink:0">'
    +(FS.editable?'<button class="btn xs'+(A._segMode?' seg-on':'')+'" onclick="A.segToggle()">'+(A._segMode?'✕ 退出段选':'⌗ 段选')+'</button>':'')
    +'<button class="btn xs'+(FS.all?' pri':'')+'" onclick="fsToggleAll()">'+(FS.all?'⇄ 分页读谱':'☰ 看全谱')+'</button>'
