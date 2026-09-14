@@ -1601,7 +1601,9 @@ let LIBF={g:0,type:'',req:false};
 function scoreBadge(sc){
   if(!sc.lines)return '<span class="tag">待录入</span>';
   const v=validateScore(sc);
-  return v.ok?'<span class="tag ok">✓ 已录</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处</span>';
+  const base=v.ok?'<span class="tag ok">✓ 已录</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处</span>';
+  /* 铁规矩：未校对谱面必须显性标出，不得当成品 */
+  return base+(sc.proof==='未校对'?'<span class="tag" style="background:#fef3c7;color:#92400e">未校对</span>':'');
 }
 function scoreCard(sc,stuView){
   const canOpen=!!sc.lines;
