@@ -666,13 +666,7 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
       const o=n.o||0, dr=Math.min(2.4*S,w*0.12);
       for(let k=1;k<=o;k++)g+='<circle cx="'+cx+'" cy="'+(66*S-(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
       for(let k=1;k<=-o;k++)g+='<circle cx="'+cx+'" cy="'+(118*S+(k-1)*6*S)+'" r="'+dr+'" fill="#1C1A17"/>';
-      const nw=Math.min(F*0.6,w*0.5);
-      if((n.d||1)<=0.25){
-        g+='<rect x="'+(cx-nw/2)+'" y="'+(107*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
-        g+='<rect x="'+(cx-nw/2)+'" y="'+(113*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
-      }else if((n.d||1)<=0.5){
-        g+='<rect x="'+(cx-nw/2)+'" y="'+(107*S)+'" width="'+nw+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
-      }
+      /* 减时线不再逐音画短横：改为按拍分组的贯穿 beam，见主循环之后的统一绘制 */
       if((n.d||1)>=2){
         const lw=Math.max(2,w/2-F*0.3-2*S);
         g+='<rect x="'+(cx+F*0.3)+'" y="'+(90*S)+'" width="'+lw+'" height="'+(2.8*S)+'" rx="1.4" fill="#1C1A17"/>';
@@ -689,6 +683,33 @@ function jlineSVG(sc,ln,li,marks,clickable,big,zm,seg){
     g+='</g>';
     beats+=(n.d||1)*(n.dot?1.5:1); /* 延音—也占拍 */
   });
+  /* ---- 减时线按拍贯穿（简谱标准记法）----
+     同一拍内相邻同层音符的减时线连成一条横线；拍与小节线处断开。
+     层数：d<=0.375（十六分/附点十六）→2层；d<=0.75（八分/附点八分）→1层；其余 0 层。
+     前八后十六等混合节奏：第1层贯穿全组，第2层只连十六分音（与乐理表一致） */
+  {
+    const beams=[]; let bt=0; const cur={1:null,2:null};
+    const flush=k=>{ if(cur[k]){beams.push(cur[k]);cur[k]=null;} };
+    notes.forEach((n,i)=>{
+      if(n.bar){flush(1);flush(2);bt=0;}                 /* 小节线断开并归拍 */
+      const gi=Math.floor(bt+1e-4);                      /* 拍索引：bt 以四分为 1 拍，同拍内才连线 */
+      const d=(n.d||1), L=d<=0.376?2:(d<=0.76?1:0);
+      for(let k=1;k<=2;k++){
+        if(L>=k){
+          if(cur[k]&&cur[k].gi===gi)cur[k].i2=i;
+          else{flush(k);cur[k]={gi:gi,k:k,i1:i,i2:i};}
+        }else flush(k);
+      }
+      bt+=(n.d||1)*(n.dot?1.5:1);
+    });
+    flush(1);flush(2);
+    beams.forEach(bm=>{
+      const p1=pos[bm.i1],p2=pos[bm.i2];
+      const n1=Math.min(F*0.6,p1.w*0.5), n2=Math.min(F*0.6,p2.w*0.5);
+      const x1=p1.cx-n1/2, x2=p2.cx+n2/2, y=(bm.k===1?107:113)*S;
+      g+='<rect x="'+x1+'" y="'+y+'" width="'+Math.max(x2-x1,n1)+'" height="'+(2.4*S)+'" fill="#1C1A17"/>';
+    });
+  }
   if(seg)g+='<line x1="'+(W-6*S)+'" y1="'+(40*S)+'" x2="'+(W-6*S)+'" y2="'+(116*S)+'" stroke="#C7BFAF" stroke-width="1.1"/>';
   /* 区间括线（画在音符层之上）；跨段的区间在各自段内分别画 */
   rmk.forEach(m=>{
@@ -893,7 +914,7 @@ function renderFullScore(){
      +'<span class="small grow" style="text-align:center">'+(!FS.all&&pc>1?('<b>第 '+(FS.pi+1)+' / '+pc+' 页</b>　'):'')+'<span class="muted">'+rng+'</span></span>'
      +(!FS.all&&pc>1?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
    +'</div>'
-   +'<div class="fs-tip">'+(FS.editable?'<span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选 · ← → 翻页</span>':(sc.arranger?esc(sc.arranger)+'　':'')+(sc.page?'原书 p'+sc.page+'　':'')+(sc.tempo?esc(sc.tempo)+'　':'')+esc(sc.tip||''))+'</div>'
+   +(FS.editable?'<div class="fs-tip"><span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选 · ← → 翻页</span></div>':'')
    +'<div class="fs-body'+(FS.all?' fs-all':'')+'">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,segs:ls,flow:true,jump:!FS.editable&&FS.all})+'</div></div>';
   fsBindSwipe();
 }
