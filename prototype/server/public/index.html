@@ -820,8 +820,8 @@ function fsPageLines(sc){
 }
 function fsGo(d){
   if(!FS)return;
-  const sc=byId(S.scores,FS.id); if(!sc||!sc.lines)return;
-  const pc=fsPageCount(sc), n=FS.pi+d;
+  const sc=byId(S.scores,FS.id); if(!sc)return;
+  const pc=FS.img?(sc.imgs&&sc.imgs.length||0):(sc.lines?fsPageCount(sc):0), n=FS.pi+d;
   if(n<0||n>=pc){ if(pc>1)toast(n<0?'已经是第一页':'已经是最后一页'); return; }
   FS.pi=n; renderFullScore();
 }
@@ -910,11 +910,13 @@ function renderFullScore(){
   const sc=byId(S.scores,FS.id);
   const v=validateScore(sc);
   const pc=fsPageCount(sc);
-  if(FS.pi>=pc)FS.pi=pc-1; if(FS.pi<0)FS.pi=0;
+  const pcv=FS.img?(sc.imgs&&sc.imgs.length||0):pc;
+  if(FS.img&&!pcv)FS.img=false;
+  if(FS.pi>=pcv)FS.pi=pcv-1; if(FS.pi<0)FS.pi=0;
   const ls=fsPageLines(sc);
   /* ls 是【扁平段索引】（0..段数-1），不是行索引 —— 取小节号范围，别拿它直接索引 sc.lines */
   const _segs=scoreSegs(sc);
-  const rng=FS.all?('全谱 · 共 '+_segs.length+' 小节　点任意小节跳到该页')
+  const rng=FS.img?'原书图 · 共 '+pcv+' 张':FS.all?('全谱 · 共 '+_segs.length+' 小节　点任意小节跳到该页')
     :(ls&&ls.length)?
     (function(){const a=_segs[ls[0]],b=_segs[ls[ls.length-1]];
       if(!a||!b)return '共 '+sc.lines.length+' 行';
@@ -929,18 +931,22 @@ function renderFullScore(){
    +(sc.key?'<span class="tag">1 = '+esc(String(sc.key).replace(/\s*调$/,''))+'</span>':'')
    +(v.ok?'<span class="tag ok">✓ 校验通过</span>':'<span class="tag bad">⚠ '+v.issues.length+' 处问题</span>')+(sc.proof==='未校对'?'<span class="tag" style="background:#fef3c7;color:#92400e">未校对</span>':'')
    +'</div><div class="row" style="gap:6px;flex-shrink:0">'
+   +((sc.imgs&&sc.imgs.length)?'<button class="btn xs'+(FS.img?' pri':'')+'" onclick="fsToggleImg()">'+(FS.img?'🎼 简谱':'🖼 原书图')+'</button>':'')
+   +((window.ROLE==='T'||typeof ROLE==='undefined'||ROLE==='T')?'<button class="btn xs" onclick="fsUploadImg()">📷 传图</button>':'')
    +(FS.editable?'<button class="btn xs'+(A._segMode?' seg-on':'')+'" onclick="A.segToggle()">'+(A._segMode?'✕ 退出段选':'⌗ 段选')+'</button>':'')
    +'<button class="btn xs'+(FS.all?' pri':'')+'" onclick="fsToggleAll()">'+(FS.all?'⇄ 分页读谱':'☰ 看全谱')+'</button>'
    +'<button class="btn xs" onclick="fsZoom(-0.15)">A−</button>'
    +'<button class="btn xs" onclick="fsZoom(0.15)">A+</button>'
    +'<button class="btn xs pri" onclick="closeFullScore()">关闭 ✕</button></div></div>'
    +'<div class="fs-page">'
-     +(!FS.all&&pc>1?'<button class="btn xs" onclick="fsGo(-1)">‹ 上页</button>':'<span style="width:2px"></span>')
-     +'<span class="small grow" style="text-align:center">'+(!FS.all&&pc>1?('<b>第 '+(FS.pi+1)+' / '+pc+' 页</b>　'):'')+'<span class="muted">'+rng+'</span></span>'
-     +(!FS.all&&pc>1?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
+     +((FS.img?pcv>1:(!FS.all&&pcv>1))?'<button class="btn xs" onclick="fsGo(-1)">‹ 上页</button>':'<span style="width:2px"></span>')
+     +'<span class="small grow" style="text-align:center">'+(FS.img?'<b>原书图 '+(FS.pi+1)+' / '+pcv+'</b>　':(!FS.all&&pcv>1?('<b>第 '+(FS.pi+1)+' / '+pcv+' 页</b>　'):''))+'<span class="muted">'+rng+'</span></span>'
+     +((FS.img?pcv>1:(!FS.all&&pcv>1))?'<button class="btn xs" onclick="fsGo(1)">下页 ›</button>':'<span style="width:2px"></span>')
    +'</div>'
    +(FS.editable?'<div class="fs-tip"><span style="color:var(--brand)">✏️ 编辑模式：点音符标注 · 「段选」点起点和终点框选一段 · 桌面可直接拖选 · ← → 翻页</span></div>':'')
-   +'<div class="fs-body'+(FS.all?' fs-all':'')+'">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,segs:ls,flow:true,jump:!FS.editable&&FS.all})+'</div></div>';
+   +(FS.img
+     ?'<div class="fs-body"><div style="height:100%;overflow:auto;-webkit-overflow-scrolling:touch;text-align:center;background:#fff;padding:8px"><img src="'+sc.imgs[FS.pi]+'" style="max-width:100%" alt="原书谱"></div></div>'
+     :'<div class="fs-body'+(FS.all?' fs-all':'')+'">'+renderScore(sc,{marks:FS.marks,zoom:FS.zoom,clickable:!!FS.editable,segs:ls,flow:true,jump:!FS.editable&&FS.all})+'</div>')+'</div>';
   fsBindSwipe();
 }
 function fsBindSwipe(){
@@ -955,6 +961,24 @@ function fsBindSwipe(){
   },{passive:true});
 }
 function closeFullScore(){FS=null;document.getElementById('fslayer').innerHTML='';}
+function fsToggleImg(){if(!FS)return;FS.img=!FS.img;FS.pi=0;if(!FS.img)FS._needFit=true;renderFullScore()}
+function fsUploadImg(){
+  if(!FS)return;
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;
+  inp.onchange=async()=>{
+    const files=[...inp.files];if(!files.length)return;
+    toast('正在上传 '+files.length+' 张…');
+    try{
+      const ds=await Promise.all(files.map(f=>new Promise((ok,er)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=er;r.readAsDataURL(f)})));
+      const r=await api('/api/scoreimg',{id:FS.id,imgs:ds});
+      if(!r.ok)throw new Error(r.msg||'保存失败');
+      const sc=byId(S.scores,FS.id);sc.imgs=r.imgs;
+      toast('已保存 '+r.imgs.length+' 张原书图');
+      FS.img=true;FS.pi=0;renderFullScore();
+    }catch(e){toast('上传失败：'+(e.message||e))}
+  };
+  inp.click();
+}
 document.addEventListener('keydown',function(e){
   if(!FS)return;
   if(document.getElementById('mask'))return;     /* 有子面板时交给面板处理 */
